@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Traits;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\Type;
 
 trait MaybeIterableTypeTrait
 {
-
 	public function isIterable(): TrinaryLogic
 	{
 		return TrinaryLogic::createMaybe();
@@ -63,5 +62,4 @@ trait MaybeIterableTypeTrait
 	{
 		return new MixedType();
 	}
-
 }

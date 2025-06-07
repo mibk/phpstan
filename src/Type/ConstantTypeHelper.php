@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -25,7 +25,6 @@ use function is_string;
  */
 final class ConstantTypeHelper
 {
-
 	/**
 	 * @param mixed $value
 	 */
@@ -61,11 +60,9 @@ final class ConstantTypeHelper
 				return new EnumCaseObjectType($class, $value->name);
 			}
 			/** phpcs:enable */
-
 			return new ObjectType(get_class($value));
 		}
 
 		return new MixedType();
 	}
-
 }

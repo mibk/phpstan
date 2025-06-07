@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -15,7 +15,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class ReadOnlyPropertyAssignRefRule implements Rule
 {
-
 	public function __construct(private PropertyReflectionFinder $propertyReflectionFinder)
 	{
 	}
@@ -27,7 +26,7 @@ final class ReadOnlyPropertyAssignRefRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->expr instanceof Node\Expr\PropertyFetch) {
+		if (! $node->expr instanceof Node\Expr\PropertyFetch) {
 			return [];
 		}
 
@@ -55,5 +54,4 @@ final class ReadOnlyPropertyAssignRefRule implements Rule
 
 		return $errors;
 	}
-
 }

@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function sprintf;
 use function strtolower;
 
@@ -15,7 +15,6 @@ use function strtolower;
  */
 final class NewStaticInAbstractClassStaticMethodRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Expr\New_::class;
@@ -23,7 +22,7 @@ final class NewStaticInAbstractClassStaticMethodRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->class instanceof Node\Name) {
+		if (! $node->class instanceof Node\Name) {
 			return [];
 		}
 
@@ -41,7 +40,7 @@ final class NewStaticInAbstractClassStaticMethodRule implements Rule
 		}
 
 		$inMethod = $scope->getFunction();
-		if (!$inMethod instanceof PhpMethodFromParserNodeReflection) {
+		if (! $inMethod instanceof PhpMethodFromParserNodeReflection) {
 			return [];
 		}
 
@@ -60,5 +59,4 @@ final class NewStaticInAbstractClassStaticMethodRule implements Rule
 				->build(),
 		];
 	}
-
 }

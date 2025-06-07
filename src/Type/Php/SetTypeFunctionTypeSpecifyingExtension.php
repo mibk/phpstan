@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -15,14 +14,14 @@ use PHPStan\Type\FunctionTypeSpecifyingExtension;
 use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
-use stdClass;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function strtolower;
+use stdClass;
 
 #[AutowiredService]
 final class SetTypeFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function isFunctionSupported(FunctionReflection $functionReflection, FuncCall $node, TypeSpecifierContext $context): bool
@@ -47,32 +46,32 @@ final class SetTypeFunctionTypeSpecifyingExtension implements FunctionTypeSpecif
 
 		foreach ($constantStrings as $constantString) {
 			switch ($constantString->getValue()) {
-				case 'bool':
-				case 'boolean':
-					$types[] = $valueType->toBoolean();
-					break;
-				case 'int':
-				case 'integer':
-					$types[] = $valueType->toInteger();
-					break;
-				case 'float':
-				case 'double':
-					$types[] = $valueType->toFloat();
-					break;
-				case 'string':
-					$types[] = $valueType->toString();
-					break;
-				case 'array':
-					$types[] = $valueType->toArray();
-					break;
-				case 'object':
-					$types[] = new ObjectType(stdClass::class);
-					break;
-				case 'null':
-					$types[] = new NullType();
-					break;
-				default:
-					$types[] = new ErrorType();
+			case 'bool':
+			case 'boolean':
+				$types[] = $valueType->toBoolean();
+				break;
+			case 'int':
+			case 'integer':
+				$types[] = $valueType->toInteger();
+				break;
+			case 'float':
+			case 'double':
+				$types[] = $valueType->toFloat();
+				break;
+			case 'string':
+				$types[] = $valueType->toString();
+				break;
+			case 'array':
+				$types[] = $valueType->toArray();
+				break;
+			case 'object':
+				$types[] = new ObjectType(stdClass::class);
+				break;
+			case 'null':
+				$types[] = new NullType();
+				break;
+			default:
+				$types[] = new ErrorType();
 			}
 		}
 
@@ -88,5 +87,4 @@ final class SetTypeFunctionTypeSpecifyingExtension implements FunctionTypeSpecif
 	{
 		$this->typeSpecifier = $typeSpecifier;
 	}
-
 }

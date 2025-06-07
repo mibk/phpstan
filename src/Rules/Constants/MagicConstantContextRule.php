@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Constants;
 
-use PhpParser\Node;
-use PhpParser\Node\Scalar\MagicConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Parser\MagicConstantParamDefaultVisitor;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Scalar\MagicConst;
 use function sprintf;
 
 /** @implements Rule<MagicConst> */
 #[RegisteredRule(level: 0)]
 final class MagicConstantContextRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return MagicConst::class;
@@ -73,5 +72,4 @@ final class MagicConstantContextRule implements Rule
 		}
 		return [];
 	}
-
 }

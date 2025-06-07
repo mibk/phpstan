@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Traits;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 
 trait NonGenericTypeTrait
 {
-
 	public function inferTemplateTypes(Type $receivedType): TemplateTypeMap
 	{
 		return TemplateTypeMap::createEmpty();
@@ -18,5 +17,4 @@ trait NonGenericTypeTrait
 	{
 		return [];
 	}
-
 }

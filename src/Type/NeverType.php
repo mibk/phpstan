@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -22,7 +22,6 @@ use PHPStan\Type\Traits\UndecidedComparisonCompoundTypeTrait;
 /** @api */
 class NeverType implements CompoundType
 {
-
 	use UndecidedBooleanTypeTrait;
 	use NonGenericTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
@@ -532,5 +531,4 @@ class NeverType implements CompoundType
 	{
 		return new IdentifierTypeNode('never');
 	}
-
 }

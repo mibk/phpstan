@@ -1,9 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Process;
 
 use PHPStan\Command\AnalyseCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use const PHP_BINARY;
 use function array_merge;
 use function escapeshellarg;
 use function implode;
@@ -11,11 +12,9 @@ use function ini_get;
 use function is_bool;
 use function php_ini_loaded_file;
 use function sprintf;
-use const PHP_BINARY;
 
 final class ProcessHelper
 {
-
 	/**
 	 * @param string[] $additionalItems
 	 */
@@ -83,5 +82,4 @@ final class ProcessHelper
 
 		return implode(' ', $processCommandArray);
 	}
-
 }

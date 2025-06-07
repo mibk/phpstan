@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -10,7 +10,6 @@ use function sprintf;
 
 final class ConditionalExpressionHolder
 {
-
 	/**
 	 * @param array<string, ExpressionTypeHolder> $conditionExpressionTypeHolders
 	 */
@@ -51,5 +50,4 @@ final class ConditionalExpressionHolder
 			$this->typeHolder->getCertainty()->describe(),
 		);
 	}
-
 }

@@ -1,19 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\ReflectionProvider;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ConstantReflection;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\NamespaceAnswerer;
 use PHPStan\Reflection\ReflectionProvider;
+use PhpParser\Node;
 use function strtolower;
 
 final class MemoizingReflectionProvider implements ReflectionProvider
 {
-
 	/** @var array<string, bool> */
 	private array $hasClasses = [];
 
@@ -95,5 +94,4 @@ final class MemoizingReflectionProvider implements ReflectionProvider
 	{
 		return $this->provider->resolveConstantName($nameNode, $namespaceAnswerer);
 	}
-
 }

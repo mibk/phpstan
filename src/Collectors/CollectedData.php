@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Collectors;
 
@@ -13,7 +13,6 @@ use ReturnTypeWillChange;
  */
 final class CollectedData implements JsonSerializable
 {
-
 	/**
 	 * @param mixed $data
 	 * @param class-string<Collector<Node, mixed>> $collectorType
@@ -56,8 +55,8 @@ final class CollectedData implements JsonSerializable
 	public function jsonSerialize()
 	{
 		return [
-			'data' => $this->data,
-			'filePath' => $this->filePath,
+			'data'          => $this->data,
+			'filePath'      => $this->filePath,
 			'collectorType' => $this->collectorType,
 		];
 	}
@@ -85,5 +84,4 @@ final class CollectedData implements JsonSerializable
 			$properties['collectorType'],
 		);
 	}
-
 }

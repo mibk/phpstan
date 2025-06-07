@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\BinaryOp\Mul;
-use PhpParser\Node\Expr\BinaryOp\Plus;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Scalar\Int_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Node\Expr\TypeExpr;
@@ -15,12 +11,15 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\BinaryOp\Mul;
+use PhpParser\Node\Expr\BinaryOp\Plus;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Scalar\Int_;
 use function count;
 
 #[AutowiredService]
 final class ArraySumFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'array_sum';
@@ -63,5 +62,4 @@ final class ArraySumFunctionDynamicReturnTypeExtension implements DynamicFunctio
 
 		return TypeCombinator::union(...$resultTypes)->toNumber();
 	}
-
 }

@@ -1,14 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\Php\PhpVersion;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
-use PHPStan\Php\PhpVersion;
 
 final class CleaningParser implements Parser
 {
-
 	private NodeTraverser $traverser;
 
 	public function __construct(private Parser $wrappedParser, PhpVersion $phpVersion)
@@ -29,7 +28,7 @@ final class CleaningParser implements Parser
 	}
 
 	/**
-	 * @param Stmt[] $ast
+	 * @param  Stmt[] $ast
 	 * @return Stmt[]
 	 */
 	private function clean(array $ast): array
@@ -37,5 +36,4 @@ final class CleaningParser implements Parser
 		/** @var Stmt[] */
 		return $this->traverser->traverse($ast);
 	}
-
 }

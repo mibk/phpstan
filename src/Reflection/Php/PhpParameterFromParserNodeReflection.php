@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -13,7 +13,6 @@ use PHPStan\Type\TypehintHelper;
 
 final class PhpParameterFromParserNodeReflection implements ExtendedParameterReflection
 {
-
 	private ?Type $type = null;
 
 	/**
@@ -70,7 +69,7 @@ final class PhpParameterFromParserNodeReflection implements ExtendedParameterRef
 
 	public function hasNativeType(): bool
 	{
-		return !$this->realType instanceof MixedType || $this->realType->isExplicitMixed();
+		return ! $this->realType instanceof MixedType || $this->realType->isExplicitMixed();
 	}
 
 	public function getNativeType(): Type
@@ -112,5 +111,4 @@ final class PhpParameterFromParserNodeReflection implements ExtendedParameterRef
 	{
 		return $this->attributes;
 	}
-
 }

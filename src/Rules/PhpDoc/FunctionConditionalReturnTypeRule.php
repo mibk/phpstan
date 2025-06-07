@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InFunctionNode;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 use function count;
 
 /**
@@ -15,7 +15,6 @@ use function count;
 #[RegisteredRule(level: 2)]
 final class FunctionConditionalReturnTypeRule implements Rule
 {
-
 	public function __construct(private ConditionalReturnTypeRuleHelper $helper)
 	{
 	}
@@ -35,5 +34,4 @@ final class FunctionConditionalReturnTypeRule implements Rule
 
 		return $this->helper->check($variants[0]);
 	}
-
 }

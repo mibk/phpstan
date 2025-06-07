@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\Constant\ConstantStringType;
 
 final class StaticTypeFactory
 {
-
 	public static function falsey(): Type
 	{
 		static $falsey;
@@ -40,5 +39,4 @@ final class StaticTypeFactory
 
 		return $truthy;
 	}
-
 }

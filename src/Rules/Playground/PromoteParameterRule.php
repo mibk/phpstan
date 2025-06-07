@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Playground;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\DependencyInjection\MissingServiceException;
@@ -11,23 +10,23 @@ use PHPStan\Rules\LazyRegistry;
 use PHPStan\Rules\LineRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function get_class;
 use function sprintf;
 
 /**
- * @template TNodeType of Node
+ * @template   TNodeType of Node
  * @implements Rule<TNodeType>
  */
 final class PromoteParameterRule implements Rule
 {
-
 	/** @var Rule<TNodeType>|false|null */
 	private Rule|false|null $originalRule = null;
 
 	/**
-	 * @param Rule<TNodeType> $rule
-	 * @param class-string<TNodeType>  $nodeType
+	 * @param Rule<TNodeType>         $rule
+	 * @param class-string<TNodeType> $nodeType
 	 */
 	public function __construct(
 		private Rule $rule,
@@ -121,5 +120,4 @@ final class PromoteParameterRule implements Rule
 
 		return $errors;
 	}
-
 }

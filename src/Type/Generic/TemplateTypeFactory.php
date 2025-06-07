@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -25,7 +25,6 @@ use function get_class;
 
 final class TemplateTypeFactory
 {
-
 	/**
 	 * @param non-empty-string $name
 	 */
@@ -119,5 +118,4 @@ final class TemplateTypeFactory
 	{
 		return self::create($scope, $tag->getName(), $tag->getBound(), $tag->getVariance(), default: $tag->getDefault());
 	}
-
 }

@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\MethodReturnStatementsNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\FileTypeMapper;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -15,7 +15,6 @@ use function sprintf;
  */
 final class TooWideMethodThrowTypeRule implements Rule
 {
-
 	public function __construct(private FileTypeMapper $fileTypeMapper, private TooWideThrowTypeCheck $check)
 	{
 	}
@@ -63,5 +62,4 @@ final class TooWideMethodThrowTypeRule implements Rule
 
 		return $errors;
 	}
-
 }

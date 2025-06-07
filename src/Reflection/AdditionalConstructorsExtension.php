@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -11,19 +11,17 @@ namespace PHPStan\Reflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.additionalConstructorsExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.additionalConstructorsExtension
  * ```
  *
  * @api
  */
 interface AdditionalConstructorsExtension
 {
-
 	public const EXTENSION_TAG = 'phpstan.additionalConstructorsExtension';
 
 	/** @return string[] */
 	public function getAdditionalConstructors(ClassReflection $classReflection): array;
-
 }

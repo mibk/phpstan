@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -16,7 +16,6 @@ use PHPStan\Rules\Properties\PropertyReflectionFinder;
 
 final class DirectInternalScopeFactory implements InternalScopeFactory
 {
-
 	/**
 	 * @param int|array{min: int, max: int}|null $configPhpVersion
 	 */
@@ -92,5 +91,4 @@ final class DirectInternalScopeFactory implements InternalScopeFactory
 			$nativeTypesPromoted,
 		);
 	}
-
 }

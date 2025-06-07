@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser\Ignore;
 
@@ -6,11 +6,10 @@ use PHPStan\Analyser\Error;
 
 final class IgnoredErrorHelperProcessedResult
 {
-
 	/**
-	 * @param list<Error> $notIgnoredErrors
+	 * @param list<Error>                        $notIgnoredErrors
 	 * @param list<array{Error, mixed[]|string}> $ignoredErrors
-	 * @param list<string> $otherIgnoreMessages
+	 * @param list<string>                       $otherIgnoreMessages
 	 */
 	public function __construct(
 		private array $notIgnoredErrors,
@@ -43,5 +42,4 @@ final class IgnoredErrorHelperProcessedResult
 	{
 		return $this->otherIgnoreMessages;
 	}
-
 }

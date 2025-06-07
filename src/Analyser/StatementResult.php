@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -10,11 +10,10 @@ use PhpParser\Node\Stmt;
  */
 final class StatementResult
 {
-
 	/**
 	 * @param StatementExitPoint[] $exitPoints
-	 * @param ThrowPoint[] $throwPoints
-	 * @param ImpurePoint[] $impurePoints
+	 * @param ThrowPoint[]         $throwPoints
+	 * @param ImpurePoint[]        $impurePoints
 	 * @param EndStatementResult[] $endStatements
 	 */
 	public function __construct(
@@ -52,12 +51,12 @@ final class StatementResult
 
 		foreach ($this->exitPoints as $exitPoint) {
 			$statement = $exitPoint->getStatement();
-			if (!$statement instanceof Stmt\Break_ && !$statement instanceof Stmt\Continue_) {
+			if (! $statement instanceof Stmt\Break_ && ! $statement instanceof Stmt\Continue_) {
 				continue;
 			}
 
 			$num = $statement->num;
-			if (!$num instanceof Int_) {
+			if (! $num instanceof Int_) {
 				return new self($this->scope, $this->hasYield, false, $this->exitPoints, $this->throwPoints, $this->impurePoints);
 			}
 
@@ -80,7 +79,7 @@ final class StatementResult
 	}
 
 	/**
-	 * @param class-string<Stmt\Continue_>|class-string<Stmt\Break_> $stmtClass
+	 * @param  class-string<Stmt\Continue_>|class-string<Stmt\Break_> $stmtClass
 	 * @return list<StatementExitPoint>
 	 */
 	public function getExitPointsByType(string $stmtClass): array
@@ -88,7 +87,7 @@ final class StatementResult
 		$exitPoints = [];
 		foreach ($this->exitPoints as $exitPoint) {
 			$statement = $exitPoint->getStatement();
-			if (!$statement instanceof $stmtClass) {
+			if (! $statement instanceof $stmtClass) {
 				continue;
 			}
 
@@ -98,7 +97,7 @@ final class StatementResult
 				continue;
 			}
 
-			if (!$value instanceof Int_) {
+			if (! $value instanceof Int_) {
 				$exitPoints[] = $exitPoint;
 				continue;
 			}
@@ -122,14 +121,14 @@ final class StatementResult
 		$exitPoints = [];
 		foreach ($this->exitPoints as $exitPoint) {
 			$statement = $exitPoint->getStatement();
-			if (!$statement instanceof Stmt\Continue_ && !$statement instanceof Stmt\Break_) {
+			if (! $statement instanceof Stmt\Continue_ && ! $statement instanceof Stmt\Break_) {
 				$exitPoints[] = $exitPoint;
 				continue;
 			}
 			if ($statement->num === null) {
 				continue;
 			}
-			if (!$statement->num instanceof Int_) {
+			if (! $statement->num instanceof Int_) {
 				continue;
 			}
 			$value = $statement->num->value;
@@ -189,5 +188,4 @@ final class StatementResult
 	{
 		return $this->endStatements;
 	}
-
 }

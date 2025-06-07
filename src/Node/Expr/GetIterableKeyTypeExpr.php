@@ -1,13 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Expr;
 
-use PhpParser\Node\Expr;
 use PHPStan\Node\VirtualNode;
+use PhpParser\Node\Expr;
 
 final class GetIterableKeyTypeExpr extends Expr implements VirtualNode
 {
-
 	public function __construct(private Expr $expr)
 	{
 		parent::__construct([]);
@@ -30,5 +29,4 @@ final class GetIterableKeyTypeExpr extends Expr implements VirtualNode
 	{
 		return [];
 	}
-
 }

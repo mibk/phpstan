@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Playground;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Rules\Traits\TraitDeclarationCollector;
 use PHPStan\Rules\Traits\TraitUseCollector;
+use PhpParser\Node;
 use function sprintf;
 use function strtolower;
 
@@ -17,7 +17,6 @@ use function strtolower;
  */
 final class NotAnalysedTraitRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return CollectedDataNode::class;
@@ -58,5 +57,4 @@ final class NotAnalysedTraitRule implements Rule
 
 		return $errors;
 	}
-
 }

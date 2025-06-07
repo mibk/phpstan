@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -7,15 +7,14 @@ use PHPStan\Command\Output;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\File\RelativePathHelper;
-use function htmlspecialchars;
-use function sprintf;
 use const ENT_COMPAT;
 use const ENT_XML1;
+use function htmlspecialchars;
+use function sprintf;
 
 #[AutowiredService(name: 'errorFormatter.junit')]
 final class JunitErrorFormatter implements ErrorFormatter
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '@simpleRelativePathHelper')]
 		private RelativePathHelper $relativePathHelper,
@@ -92,5 +91,4 @@ final class JunitErrorFormatter implements ErrorFormatter
 	{
 		return htmlspecialchars($string, ENT_XML1 | ENT_COMPAT, 'UTF-8');
 	}
-
 }

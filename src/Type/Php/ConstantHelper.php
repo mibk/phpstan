@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
-use PHPStan\DependencyInjection\AutowiredService;
 use function count;
 use function explode;
 use function ltrim;
@@ -16,7 +16,6 @@ use function ltrim;
 #[AutowiredService]
 final class ConstantHelper
 {
-
 	public function createExprFromConstantName(string $constantName): ?Expr
 	{
 		if ($constantName === '') {
@@ -40,5 +39,4 @@ final class ConstantHelper
 
 		return new ConstFetch(new FullyQualified($constantName));
 	}
-
 }

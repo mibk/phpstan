@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
-use PhpParser\Node;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\DependencyInjection\Container;
@@ -14,6 +11,9 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 
 /**
  * @implements Rule<Node\Expr\ClassConstFetch>
@@ -21,7 +21,6 @@ use PHPStan\Type\Type;
 #[AutowiredService]
 final class RestrictedClassConstantUsageRule implements Rule
 {
-
 	public function __construct(
 		private Container $container,
 		private ReflectionProvider $reflectionProvider,
@@ -40,7 +39,7 @@ final class RestrictedClassConstantUsageRule implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Identifier) {
+		if (! $node->name instanceof Identifier) {
 			return [];
 		}
 
@@ -59,8 +58,8 @@ final class RestrictedClassConstantUsageRule implements Rule
 			$classTypeResult = $this->ruleLevelHelper->findTypeToCheck(
 				$scope,
 				$node->class,
-				'', // We don't care about the error message
-				static fn (Type $type): bool => $type->canAccessConstants()->yes() && $type->hasConstant($constantName)->yes(),
+				'',                         // We don't care about the error message
+				static fn(Type $type): bool => $type->canAccessConstants()->yes() && $type->hasConstant($constantName)->yes(),
 			);
 
 			if ($classTypeResult->getType() instanceof ErrorType) {
@@ -104,5 +103,4 @@ final class RestrictedClassConstantUsageRule implements Rule
 
 		return $errors;
 	}
-
 }

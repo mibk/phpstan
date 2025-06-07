@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
@@ -7,7 +7,6 @@ use PhpParser\NodeVisitorAbstract;
 
 final class LineAttributesVisitor extends NodeVisitorAbstract
 {
-
 	public function __construct(private ?int $startLine, private ?int $endLine)
 	{
 	}
@@ -24,5 +23,4 @@ final class LineAttributesVisitor extends NodeVisitorAbstract
 
 		return $node;
 	}
-
 }

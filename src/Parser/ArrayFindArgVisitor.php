@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 use function in_array;
 
 #[AutowiredService]
 final class ArrayFindArgVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'isArrayFindArg';
 
 	public function enterNode(Node $node): ?Node
@@ -26,5 +25,4 @@ final class ArrayFindArgVisitor extends NodeVisitorAbstract
 		}
 		return null;
 	}
-
 }

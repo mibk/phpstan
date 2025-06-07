@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
@@ -9,6 +9,8 @@ use PHPStan\File\FileWriter;
 use PHPStan\ShouldNotHappenException;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\TestCase;
+use const DIRECTORY_SEPARATOR;
+use const PHP_BINARY;
 use function array_merge;
 use function count;
 use function escapeshellarg;
@@ -20,13 +22,10 @@ use function putenv;
 use function range;
 use function sprintf;
 use function unlink;
-use const DIRECTORY_SEPARATOR;
-use const PHP_BINARY;
 
 /** @api */
 abstract class LevelsTestCase extends TestCase
 {
-
 	/**
 	 * @return array<array<string>>
 	 */
@@ -107,7 +106,7 @@ abstract class LevelsTestCase extends TestCase
 				foreach ($previousMessages as $lastMessage) {
 					if (
 						$message['message'] === $lastMessage['message']
-						&& $message['line'] === $lastMessage['line']
+							&& $message['line'] === $lastMessage['line']
 					) {
 						continue 2;
 					}
@@ -124,7 +123,7 @@ abstract class LevelsTestCase extends TestCase
 				foreach ($messagesBeforeDiffing as $message) {
 					if (
 						$previousMessage['message'] === $message['message']
-						&& $previousMessage['line'] === $message['line']
+							&& $previousMessage['line'] === $message['line']
 					) {
 						continue 2;
 					}
@@ -205,5 +204,4 @@ abstract class LevelsTestCase extends TestCase
 
 		parent::assertFileDoesNotExist($filename, $message);
 	}
-
 }

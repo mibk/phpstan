@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -10,7 +10,6 @@ use PHPStan\DependencyInjection\AutowiredService;
 #[AutowiredService]
 final class ScopeFactory
 {
-
 	public function __construct(private InternalScopeFactory $internalScopeFactory)
 	{
 	}
@@ -19,5 +18,4 @@ final class ScopeFactory
 	{
 		return $this->internalScopeFactory->create($context);
 	}
-
 }

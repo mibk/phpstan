@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
 use Nette\Utils\Json;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\Output;
-use stdClass;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use function count;
 use function property_exists;
+use stdClass;
 
 final class JsonErrorFormatter implements ErrorFormatter
 {
-
 	public function __construct(private bool $pretty)
 	{
 	}
@@ -21,10 +20,10 @@ final class JsonErrorFormatter implements ErrorFormatter
 	{
 		$errorsArray = [
 			'totals' => [
-				'errors' => count($analysisResult->getNotFileSpecificErrors()),
+				'errors'      => count($analysisResult->getNotFileSpecificErrors()),
 				'file_errors' => count($analysisResult->getFileSpecificErrors()),
 			],
-			'files' => new stdClass(),
+			'files'  => new stdClass(),
 			'errors' => [],
 		];
 
@@ -34,15 +33,15 @@ final class JsonErrorFormatter implements ErrorFormatter
 			$file = $fileSpecificError->getFile();
 			if (!property_exists($errorsArray['files'], $file)) {
 				$errorsArray['files']->$file = [
-					'errors' => 0,
+					'errors'   => 0,
 					'messages' => [],
 				];
 			}
 			$errorsArray['files']->$file['errors']++;
 
 			$message = [
-				'message' => $fileSpecificError->getMessage(),
-				'line' => $fileSpecificError->getLine(),
+				'message'   => $fileSpecificError->getMessage(),
+				'line'      => $fileSpecificError->getLine(),
 				'ignorable' => $fileSpecificError->canBeIgnored(),
 			];
 
@@ -67,5 +66,4 @@ final class JsonErrorFormatter implements ErrorFormatter
 
 		return $analysisResult->hasErrors() ? 1 : 0;
 	}
-
 }

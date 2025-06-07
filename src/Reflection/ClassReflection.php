@@ -1,12 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
 use Attribute;
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClass;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionEnum;
@@ -51,6 +47,10 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeAlias;
 use PHPStan\Type\TypehintHelper;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use ReflectionException;
 use function array_diff;
 use function array_filter;
@@ -75,7 +75,6 @@ use function strtolower;
  */
 final class ClassReflection
 {
-
 	/** @var ExtendedMethodReflection[] */
 	private array $methods = [];
 
@@ -85,7 +84,7 @@ final class ClassReflection
 	/** @var RealClassClassConstantReflection[] */
 	private array $constants = [];
 
-	/** @var EnumCaseReflection[]|null  */
+	/** @var EnumCaseReflection[]|null */
 	private ?array $enumCases = null;
 
 	/** @var int[]|null */
@@ -115,7 +114,7 @@ final class ClassReflection
 
 	private ?TemplateTypeVarianceMap $callSiteVarianceMap = null;
 
-	/** @var array<string,ClassReflection>|null */
+	/** @var array<string, ClassReflection>|null */
 	private ?array $ancestors = null;
 
 	private ?string $cacheKey = null;
@@ -149,10 +148,10 @@ final class ClassReflection
 	private array $hasPropertyCache = [];
 
 	/**
-	 * @param PropertiesClassReflectionExtension[] $propertiesClassReflectionExtensions
-	 * @param MethodsClassReflectionExtension[] $methodsClassReflectionExtensions
+	 * @param PropertiesClassReflectionExtension[]      $propertiesClassReflectionExtensions
+	 * @param MethodsClassReflectionExtension[]         $methodsClassReflectionExtensions
 	 * @param AllowedSubTypesClassReflectionExtension[] $allowedSubTypesClassReflectionExtensions
-	 * @param string[] $universalObjectCratesClasses
+	 * @param string[]                                  $universalObjectCratesClasses
 	 */
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
@@ -234,7 +233,7 @@ final class ClassReflection
 				);
 			}
 
-			if (!$extendedType instanceof GenericObjectType) {
+			if (! $extendedType instanceof GenericObjectType) {
 				return $this->reflectionProvider->getClass($parentClass->getName());
 			}
 
@@ -244,7 +243,7 @@ final class ClassReflection
 		$parentReflection = $this->reflectionProvider->getClass($parentClass->getName());
 		if ($parentReflection->isGeneric()) {
 			return $parentReflection->withTypes(
-				array_values($parentReflection->getTemplateTypeMap()->map(static fn (): Type => new ErrorType())->getTypes()),
+				array_values($parentReflection->getTemplateTypeMap()->map(static fn(): Type => new ErrorType())->getTypes()),
 			);
 		}
 
@@ -265,8 +264,8 @@ final class ClassReflection
 	{
 		if (
 			$withTemplateTypes === false
-			|| $this->resolvedTemplateTypeMap === null
-			|| count($this->resolvedTemplateTypeMap->getTypes()) === 0
+				|| $this->resolvedTemplateTypeMap === null
+				|| count($this->resolvedTemplateTypeMap->getTypes()) === 0
 		) {
 			return $this->displayName;
 		}
@@ -443,7 +442,7 @@ final class ClassReflection
 
 		foreach ($this->getRequireExtendsTags() as $extendsTag) {
 			$type = $extendsTag->getType();
-			if (!$type instanceof ObjectType) {
+			if (! $type instanceof ObjectType) {
 				continue;
 			}
 
@@ -608,7 +607,7 @@ final class ClassReflection
 	private function getPhpExtension(): PhpClassReflectionExtension
 	{
 		$extension = $this->methodsClassReflectionExtensions[0];
-		if (!$extension instanceof PhpClassReflectionExtension) {
+		if (! $extension instanceof PhpClassReflectionExtension) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -746,7 +745,7 @@ final class ClassReflection
 
 	public function isBackedEnum(): bool
 	{
-		if (!$this->reflection instanceof ReflectionEnum) {
+		if (! $this->reflection instanceof ReflectionEnum) {
 			return false;
 		}
 
@@ -755,7 +754,7 @@ final class ClassReflection
 
 	public function getBackedEnumType(): ?Type
 	{
-		if (!$this->reflection instanceof ReflectionEnum) {
+		if (! $this->reflection instanceof ReflectionEnum) {
 			return null;
 		}
 
@@ -809,7 +808,7 @@ final class ClassReflection
 			throw new ShouldNotHappenException(sprintf('Enum case %s::%s does not exist.', $this->getDisplayName(), $name));
 		}
 
-		if (!$this->reflection instanceof ReflectionEnum) {
+		if (! $this->reflection instanceof ReflectionEnum) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -997,7 +996,7 @@ final class ClassReflection
 
 				if (
 					$implementedType instanceof GenericObjectType
-					&& $implementedType->getClassReflection() !== null
+						&& $implementedType->getClassReflection() !== null
 				) {
 					$immediateInterfaces[$immediateInterface->getName()] = $implementedType->getClassReflection();
 					continue;
@@ -1006,7 +1005,7 @@ final class ClassReflection
 
 			if ($immediateInterface->isGeneric()) {
 				$immediateInterfaces[$immediateInterface->getName()] = $immediateInterface->withTypes(
-					array_values($immediateInterface->getTemplateTypeMap()->map(static fn (): Type => new ErrorType())->getTypes()),
+					array_values($immediateInterface->getTemplateTypeMap()->map(static fn(): Type => new ErrorType())->getTypes()),
 				);
 				continue;
 			}
@@ -1032,7 +1031,7 @@ final class ClassReflection
 			$traits = $this->getNativeReflection()->getTraits();
 		}
 
-		$traits = array_map(fn (ReflectionClass $trait): ClassReflection => $this->reflectionProvider->getClass($trait->getName()), $traits);
+		$traits = array_map(fn(ReflectionClass $trait): ClassReflection => $this->reflectionProvider->getClass($trait->getName()), $traits);
 
 		if ($recursive) {
 			$parentClass = $this->getNativeReflection()->getParentClass();
@@ -1158,7 +1157,7 @@ final class ClassReflection
 	private function getTraitNames(): array
 	{
 		$class = $this->reflection;
-		$traitNames = array_map(static fn (ReflectionClass $class) => $class->getName(), $this->collectTraits($class));
+		$traitNames = array_map(static fn(ReflectionClass $class) => $class->getName(), $this->collectTraits($class));
 		while ($class->getParentClass() !== false) {
 			$traitNames = array_values(array_unique(array_merge($traitNames, $class->getParentClass()->getTraitNames())));
 			$class = $class->getParentClass();
@@ -1188,7 +1187,8 @@ final class ClassReflection
 
 			self::$resolvingTypeAliasImports[$this->getName()] = true;
 
-			$importedAliases = array_map(function (TypeAliasImportTag $typeAliasImportTag): ?TypeAlias {
+			$importedAliases = array_map(function(TypeAliasImportTag $typeAliasImportTag): ?TypeAlias
+			{
 				$importedAlias = $typeAliasImportTag->getImportedAlias();
 				$importedFromClassName = $typeAliasImportTag->getImportedFrom();
 
@@ -1213,11 +1213,11 @@ final class ClassReflection
 
 			unset(self::$resolvingTypeAliasImports[$this->getName()]);
 
-			$localAliases = array_map(static fn (TypeAliasTag $typeAliasTag): TypeAlias => $typeAliasTag->getTypeAlias(), $typeAliasTags);
+			$localAliases = array_map(static fn(TypeAliasTag $typeAliasTag): TypeAlias => $typeAliasTag->getTypeAlias(), $typeAliasTags);
 
 			$this->typeAliases = array_filter(
 				array_merge($importedAliases, $localAliases),
-				static fn (?TypeAlias $typeAlias): bool => $typeAlias !== null,
+				static fn(?TypeAlias $typeAlias): bool => $typeAlias !== null,
 			);
 		}
 
@@ -1394,7 +1394,7 @@ final class ClassReflection
 				$flagType = $this->initializerExprTypeResolver->getType($flagExpr, InitializerExprContext::fromClassReflection($this));
 			}
 
-			if (!$flagType instanceof ConstantIntegerType) {
+			if (! $flagType instanceof ConstantIntegerType) {
 				return null;
 			}
 
@@ -1436,7 +1436,7 @@ final class ClassReflection
 
 		$templateTypeScope = TemplateTypeScope::createWithClass($this->getName());
 
-		$templateTypeMap = new TemplateTypeMap(array_map(static fn (TemplateTag $tag): Type => TemplateTypeFactory::fromTemplateTag($templateTypeScope, $tag), $this->getTemplateTags()));
+		$templateTypeMap = new TemplateTypeMap(array_map(static fn(TemplateTag $tag): Type => TemplateTypeFactory::fromTemplateTag($templateTypeScope, $tag), $this->getTemplateTags()));
 
 		$this->templateTypeMap = $templateTypeMap;
 
@@ -1451,7 +1451,7 @@ final class ClassReflection
 		$resolved = $this->resolvedTemplateTypeMap;
 		if ($resolved !== null) {
 			$templateTypeMap = $this->getTemplateTypeMap();
-			return $this->activeTemplateTypeMap = $resolved->map(static function (string $name, Type $type) use ($templateTypeMap): Type {
+			return $this->activeTemplateTypeMap = $resolved->map(static function(string $name, Type $type) use ($templateTypeMap): Type {
 				if ($type instanceof ErrorType) {
 					$templateType = $templateTypeMap->getType($name);
 					if ($templateType !== null) {
@@ -1767,7 +1767,7 @@ final class ClassReflection
 		return $resolvedPhpDoc->getImplementsTags();
 	}
 
-	/** @return array<string,TemplateTag> */
+	/** @return array<string, TemplateTag> */
 	public function getTemplateTags(): array
 	{
 		$resolvedPhpDoc = $this->getResolvedPhpDoc();
@@ -1779,7 +1779,7 @@ final class ClassReflection
 	}
 
 	/**
-	 * @return array<string,ClassReflection>
+	 * @return array<string, ClassReflection>
 	 */
 	public function getAncestors(): array
 	{
@@ -1790,7 +1790,7 @@ final class ClassReflection
 				$this->getName() => $this,
 			];
 
-			$addToAncestors = static function (string $name, ClassReflection $classReflection) use (&$ancestors): void {
+			$addToAncestors = static function(string $name, ClassReflection $classReflection) use (&$ancestors): void {
 				if (array_key_exists($name, $ancestors)) {
 					return;
 				}
@@ -1836,7 +1836,7 @@ final class ClassReflection
 	 */
 	private function isValidAncestorType(Type $type, array $ancestorClasses): bool
 	{
-		if (!$type instanceof GenericObjectType) {
+		if (! $type instanceof GenericObjectType) {
 			return false;
 		}
 
@@ -1949,5 +1949,4 @@ final class ClassReflection
 
 		return null;
 	}
-
 }

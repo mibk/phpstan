@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
  */
 final class PropertyTag
 {
-
 	public function __construct(
 		private ?Type $readableType,
 		private ?Type $writableType,
@@ -42,5 +41,4 @@ final class PropertyTag
 	{
 		return $this->writableType !== null;
 	}
-
 }

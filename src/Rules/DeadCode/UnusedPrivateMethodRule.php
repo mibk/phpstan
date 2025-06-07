@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassMethodsNode;
@@ -13,6 +11,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
+use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use function array_map;
 use function count;
 use function sprintf;
@@ -24,7 +24,6 @@ use function strtolower;
 #[RegisteredRule(level: 4)]
 final class UnusedPrivateMethodRule implements Rule
 {
-
 	public function __construct(private AlwaysUsedMethodExtensionProvider $extensionProvider)
 	{
 	}
@@ -98,7 +97,7 @@ final class UnusedPrivateMethodRule implements Rule
 					continue;
 				}
 
-				$methodNames = array_map(static fn (ConstantStringType $type): string => $type->getValue(), $strings);
+				$methodNames = array_map(static fn(ConstantStringType $type): string => $type->getValue(), $strings);
 			}
 
 			if ($methodCallNode instanceof Node\Expr\MethodCall) {
@@ -112,7 +111,7 @@ final class UnusedPrivateMethodRule implements Rule
 			}
 
 			$inMethod = $callScope->getFunction();
-			if (!$inMethod instanceof MethodReflection) {
+			if (! $inMethod instanceof MethodReflection) {
 				continue;
 			}
 
@@ -166,7 +165,7 @@ final class UnusedPrivateMethodRule implements Rule
 						}
 
 						$inMethod = $arrayScope->getFunction();
-						if (!$inMethod instanceof MethodReflection) {
+						if (! $inMethod instanceof MethodReflection) {
 							continue;
 						}
 						if ($inMethod->getName() === $typeAndMethod->getMethod()) {
@@ -193,5 +192,4 @@ final class UnusedPrivateMethodRule implements Rule
 
 		return $errors;
 	}
-
 }

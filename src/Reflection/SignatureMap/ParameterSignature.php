@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\SignatureMap;
 
@@ -7,7 +7,6 @@ use PHPStan\Type\Type;
 
 final class ParameterSignature
 {
-
 	public function __construct(
 		private string $name,
 		private bool $optional,
@@ -60,5 +59,4 @@ final class ParameterSignature
 	{
 		return $this->outType;
 	}
-
 }

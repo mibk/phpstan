@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
  */
 final class RequireImplementsTag
 {
-
 	public function __construct(private Type $type)
 	{
 	}
@@ -18,5 +17,4 @@ final class RequireImplementsTag
 	{
 		return $this->type;
 	}
-
 }

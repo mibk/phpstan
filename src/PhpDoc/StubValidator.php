@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -17,12 +17,13 @@ use PHPStan\Reflection\Php\PhpClassReflectionExtension;
 use PHPStan\Reflection\PhpVersionStaticAccessor;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Reflection\ReflectionProviderStaticAccessor;
+use PHPStan\Rules\ClassNameCheck;
 use PHPStan\Rules\Classes\DuplicateClassDeclarationRule;
 use PHPStan\Rules\Classes\DuplicateDeclarationRule;
-use PHPStan\Rules\Classes\ExistingClassesInClassImplementsRule;
-use PHPStan\Rules\Classes\ExistingClassesInInterfaceExtendsRule;
 use PHPStan\Rules\Classes\ExistingClassInClassExtendsRule;
 use PHPStan\Rules\Classes\ExistingClassInTraitUseRule;
+use PHPStan\Rules\Classes\ExistingClassesInClassImplementsRule;
+use PHPStan\Rules\Classes\ExistingClassesInInterfaceExtendsRule;
 use PHPStan\Rules\Classes\LocalTypeAliasesCheck;
 use PHPStan\Rules\Classes\LocalTypeAliasesRule;
 use PHPStan\Rules\Classes\LocalTypeTraitAliasesRule;
@@ -39,7 +40,6 @@ use PHPStan\Rules\Classes\PropertyTagCheck;
 use PHPStan\Rules\Classes\PropertyTagRule;
 use PHPStan\Rules\Classes\PropertyTagTraitRule;
 use PHPStan\Rules\Classes\PropertyTagTraitUseRule;
-use PHPStan\Rules\ClassNameCheck;
 use PHPStan\Rules\DirectRegistry as DirectRuleRegistry;
 use PHPStan\Rules\FunctionDefinitionCheck;
 use PHPStan\Rules\Functions\DuplicateFunctionDeclarationRule;
@@ -86,8 +86,8 @@ use PHPStan\Rules\PhpDoc\IncompatiblePhpDocTypeCheck;
 use PHPStan\Rules\PhpDoc\IncompatiblePhpDocTypeRule;
 use PHPStan\Rules\PhpDoc\IncompatiblePropertyPhpDocTypeRule;
 use PHPStan\Rules\PhpDoc\IncompatibleSelfOutTypeRule;
-use PHPStan\Rules\PhpDoc\InvalidPhpDocTagValueRule;
 use PHPStan\Rules\PhpDoc\InvalidPHPStanDocTagRule;
+use PHPStan\Rules\PhpDoc\InvalidPhpDocTagValueRule;
 use PHPStan\Rules\PhpDoc\InvalidThrowsPhpDocValueRule;
 use PHPStan\Rules\PhpDoc\MethodAssertRule;
 use PHPStan\Rules\PhpDoc\MethodConditionalReturnTypeRule;
@@ -105,7 +105,6 @@ use function sprintf;
 #[AutowiredService]
 final class StubValidator
 {
-
 	public function __construct(
 		private DerivativeContainerFactory $derivativeContainerFactory,
 	)
@@ -113,7 +112,7 @@ final class StubValidator
 	}
 
 	/**
-	 * @param string[] $stubFiles
+	 * @param  string[] $stubFiles
 	 * @return list<Error>
 	 */
 	public function validate(array $stubFiles, bool $debug): array
@@ -149,7 +148,7 @@ final class StubValidator
 					$analysedFiles,
 					$ruleRegistry,
 					$collectorRegistry,
-					static function (): void {
+					static function(): void {
 					},
 				)->getErrors();
 				foreach ($tmpErrors as $tmpError) {
@@ -164,7 +163,7 @@ final class StubValidator
 				$errors[] = (new Error($internalErrorMessage, $stubFile, canBeIgnored: $e))
 					->withIdentifier('phpstan.internal')
 					->withMetadata([
-						InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+						InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 						InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 					]);
 			}
@@ -291,5 +290,4 @@ final class StubValidator
 	{
 		return new CollectorRegistry([]);
 	}
-
 }

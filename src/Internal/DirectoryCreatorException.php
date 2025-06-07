@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Internal;
 
@@ -9,7 +9,6 @@ use function sprintf;
 
 final class DirectoryCreatorException extends Exception
 {
-
 	public function __construct(public readonly string $directory)
 	{
 		$error = error_get_last();
@@ -20,5 +19,4 @@ final class DirectoryCreatorException extends Exception
 			is_null($error) ? 'unknown cause' : $error['message'],
 		));
 	}
-
 }

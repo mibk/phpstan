@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
 final class DirectReadWritePropertiesExtensionProvider implements ReadWritePropertiesExtensionProvider
 {
-
 	/**
 	 * @param ReadWritePropertiesExtension[] $extensions
 	 */
@@ -19,5 +18,4 @@ final class DirectReadWritePropertiesExtensionProvider implements ReadWritePrope
 	{
 		return $this->extensions;
 	}
-
 }

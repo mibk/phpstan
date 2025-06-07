@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -7,7 +7,6 @@ namespace PHPStan\Node;
  */
 final class MatchExpressionArm
 {
-
 	/**
 	 * @param MatchExpressionArmCondition[] $conditions
 	 */
@@ -32,5 +31,4 @@ final class MatchExpressionArm
 	{
 		return $this->line;
 	}
-
 }

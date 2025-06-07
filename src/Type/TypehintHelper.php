@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionIntersectionType;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionNamedType;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionUnionType;
@@ -11,6 +9,8 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Generic\TemplateTypeHelper;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use ReflectionType;
 use function array_map;
 use function count;
@@ -19,7 +19,6 @@ use function sprintf;
 
 final class TypehintHelper
 {
-
 	/** @api */
 	public static function decideTypeFromReflection(
 		?ReflectionType $reflectionType,
@@ -36,7 +35,7 @@ final class TypehintHelper
 		}
 
 		if ($reflectionType instanceof ReflectionUnionType) {
-			$type = TypeCombinator::union(...array_map(static fn (ReflectionType $type): Type => self::decideTypeFromReflection($type, selfClass: $selfClass), $reflectionType->getTypes()));
+			$type = TypeCombinator::union(...array_map(static fn(ReflectionType $type): Type => self::decideTypeFromReflection($type, selfClass: $selfClass), $reflectionType->getTypes()));
 
 			return self::decideType($type, $phpDocType);
 		}
@@ -55,7 +54,7 @@ final class TypehintHelper
 			return self::decideType(TypeCombinator::intersect(...$types), $phpDocType);
 		}
 
-		if (!$reflectionType instanceof ReflectionNamedType) {
+		if (! $reflectionType instanceof ReflectionNamedType) {
 			throw new ShouldNotHappenException(sprintf('Unexpected type: %s', get_class($reflectionType)));
 		}
 
@@ -85,14 +84,14 @@ final class TypehintHelper
 			return $type;
 		}
 
-		if ($phpDocType !== null && !$phpDocType instanceof ErrorType) {
+		if ($phpDocType !== null && ! $phpDocType instanceof ErrorType) {
 			if ($phpDocType instanceof NeverType && $phpDocType->isExplicit()) {
 				return $phpDocType;
 			}
 			if (
 				$type instanceof MixedType
-				&& !$type->isExplicitMixed()
-				&& $phpDocType->isVoid()->yes()
+					&& !$type->isExplicitMixed()
+					&& $phpDocType->isVoid()->yes()
 			) {
 				return $phpDocType;
 			}
@@ -122,7 +121,7 @@ final class TypehintHelper
 			if (
 				($type->isCallable()->yes() && $phpDocType->isCallable()->yes())
 				|| (
-					(!$phpDocType instanceof NeverType || ($type instanceof MixedType && !$type->isExplicitMixed()))
+					(! $phpDocType instanceof NeverType || ($type instanceof MixedType && !$type->isExplicitMixed()))
 					&& $type->isSuperTypeOf(TemplateTypeHelper::resolveToBounds($phpDocType))->yes()
 				)
 			) {
@@ -155,5 +154,4 @@ final class TypehintHelper
 
 		return $type;
 	}
-
 }

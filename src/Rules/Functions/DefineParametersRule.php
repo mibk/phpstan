@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function strtolower;
 
@@ -18,7 +18,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class DefineParametersRule implements Rule
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -55,5 +54,4 @@ final class DefineParametersRule implements Rule
 				->build(),
 		];
 	}
-
 }

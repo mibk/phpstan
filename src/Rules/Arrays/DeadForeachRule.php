@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Stmt\Foreach_>
@@ -14,7 +14,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 4)]
 final class DeadForeachRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Stmt\Foreach_::class;
@@ -37,5 +36,4 @@ final class DeadForeachRule implements Rule
 				->build(),
 		];
 	}
-
 }

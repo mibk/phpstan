@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -17,10 +17,9 @@ use function substr;
 
 final class PhpDocBlock
 {
-
 	/**
 	 * @param array<string, string> $parameterNameMapping
-	 * @param array<int, self> $parents
+	 * @param array<int, self>      $parents
 	 */
 	private function __construct(
 		private string $docComment,
@@ -63,8 +62,8 @@ final class PhpDocBlock
 
 	/**
 	 * @template T
-	 * @param array<string, T> $array
-	 * @return array<string, T>
+	 * @param    array<string, T> $array
+	 * @return   array<string, T>
 	 */
 	public function transformArrayKeysWithParameterNameMapping(array $array): array
 	{
@@ -81,7 +80,7 @@ final class PhpDocBlock
 
 	public function transformConditionalReturnTypeWithParameterNameMapping(Type $type): Type
 	{
-		return TypeTraverser::map($type, function (Type $type, callable $traverse): Type {
+		return TypeTraverser::map($type, function(Type $type, callable $traverse): Type {
 			if ($type instanceof ConditionalTypeForParameter) {
 				$parameterName = substr($type->getParameterName(), 1);
 				if (array_key_exists($parameterName, $this->parameterNameMapping)) {
@@ -236,8 +235,8 @@ final class PhpDocBlock
 	}
 
 	/**
-	 * @param array<int, string> $originalPositionalParameterNames
-	 * @param array<int, string> $newPositionalParameterNames
+	 * @param  array<int, string> $originalPositionalParameterNames
+	 * @param  array<int, string> $newPositionalParameterNames
 	 * @return array<string, string>
 	 */
 	private static function remapParameterNames(
@@ -354,8 +353,8 @@ final class PhpDocBlock
 			$lowercaseMethodName = strtolower($parentReflection->getName());
 			if (
 				count($methodVariants) === 1
-				&& $lowercaseMethodName !== '__construct'
-				&& $lowercaseMethodName !== strtolower($parentReflection->getDeclaringClass()->getName())
+					&& $lowercaseMethodName !== '__construct'
+					&& $lowercaseMethodName !== strtolower($parentReflection->getDeclaringClass()->getName())
 			) {
 				$methodParameters = $methodVariants[0]->getParameters();
 				foreach ($methodParameters as $methodParameter) {
@@ -382,5 +381,4 @@ final class PhpDocBlock
 
 		return null;
 	}
-
 }

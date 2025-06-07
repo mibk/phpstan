@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -7,7 +7,6 @@ use function stream_resolve_include_path;
 
 final class FileReader
 {
-
 	/**
 	 * @throws CouldNotReadFileException
 	 */
@@ -32,5 +31,4 @@ final class FileReader
 
 		return $contents;
 	}
-
 }

@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
 use Generator;
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InArrowFunctionNode;
@@ -12,6 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
+use PhpParser\Node;
 
 /**
  * @implements Rule<InArrowFunctionNode>
@@ -19,7 +19,6 @@ use PHPStan\Type\ObjectType;
 #[RegisteredRule(level: 3)]
 final class ArrowFunctionReturnTypeRule implements Rule
 {
-
 	public function __construct(private FunctionReturnTypeCheck $returnTypeCheck)
 	{
 	}
@@ -47,9 +46,9 @@ final class ArrowFunctionReturnTypeRule implements Rule
 		$exprType = $scope->getType($originalNode->expr);
 		if (
 			$returnType instanceof NeverType
-			&& $returnType->isExplicit()
-			&& $exprType instanceof NeverType
-			&& $exprType->isExplicit()
+				&& $returnType->isExplicit()
+				&& $exprType instanceof NeverType
+				&& $exprType->isExplicit()
 		) {
 			return [];
 		}
@@ -66,5 +65,4 @@ final class ArrowFunctionReturnTypeRule implements Rule
 			$generatorType->isSuperTypeOf($returnType)->yes(),
 		);
 	}
-
 }

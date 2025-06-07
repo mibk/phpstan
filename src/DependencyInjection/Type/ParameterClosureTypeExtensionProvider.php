@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Type;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\StaticMethodParameterClosureTypeExtension;
 
 interface ParameterClosureTypeExtensionProvider
 {
-
 	/** @return FunctionParameterClosureTypeExtension[] */
 	public function getFunctionParameterClosureTypeExtensions(): array;
 
@@ -17,5 +16,4 @@ interface ParameterClosureTypeExtensionProvider
 
 	/** @return StaticMethodParameterClosureTypeExtension[] */
 	public function getStaticMethodParameterClosureTypeExtensions(): array;
-
 }

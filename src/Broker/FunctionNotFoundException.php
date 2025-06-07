@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Broker;
 
@@ -14,7 +14,6 @@ use function sprintf;
  */
 final class FunctionNotFoundException extends AnalysedCodeException
 {
-
 	public function __construct(private string $functionName)
 	{
 		parent::__construct(sprintf('Function %s not found while trying to analyse it - discovering symbols is probably not configured properly.', $functionName));
@@ -29,5 +28,4 @@ final class FunctionNotFoundException extends AnalysedCodeException
 	{
 		return 'Learn more at https://phpstan.org/user-guide/discovering-symbols';
 	}
-
 }

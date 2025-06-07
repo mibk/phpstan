@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node\ArrayItem;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node\ArrayItem;
 
 /**
  * @api
  */
 final class LiteralArrayItem
 {
-
 	public function __construct(private Scope $scope, private ?ArrayItem $arrayItem)
 	{
 	}
@@ -24,5 +23,4 @@ final class LiteralArrayItem
 	{
 		return $this->arrayItem;
 	}
-
 }

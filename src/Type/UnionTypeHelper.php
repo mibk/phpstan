@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -7,16 +7,15 @@ use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantFloatType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use const PHP_INT_MIN;
 use function count;
 use function strcasecmp;
 use function usort;
-use const PHP_INT_MIN;
 
 final class UnionTypeHelper
 {
-
 	/**
-	 * @param Type[] $types
+	 * @param  Type[] $types
 	 * @return Type[]
 	 */
 	public static function sortTypes(array $types): array
@@ -25,7 +24,7 @@ final class UnionTypeHelper
 			return $types;
 		}
 
-		usort($types, static function (Type $a, Type $b): int {
+		usort($types, static function(Type $a, Type $b): int {
 			if ($a instanceof NullType) {
 				return 1;
 			} elseif ($b instanceof NullType) {
@@ -50,20 +49,20 @@ final class UnionTypeHelper
 			} elseif ($bIsBool && !$aIsBool) {
 				return -1;
 			}
-			if ($a instanceof ConstantScalarType && !$b instanceof ConstantScalarType) {
+			if ($a instanceof ConstantScalarType && ! $b instanceof ConstantScalarType) {
 				return -1;
-			} elseif (!$a instanceof ConstantScalarType && $b instanceof ConstantScalarType) {
+			} elseif (! $a instanceof ConstantScalarType && $b instanceof ConstantScalarType) {
 				return 1;
 			}
 
 			if (
 				(
 					$a instanceof ConstantIntegerType
-					|| $a instanceof ConstantFloatType
+						|| $a instanceof ConstantFloatType
 				)
 				&& (
 					$b instanceof ConstantIntegerType
-					|| $b instanceof ConstantFloatType
+						|| $b instanceof ConstantFloatType
 				)
 			) {
 				$cmp = $a->getValue() <=> $b->getValue();
@@ -134,5 +133,4 @@ final class UnionTypeHelper
 
 		return $a <=> $b;
 	}
-
 }

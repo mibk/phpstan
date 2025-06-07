@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -25,7 +25,6 @@ use PHPStan\Type\Traits\UndecidedComparisonTypeTrait;
 /** @api */
 class IntegerType implements Type
 {
-
 	use JustNullableTypeTrait;
 	use NonArrayTypeTrait;
 	use NonCallableTypeTrait;
@@ -154,8 +153,8 @@ class IntegerType implements Type
 
 		if (
 			$phpVersion->nonNumericStringAndIntegerIsFalseOnLooseComparison()
-			&& $type->isString()->yes()
-			&& $type->isNumericString()->no()
+				&& $type->isString()->yes()
+				&& $type->isNumericString()->no()
 		) {
 			return new ConstantBooleanType(false);
 		}
@@ -198,5 +197,4 @@ class IntegerType implements Type
 	{
 		return new IdentifierTypeNode('int');
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -14,6 +13,7 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function count;
 use function in_array;
 use function is_string;
@@ -25,7 +25,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class NonexistentOffsetInArrayDimFetchRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 		private NonexistentOffsetInArrayDimFetchCheck $nonexistentOffsetInArrayDimFetchCheck,
@@ -54,7 +53,7 @@ final class NonexistentOffsetInArrayDimFetchRule implements Rule
 			$scope,
 			NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $node->var),
 			$unknownClassPattern,
-			static fn (Type $type): bool => $type->isOffsetAccessible()->yes(),
+			static fn(Type $type): bool => $type->isOffsetAccessible()->yes(),
 		);
 		$isOffsetAccessibleType = $isOffsetAccessibleTypeResult->getType();
 		if ($isOffsetAccessibleType instanceof ErrorType) {
@@ -104,19 +103,19 @@ final class NonexistentOffsetInArrayDimFetchRule implements Rule
 
 		if (
 			$node->dim instanceof Node\Expr\FuncCall
-			&& $node->dim->name instanceof Node\Name
-			&& in_array($node->dim->name->toLowerString(), ['array_key_first', 'array_key_last'], true)
-			&& count($node->dim->getArgs()) >= 1
+				&& $node->dim->name instanceof Node\Name
+				&& in_array($node->dim->name->toLowerString(), ['array_key_first', 'array_key_last'], true)
+				&& count($node->dim->getArgs()) >= 1
 		) {
 			$arrayArg = $node->dim->getArgs()[0]->value;
 			$arrayType = $scope->getType($arrayArg);
 			if (
 				$arrayArg instanceof Node\Expr\Variable
-				&& $node->var instanceof Node\Expr\Variable
-				&& is_string($arrayArg->name)
-				&& $arrayArg->name === $node->var->name
-				&& $arrayType->isArray()->yes()
-				&& $arrayType->isIterableAtLeastOnce()->yes()
+					&& $node->var instanceof Node\Expr\Variable
+					&& is_string($arrayArg->name)
+					&& $arrayArg->name === $node->var->name
+					&& $arrayType->isArray()->yes()
+					&& $arrayType->isIterableAtLeastOnce()->yes()
 			) {
 				return [];
 			}
@@ -124,22 +123,22 @@ final class NonexistentOffsetInArrayDimFetchRule implements Rule
 
 		if (
 			$node->dim instanceof Node\Expr\BinaryOp\Minus
-			&& $node->dim->left instanceof Node\Expr\FuncCall
-			&& $node->dim->left->name instanceof Node\Name
-			&& in_array($node->dim->left->name->toLowerString(), ['count', 'sizeof'], true)
-			&& count($node->dim->left->getArgs()) >= 1
-			&& $node->dim->right instanceof Node\Scalar\Int_
-			&& $node->dim->right->value === 1
+				&& $node->dim->left instanceof Node\Expr\FuncCall
+				&& $node->dim->left->name instanceof Node\Name
+				&& in_array($node->dim->left->name->toLowerString(), ['count', 'sizeof'], true)
+				&& count($node->dim->left->getArgs()) >= 1
+				&& $node->dim->right instanceof Node\Scalar\Int_
+				&& $node->dim->right->value === 1
 		) {
 			$arrayArg = $node->dim->left->getArgs()[0]->value;
 			$arrayType = $scope->getType($arrayArg);
 			if (
 				$arrayArg instanceof Node\Expr\Variable
-				&& $node->var instanceof Node\Expr\Variable
-				&& is_string($arrayArg->name)
-				&& $arrayArg->name === $node->var->name
-				&& $arrayType->isList()->yes()
-				&& $arrayType->isIterableAtLeastOnce()->yes()
+					&& $node->var instanceof Node\Expr\Variable
+					&& is_string($arrayArg->name)
+					&& $arrayArg->name === $node->var->name
+					&& $arrayType->isList()->yes()
+					&& $arrayType->isIterableAtLeastOnce()->yes()
 			) {
 				return [];
 			}
@@ -152,5 +151,4 @@ final class NonexistentOffsetInArrayDimFetchRule implements Rule
 			$dimType,
 		);
 	}
-
 }

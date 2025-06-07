@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -14,7 +14,6 @@ use ReflectionClass;
 
 final class ReflectionClassSourceLocator implements SourceLocator
 {
-
 	public function __construct(
 		private Locator $astLocator,
 		private ReflectionSourceStubber $reflectionSourceStubber,
@@ -49,5 +48,4 @@ final class ReflectionClassSourceLocator implements SourceLocator
 	{
 		return [];
 	}
-
 }

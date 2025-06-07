@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use DateTime;
 use DateTimeImmutable;
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -12,13 +11,13 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\DynamicMethodThrowTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\MethodCall;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class DateTimeSubMethodThrowTypeExtension implements DynamicMethodThrowTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -41,5 +40,4 @@ final class DateTimeSubMethodThrowTypeExtension implements DynamicMethodThrowTyp
 
 		return new ObjectType('DateInvalidOperationException');
 	}
-
 }

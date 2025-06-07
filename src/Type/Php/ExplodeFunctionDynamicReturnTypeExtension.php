@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -24,12 +23,12 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 
 #[AutowiredService]
 final class ExplodeFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -77,7 +76,7 @@ final class ExplodeFunctionDynamicReturnTypeExtension implements DynamicFunction
 		$returnType = TypeCombinator::intersect(new ArrayType(new IntegerType(), $returnValueType), new AccessoryArrayListType());
 		if (
 			!isset($args[2])
-			|| IntegerRangeType::fromInterval(0, null)->isSuperTypeOf($scope->getType($args[2]->value))->yes()
+				|| IntegerRangeType::fromInterval(0, null)->isSuperTypeOf($scope->getType($args[2]->value))->yes()
 		) {
 			$returnType = TypeCombinator::intersect($returnType, new NonEmptyArrayType());
 		}
@@ -92,5 +91,4 @@ final class ExplodeFunctionDynamicReturnTypeExtension implements DynamicFunction
 
 		return $returnType;
 	}
-
 }

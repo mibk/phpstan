@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -29,7 +29,6 @@ use PHPStan\Type\VerbosityLevel;
 
 class OversizedArrayType implements CompoundType, AccessoryType
 {
-
 	use MaybeCallableTypeTrait;
 	use NonObjectTypeTrait;
 	use TruthyBooleanTypeTrait;
@@ -458,5 +457,4 @@ class OversizedArrayType implements CompoundType, AccessoryType
 	{
 		return new IdentifierTypeNode(''); // no PHPDoc representation
 	}
-
 }

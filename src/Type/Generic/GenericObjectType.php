@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -31,10 +31,9 @@ use function sprintf;
 /** @api */
 class GenericObjectType extends ObjectType
 {
-
 	/**
 	 * @api
-	 * @param array<int, Type> $types
+	 * @param array<int, Type>                 $types
 	 * @param array<int, TemplateTypeVariance> $variances
 	 */
 	public function __construct(
@@ -54,7 +53,7 @@ class GenericObjectType extends ObjectType
 			'%s<%s>',
 			parent::describe($level),
 			implode(', ', array_map(
-				static fn (Type $type, ?TemplateTypeVariance $variance = null): string => TypeProjectionHelper::describe($type, $variance, $level),
+				static fn(Type $type, ?TemplateTypeVariance $variance = null): string => TypeProjectionHelper::describe($type, $variance, $level),
 				$this->types,
 				$this->variances,
 			)),
@@ -63,7 +62,7 @@ class GenericObjectType extends ObjectType
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -140,7 +139,7 @@ class GenericObjectType extends ObjectType
 			return $nakedSuperTypeOf;
 		}
 
-		if (!$type instanceof ObjectType) {
+		if (! $type instanceof ObjectType) {
 			return $nakedSuperTypeOf;
 		}
 
@@ -148,7 +147,7 @@ class GenericObjectType extends ObjectType
 		if ($ancestor === null) {
 			return $nakedSuperTypeOf;
 		}
-		if (!$ancestor instanceof self) {
+		if (! $ancestor instanceof self) {
 			if ($acceptsContext) {
 				return $nakedSuperTypeOf;
 			}
@@ -177,7 +176,7 @@ class GenericObjectType extends ObjectType
 			if ($templateType instanceof ErrorType) {
 				continue;
 			}
-			if (!$templateType instanceof TemplateType) {
+			if (! $templateType instanceof TemplateType) {
 				throw new ShouldNotHappenException();
 			}
 
@@ -250,7 +249,7 @@ class GenericObjectType extends ObjectType
 			return $receivedType->inferTemplateTypesOn($this);
 		}
 
-		if (!$receivedType instanceof TypeWithClassName) {
+		if (! $receivedType instanceof TypeWithClassName) {
 			return TemplateTypeMap::createEmpty();
 		}
 
@@ -326,12 +325,12 @@ class GenericObjectType extends ObjectType
 
 	public function traverseSimultaneously(Type $right, callable $cb): Type
 	{
-		if (!$right instanceof TypeWithClassName) {
+		if (! $right instanceof TypeWithClassName) {
 			return $this;
 		}
 
 		$ancestor = $right->getAncestorWithClassName($this->getClassName());
-		if (!$ancestor instanceof self) {
+		if (! $ancestor instanceof self) {
 			return $this;
 		}
 
@@ -360,7 +359,7 @@ class GenericObjectType extends ObjectType
 	}
 
 	/**
-	 * @param Type[] $types
+	 * @param Type[]                 $types
 	 * @param TemplateTypeVariance[] $variances
 	 */
 	protected function recreate(string $className, array $types, ?Type $subtractedType, array $variances = []): self
@@ -385,9 +384,8 @@ class GenericObjectType extends ObjectType
 		$parent = parent::toPhpDocNode();
 		return new GenericTypeNode(
 			$parent,
-			array_map(static fn (Type $type) => $type->toPhpDocNode(), $this->types),
-			array_map(static fn (TemplateTypeVariance $variance) => $variance->toPhpDocNodeVariance(), $this->variances),
+			array_map(static fn(Type $type) => $type->toPhpDocNode(), $this->types),
+			array_map(static fn(TemplateTypeVariance $variance) => $variance->toPhpDocNodeVariance(), $this->variances),
 		);
 	}
-
 }

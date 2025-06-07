@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
@@ -11,7 +11,6 @@ use PHPStan\Rules\RestrictedUsage\RestrictedClassNameUsageExtension;
 #[AutowiredService]
 final class ClassNameCheck
 {
-
 	public function __construct(
 		private ClassCaseSensitivityCheck $classCaseSensitivityCheck,
 		private ClassForbiddenNameCheck $classForbiddenNameCheck,
@@ -22,7 +21,7 @@ final class ClassNameCheck
 	}
 
 	/**
-	 * @param ClassNameNodePair[] $pairs
+	 * @param  ClassNameNodePair[] $pairs
 	 * @return list<IdentifierRuleError>
 	 */
 	public function checkClassNames(
@@ -74,5 +73,4 @@ final class ClassNameCheck
 
 		return $errors;
 	}
-
 }

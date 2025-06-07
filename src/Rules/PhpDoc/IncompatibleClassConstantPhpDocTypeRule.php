@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -15,6 +14,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ParserNodeTypeToPHPStanType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_merge;
 use function sprintf;
 
@@ -24,7 +24,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class IncompatibleClassConstantPhpDocTypeRule implements Rule
 {
-
 	public function __construct(
 		private GenericObjectTypeCheck $genericObjectTypeCheck,
 		private UnresolvableTypeHelper $unresolvableTypeHelper,
@@ -87,7 +86,6 @@ final class IncompatibleClassConstantPhpDocTypeRule implements Rule
 					$phpDocType->describe(VerbosityLevel::typeOnly()),
 					$nativeType->describe(VerbosityLevel::typeOnly()),
 				))->identifier('classConstant.phpDocType')->build();
-
 			} elseif ($isSuperType->maybe()) {
 				$errors[] = RuleErrorBuilder::message(sprintf(
 					'PHPDoc tag @var for constant %s::%s with type %s is not subtype of native type %s.',
@@ -136,5 +134,4 @@ final class IncompatibleClassConstantPhpDocTypeRule implements Rule
 			),
 		));
 	}
-
 }

@@ -1,17 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Variables;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\String_;
 use function array_merge;
 use function in_array;
 use function is_string;
@@ -23,7 +23,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class DefinedVariableRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $cliArgumentsVariablesRegistered,
@@ -90,7 +89,7 @@ final class DefinedVariableRule implements Rule
 			];
 		} elseif (
 			$this->checkMaybeUndefinedVariables
-			&& !$scope->hasVariableType($variableName)->yes()
+				&& !$scope->hasVariableType($variableName)->yes()
 		) {
 			return [
 				RuleErrorBuilder::message(sprintf('Variable $%s might not be defined.', $variableName))
@@ -101,5 +100,4 @@ final class DefinedVariableRule implements Rule
 
 		return [];
 	}
-
 }

@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node\Expr;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr;
 
 final class ExpressionTypeHolder
 {
-
 	public function __construct(private Expr $expr, private Type $type, private TrinaryLogic $certainty)
 	{
 	}
@@ -65,5 +64,4 @@ final class ExpressionTypeHolder
 	{
 		return $this->certainty;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -14,7 +14,6 @@ use function array_values;
  */
 final class AcceptsResult
 {
-
 	/**
 	 * @api
 	 * @param list<string> $reasons
@@ -99,7 +98,7 @@ final class AcceptsResult
 			throw new ShouldNotHappenException();
 		}
 
-		$result = TrinaryLogic::extremeIdentity(...array_map(static fn (self $result) => $result->result, $operands));
+		$result = TrinaryLogic::extremeIdentity(...array_map(static fn(self $result) => $result->result, $operands));
 		$reasons = [];
 		foreach ($operands as $operand) {
 			foreach ($operand->reasons as $reason) {
@@ -116,7 +115,7 @@ final class AcceptsResult
 			throw new ShouldNotHappenException();
 		}
 
-		$result = TrinaryLogic::maxMin(...array_map(static fn (self $result) => $result->result, $operands));
+		$result = TrinaryLogic::maxMin(...array_map(static fn(self $result) => $result->result, $operands));
 		$reasons = [];
 		foreach ($operands as $operand) {
 			foreach ($operand->reasons as $reason) {
@@ -126,5 +125,4 @@ final class AcceptsResult
 
 		return new self($result, array_values(array_unique($reasons)));
 	}
-
 }

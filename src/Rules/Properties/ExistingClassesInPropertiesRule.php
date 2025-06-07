@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -15,6 +14,7 @@ use PHPStan\Rules\ClassNameUsageLocation;
 use PHPStan\Rules\PhpDoc\UnresolvableTypeHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function array_map;
 use function array_merge;
 use function sprintf;
@@ -25,7 +25,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class ExistingClassesInPropertiesRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ClassNameCheck $classCheck,
@@ -91,7 +90,7 @@ final class ExistingClassesInPropertiesRule implements Rule
 			$errors,
 			$this->classCheck->checkClassNames(
 				$scope,
-				array_map(static fn (string $class): ClassNameNodePair => new ClassNameNodePair($class, $node), $referencedClasses),
+				array_map(static fn(string $class): ClassNameNodePair => new ClassNameNodePair($class, $node), $referencedClasses),
 				ClassNameUsageLocation::from(ClassNameUsageLocation::PROPERTY_TYPE, [
 					'property' => $propertyReflection,
 				]),
@@ -101,7 +100,7 @@ final class ExistingClassesInPropertiesRule implements Rule
 
 		if (
 			$this->phpVersion->supportsPureIntersectionTypes()
-			&& $this->unresolvableTypeHelper->containsUnresolvableType($propertyReflection->getNativeType())
+				&& $this->unresolvableTypeHelper->containsUnresolvableType($propertyReflection->getNativeType())
 		) {
 			$errors[] = RuleErrorBuilder::message(sprintf(
 				'Property %s::$%s has unresolvable native type.',
@@ -112,5 +111,4 @@ final class ExistingClassesInPropertiesRule implements Rule
 
 		return $errors;
 	}
-
 }

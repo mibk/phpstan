@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
@@ -20,7 +20,6 @@ use PHPStan\Type\UnionType;
 
 final class AllowedArrayKeysTypes
 {
-
 	public static function getType(): Type
 	{
 		return new UnionType([
@@ -81,5 +80,4 @@ final class AllowedArrayKeysTypes
 			]),
 		);
 	}
-
 }

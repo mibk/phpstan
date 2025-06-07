@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -7,7 +7,6 @@ use function implode;
 
 final class InvalidIgnoredErrorPatternsException extends Exception
 {
-
 	/**
 	 * @param string[] $errors
 	 */
@@ -23,5 +22,4 @@ final class InvalidIgnoredErrorPatternsException extends Exception
 	{
 		return $this->errors;
 	}
-
 }

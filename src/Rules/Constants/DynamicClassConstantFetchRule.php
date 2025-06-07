@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Constants;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\ClassConstFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Php\PhpVersion;
@@ -13,6 +11,8 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\ClassConstFetch;
 use function sprintf;
 
 /**
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class DynamicClassConstantFetchRule implements Rule
 {
-
 	public function __construct(private PhpVersion $phpVersion, private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -33,7 +32,7 @@ final class DynamicClassConstantFetchRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Expr) {
+		if (! $node->name instanceof Node\Expr) {
 			return [];
 		}
 
@@ -50,7 +49,7 @@ final class DynamicClassConstantFetchRule implements Rule
 			$scope,
 			$node->name,
 			'',
-			static fn (Type $type): bool => $type->isString()->yes(),
+			static fn(Type $type): bool => $type->isString()->yes(),
 		);
 		$type = $typeResult->getType();
 		if ($type instanceof ErrorType) {
@@ -67,5 +66,4 @@ final class DynamicClassConstantFetchRule implements Rule
 			))->identifier('classConstant.nameType')->build(),
 		];
 	}
-
 }

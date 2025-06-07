@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\SignatureMap;
 
@@ -8,7 +8,6 @@ use PHPStan\Php\PhpVersion;
 #[AutowiredService]
 final class SignatureMapProviderFactory
 {
-
 	public function __construct(
 		private PhpVersion $phpVersion,
 		private FunctionSignatureMapProvider $functionSignatureMapProvider,
@@ -25,5 +24,4 @@ final class SignatureMapProviderFactory
 
 		return $this->php8SignatureMapProvider;
 	}
-
 }

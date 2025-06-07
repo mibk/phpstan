@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Regexp;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -17,6 +13,10 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Regex\RegexExpressionHelper;
+use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
 use function array_filter;
 use function array_merge;
 use function array_values;
@@ -31,7 +31,6 @@ use function strlen;
 #[RegisteredRule(level: 5)]
 final class RegularExpressionQuotingRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RegexExpressionHelper $regexExpressionHelper,
@@ -46,7 +45,7 @@ final class RegularExpressionQuotingRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Name) {
+		if (! $node->name instanceof Node\Name) {
 			return [];
 		}
 
@@ -98,8 +97,8 @@ final class RegularExpressionQuotingRule implements Rule
 		$errors = [];
 		if (
 			$concat->left instanceof FuncCall
-			&& $concat->left->name instanceof Name
-			&& $concat->left->name->toLowerString() === 'preg_quote'
+				&& $concat->left->name instanceof Name
+				&& $concat->left->name->toLowerString() === 'preg_quote'
 		) {
 			$pregError = $this->validatePregQuote($concat->left, $scope, $patternDelimiters);
 			if ($pregError !== null) {
@@ -111,8 +110,8 @@ final class RegularExpressionQuotingRule implements Rule
 
 		if (
 			$concat->right instanceof FuncCall
-			&& $concat->right->name instanceof Name
-			&& $concat->right->name->toLowerString() === 'preg_quote'
+				&& $concat->right->name instanceof Name
+				&& $concat->right->name->toLowerString() === 'preg_quote'
 		) {
 			$pregError = $this->validatePregQuote($concat->right, $scope, $patternDelimiters);
 			if ($pregError !== null) {
@@ -130,7 +129,7 @@ final class RegularExpressionQuotingRule implements Rule
 	 */
 	private function validatePregQuote(FuncCall $pregQuote, Scope $scope, array $patternDelimiters): ?IdentifierRuleError
 	{
-		if (!$pregQuote->name instanceof Node\Name) {
+		if (! $pregQuote->name instanceof Node\Name) {
 			return null;
 		}
 
@@ -164,7 +163,6 @@ final class RegularExpressionQuotingRule implements Rule
 		}
 
 		if (count($args) >= 2) {
-
 			foreach ($scope->getType($args[1]->value)->getConstantStrings() as $quoteDelimiterType) {
 				$quoteDelimiter = $quoteDelimiterType->getValue();
 
@@ -204,7 +202,7 @@ final class RegularExpressionQuotingRule implements Rule
 	 */
 	private function removeDefaultEscapedDelimiters(array $delimiters): array
 	{
-		return array_values(array_filter($delimiters, fn (string $delimiter): bool => !$this->isDefaultEscaped($delimiter)));
+		return array_values(array_filter($delimiters, fn(string $delimiter): bool => !$this->isDefaultEscaped($delimiter)));
 	}
 
 	private function isDefaultEscaped(string $delimiter): bool
@@ -216,7 +214,7 @@ final class RegularExpressionQuotingRule implements Rule
 		return in_array(
 			$delimiter,
 			// these delimiters are escaped, no matter what preg_quote() 2nd arg looks like
-			['.', '\\',  '+', '*', '?', '[', '^', ']', '$', '(', ')', '{', '}', '=', '!', '<', '>', '|', ':', '-', '#'],
+			['.', '\\', '+', '*', '?', '[', '^', ']', '$', '(', ')', '{', '}', '=', '!', '<', '>', '|', ':', '-', '#'],
 			true,
 		);
 	}
@@ -240,5 +238,4 @@ final class RegularExpressionQuotingRule implements Rule
 
 		return $normalizedFuncCall->getArgs();
 	}
-
 }

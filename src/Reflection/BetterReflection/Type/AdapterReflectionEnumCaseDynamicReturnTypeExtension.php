@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\Type;
 
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionType;
 use PHPStan\Php\PhpVersion;
@@ -14,11 +13,11 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\MethodCall;
 use function in_array;
 
 final class AdapterReflectionEnumCaseDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-
 	/**
 	 * @param class-string $class
 	 */
@@ -61,5 +60,4 @@ final class AdapterReflectionEnumCaseDynamicReturnTypeExtension implements Dynam
 
 		return null;
 	}
-
 }

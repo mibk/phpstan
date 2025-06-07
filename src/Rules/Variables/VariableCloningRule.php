@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Variables;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Clone_;
-use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
@@ -13,6 +10,9 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Clone_;
+use PhpParser\Node\Expr\Variable;
 use function is_string;
 use function sprintf;
 
@@ -22,7 +22,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class VariableCloningRule implements Rule
 {
-
 	public function __construct(private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -38,7 +37,7 @@ final class VariableCloningRule implements Rule
 			$scope,
 			$node->expr,
 			'Cloning object of an unknown class %s.',
-			static fn (Type $type): bool => $type->isCloneable()->yes(),
+			static fn(Type $type): bool => $type->isCloneable()->yes(),
 		);
 		$type = $typeResult->getType();
 		if ($type instanceof ErrorType) {
@@ -65,5 +64,4 @@ final class VariableCloningRule implements Rule
 			))->identifier('clone.nonObject')->build(),
 		];
 	}
-
 }

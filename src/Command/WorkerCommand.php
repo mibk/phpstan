@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -37,7 +37,6 @@ use function sprintf;
 
 final class WorkerCommand extends Command
 {
-
 	private const NAME = 'worker';
 
 	private int $errorCount = 0;
@@ -86,15 +85,15 @@ final class WorkerCommand extends Command
 
 		if (
 			!is_array($paths)
-			|| (!is_string($memoryLimit) && $memoryLimit !== null)
-			|| (!is_string($autoloadFile) && $autoloadFile !== null)
-			|| (!is_string($configuration) && $configuration !== null)
-			|| (!is_string($level) && $level !== null)
-			|| (!is_bool($allowXdebug))
-			|| !is_string($port)
-			|| !is_string($identifier)
-			|| (!is_string($tmpFile) && $tmpFile !== null)
-			|| (!is_string($insteadOfFile) && $insteadOfFile !== null)
+				|| (!is_string($memoryLimit) && $memoryLimit !== null)
+				|| (!is_string($autoloadFile) && $autoloadFile !== null)
+				|| (!is_string($configuration) && $configuration !== null)
+				|| (!is_string($level) && $level !== null)
+				|| (!is_bool($allowXdebug))
+				|| !is_string($port)
+				|| !is_string($identifier)
+				|| (!is_string($tmpFile) && $tmpFile !== null)
+				|| (!is_string($insteadOfFile) && $insteadOfFile !== null)
 		) {
 			throw new ShouldNotHappenException();
 		}
@@ -139,7 +138,7 @@ final class WorkerCommand extends Command
 		$analysedFiles = array_fill_keys($analysedFiles, true);
 
 		$tcpConnector = new TcpConnector($loop);
-		$tcpConnector->connect(sprintf('127.0.0.1:%d', $port))->then(function (ConnectionInterface $connection) use ($container, $identifier, $output, $analysedFiles, $tmpFile, $insteadOfFile): void {
+		$tcpConnector->connect(sprintf('127.0.0.1:%d', $port))->then(function(ConnectionInterface $connection) use ($container, $identifier, $output, $analysedFiles, $tmpFile, $insteadOfFile): void {
 			// phpcs:disable SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
 			$jsonInvalidUtf8Ignore = defined('JSON_INVALID_UTF8_IGNORE') ? JSON_INVALID_UTF8_IGNORE : 0;
 			// phpcs:enable
@@ -171,13 +170,13 @@ final class WorkerCommand extends Command
 		?string $insteadOfFile,
 	): void
 	{
-		$handleError = function (Throwable $error) use ($out, $output): void {
+		$handleError = function(Throwable $error) use ($out, $output): void {
 			$this->errorCount++;
 			$output->writeln(sprintf('Error: %s', $error->getMessage()));
 			$out->write([
 				'action' => 'result',
 				'result' => [
-					'errors' => [],
+					'errors'         => [],
 					'internalErrors' => [
 						new InternalError(
 							$error->getMessage(),
@@ -187,17 +186,17 @@ final class WorkerCommand extends Command
 							true,
 						),
 					],
-					'filteredPhpErrors' => [],
-					'allPhpErrors' => [],
+					'filteredPhpErrors'    => [],
+					'allPhpErrors'         => [],
 					'locallyIgnoredErrors' => [],
-					'linesToIgnore' => [],
+					'linesToIgnore'        => [],
 					'unmatchedLineIgnores' => [],
-					'collectedData' => [],
-					'memoryUsage' => memory_get_peak_usage(true),
-					'dependencies' => [],
-					'exportedNodes' => [],
-					'files' => [],
-					'internalErrorsCount' => 1,
+					'collectedData'        => [],
+					'memoryUsage'          => memory_get_peak_usage(true),
+					'dependencies'         => [],
+					'exportedNodes'        => [],
+					'files'                => [],
+					'internalErrorsCount'  => 1,
 				],
 			]);
 			$out->end();
@@ -206,7 +205,7 @@ final class WorkerCommand extends Command
 		$fileAnalyser = $container->getByType(FileAnalyser::class);
 		$ruleRegistry = $container->getByType(RuleRegistry::class);
 		$collectorRegistry = $container->getByType(CollectorRegistry::class);
-		$in->on('data', static function (array $json) use ($fileAnalyser, $ruleRegistry, $collectorRegistry, $out, $analysedFiles, $tmpFile, $insteadOfFile): void {
+		$in->on('data', static function(array $json) use ($fileAnalyser, $ruleRegistry, $collectorRegistry, $out, $analysedFiles, $tmpFile, $insteadOfFile): void {
 			$action = $json['action'];
 			if ($action !== 'analyse') {
 				return;
@@ -267,27 +266,28 @@ final class WorkerCommand extends Command
 			$out->write([
 				'action' => 'result',
 				'result' => [
-					'errors' => $errors,
-					'internalErrors' => $internalErrors,
-					'filteredPhpErrors' => $filteredPhpErrors,
-					'allPhpErrors' => $allPhpErrors,
-					'locallyIgnoredErrors' => $locallyIgnoredErrors,
-					'linesToIgnore' => $linesToIgnore,
-					'unmatchedLineIgnores' => $unmatchedLineIgnores,
-					'collectedData' => $collectedData,
-					'memoryUsage' => memory_get_peak_usage(true),
-					'dependencies' => $dependencies,
+					'errors'                => $errors,
+					'internalErrors'        => $internalErrors,
+					'filteredPhpErrors'     => $filteredPhpErrors,
+					'allPhpErrors'          => $allPhpErrors,
+					'locallyIgnoredErrors'  => $locallyIgnoredErrors,
+					'linesToIgnore'         => $linesToIgnore,
+					'unmatchedLineIgnores'  => $unmatchedLineIgnores,
+					'collectedData'         => $collectedData,
+					'memoryUsage'           => memory_get_peak_usage(true),
+					'dependencies'          => $dependencies,
 					'usedTraitDependencies' => $usedTraitDependencies,
-					'exportedNodes' => $exportedNodes,
-					'files' => $files,
-					'internalErrorsCount' => $internalErrorsCount,
-				]]);
+					'exportedNodes'         => $exportedNodes,
+					'files'                 => $files,
+					'internalErrorsCount'   => $internalErrorsCount,
+				],
+			]);
 		});
 		$in->on('error', $handleError);
 	}
 
 	/**
-	 * @param string[] $analysedFiles
+	 * @param  string[] $analysedFiles
 	 * @return string[]
 	 */
 	private function switchTmpFile(
@@ -299,7 +299,7 @@ final class WorkerCommand extends Command
 		if ($insteadOfFile === null) {
 			return $analysedFiles;
 		}
-		$analysedFiles = array_values(array_filter($analysedFiles, static fn (string $file): bool => $file !== $insteadOfFile));
+		$analysedFiles = array_values(array_filter($analysedFiles, static fn(string $file): bool => $file !== $insteadOfFile));
 
 		if ($tmpFile !== null) {
 			array_unshift($analysedFiles, $tmpFile);
@@ -307,5 +307,4 @@ final class WorkerCommand extends Command
 
 		return $analysedFiles;
 	}
-
 }

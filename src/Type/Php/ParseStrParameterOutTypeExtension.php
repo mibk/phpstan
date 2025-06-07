@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -17,6 +16,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 use function strtolower;
@@ -24,7 +24,6 @@ use function strtolower;
 #[AutowiredService]
 final class ParseStrParameterOutTypeExtension implements FunctionParameterOutTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection, ParameterReflection $parameter): bool
 	{
 		return in_array(strtolower($functionReflection->getName()), ['parse_str', 'mb_parse_str'], true)
@@ -58,5 +57,4 @@ final class ParseStrParameterOutTypeExtension implements FunctionParameterOutTyp
 			new UnionType([new ArrayType(new MixedType(), new MixedType(true)), $valueType]),
 		);
 	}
-
 }

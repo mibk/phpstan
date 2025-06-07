@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Native;
 
@@ -21,11 +21,10 @@ use function strtolower;
 
 final class NativeMethodReflection implements ExtendedMethodReflection
 {
-
 	/**
-	 * @param list<ExtendedParametersAcceptor> $variants
+	 * @param list<ExtendedParametersAcceptor>      $variants
 	 * @param list<ExtendedParametersAcceptor>|null $namedArgumentsVariants
-	 * @param list<AttributeReflection> $attributes
+	 * @param list<AttributeReflection>             $attributes
 	 */
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
@@ -169,7 +168,7 @@ final class NativeMethodReflection implements ExtendedMethodReflection
 		$isVoid = $this->isVoid();
 		if (
 			$name !== '__construct'
-			&& $isVoid
+				&& $isVoid
 		) {
 			return TrinaryLogic::createYes();
 		}
@@ -226,5 +225,4 @@ final class NativeMethodReflection implements ExtendedMethodReflection
 	{
 		return $this->attributes;
 	}
-
 }

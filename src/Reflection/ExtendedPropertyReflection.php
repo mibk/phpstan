@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -21,7 +21,6 @@ use PHPStan\Type\Type;
  */
 interface ExtendedPropertyReflection extends PropertyReflection
 {
-
 	public const HOOK_GET = 'get';
 
 	public const HOOK_SET = 'set';
@@ -62,5 +61,4 @@ interface ExtendedPropertyReflection extends PropertyReflection
 	 * @return list<AttributeReflection>
 	 */
 	public function getAttributes(): array;
-
 }

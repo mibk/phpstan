@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
@@ -36,7 +36,6 @@ use function strtolower;
 #[AutowiredService]
 final class MissingTypehintCheck
 {
-
 	public const MISSING_ITERABLE_VALUE_TYPE_TIP = 'See: https://phpstan.org/blog/solving-phpstan-no-value-type-specified-in-iterable-type';
 
 	private const ITERABLE_GENERIC_CLASS_NAMES = [
@@ -64,7 +63,7 @@ final class MissingTypehintCheck
 	public function getIterableTypesWithMissingValueTypehint(Type $type): array
 	{
 		$iterablesWithMissingValueTypehint = [];
-		TypeTraverser::map($type, function (Type $type, callable $traverse) use (&$iterablesWithMissingValueTypehint): Type {
+		TypeTraverser::map($type, function(Type $type, callable $traverse) use (&$iterablesWithMissingValueTypehint): Type {
 			if ($type instanceof TemplateType) {
 				return $type;
 			}
@@ -105,7 +104,7 @@ final class MissingTypehintCheck
 	public function getNonGenericObjectTypesWithGenericClass(Type $type): array
 	{
 		$objectTypes = [];
-		TypeTraverser::map($type, function (Type $type, callable $traverse) use (&$objectTypes): Type {
+		TypeTraverser::map($type, function(Type $type, callable $traverse) use (&$objectTypes): Type {
 			if ($type instanceof GenericObjectType || $type instanceof GenericStaticType) {
 				$traverse($type);
 				return $type;
@@ -133,13 +132,13 @@ final class MissingTypehintCheck
 				}
 
 				$resolvedType = TemplateTypeHelper::resolveToBounds($type);
-				if (!$resolvedType instanceof ObjectType) {
+				if (! $resolvedType instanceof ObjectType) {
 					throw new ShouldNotHappenException();
 				}
 
 				$templateTypes = $classReflection->getTemplateTypeMap()->getTypes();
 				$templateTypesCount = count($templateTypes);
-				$requiredTemplateTypesCount = count(array_filter($templateTypes, static fn (Type $type) => $type instanceof TemplateType && $type->getDefault() === null));
+				$requiredTemplateTypesCount = count(array_filter($templateTypes, static fn(Type $type) => $type instanceof TemplateType && $type->getDefault() === null));
 				if ($requiredTemplateTypesCount === 0) {
 					return $type;
 				}
@@ -172,11 +171,11 @@ final class MissingTypehintCheck
 		}
 
 		$result = [];
-		TypeTraverser::map($type, static function (Type $type, callable $traverse) use (&$result): Type {
+		TypeTraverser::map($type, static function(Type $type, callable $traverse) use (&$result): Type {
 			if (
 				($type instanceof CallableType && $type->isCommonCallable())
 				|| ($type instanceof ClosureType && $type->isCommonCallable())
-				|| ($type instanceof ObjectType && $type->getClassName() === Closure::class)
+					|| ($type instanceof ObjectType && $type->getClassName() === Closure::class)
 			) {
 				$result[] = $type;
 			}
@@ -185,5 +184,4 @@ final class MissingTypehintCheck
 
 		return $result;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -10,6 +10,9 @@ use PHPStan\File\CouldNotReadFileException;
 use PHPStan\File\CouldNotWriteFileException;
 use PHPStan\File\FileReader;
 use PHPStan\File\FileWriter;
+use const E_USER_DEPRECATED;
+use const PHP_RELEASE_VERSION;
+use const PHP_VERSION_ID;
 use function array_keys;
 use function count;
 use function error_reporting;
@@ -27,13 +30,9 @@ use function substr;
 use function time;
 use function trim;
 use function unlink;
-use const E_USER_DEPRECATED;
-use const PHP_RELEASE_VERSION;
-use const PHP_VERSION_ID;
 
 final class Configurator extends \Nette\Bootstrap\Configurator
 {
-
 	/** @var string[] */
 	private array $allConfigFiles = [];
 
@@ -188,7 +187,7 @@ final class Configurator extends \Nette\Bootstrap\Configurator
 
 	public function createContainer(bool $initialize = true): OriginalNetteContainer
 	{
-		set_error_handler(static function (int $errno): bool {
+		set_error_handler(static function(int $errno): bool {
 			if ((error_reporting() & $errno) === 0) {
 				// silence @ operator
 				return true;
@@ -224,5 +223,4 @@ final class Configurator extends \Nette\Bootstrap\Configurator
 
 		return $hashes;
 	}
-
 }

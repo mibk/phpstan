@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
@@ -13,7 +13,6 @@ use function sprintf;
 #[AutowiredService]
 final class CrossCheckInterfacesHelper
 {
-
 	/**
 	 * @return list<IdentifierRuleError>
 	 */
@@ -21,7 +20,7 @@ final class CrossCheckInterfacesHelper
 	{
 		$interfaceTemplateTypeMaps = [];
 		$errors = [];
-		$check = static function (ClassReflection $classReflection, bool $first) use (&$interfaceTemplateTypeMaps, &$check, &$errors): void {
+		$check = static function(ClassReflection $classReflection, bool $first) use (&$interfaceTemplateTypeMaps, &$check, &$errors): void {
 			foreach ($classReflection->getInterfaces() as $interface) {
 				if (!$interface->isGeneric()) {
 					continue;
@@ -92,5 +91,4 @@ final class CrossCheckInterfacesHelper
 
 		return $errors;
 	}
-
 }

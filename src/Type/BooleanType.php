@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -24,7 +24,6 @@ use PHPStan\Type\Traits\UndecidedComparisonTypeTrait;
 /** @api */
 class BooleanType implements Type
 {
-
 	use JustNullableTypeTrait;
 	use NonArrayTypeTrait;
 	use NonCallableTypeTrait;
@@ -192,5 +191,4 @@ class BooleanType implements Type
 
 		return TrinaryLogic::createMaybe();
 	}
-
 }

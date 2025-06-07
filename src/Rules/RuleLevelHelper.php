@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -22,13 +21,13 @@ use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr;
 use function count;
 use function sprintf;
 
 #[AutowiredService]
 final class RuleLevelHelper
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		#[AutowiredParameter]
@@ -61,7 +60,7 @@ final class RuleLevelHelper
 			return $type;
 		}
 
-		return TypeTraverser::map($type, function (Type $type, callable $traverse) {
+		return TypeTraverser::map($type, function(Type $type, callable $traverse) {
 			if ($type instanceof TemplateMixedType) {
 				if ($this->checkExplicitMixed) {
 					return $type->toStrictMixedType();
@@ -69,10 +68,10 @@ final class RuleLevelHelper
 			}
 			if (
 				$type instanceof MixedType
-				&& (
-					($type->isExplicitMixed() && $this->checkExplicitMixed)
-					|| (!$type->isExplicitMixed() && $this->checkImplicitMixed)
-				)
+					&& (
+						($type->isExplicitMixed() && $this->checkExplicitMixed)
+						|| (!$type->isExplicitMixed() && $this->checkImplicitMixed)
+					)
 			) {
 				return new StrictMixedType();
 			}
@@ -87,7 +86,7 @@ final class RuleLevelHelper
 	private function transformAcceptedType(Type $acceptingType, Type $acceptedType): array
 	{
 		$checkForUnion = $this->checkUnionTypes;
-		$acceptedType = TypeTraverser::map($acceptedType, function (Type $acceptedType, callable $traverse) use ($acceptingType, &$checkForUnion): Type {
+		$acceptedType = TypeTraverser::map($acceptedType, function(Type $acceptedType, callable $traverse) use ($acceptingType, &$checkForUnion): Type {
 			if ($acceptedType instanceof CallableType) {
 				if ($acceptedType->isCommonCallable()) {
 					return $acceptedType;
@@ -127,9 +126,9 @@ final class RuleLevelHelper
 
 			if (
 				!$this->checkNullables
-				&& !$acceptingType instanceof NullType
-				&& !$acceptedType instanceof NullType
-				&& !$acceptedType instanceof BenevolentUnionType
+					&& ! $acceptingType instanceof NullType
+					&& ! $acceptedType instanceof NullType
+					&& ! $acceptedType instanceof BenevolentUnionType
 			) {
 				return $traverse(TypeCombinator::removeNull($acceptedType));
 			}
@@ -197,7 +196,7 @@ final class RuleLevelHelper
 		if (
 			($this->checkExplicitMixed || $this->checkImplicitMixed)
 			&& $type instanceof MixedType
-			&& ($type->isExplicitMixed() ? $this->checkExplicitMixed : $this->checkImplicitMixed)
+				&& ($type->isExplicitMixed() ? $this->checkExplicitMixed : $this->checkImplicitMixed)
 		) {
 			return new FoundTypeResult(
 				$type instanceof TemplateMixedType
@@ -255,10 +254,10 @@ final class RuleLevelHelper
 		if ($type instanceof UnionType) {
 			$shouldFilterUnion = (
 				!$this->checkUnionTypes
-				&& !$type instanceof BenevolentUnionType
+					&& ! $type instanceof BenevolentUnionType
 			) || (
 				!$this->checkBenevolentUnionTypes
-				&& $type instanceof BenevolentUnionType
+					&& $type instanceof BenevolentUnionType
 			);
 
 			$newTypes = [];
@@ -281,7 +280,7 @@ final class RuleLevelHelper
 				$newUnion = TypeCombinator::union(...$newTypes);
 				if (
 					!$this->checkBenevolentUnionTypes
-					&& $type instanceof BenevolentUnionType
+						&& $type instanceof BenevolentUnionType
 				) {
 					$newUnion = TypeUtils::toBenevolentUnion($newUnion);
 				}
@@ -317,16 +316,15 @@ final class RuleLevelHelper
 		$tip = null;
 		if (
 			$type instanceof UnionType
-			&& count($type->getTypes()) === 2
-			&& $type->isObject()->yes()
-			&& $type->getTypes()[0]->getObjectClassNames() === ['PhpParser\\Node\\Arg']
-			&& $type->getTypes()[1]->getObjectClassNames() === ['PhpParser\\Node\\VariadicPlaceholder']
-			&& !$unionTypeCriteriaCallback($type)
+				&& count($type->getTypes()) === 2
+				&& $type->isObject()->yes()
+				&& $type->getTypes()[0]->getObjectClassNames() === ['PhpParser\\Node\\Arg']
+				&& $type->getTypes()[1]->getObjectClassNames() === ['PhpParser\\Node\\VariadicPlaceholder']
+				&& !$unionTypeCriteriaCallback($type)
 		) {
 			$tip = 'Use <fg=cyan>->getArgs()</> instead of <fg=cyan>->args</>.';
 		}
 
 		return new FoundTypeResult($type, $directClassNames, [], $tip);
 	}
-
 }

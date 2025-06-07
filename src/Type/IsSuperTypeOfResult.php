@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -14,7 +14,6 @@ use function array_values;
  */
 final class IsSuperTypeOfResult
 {
-
 	/**
 	 * @api
 	 * @param list<string> $reasons
@@ -118,7 +117,7 @@ final class IsSuperTypeOfResult
 			throw new ShouldNotHappenException();
 		}
 
-		$result = TrinaryLogic::extremeIdentity(...array_map(static fn (self $result) => $result->result, $operands));
+		$result = TrinaryLogic::extremeIdentity(...array_map(static fn(self $result) => $result->result, $operands));
 
 		return new self($result, self::mergeReasons($operands));
 	}
@@ -129,7 +128,7 @@ final class IsSuperTypeOfResult
 			throw new ShouldNotHappenException();
 		}
 
-		$result = TrinaryLogic::maxMin(...array_map(static fn (self $result) => $result->result, $operands));
+		$result = TrinaryLogic::maxMin(...array_map(static fn(self $result) => $result->result, $operands));
 
 		return new self($result, self::mergeReasons($operands));
 	}
@@ -160,5 +159,4 @@ final class IsSuperTypeOfResult
 
 		return array_values(array_unique($reasons));
 	}
-
 }

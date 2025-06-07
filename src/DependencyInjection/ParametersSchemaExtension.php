@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -9,10 +9,8 @@ use Nette\Schema\Schema;
 
 final class ParametersSchemaExtension extends CompilerExtension
 {
-
 	public function getConfigSchema(): Schema
 	{
 		return Expect::arrayOf(Expect::type(Statement::class))->min(1);
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -12,7 +12,6 @@ use PHPStan\Type\Type;
 
 final class InaccessibleMethod implements CallableParametersAcceptor
 {
-
 	public function __construct(private ExtendedMethodReflection $methodReflection)
 	{
 	}
@@ -87,5 +86,4 @@ final class InaccessibleMethod implements CallableParametersAcceptor
 	{
 		return $this->methodReflection->acceptsNamedArguments();
 	}
-
 }

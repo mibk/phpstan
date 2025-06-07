@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
 final class EnsuredNonNullabilityResult
 {
-
 	/**
 	 * @param EnsuredNonNullabilityResultExpression[] $specifiedExpressions
 	 */
@@ -24,5 +23,4 @@ final class EnsuredNonNullabilityResult
 	{
 		return $this->specifiedExpressions;
 	}
-
 }

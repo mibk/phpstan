@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Stmt\Trait_>
@@ -14,7 +14,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 2)]
 final class RequireExtendsDefinitionTraitRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RequireExtendsCheck $requireExtendsCheck,
@@ -31,7 +30,7 @@ final class RequireExtendsDefinitionTraitRule implements Rule
 	{
 		if (
 			$node->namespacedName === null
-			|| !$this->reflectionProvider->hasClass($node->namespacedName->toString())
+				|| !$this->reflectionProvider->hasClass($node->namespacedName->toString())
 		) {
 			return [];
 		}
@@ -41,5 +40,4 @@ final class RequireExtendsDefinitionTraitRule implements Rule
 
 		return $this->requireExtendsCheck->checkExtendsTags($scope, $node, $extendsTags);
 	}
-
 }

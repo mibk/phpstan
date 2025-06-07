@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -7,7 +7,6 @@ use function file_put_contents;
 
 final class FileWriter
 {
-
 	public static function write(string $fileName, string $contents): void
 	{
 		$success = @file_put_contents($fileName, $contents);
@@ -20,5 +19,4 @@ final class FileWriter
 			);
 		}
 	}
-
 }

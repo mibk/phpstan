@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -10,19 +10,18 @@ use Nette\DI\Helpers;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 use Nette\Utils\Strings;
-use olvlvl\ComposerAttributeCollector\Attributes;
-use olvlvl\ComposerAttributeCollector\TargetMethodParameter;
 use PHPStan\Collectors\RegistryFactory;
 use PHPStan\Rules\LazyRegistry;
 use ReflectionClass;
-use stdClass;
 use function explode;
 use function strtolower;
 use function substr;
+use olvlvl\ComposerAttributeCollector\Attributes;
+use olvlvl\ComposerAttributeCollector\TargetMethodParameter;
+use stdClass;
 
 final class AutowiredAttributeServicesExtension extends CompilerExtension
 {
-
 	public function getConfigSchema(): Schema
 	{
 		return Expect::structure([
@@ -106,7 +105,7 @@ final class AutowiredAttributeServicesExtension extends CompilerExtension
 	}
 
 	/**
-	 * @param class-string $className
+	 * @param class-string                                $className
 	 * @param TargetMethodParameter<AutowiredParameter>[] $autowiredParameters
 	 */
 	private function processParameters(string $className, ServiceDefinition $definition, array $autowiredParameters): void
@@ -136,5 +135,4 @@ final class AutowiredAttributeServicesExtension extends CompilerExtension
 			$definition->setArgument($autowiredParameter->name, $argument);
 		}
 	}
-
 }

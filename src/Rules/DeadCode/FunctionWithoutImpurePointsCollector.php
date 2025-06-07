@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\DependencyInjection\RegisteredCollector;
 use PHPStan\Node\FunctionReturnStatementsNode;
+use PhpParser\Node;
 use function count;
 
 /**
@@ -15,7 +15,6 @@ use function count;
 #[RegisteredCollector(level: 4)]
 final class FunctionWithoutImpurePointsCollector implements Collector
 {
-
 	public function getNodeType(): string
 	{
 		return FunctionReturnStatementsNode::class;
@@ -53,5 +52,4 @@ final class FunctionWithoutImpurePointsCollector implements Collector
 
 		return $function->getName();
 	}
-
 }

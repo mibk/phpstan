@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Namespaces;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Use_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -14,6 +12,8 @@ use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Use_;
 use function count;
 use function sprintf;
 use function strtolower;
@@ -24,7 +24,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class ExistingNamesInGroupUseRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ClassNameCheck $classCheck,
@@ -51,12 +50,12 @@ final class ExistingNamesInGroupUseRule implements Rule
 			$name = Node\Name::concat($node->prefix, $use->name, ['startLine' => $use->getStartLine()]);
 			if (
 				$node->type === Use_::TYPE_CONSTANT
-				|| $use->type === Use_::TYPE_CONSTANT
+					|| $use->type === Use_::TYPE_CONSTANT
 			) {
 				$error = $this->checkConstant($name);
 			} elseif (
 				$node->type === Use_::TYPE_FUNCTION
-				|| $use->type === Use_::TYPE_FUNCTION
+					|| $use->type === Use_::TYPE_FUNCTION
 			) {
 				$error = $this->checkFunction($name);
 			} elseif ($use->type === Use_::TYPE_NORMAL) {
@@ -112,7 +111,7 @@ final class ExistingNamesInGroupUseRule implements Rule
 			$usedName = (string) $name;
 			if (
 				strtolower($realName) === strtolower($usedName)
-				&& $realName !== $usedName
+					&& $realName !== $usedName
 			) {
 				return RuleErrorBuilder::message(sprintf(
 					'Function %s used with incorrect case: %s.',
@@ -141,5 +140,4 @@ final class ExistingNamesInGroupUseRule implements Rule
 
 		throw new ShouldNotHappenException();
 	}
-
 }

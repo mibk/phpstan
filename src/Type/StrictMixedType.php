@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -24,7 +24,6 @@ use PHPStan\Type\Traits\UndecidedComparisonCompoundTypeTrait;
 
 class StrictMixedType implements CompoundType
 {
-
 	use UndecidedComparisonCompoundTypeTrait;
 	use NonArrayTypeTrait;
 	use NonIterableTypeTrait;
@@ -61,7 +60,7 @@ class StrictMixedType implements CompoundType
 		if ($acceptingType instanceof self) {
 			return AcceptsResult::createYes();
 		}
-		if ($acceptingType instanceof MixedType && !$acceptingType instanceof TemplateMixedType) {
+		if ($acceptingType instanceof MixedType && ! $acceptingType instanceof TemplateMixedType) {
 			return AcceptsResult::createYes();
 		}
 
@@ -78,7 +77,7 @@ class StrictMixedType implements CompoundType
 		if ($otherType instanceof self) {
 			return IsSuperTypeOfResult::createYes();
 		}
-		if ($otherType instanceof MixedType && !$otherType instanceof TemplateMixedType) {
+		if ($otherType instanceof MixedType && ! $otherType instanceof TemplateMixedType) {
 			return IsSuperTypeOfResult::createYes();
 		}
 
@@ -93,10 +92,10 @@ class StrictMixedType implements CompoundType
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			static fn () => 'mixed',
-			static fn () => 'mixed',
-			static fn () => 'mixed',
-			static fn () => 'strict-mixed',
+			static fn() => 'mixed',
+			static fn() => 'mixed',
+			static fn() => 'mixed',
+			static fn() => 'strict-mixed',
 		);
 	}
 
@@ -439,5 +438,4 @@ class StrictMixedType implements CompoundType
 	{
 		return new IdentifierTypeNode('mixed');
 	}
-
 }

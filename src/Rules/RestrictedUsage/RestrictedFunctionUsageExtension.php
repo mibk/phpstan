@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
@@ -18,21 +18,19 @@ use PHPStan\Reflection\FunctionReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.restrictedFunctionUsageExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.restrictedFunctionUsageExtension
  * ```
  *
  * @api
  */
 interface RestrictedFunctionUsageExtension
 {
-
 	public const FUNCTION_EXTENSION_TAG = 'phpstan.restrictedFunctionUsageExtension';
 
 	public function isRestrictedFunctionUsage(
 		FunctionReflection $functionReflection,
 		Scope $scope,
 	): ?RestrictedUsage;
-
 }

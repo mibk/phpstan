@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -26,7 +26,6 @@ use function count;
 /** @api */
 class StringType implements Type
 {
-
 	use JustNullableTypeTrait;
 	use MaybeCallableTypeTrait;
 	use NonArrayTypeTrait;
@@ -321,5 +320,4 @@ class StringType implements Type
 	{
 		return new IdentifierTypeNode('string');
 	}
-
 }

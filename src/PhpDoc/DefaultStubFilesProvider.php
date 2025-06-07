@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -14,7 +14,6 @@ use function strtr;
 #[AutowiredService(as: StubFilesProvider::class)]
 final class DefaultStubFilesProvider implements StubFilesProvider
 {
-
 	/** @var string[]|null */
 	private ?array $cachedFiles = null;
 
@@ -69,11 +68,10 @@ final class DefaultStubFilesProvider implements StubFilesProvider
 			$vendorDir = strtr($vendorDir, '\\', '/');
 			$filteredStubFiles = array_filter(
 				$filteredStubFiles,
-				static fn (string $file): bool => !str_contains(strtr($file, '\\', '/'), $vendorDir)
+				static fn(string $file): bool => !str_contains(strtr($file, '\\', '/'), $vendorDir),
 			);
 		}
 
 		return $this->cachedProjectFiles = array_values($filteredStubFiles);
 	}
-
 }

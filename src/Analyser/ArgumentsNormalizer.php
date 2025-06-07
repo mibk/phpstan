@@ -1,18 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Node\Expr\TypeExpr;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Constant\ConstantArrayType;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\StaticCall;
 use function array_key_exists;
 use function array_keys;
 use function count;
@@ -25,7 +25,6 @@ use function sprintf;
  */
 final class ArgumentsNormalizer
 {
-
 	public const ORIGINAL_ARG_ATTRIBUTE = 'originalArg';
 
 	/**
@@ -182,7 +181,7 @@ final class ArgumentsNormalizer
 	}
 
 	/**
-	 * @param Arg[] $callArgs
+	 * @param  Arg[] $callArgs
 	 * @return ?array<int, Arg>
 	 */
 	public static function reorderArgs(ParametersAcceptor $parametersAcceptor, array $callArgs): ?array
@@ -324,5 +323,4 @@ final class ArgumentsNormalizer
 
 		return $reorderedArgs;
 	}
-
 }

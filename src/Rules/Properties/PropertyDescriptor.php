@@ -1,19 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 #[AutowiredService]
 final class PropertyDescriptor
 {
-
 	/**
 	 * @param Node\Expr\PropertyFetch|Node\Expr\StaticPropertyFetch $propertyFetch
 	 */
@@ -39,5 +38,4 @@ final class PropertyDescriptor
 
 		return sprintf('Static property %s::$%s', $classDescription, $name->name);
 	}
-
 }

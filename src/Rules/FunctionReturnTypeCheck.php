@@ -1,10 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
 use Generator;
-use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Type\ErrorType;
@@ -12,12 +10,13 @@ use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
 use function sprintf;
 
 #[AutowiredService]
 final class FunctionReturnTypeCheck
 {
-
 	public function __construct(private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -109,5 +108,4 @@ final class FunctionReturnTypeCheck
 
 		return [];
 	}
-
 }

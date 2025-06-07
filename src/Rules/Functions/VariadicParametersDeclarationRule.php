@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 
 /**
@@ -15,7 +15,6 @@ use function count;
 #[RegisteredRule(level: 0)]
 final class VariadicParametersDeclarationRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\FunctionLike::class;
@@ -49,5 +48,4 @@ final class VariadicParametersDeclarationRule implements Rule
 
 		return $errors;
 	}
-
 }

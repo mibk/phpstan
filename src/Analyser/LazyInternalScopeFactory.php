@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -18,7 +18,6 @@ use PHPStan\Rules\Properties\PropertyReflectionFinder;
 #[AutowiredService(as: InternalScopeFactory::class)]
 final class LazyInternalScopeFactory implements InternalScopeFactory
 {
-
 	/** @var int|array{min: int, max: int}|null */
 	private int|array|null $phpVersion;
 
@@ -82,5 +81,4 @@ final class LazyInternalScopeFactory implements InternalScopeFactory
 			$nativeTypesPromoted,
 		);
 	}
-
 }

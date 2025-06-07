@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -15,7 +15,6 @@ use PHPStan\Type\MixedType;
 final class UniversalObjectCratesClassReflectionExtension
 	implements PropertiesClassReflectionExtension
 {
-
 	/**
 	 * @param list<string> $classes
 	 */
@@ -91,5 +90,4 @@ final class UniversalObjectCratesClassReflectionExtension
 
 		return new UniversalObjectCrateProperty($propertyName, $classReflection, $readableType, $writableType);
 	}
-
 }

@@ -1,10 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
 use Nette\Utils\Strings;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
+use const DIRECTORY_SEPARATOR;
 use function array_pop;
 use function explode;
 use function implode;
@@ -18,12 +19,10 @@ use function strlen;
 use function strtolower;
 use function substr;
 use function trim;
-use const DIRECTORY_SEPARATOR;
 
 #[AutowiredService]
 final class FileHelper
 {
-
 	private string $workingDirectory;
 
 	public function __construct(
@@ -104,5 +103,4 @@ final class FileHelper
 
 		return ($scheme !== null ? $scheme . '://' : '') . $pathRoot . implode($directorySeparator, $normalizedPathParts);
 	}
-
 }

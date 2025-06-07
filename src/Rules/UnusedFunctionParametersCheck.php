@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
 use function array_combine;
 use function array_map;
 use function array_merge;
@@ -19,7 +19,6 @@ use function sprintf;
 #[AutowiredService]
 final class UnusedFunctionParametersCheck
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		#[AutowiredParameter(ref: '%featureToggles.reportPreciseLineForUnusedFunctionParameter%')]
@@ -29,9 +28,9 @@ final class UnusedFunctionParametersCheck
 	}
 
 	/**
-	 * @param Variable[] $parameterVars
-	 * @param Node[] $statements
-	 * @param 'constructor.unusedParameter'|'closure.unusedUse' $identifier
+	 * @param  Variable[]                                        $parameterVars
+	 * @param  Node[]                                            $statements
+	 * @param  'constructor.unusedParameter'|'closure.unusedUse' $identifier
 	 * @return list<IdentifierRuleError>
 	 */
 	public function getUnusedParameters(
@@ -42,7 +41,7 @@ final class UnusedFunctionParametersCheck
 		string $identifier,
 	): array
 	{
-		$parameterNames = array_map(static function (Variable $variable): string {
+		$parameterNames = array_map(static function(Variable $variable): string {
 			if (!is_string($variable->name)) {
 				throw new ShouldNotHappenException();
 			}
@@ -69,7 +68,7 @@ final class UnusedFunctionParametersCheck
 	}
 
 	/**
-	 * @param Node[]|Node|scalar|null $node
+	 * @param  Node[]|Node|scalar|null $node
 	 * @return string[]
 	 */
 	private function getUsedVariables(Scope $scope, $node): array
@@ -90,8 +89,8 @@ final class UnusedFunctionParametersCheck
 			}
 			if (
 				$node instanceof Node\Expr\FuncCall
-				&& $node->name instanceof Node\Name
-				&& (string) $node->name === 'compact'
+					&& $node->name instanceof Node\Name
+					&& (string) $node->name === 'compact'
 			) {
 				foreach ($node->getArgs() as $arg) {
 					$argType = $scope->getType($arg->value);
@@ -115,5 +114,4 @@ final class UnusedFunctionParametersCheck
 
 		return $variableNames;
 	}
-
 }

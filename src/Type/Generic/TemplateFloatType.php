@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 /** @api */
 final class TemplateFloatType extends FloatType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<FloatType> */
 	use TemplateTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
@@ -39,5 +38,4 @@ final class TemplateFloatType extends FloatType implements TemplateType
 	{
 		return false;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser\Ignore;
 
@@ -16,10 +16,9 @@ use function str_replace;
 
 final class IgnoredError
 {
-
 	/**
-	 * @param mixed[]|string $ignoredError
-	 * @return string Representation of the ignored error
+	 * @param  mixed[]|string $ignoredError
+	 * @return string         Representation of the ignored error
 	 */
 	public static function stringifyPattern($ignoredError): string
 	{
@@ -49,7 +48,6 @@ final class IgnoredError
 		} elseif (isset($ignoredError['paths'])) {
 			if (count($ignoredError['paths']) === 1) {
 				return sprintf('%s in path %s', $message, implode(', ', $ignoredError['paths']));
-
 			}
 			return sprintf('%s in paths: %s', $message, implode(', ', $ignoredError['paths']));
 		}
@@ -96,5 +94,4 @@ final class IgnoredError
 
 		return true;
 	}
-
 }

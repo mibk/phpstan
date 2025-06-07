@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -12,7 +12,6 @@ use function count;
 
 final class ExportedFunctionNode implements RootExportedNode, JsonSerializable
 {
-
 	/**
 	 * @param ExportedParameterNode[] $parameters
 	 * @param ExportedAttributeNode[] $attributes
@@ -30,7 +29,7 @@ final class ExportedFunctionNode implements RootExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -96,9 +95,9 @@ final class ExportedFunctionNode implements RootExportedNode, JsonSerializable
 		return [
 			'type' => self::class,
 			'data' => [
-				'name' => $this->name,
-				'phpDoc' => $this->phpDoc,
-				'byRef' => $this->byRef,
+				'name'       => $this->name,
+				'phpDoc'     => $this->phpDoc,
+				'byRef'      => $this->byRef,
 				'returnType' => $this->returnType,
 				'parameters' => $this->parameters,
 				'attributes' => $this->attributes,
@@ -116,13 +115,13 @@ final class ExportedFunctionNode implements RootExportedNode, JsonSerializable
 			$data['phpDoc'] !== null ? ExportedPhpDocNode::decode($data['phpDoc']['data']) : null,
 			$data['byRef'],
 			$data['returnType'],
-			array_map(static function (array $parameterData): ExportedParameterNode {
+			array_map(static function(array $parameterData): ExportedParameterNode {
 				if ($parameterData['type'] !== ExportedParameterNode::class) {
 					throw new ShouldNotHappenException();
 				}
 				return ExportedParameterNode::decode($parameterData['data']);
 			}, $data['parameters']),
-			array_map(static function (array $attributeData): ExportedAttributeNode {
+			array_map(static function(array $attributeData): ExportedAttributeNode {
 				if ($attributeData['type'] !== ExportedAttributeNode::class) {
 					throw new ShouldNotHappenException();
 				}
@@ -143,5 +142,4 @@ final class ExportedFunctionNode implements RootExportedNode, JsonSerializable
 	{
 		return $this->name;
 	}
-
 }

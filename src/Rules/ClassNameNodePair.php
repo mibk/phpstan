@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
@@ -6,7 +6,6 @@ use PhpParser\Node;
 
 final class ClassNameNodePair
 {
-
 	public function __construct(private string $className, private Node $node)
 	{
 	}
@@ -20,5 +19,4 @@ final class ClassNameNodePair
 	{
 		return $this->node;
 	}
-
 }

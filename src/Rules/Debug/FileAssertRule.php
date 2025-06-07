@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Debug;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\ReflectionProvider;
@@ -12,6 +10,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\StaticCall;
 use function count;
 use function is_string;
 use function sprintf;
@@ -22,7 +22,6 @@ use function sprintf;
 #[AutowiredService]
 final class FileAssertRule implements Rule
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -34,7 +33,7 @@ final class FileAssertRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Name) {
+		if (! $node->name instanceof Node\Name) {
 			return [];
 		}
 
@@ -59,7 +58,7 @@ final class FileAssertRule implements Rule
 	}
 
 	/**
-	 * @param Node\Arg[] $args
+	 * @param  Node\Arg[] $args
 	 * @return list<IdentifierRuleError>
 	 */
 	private function processAssertType(array $args, Scope $scope): array
@@ -92,7 +91,7 @@ final class FileAssertRule implements Rule
 	}
 
 	/**
-	 * @param Node\Arg[] $args
+	 * @param  Node\Arg[] $args
 	 * @return list<IdentifierRuleError>
 	 */
 	private function processAssertNativeType(array $args, Scope $scope): array
@@ -125,7 +124,7 @@ final class FileAssertRule implements Rule
 	}
 
 	/**
-	 * @param Node\Arg[] $args
+	 * @param  Node\Arg[] $args
 	 * @return list<IdentifierRuleError>
 	 */
 	private function processAssertVariableCertainty(array $args, Scope $scope): array
@@ -135,7 +134,7 @@ final class FileAssertRule implements Rule
 		}
 
 		$certainty = $args[0]->value;
-		if (!$certainty instanceof StaticCall) {
+		if (! $certainty instanceof StaticCall) {
 			return [
 				RuleErrorBuilder::message('First argument of %s() must be TrinaryLogic call')
 					->nonIgnorable()
@@ -143,7 +142,7 @@ final class FileAssertRule implements Rule
 					->build(),
 			];
 		}
-		if (!$certainty->class instanceof Node\Name) {
+		if (! $certainty->class instanceof Node\Name) {
 			return [
 				RuleErrorBuilder::message('Invalid TrinaryLogic call.')
 					->nonIgnorable()
@@ -161,7 +160,7 @@ final class FileAssertRule implements Rule
 			];
 		}
 
-		if (!$certainty->name instanceof Node\Identifier) {
+		if (! $certainty->name instanceof Node\Identifier) {
 			return [
 				RuleErrorBuilder::message('Invalid TrinaryLogic call.')
 					->nonIgnorable()
@@ -200,5 +199,4 @@ final class FileAssertRule implements Rule
 				->build(),
 		];
 	}
-
 }

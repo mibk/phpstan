@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\VarTagChangedExpressionTypeNode;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 
 /**
  * @implements Rule<VarTagChangedExpressionTypeNode>
@@ -14,7 +14,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 2)]
 final class VarTagChangedExpressionTypeRule implements Rule
 {
-
 	public function __construct(private VarTagTypeRuleHelper $varTagTypeRuleHelper)
 	{
 	}
@@ -28,5 +27,4 @@ final class VarTagChangedExpressionTypeRule implements Rule
 	{
 		return $this->varTagTypeRuleHelper->checkExprType($scope, $node->getExpr(), $node->getVarTag()->getType());
 	}
-
 }

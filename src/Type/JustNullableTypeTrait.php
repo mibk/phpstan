@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -7,7 +7,6 @@ use function get_class;
 
 trait JustNullableTypeTrait
 {
-
 	public function getReferencedClasses(): array
 	{
 		return [];
@@ -168,5 +167,4 @@ trait JustNullableTypeTrait
 	{
 		return TrinaryLogic::createNo();
 	}
-
 }

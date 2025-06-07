@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Keywords;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\Printer\ExprPrinter;
 use PHPStan\Parser\DeclarePositionVisitor;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Stmt;
 use function in_array;
 use function sprintf;
 
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class DeclareStrictTypesRule implements Rule
 {
-
 	public function __construct(
 		private readonly ExprPrinter $exprPrinter,
 	)
@@ -42,8 +41,8 @@ final class DeclareStrictTypesRule implements Rule
 			}
 
 			if (
-				!$declare->value instanceof Node\Scalar\Int_
-				|| !in_array($declare->value->value, [0, 1], true)
+				! $declare->value instanceof Node\Scalar\Int_
+					|| !in_array($declare->value->value, [0, 1], true)
 			) {
 				return [
 					RuleErrorBuilder::message(sprintf(
@@ -78,5 +77,4 @@ final class DeclareStrictTypesRule implements Rule
 			))->identifier('declareStrictTypes.notFirst')->nonIgnorable()->build(),
 		];
 	}
-
 }

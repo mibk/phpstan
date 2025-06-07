@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -12,12 +11,12 @@ use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 
 #[AutowiredService]
 final class HighlightStringDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -49,5 +48,4 @@ final class HighlightStringDynamicReturnTypeExtension implements DynamicFunction
 
 		return new BooleanType();
 	}
-
 }

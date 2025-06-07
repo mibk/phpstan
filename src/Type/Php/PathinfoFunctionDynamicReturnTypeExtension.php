@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -15,13 +14,13 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
 #[AutowiredService]
 final class PathinfoFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -90,11 +89,10 @@ final class PathinfoFunctionDynamicReturnTypeExtension implements DynamicFunctio
 
 		$constant = $this->reflectionProvider->getConstant(new Node\Name($constantName), null);
 		$valueType = $constant->getValueType();
-		if (!$valueType instanceof ConstantIntegerType) {
+		if (! $valueType instanceof ConstantIntegerType) {
 			throw new ShouldNotHappenException(sprintf('Constant %s does not have integer type.', $constantName));
 		}
 
 		return $valueType->getValue();
 	}
-
 }

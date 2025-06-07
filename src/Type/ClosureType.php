@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -52,7 +52,6 @@ use function count;
 /** @api */
 class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 {
-
 	use NonArrayTypeTrait;
 	use NonIterableTypeTrait;
 	use UndecidedComparisonTypeTrait;
@@ -82,12 +81,12 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 
 	/**
 	 * @api
-	 * @param list<ParameterReflection>|null $parameters
+	 * @param list<ParameterReflection>|null       $parameters
 	 * @param array<non-empty-string, TemplateTag> $templateTags
-	 * @param SimpleThrowPoint[] $throwPoints
-	 * @param ?SimpleImpurePoint[] $impurePoints
-	 * @param InvalidateExprNode[] $invalidateExpressions
-	 * @param string[] $usedVariables
+	 * @param SimpleThrowPoint[]                   $throwPoints
+	 * @param ?SimpleImpurePoint[]                 $impurePoints
+	 * @param InvalidateExprNode[]                 $invalidateExpressions
+	 * @param string[]                             $usedVariables
 	 */
 	public function __construct(
 		?array $parameters = null,
@@ -192,7 +191,7 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 			return $type->isAcceptedBy($this, $strictTypes);
 		}
 
-		if (!$type instanceof ClosureType) {
+		if (! $type instanceof ClosureType) {
 			return $this->objectType->accepts($type, $strictTypes);
 		}
 
@@ -211,9 +210,9 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 	private function isSuperTypeOfInternal(Type $type, bool $treatMixedAsAny): IsSuperTypeOfResult
 	{
 		if ($type instanceof self) {
-			$parameterTypes = array_map(static fn ($parameter) => $parameter->getType(), $this->getParameters());
+			$parameterTypes = array_map(static fn($parameter) => $parameter->getType(), $this->getParameters());
 			$variant = ParametersAcceptorSelector::selectFromTypes($parameterTypes, [$type], false);
-			if (!$variant instanceof CallableParametersAcceptor) {
+			if (! $variant instanceof CallableParametersAcceptor) {
 				return IsSuperTypeOfResult::createNo([]);
 			}
 			return CallableTypeHelper::isParametersAcceptorSuperTypeOf(
@@ -232,7 +231,7 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -243,15 +242,15 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			static fn (): string => 'Closure',
-			function (): string {
+			static fn(): string => 'Closure',
+			function(): string {
 				if ($this->isCommonCallable) {
 					return $this->isPure()->yes() ? 'pure-Closure' : 'Closure';
 				}
 
 				$printer = new Printer();
 				$selfWithoutParameterNames = new self(
-					array_map(static fn (ParameterReflection $p): ParameterReflection => new DummyParameter(
+					array_map(static fn(ParameterReflection $p): ParameterReflection => new DummyParameter(
 						'',
 						$p->getType(),
 						$p->isOptional() && !$p->isVariadic(),
@@ -529,7 +528,7 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 
 	private function inferTemplateTypesOnParametersAcceptor(ParametersAcceptor $parametersAcceptor): TemplateTypeMap
 	{
-		$parameterTypes = array_map(static fn ($parameter) => $parameter->getType(), $this->getParameters());
+		$parameterTypes = array_map(static fn($parameter) => $parameter->getType(), $this->getParameters());
 		$parametersAcceptor = ParametersAcceptorSelector::selectFromTypes($parameterTypes, [$parametersAcceptor], false);
 		$args = $parametersAcceptor->getParameters();
 		$returnType = $parametersAcceptor->getReturnType();
@@ -575,7 +574,7 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 		}
 
 		return new self(
-			array_map(static function (ParameterReflection $param) use ($cb): NativeParameterReflection {
+			array_map(static function(ParameterReflection $param) use ($cb): NativeParameterReflection {
 				$defaultValue = $param->getDefaultValue();
 				return new NativeParameterReflection(
 					$param->getName(),
@@ -606,7 +605,7 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 			return $this;
 		}
 
-		if (!$right instanceof self) {
+		if (! $right instanceof self) {
 			return $this;
 		}
 
@@ -808,5 +807,4 @@ class ClosureType implements TypeWithClassName, CallableParametersAcceptor
 			$templateTags,
 		);
 	}
-
 }

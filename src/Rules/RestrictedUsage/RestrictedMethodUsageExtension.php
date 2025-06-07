@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
@@ -18,21 +18,19 @@ use PHPStan\Reflection\ExtendedMethodReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.restrictedMethodUsageExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.restrictedMethodUsageExtension
  * ```
  *
  * @api
  */
 interface RestrictedMethodUsageExtension
 {
-
 	public const METHOD_EXTENSION_TAG = 'phpstan.restrictedMethodUsageExtension';
 
 	public function isRestrictedMethodUsage(
 		ExtendedMethodReflection $methodReflection,
 		Scope $scope,
 	): ?RestrictedUsage;
-
 }

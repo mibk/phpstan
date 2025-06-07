@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Internal;
 
@@ -9,7 +9,6 @@ use function round;
 
 final class BytesHelper
 {
-
 	public static function bytes(int $bytes): string
 	{
 		$bytes = round($bytes);
@@ -27,5 +26,4 @@ final class BytesHelper
 
 		return round($bytes, 2) . ' ' . $unit;
 	}
-
 }

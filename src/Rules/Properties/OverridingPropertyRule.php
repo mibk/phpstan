@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +12,7 @@ use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_merge;
 use function count;
 use function sprintf;
@@ -23,7 +23,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class OverridingPropertyRule implements Rule
 {
-
 	public function __construct(
 		private PhpVersion $phpVersion,
 		#[AutowiredParameter]
@@ -81,7 +80,7 @@ final class OverridingPropertyRule implements Rule
 		} elseif ($node->isReadOnly()) {
 			if (
 				!$this->phpVersion->supportsPropertyHooks()
-				|| $prototype->isWritable()
+					|| $prototype->isWritable()
 			) {
 				$errors[] = RuleErrorBuilder::message(sprintf(
 					'Readonly property %s::$%s overrides readwrite property %s::$%s.',
@@ -178,8 +177,8 @@ final class OverridingPropertyRule implements Rule
 				if (!$prototype->getNativeType()->equals($nativeType)) {
 					if (
 						$this->phpVersion->supportsPropertyHooks()
-						&& ($prototype->isVirtual()->yes() || $prototype->isAbstract()->yes())
-						&& (!$prototype->isReadable() || !$prototype->isWritable())
+							&& ($prototype->isVirtual()->yes() || $prototype->isAbstract()->yes())
+							&& (!$prototype->isReadable() || !$prototype->isWritable())
 					) {
 						if (!$prototype->isReadable()) {
 							if (!$nativeType->isSuperTypeOf($prototype->getNativeType())->yes()) {
@@ -246,8 +245,8 @@ final class OverridingPropertyRule implements Rule
 
 		if (
 			$this->phpVersion->supportsPropertyHooks()
-			&& ($prototype->isVirtual()->yes() || $prototype->isAbstract()->yes())
-			&& (!$prototype->isReadable() || !$prototype->isWritable())
+				&& ($prototype->isVirtual()->yes() || $prototype->isAbstract()->yes())
+				&& (!$prototype->isReadable() || !$prototype->isWritable())
 		) {
 			if (!$prototype->isReadable()) {
 				if (!$propertyReflection->getReadableType()->isSuperTypeOf($prototype->getReadableType())->yes()) {
@@ -355,5 +354,4 @@ final class OverridingPropertyRule implements Rule
 
 		return null;
 	}
-
 }

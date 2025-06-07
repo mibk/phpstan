@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\PropertyAssignNode;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 
 /**
  * @implements Rule<PropertyAssignNode>
@@ -14,7 +14,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 0)]
 final class AccessStaticPropertiesInAssignRule implements Rule
 {
-
 	public function __construct(private AccessStaticPropertiesRule $accessStaticPropertiesRule)
 	{
 	}
@@ -36,5 +35,4 @@ final class AccessStaticPropertiesInAssignRule implements Rule
 
 		return $this->accessStaticPropertiesRule->processNode($node->getPropertyFetch(), $scope);
 	}
-
 }

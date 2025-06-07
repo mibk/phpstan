@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Analyser\Scope;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\BinaryOp\LogicalOr;
-use PHPStan\Analyser\Scope;
 
 /**
  * @api
  */
 final class BooleanOrNode extends Expr implements VirtualNode
 {
-
 	public function __construct(private BooleanOr|LogicalOr $originalNode, private Scope $rightScope)
 	{
 		parent::__construct($originalNode->getAttributes());
@@ -43,5 +42,4 @@ final class BooleanOrNode extends Expr implements VirtualNode
 	{
 		return [];
 	}
-
 }

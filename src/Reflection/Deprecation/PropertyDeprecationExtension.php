@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Deprecation;
 
@@ -12,18 +12,16 @@ use PHPStan\BetterReflection\Reflection\Adapter\ReflectionProperty;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyProvider
- *		tags:
- *			- phpstan.propertyDeprecationExtension
+ * *		class: App\PHPStan\MyProvider
+ * *		tags:
+ * *			- phpstan.propertyDeprecationExtension
  * ```
  *
  * @api
  */
 interface PropertyDeprecationExtension
 {
-
 	public const PROPERTY_EXTENSION_TAG = 'phpstan.propertyDeprecationExtension';
 
 	public function getPropertyDeprecation(ReflectionProperty $reflection): ?Deprecation;
-
 }

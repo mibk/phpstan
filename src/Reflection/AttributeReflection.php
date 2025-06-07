@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
  */
 final class AttributeReflection
 {
-
 	/**
 	 * @param array<string, Type> $argumentTypes
 	 */
@@ -29,5 +28,4 @@ final class AttributeReflection
 	{
 		return $this->argumentTypes;
 	}
-
 }

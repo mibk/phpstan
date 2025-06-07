@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 /** @api */
 final class TemplateIntersectionType extends IntersectionType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<IntersectionType> */
 	use TemplateTypeTrait;
 
@@ -33,5 +32,4 @@ final class TemplateIntersectionType extends IntersectionType implements Templat
 		$this->bound = $bound;
 		$this->default = $default;
 	}
-
 }

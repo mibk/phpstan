@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
 use Attribute;
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\AttributesCheck;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Param>
@@ -15,7 +15,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 0)]
 final class ParamAttributesRule implements Rule
 {
-
 	public function __construct(private AttributesCheck $attributesCheck)
 	{
 	}
@@ -41,5 +40,4 @@ final class ParamAttributesRule implements Rule
 			$targetName,
 		);
 	}
-
 }

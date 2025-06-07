@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\NameScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -23,6 +21,8 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
 use function array_key_exists;
 use function count;
 use function is_string;
@@ -31,7 +31,6 @@ use function sprintf;
 #[AutowiredService]
 final class VarTagTypeRuleHelper
 {
-
 	public function __construct(
 		private TypeNodeResolver $typeNodeResolver,
 		private FileTypeMapper $fileTypeMapper,
@@ -45,8 +44,8 @@ final class VarTagTypeRuleHelper
 	}
 
 	/**
-	 * @param VarTag[] $varTags
-	 * @param string[] $assignedVariables
+	 * @param  VarTag[] $varTags
+	 * @param  string[] $assignedVariables
 	 * @return list<IdentifierRuleError>
 	 */
 	public function checkVarType(Scope $scope, Node\Expr $var, Node\Expr $expr, array $varTags, array $assignedVariables): array
@@ -103,7 +102,7 @@ final class VarTagTypeRuleHelper
 			$exprType = $scope->getType($expr);
 			if (
 				$this->shouldVarTagTypeBeReported($scope, $expr, $exprType, $varTagType)
-				&& ($this->checkTypeAgainstPhpDocType || $containsPhpStanType)
+					&& ($this->checkTypeAgainstPhpDocType || $containsPhpStanType)
 			) {
 				$verbosity = VerbosityLevel::getRecommendedLevelByType($exprType, $varTagType);
 				$errors[] = RuleErrorBuilder::message(sprintf(
@@ -254,5 +253,4 @@ final class VarTagTypeRuleHelper
 			$function !== null ? $function->getName() : null,
 		)->withoutNamespaceAndUses();
 	}
-
 }

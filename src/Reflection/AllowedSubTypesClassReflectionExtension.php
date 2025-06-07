@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -14,9 +14,9 @@ use PHPStan\Type\Type;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.broker.allowedSubTypesClassReflectionExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.broker.allowedSubTypesClassReflectionExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/allowed-subtypes
@@ -25,12 +25,10 @@ use PHPStan\Type\Type;
  */
 interface AllowedSubTypesClassReflectionExtension
 {
-
 	public function supports(ClassReflection $classReflection): bool;
 
 	/**
 	 * @return array<Type>
 	 */
 	public function getAllowedSubTypes(ClassReflection $classReflection): array;
-
 }

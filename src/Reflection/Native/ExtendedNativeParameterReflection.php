@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Native;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
 
 final class ExtendedNativeParameterReflection implements ExtendedParameterReflection
 {
-
 	/**
 	 * @param list<AttributeReflection> $attributes
 	 */
@@ -54,7 +53,7 @@ final class ExtendedNativeParameterReflection implements ExtendedParameterReflec
 
 	public function hasNativeType(): bool
 	{
-		return !$this->nativeType instanceof MixedType || $this->nativeType->isExplicitMixed();
+		return ! $this->nativeType instanceof MixedType || $this->nativeType->isExplicitMixed();
 	}
 
 	public function getNativeType(): Type
@@ -96,5 +95,4 @@ final class ExtendedNativeParameterReflection implements ExtendedParameterReflec
 	{
 		return $this->attributes;
 	}
-
 }

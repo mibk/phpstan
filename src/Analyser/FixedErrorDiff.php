@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
 final class FixedErrorDiff
 {
-
 	public function __construct(
 		public readonly string $originalHash,
 		public readonly string $diff,
@@ -19,5 +18,4 @@ final class FixedErrorDiff
 	{
 		return new self($properties['originalHash'], $properties['diff']);
 	}
-
 }

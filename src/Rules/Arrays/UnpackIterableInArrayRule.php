@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\LiteralArrayNode;
@@ -12,6 +11,7 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -20,7 +20,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class UnpackIterableInArrayRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 	)
@@ -48,7 +47,7 @@ final class UnpackIterableInArrayRule implements Rule
 				$scope,
 				$item->value,
 				'',
-				static fn (Type $type): bool => $type->isIterable()->yes(),
+				static fn(Type $type): bool => $type->isIterable()->yes(),
 			);
 			$type = $typeResult->getType();
 			if ($type instanceof ErrorType) {
@@ -67,5 +66,4 @@ final class UnpackIterableInArrayRule implements Rule
 
 		return $errors;
 	}
-
 }

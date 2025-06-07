@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Constants;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassConst;
 use function sprintf;
 
 /** @implements Rule<ClassConst> */
 #[RegisteredRule(level: 0)]
 final class FinalPrivateConstantRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return ClassConst::class;
@@ -47,5 +46,4 @@ final class FinalPrivateConstantRule implements Rule
 
 		return $errors;
 	}
-
 }

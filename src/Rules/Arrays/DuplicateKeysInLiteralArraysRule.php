@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\LiteralArrayNode;
@@ -10,6 +9,7 @@ use PHPStan\Node\Printer\ExprPrinter;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
+use PhpParser\Node;
 use function array_key_first;
 use function array_keys;
 use function array_search;
@@ -26,7 +26,6 @@ use function var_export;
 #[RegisteredRule(level: 0)]
 final class DuplicateKeysInLiteralArraysRule implements Rule
 {
-
 	public function __construct(
 		private ExprPrinter $exprPrinter,
 	)
@@ -158,5 +157,4 @@ final class DuplicateKeysInLiteralArraysRule implements Rule
 
 		return $messages;
 	}
-
 }

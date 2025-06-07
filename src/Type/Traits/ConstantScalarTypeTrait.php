@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Traits;
 
@@ -16,7 +16,6 @@ use PHPStan\Type\Type;
 
 trait ConstantScalarTypeTrait
 {
-
 	public function accepts(Type $type, bool $strictTypes): AcceptsResult
 	{
 		if ($type instanceof self) {
@@ -49,7 +48,7 @@ trait ConstantScalarTypeTrait
 
 	public function looseCompare(Type $type, PhpVersion $phpVersion): BooleanType
 	{
-		if (!$this instanceof ConstantScalarType) {
+		if (! $this instanceof ConstantScalarType) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -124,5 +123,4 @@ trait ConstantScalarTypeTrait
 	{
 		return [$this];
 	}
-
 }

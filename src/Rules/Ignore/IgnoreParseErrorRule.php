@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Ignore;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\FileNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class IgnoreParseErrorRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return FileNode::class;
@@ -45,5 +44,4 @@ final class IgnoreParseErrorRule implements Rule
 
 		return $errors;
 	}
-
 }

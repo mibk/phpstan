@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -15,7 +15,6 @@ use function count;
  */
 final class Assertions
 {
-
 	private static ?self $empty = null;
 
 	/**
@@ -38,7 +37,7 @@ final class Assertions
 	 */
 	public function getAsserts(): array
 	{
-		return array_filter($this->asserts, static fn (AssertTag $assert) => $assert->getIf() === AssertTag::NULL);
+		return array_filter($this->asserts, static fn(AssertTag $assert) => $assert->getIf() === AssertTag::NULL);
 	}
 
 	/**
@@ -47,10 +46,10 @@ final class Assertions
 	public function getAssertsIfTrue(): array
 	{
 		return array_merge(
-			array_filter($this->asserts, static fn (AssertTag $assert) => $assert->getIf() === AssertTag::IF_TRUE),
+			array_filter($this->asserts, static fn(AssertTag $assert) => $assert->getIf() === AssertTag::IF_TRUE),
 			array_map(
-				static fn (AssertTag $assert) => $assert->negate(),
-				array_filter($this->asserts, static fn (AssertTag $assert) => $assert->getIf() === AssertTag::IF_FALSE && !$assert->isEquality()),
+				static fn(AssertTag $assert) => $assert->negate(),
+				array_filter($this->asserts, static fn(AssertTag $assert) => $assert->getIf() === AssertTag::IF_FALSE && !$assert->isEquality()),
 			),
 		);
 	}
@@ -61,10 +60,10 @@ final class Assertions
 	public function getAssertsIfFalse(): array
 	{
 		return array_merge(
-			array_filter($this->asserts, static fn (AssertTag $assert) => $assert->getIf() === AssertTag::IF_FALSE),
+			array_filter($this->asserts, static fn(AssertTag $assert) => $assert->getIf() === AssertTag::IF_FALSE),
 			array_map(
-				static fn (AssertTag $assert) => $assert->negate(),
-				array_filter($this->asserts, static fn (AssertTag $assert) => $assert->getIf() === AssertTag::IF_TRUE && !$assert->isEquality()),
+				static fn(AssertTag $assert) => $assert->negate(),
+				array_filter($this->asserts, static fn(AssertTag $assert) => $assert->getIf() === AssertTag::IF_TRUE && !$assert->isEquality()),
 			),
 		);
 	}
@@ -74,7 +73,7 @@ final class Assertions
 	 */
 	public function mapTypes(callable $callable): self
 	{
-		$assertTagsCallback = static fn (AssertTag $tag): AssertTag => $tag->withType($callable($tag->getType()));
+		$assertTagsCallback = static fn(AssertTag $tag): AssertTag => $tag->withType($callable($tag->getType()));
 
 		return new self(array_map($assertTagsCallback, $this->asserts));
 	}
@@ -107,5 +106,4 @@ final class Assertions
 
 		return new self($tags);
 	}
-
 }

@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
 final class TypeNodeResolverExtensionAwareRegistry implements TypeNodeResolverExtensionRegistry
 {
-
 	/**
 	 * @param TypeNodeResolverExtension[] $extensions
 	 */
@@ -14,7 +13,7 @@ final class TypeNodeResolverExtensionAwareRegistry implements TypeNodeResolverEx
 	)
 	{
 		foreach ($extensions as $extension) {
-			if (!$extension instanceof TypeNodeResolverAwareExtension) {
+			if (! $extension instanceof TypeNodeResolverAwareExtension) {
 				continue;
 			}
 
@@ -29,5 +28,4 @@ final class TypeNodeResolverExtensionAwareRegistry implements TypeNodeResolverEx
 	{
 		return $this->extensions;
 	}
-
 }

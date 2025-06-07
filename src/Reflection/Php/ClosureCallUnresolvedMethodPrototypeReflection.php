@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 
 final class ClosureCallUnresolvedMethodPrototypeReflection implements UnresolvedMethodPrototypeReflection
 {
-
 	public function __construct(private UnresolvedMethodPrototypeReflection $prototype, private ClosureType $closure)
 	{
 	}
@@ -33,5 +32,4 @@ final class ClosureCallUnresolvedMethodPrototypeReflection implements Unresolved
 	{
 		return new self($this->prototype->withCalledOnType($type), $this->closure);
 	}
-
 }

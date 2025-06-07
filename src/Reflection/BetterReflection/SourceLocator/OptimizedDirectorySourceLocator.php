@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
-use PhpParser\Node;
 use PHPStan\BetterReflection\Identifier\Identifier;
 use PHPStan\BetterReflection\Identifier\IdentifierType;
 use PHPStan\BetterReflection\Reflection\Reflection;
@@ -11,6 +10,7 @@ use PHPStan\BetterReflection\SourceLocator\Ast\Strategy\NodeToReflection;
 use PHPStan\BetterReflection\SourceLocator\Type\SourceLocator;
 use PHPStan\Reflection\ConstantNameHelper;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 use function array_key_exists;
 use function array_values;
 use function current;
@@ -18,11 +18,10 @@ use function strtolower;
 
 final class OptimizedDirectorySourceLocator implements SourceLocator
 {
-
 	/**
-	 * @param array<string, string> $classToFile
+	 * @param array<string, string>             $classToFile
 	 * @param array<string, array<int, string>> $functionToFiles
-	 * @param array<string, string> $constantToFile
+	 * @param array<string, string>             $constantToFile
 	 */
 	public function __construct(
 		private FileNodesFetcher $fileNodesFetcher,
@@ -213,5 +212,4 @@ final class OptimizedDirectorySourceLocator implements SourceLocator
 
 		throw new ShouldNotHappenException();
 	}
-
 }

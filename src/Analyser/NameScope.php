@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -21,15 +21,14 @@ use function strtolower;
  */
 final class NameScope
 {
-
 	private TemplateTypeMap $templateTypeMap;
 
 	/**
 	 * @api
 	 * @param non-empty-string|null $namespace
-	 * @param array<string, string> $uses alias(string) => fullName(string)
+	 * @param array<string, string> $uses      alias(string) => fullName(string)
 	 * @param array<string, string> $constUses alias(string) => fullName(string)
-	 * @param array<string, true> $typeAliasesMap
+	 * @param array<string, true>   $typeAliasesMap
 	 */
 	public function __construct(private ?string $namespace, private array $uses, private ?string $className = null, private ?string $functionName = null, ?TemplateTypeMap $templateTypeMap = null, private array $typeAliasesMap = [], private bool $bypassTypeAliases = false, private array $constUses = [], private ?string $typeAliasClassName = null)
 	{
@@ -235,5 +234,4 @@ final class NameScope
 	{
 		return array_key_exists($alias, $this->typeAliasesMap);
 	}
-
 }

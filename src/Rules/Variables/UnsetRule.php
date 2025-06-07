@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Variables;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Php\PhpVersion;
@@ -11,6 +10,7 @@ use PHPStan\Rules\Properties\PropertyReflectionFinder;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function is_string;
 use function sprintf;
 
@@ -20,7 +20,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class UnsetRule implements Rule
 {
-
 	public function __construct(
 		private PropertyReflectionFinder $propertyReflectionFinder,
 		private PhpVersion $phpVersion,
@@ -41,7 +40,7 @@ final class UnsetRule implements Rule
 		foreach ($functionArguments as $argument) {
 			if (
 				$argument instanceof Node\Expr\PropertyFetch
-				&& $argument->name instanceof Node\Identifier
+					&& $argument->name instanceof Node\Identifier
 			) {
 				$foundPropertyReflection = $this->propertyReflectionFinder->findPropertyReflectionFromNode($argument, $scope);
 				if ($foundPropertyReflection === null) {
@@ -83,8 +82,8 @@ final class UnsetRule implements Rule
 				} elseif ($this->phpVersion->supportsPropertyHooks()) {
 					if (
 						!$propertyReflection->isPrivate()
-						&& !$propertyReflection->isFinal()->yes()
-						&& !$propertyReflection->getDeclaringClass()->isFinal()
+							&& !$propertyReflection->isFinal()->yes()
+							&& !$propertyReflection->getDeclaringClass()->isFinal()
 					) {
 						$errors[] = RuleErrorBuilder::message(
 							sprintf(
@@ -145,5 +144,4 @@ final class UnsetRule implements Rule
 
 		return null;
 	}
-
 }

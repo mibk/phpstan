@@ -1,17 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Interface_;
-use PhpParser\Node\Stmt\Trait_;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Parser\Parser;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FileTypeMapper;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Interface_;
+use PhpParser\Node\Stmt\Trait_;
 use function array_key_exists;
 use function array_map;
 use function is_string;
@@ -19,7 +19,6 @@ use function is_string;
 #[AutowiredService(name: 'stubPhpDocProvider')]
 final class StubPhpDocProvider
 {
-
 	/** @var array<string, ResolvedPhpDocBlock|null> */
 	private array $classMap = [];
 
@@ -202,7 +201,7 @@ final class StubPhpDocProvider
 	}
 
 	/**
-	 * @param array<int, string> $positionalParameterNames
+	 * @param  array<int, string> $positionalParameterNames
 	 * @throws ShouldNotHappenException
 	 */
 	public function findFunctionPhpDoc(string $functionName, array $positionalParameterNames): ?ResolvedPhpDocBlock
@@ -308,8 +307,8 @@ final class StubPhpDocProvider
 				$this->functionMap[$functionName] = null;
 				return;
 			}
-			$this->knownFunctionParameterNames[$functionName] = array_map(static function (Node\Param $param): string {
-				if (!$param->var instanceof Variable || !is_string($param->var->name)) {
+			$this->knownFunctionParameterNames[$functionName] = array_map(static function(Node\Param $param): string {
+				if (! $param->var instanceof Variable || !is_string($param->var->name)) {
 					throw new ShouldNotHappenException();
 				}
 
@@ -320,7 +319,7 @@ final class StubPhpDocProvider
 			return;
 		}
 
-		if (!$node instanceof Class_ && !$node instanceof Interface_ && !$node instanceof Trait_ && !$node instanceof Node\Stmt\Enum_) {
+		if (! $node instanceof Class_ && ! $node instanceof Interface_ && ! $node instanceof Trait_ && ! $node instanceof Node\Stmt\Enum_) {
 			return;
 		}
 
@@ -369,8 +368,8 @@ final class StubPhpDocProvider
 
 				$methodName = $stmt->name->toString();
 				$this->knownMethodsDocComments[$className][$methodName] = [$stubFile, $docComment->getText()];
-				$this->knownMethodsParameterNames[$className][$methodName] = array_map(static function (Node\Param $param): string {
-					if (!$param->var instanceof Variable || !is_string($param->var->name)) {
+				$this->knownMethodsParameterNames[$className][$methodName] = array_map(static function(Node\Param $param): string {
+					if (! $param->var instanceof Variable || !is_string($param->var->name)) {
 						throw new ShouldNotHappenException();
 					}
 
@@ -379,5 +378,4 @@ final class StubPhpDocProvider
 			}
 		}
 	}
-
 }

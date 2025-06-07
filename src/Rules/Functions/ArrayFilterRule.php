@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -14,6 +12,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\StaticTypeFactory;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function sprintf;
 
@@ -23,7 +23,6 @@ use function sprintf;
 #[RegisteredRule(level: 5)]
 final class ArrayFilterRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		#[AutowiredParameter]
@@ -139,5 +138,4 @@ final class ArrayFilterRule implements Rule
 
 		return [];
 	}
-
 }

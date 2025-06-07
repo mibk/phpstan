@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Type;
 
@@ -8,9 +8,8 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService(as: ParameterClosureTypeExtensionProvider::class)]
 final class LazyParameterClosureTypeExtensionProvider implements ParameterClosureTypeExtensionProvider
 {
-
-	public const FUNCTION_TAG = 'phpstan.functionParameterClosureTypeExtension';
-	public const METHOD_TAG = 'phpstan.methodParameterClosureTypeExtension';
+	public const FUNCTION_TAG      = 'phpstan.functionParameterClosureTypeExtension';
+	public const METHOD_TAG        = 'phpstan.methodParameterClosureTypeExtension';
 	public const STATIC_METHOD_TAG = 'phpstan.staticMethodParameterClosureTypeExtension';
 
 	public function __construct(private Container $container)
@@ -31,5 +30,4 @@ final class LazyParameterClosureTypeExtensionProvider implements ParameterClosur
 	{
 		return $this->container->getServicesByTag(self::STATIC_METHOD_TAG);
 	}
-
 }

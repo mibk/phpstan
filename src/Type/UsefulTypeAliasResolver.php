@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -15,7 +15,6 @@ use function sprintf;
 #[AutowiredService(as: TypeAliasResolver::class)]
 final class UsefulTypeAliasResolver implements TypeAliasResolver
 {
-
 	/** @var array<string, Type> */
 	private array $resolvedGlobalTypeAliases = [];
 
@@ -153,5 +152,4 @@ final class UsefulTypeAliasResolver implements TypeAliasResolver
 
 		return $aliasType;
 	}
-
 }

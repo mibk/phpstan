@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -11,6 +10,7 @@ use PHPStan\PhpDoc\Tag\ExtendsTag;
 use PHPStan\PhpDoc\Tag\ImplementsTag;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 use function array_map;
 use function array_merge;
 use function sprintf;
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class InterfaceAncestorsRule implements Rule
 {
-
 	public function __construct(
 		private GenericAncestorsCheck $genericAncestorsCheck,
 		private CrossCheckInterfacesHelper $crossCheckInterfacesHelper,
@@ -37,7 +36,7 @@ final class InterfaceAncestorsRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		$originalNode = $node->getOriginalNode();
-		if (!$originalNode instanceof Node\Stmt\Interface_) {
+		if (! $originalNode instanceof Node\Stmt\Interface_) {
 			return [];
 		}
 		$classReflection = $node->getClassReflection();
@@ -47,7 +46,7 @@ final class InterfaceAncestorsRule implements Rule
 
 		$extendsErrors = $this->genericAncestorsCheck->check(
 			$originalNode->extends,
-			array_map(static fn (ExtendsTag $tag): Type => $tag->getType(), $classReflection->getExtendsTags()),
+			array_map(static fn(ExtendsTag $tag): Type => $tag->getType(), $classReflection->getExtendsTags()),
 			sprintf('Interface %s @extends tag contains incompatible type %%s.', $escapedInterfaceName),
 			sprintf('Interface %s @extends tag contains unresolvable type.', $interfaceName),
 			sprintf('Interface %s has @extends tag, but does not extend any interface.', $escapedInterfaceName),
@@ -64,7 +63,7 @@ final class InterfaceAncestorsRule implements Rule
 
 		$implementsErrors = $this->genericAncestorsCheck->check(
 			[],
-			array_map(static fn (ImplementsTag $tag): Type => $tag->getType(), $classReflection->getImplementsTags()),
+			array_map(static fn(ImplementsTag $tag): Type => $tag->getType(), $classReflection->getImplementsTags()),
 			sprintf('Interface %s @implements tag contains incompatible type %%s.', $escapedInterfaceName),
 			sprintf('Interface %s @implements tag contains unresolvable type.', $interfaceName),
 			sprintf('Interface %s has @implements tag, but can not implement any interface, must extend from it.', $escapedInterfaceName),
@@ -85,5 +84,4 @@ final class InterfaceAncestorsRule implements Rule
 
 		return array_merge($extendsErrors, $implementsErrors);
 	}
-
 }

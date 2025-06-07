@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -35,7 +35,6 @@ use PHPStan\Type\VerbosityLevel;
 
 class AccessoryUppercaseStringType implements CompoundType, AccessoryType
 {
-
 	use MaybeCallableTypeTrait;
 	use NonArrayTypeTrait;
 	use NonObjectTypeTrait;
@@ -338,8 +337,8 @@ class AccessoryUppercaseStringType implements CompoundType, AccessoryType
 	{
 		if (
 			$type->isString()->yes()
-			&& $type->isUppercaseString()->no()
-			&& ($type->isNumericString()->no() || $this->isNumericString()->no())
+				&& $type->isUppercaseString()->no()
+				&& ($type->isNumericString()->no() || $this->isNumericString()->no())
 		) {
 			return new ConstantBooleanType(false);
 		}
@@ -379,5 +378,4 @@ class AccessoryUppercaseStringType implements CompoundType, AccessoryType
 	{
 		return new IdentifierTypeNode('uppercase-string');
 	}
-
 }

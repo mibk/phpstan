@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\FunctionReturnTypeCheck;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Return_;
 use function sprintf;
 
 /**
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class ReturnTypeRule implements Rule
 {
-
 	public function __construct(
 		private FunctionReturnTypeCheck $returnTypeCheck,
 	)
@@ -68,5 +67,4 @@ final class ReturnTypeRule implements Rule
 			$function->isGenerator(),
 		);
 	}
-
 }

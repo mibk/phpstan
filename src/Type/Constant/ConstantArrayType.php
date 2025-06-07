@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Constant;
 
@@ -72,14 +72,14 @@ use function str_contains;
  */
 class ConstantArrayType implements Type
 {
-
-	use ArrayTypeTrait {
+	use ArrayTypeTrait
+	{
 		chunkArray as traitChunkArray;
 	}
 	use NonObjectTypeTrait;
 	use UndecidedComparisonTypeTrait;
 
-	private const DESCRIBE_LIMIT = 8;
+	private const DESCRIBE_LIMIT           = 8;
 	private const CHUNK_FINITE_TYPES_LIMIT = 5;
 
 	private TrinaryLogic $isList;
@@ -94,9 +94,9 @@ class ConstantArrayType implements Type
 	/**
 	 * @api
 	 * @param array<int, ConstantIntegerType|ConstantStringType> $keyTypes
-	 * @param array<int, Type> $valueTypes
-	 * @param non-empty-list<int> $nextAutoIndexes
-	 * @param int[] $optionalKeys
+	 * @param array<int, Type>                                   $valueTypes
+	 * @param non-empty-list<int>                                $nextAutoIndexes
+	 * @param int[]                                              $optionalKeys
 	 */
 	public function __construct(
 		private array $keyTypes,
@@ -241,7 +241,7 @@ class ConstantArrayType implements Type
 			}
 
 			$array = $builder->getArray();
-			if (!$array instanceof self) {
+			if (! $array instanceof self) {
 				throw new ShouldNotHappenException();
 			}
 
@@ -253,8 +253,8 @@ class ConstantArrayType implements Type
 
 	/**
 	 * @template T
-	 * @param T[] $in
-	 * @return T[][]
+	 * @param    T[] $in
+	 * @return   T[][]
 	 */
 	private function powerSet(array $in): array
 	{
@@ -300,7 +300,7 @@ class ConstantArrayType implements Type
 
 	public function accepts(Type $type, bool $strictTypes): AcceptsResult
 	{
-		if ($type instanceof CompoundType && !$type instanceof IntersectionType) {
+		if ($type instanceof CompoundType && ! $type instanceof IntersectionType) {
 			return $type->isAcceptedBy($this, $strictTypes);
 		}
 
@@ -330,7 +330,7 @@ class ConstantArrayType implements Type
 			$otherValueType = $type->getOffsetValueType($keyType);
 			$verbosity = VerbosityLevel::getRecommendedLevelByType($valueType, $otherValueType);
 			$acceptsValue = $valueType->accepts($otherValueType, $strictTypes)->decorateReasons(
-				static fn (string $reason) => sprintf(
+				static fn(string $reason) => sprintf(
 					'Offset %s (%s) does not accept type %s: %s',
 					$keyType->describe(VerbosityLevel::precise()),
 					$valueType->describe($verbosity),
@@ -387,7 +387,7 @@ class ConstantArrayType implements Type
 
 				$isValueSuperType = $this->valueTypes[$i]->isSuperTypeOf($type->getOffsetValueType($keyType));
 				if ($isValueSuperType->no()) {
-					return $isValueSuperType->decorateReasons(static fn (string $reason) => sprintf('Offset %s: %s', $keyType->describe(VerbosityLevel::value()), $reason));
+					return $isValueSuperType->decorateReasons(static fn(string $reason) => sprintf('Offset %s: %s', $keyType->describe(VerbosityLevel::value()), $reason));
 				}
 				$results[] = $isValueSuperType;
 			}
@@ -444,7 +444,7 @@ class ConstantArrayType implements Type
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -477,7 +477,7 @@ class ConstantArrayType implements Type
 		}
 
 		$results = array_map(
-			static fn (ConstantArrayTypeAndMethod $typeAndMethod): TrinaryLogic => $typeAndMethod->getCertainty(),
+			static fn(ConstantArrayTypeAndMethod $typeAndMethod): TrinaryLogic => $typeAndMethod->getCertainty(),
 			$typeAndMethods,
 		);
 
@@ -560,7 +560,7 @@ class ConstantArrayType implements Type
 
 			if (
 				$has->yes()
-				&& !$phpVersion->supportsCallableInstanceMethods()
+					&& !$phpVersion->supportsCallableInstanceMethods()
 			) {
 				$methodReflection = $type->getMethod($methodName->getValue(), new OutOfClassScope());
 				if ($classOrObject->isString()->yes() && !$methodReflection->isStatic()) {
@@ -611,8 +611,8 @@ class ConstantArrayType implements Type
 		foreach ($this->keyTypes as $i => $keyType) {
 			if (
 				$keyType instanceof ConstantIntegerType
-				&& !$offsetType->isString()->no()
-				&& $offsetType->isConstantScalarValue()->no()
+					&& !$offsetType->isString()->no()
+					&& $offsetType->isConstantScalarValue()->no()
 			) {
 				return TrinaryLogic::createMaybe();
 			}
@@ -650,8 +650,8 @@ class ConstantArrayType implements Type
 
 				if (
 					$keyType instanceof ConstantIntegerType
-					&& !$offsetType->isString()->no()
-					&& $offsetType->isConstantScalarValue()->no()
+						&& !$offsetType->isString()->no()
+						&& $offsetType->isConstantScalarValue()->no()
 				) {
 					continue;
 				}
@@ -745,7 +745,7 @@ class ConstantArrayType implements Type
 
 			foreach ($constantScalars as $constantScalar) {
 				$constantScalar = $constantScalar->toArrayKey();
-				if (!$constantScalar instanceof ConstantIntegerType && !$constantScalar instanceof ConstantStringType) {
+				if (! $constantScalar instanceof ConstantIntegerType && ! $constantScalar instanceof ConstantStringType) {
 					continue;
 				}
 
@@ -786,7 +786,7 @@ class ConstantArrayType implements Type
 		if ($biggerOne->isSuperTypeOf($lengthType)->yes() && count($finiteTypes) < self::CHUNK_FINITE_TYPES_LIMIT) {
 			$results = [];
 			foreach ($finiteTypes as $finiteType) {
-				if (!$finiteType instanceof ConstantIntegerType || $finiteType->getValue() < 1) {
+				if (! $finiteType instanceof ConstantIntegerType || $finiteType->getValue() < 1) {
 					return $this->traitChunkArray($lengthType, $preserveKeys);
 				}
 
@@ -1223,7 +1223,7 @@ class ConstantArrayType implements Type
 		}
 
 		if ($precision->isTemplateArgument()) {
-			return $this->traverse(static fn (Type $type) => $type->generalize($precision));
+			return $this->traverse(static fn(Type $type) => $type->generalize($precision));
 		}
 
 		$arrayType = new ArrayType(
@@ -1290,7 +1290,7 @@ class ConstantArrayType implements Type
 		if ($this->isList->yes()) {
 			// Optimized version for lists: Assume that if a later key exists, then earlier keys also exist.
 			$keyTypes = array_map(
-				static fn (int $i): ConstantIntegerType => new ConstantIntegerType($i),
+				static fn(int $i): ConstantIntegerType => new ConstantIntegerType($i),
 				array_keys($types),
 			);
 			return new self($keyTypes, $types, $autoIndexes, $this->optionalKeys, TrinaryLogic::createYes());
@@ -1327,7 +1327,7 @@ class ConstantArrayType implements Type
 
 	public function describe(VerbosityLevel $level): string
 	{
-		$describeValue = function (bool $truncate) use ($level): string {
+		$describeValue = function(bool $truncate) use ($level): string {
 			$items = [];
 			$values = [];
 			$exportValuesOnly = true;
@@ -1370,9 +1370,9 @@ class ConstantArrayType implements Type
 			);
 		};
 		return $level->handle(
-			fn (): string => $this->isIterableAtLeastOnce()->no() ? 'array' : sprintf('array<%s, %s>', $this->getIterableKeyType()->describe($level), $this->getIterableValueType()->describe($level)),
-			static fn (): string => $describeValue(true),
-			static fn (): string => $describeValue(false),
+			fn(): string        => $this->isIterableAtLeastOnce()->no() ? 'array' : sprintf('array<%s, %s>', $this->getIterableKeyType()->describe($level), $this->getIterableValueType()->describe($level)),
+			static fn(): string => $describeValue(true),
+			static fn(): string => $describeValue(false),
 		);
 	}
 
@@ -1581,7 +1581,7 @@ class ConstantArrayType implements Type
 	}
 
 	/**
-	 * @param ConstantIntegerType|ConstantStringType $otherKeyType
+	 * @param ConstantIntegerType|ConstantStringType             $otherKeyType
 	 * @param array<int, ConstantIntegerType|ConstantStringType> $keyTypes
 	 */
 	private static function findKeyIndex($otherKeyType, array $keyTypes): ?int
@@ -1627,7 +1627,7 @@ class ConstantArrayType implements Type
 				$exportValuesOnly = false;
 			}
 			$keyPhpDocNode = $keyType->toPhpDocNode();
-			if (!$keyPhpDocNode instanceof ConstTypeNode) {
+			if (! $keyPhpDocNode instanceof ConstTypeNode) {
 				continue;
 			}
 			$valueType = $this->valueTypes[$i];
@@ -1705,5 +1705,4 @@ class ConstantArrayType implements Type
 
 		return $finiteTypes;
 	}
-
 }

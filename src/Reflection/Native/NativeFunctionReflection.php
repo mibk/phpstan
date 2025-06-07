@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Native;
 
@@ -13,15 +13,14 @@ use function count;
 
 final class NativeFunctionReflection implements FunctionReflection
 {
-
 	private Assertions $assertions;
 
 	private TrinaryLogic $returnsByReference;
 
 	/**
-	 * @param list<ExtendedParametersAcceptor> $variants
+	 * @param list<ExtendedParametersAcceptor>      $variants
 	 * @param list<ExtendedParametersAcceptor>|null $namedArgumentsVariants
-	 * @param list<AttributeReflection> $attributes
+	 * @param list<AttributeReflection>             $attributes
 	 */
 	public function __construct(
 		private string $name,
@@ -149,5 +148,4 @@ final class NativeFunctionReflection implements FunctionReflection
 	{
 		return $this->attributes;
 	}
-
 }

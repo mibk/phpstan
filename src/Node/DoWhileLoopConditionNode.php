@@ -1,14 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Analyser\StatementExitPoint;
 use PhpParser\Node\Expr;
 use PhpParser\NodeAbstract;
-use PHPStan\Analyser\StatementExitPoint;
 
 final class DoWhileLoopConditionNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
 	 * @param StatementExitPoint[] $exitPoints
 	 */
@@ -42,5 +41,4 @@ final class DoWhileLoopConditionNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

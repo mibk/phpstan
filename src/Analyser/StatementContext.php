@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -12,7 +12,6 @@ namespace PHPStan\Analyser;
  */
 final class StatementContext
 {
-
 	private function __construct(
 		private bool $isTopLevel,
 	)
@@ -48,5 +47,4 @@ final class StatementContext
 
 		return $this;
 	}
-
 }

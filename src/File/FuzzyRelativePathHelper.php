@@ -1,9 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
+use const DIRECTORY_SEPARATOR;
 use function count;
 use function explode;
 use function implode;
@@ -14,18 +15,16 @@ use function str_ends_with;
 use function str_starts_with;
 use function strlen;
 use function substr;
-use const DIRECTORY_SEPARATOR;
 
 #[AutowiredService(name: 'relativePathHelper', as: RelativePathHelper::class)]
 final class FuzzyRelativePathHelper implements RelativePathHelper
 {
-
 	private string $directorySeparator;
 
 	private ?string $pathToTrim = null;
 
 	/**
-	 * @param string[] $analysedPaths
+	 * @param string[]              $analysedPaths
 	 * @param non-empty-string|null $directorySeparator
 	 */
 	public function __construct(
@@ -45,7 +44,7 @@ final class FuzzyRelativePathHelper implements RelativePathHelper
 		$this->directorySeparator = $directorySeparator;
 		$pathBeginning = null;
 		$pathToTrimArray = null;
-		$trimBeginning = static function (string $path): array {
+		$trimBeginning = static function(string $path): array {
 			if (str_starts_with($path, '/')) {
 				return [
 					'/',
@@ -63,7 +62,7 @@ final class FuzzyRelativePathHelper implements RelativePathHelper
 
 		if (
 			!in_array($currentWorkingDirectory, ['', '/'], true)
-			&& !(strlen($currentWorkingDirectory) === 3 && substr($currentWorkingDirectory, 1, 1) === ':')
+				&& !(strlen($currentWorkingDirectory) === 3 && substr($currentWorkingDirectory, 1, 1) === ':')
 		) {
 			[$pathBeginning, $currentWorkingDirectory] = $trimBeginning($currentWorkingDirectory);
 
@@ -113,12 +112,11 @@ final class FuzzyRelativePathHelper implements RelativePathHelper
 	{
 		if (
 			$this->pathToTrim !== null
-			&& str_starts_with($filename, $this->pathToTrim)
+				&& str_starts_with($filename, $this->pathToTrim)
 		) {
 			return ltrim(substr($filename, strlen($this->pathToTrim)), $this->directorySeparator);
 		}
 
 		return $this->fallbackRelativePathHelper->getRelativePath($filename);
 	}
-
 }

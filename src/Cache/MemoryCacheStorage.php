@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Cache;
 
@@ -6,7 +6,6 @@ use function var_export;
 
 final class MemoryCacheStorage implements CacheStorage
 {
-
 	/** @var array<string, CacheItem> */
 	private array $storage = [];
 
@@ -36,5 +35,4 @@ final class MemoryCacheStorage implements CacheStorage
 		@var_export($item, true);
 		$this->storage[$key] = $item;
 	}
-
 }

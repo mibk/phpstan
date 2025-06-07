@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -13,6 +9,10 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Rules\FunctionCallParametersCheck;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Scalar\String_;
 use function array_merge;
 use function sprintf;
 
@@ -22,7 +22,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class CallStaticMethodsRule implements Rule
 {
-
 	public function __construct(
 		private StaticMethodCallCheck $methodCallCheck,
 		private FunctionCallParametersCheck $parametersCheck,
@@ -112,5 +111,4 @@ final class CallStaticMethodsRule implements Rule
 
 		return $errors;
 	}
-
 }

@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassMethodNode;
 use PHPStan\Reflection\Dummy\DummyConstructorReflection;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 use function array_merge;
 use function strtolower;
 
@@ -15,7 +15,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class ConsistentConstructorRule implements Rule
 {
-
 	public function __construct(
 		private MethodParameterComparisonHelper $methodParameterComparisonHelper,
 		private MethodVisibilityComparisonHelper $methodVisibilityComparisonHelper,
@@ -47,7 +46,7 @@ final class ConsistentConstructorRule implements Rule
 			$parentConstructor = new DummyConstructorReflection($parent);
 		}
 
-		if (! $parentConstructor->getDeclaringClass()->hasConsistentConstructor()) {
+		if (!$parentConstructor->getDeclaringClass()->hasConsistentConstructor()) {
 			return [];
 		}
 
@@ -56,5 +55,4 @@ final class ConsistentConstructorRule implements Rule
 			$this->methodVisibilityComparisonHelper->compare($parentConstructor, $parentConstructor->getDeclaringClass(), $method),
 		);
 	}
-
 }

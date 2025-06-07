@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Constant\ConstantBooleanType;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
-use PHPStan\Reflection\ClassReflection;
-use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantBooleanType;
 use function get_class;
 use function in_array;
 use function strtolower;
 
 final class ParserNodeTypeToPHPStanType
 {
-
 	/**
 	 * @param Node\Name|Node\Identifier|Node\ComplexType|null $type
 	 */
@@ -33,8 +32,8 @@ final class ParserNodeTypeToPHPStanType
 				$typeClassName = $classReflection->getName();
 			} elseif (
 				$lowercasedClassName === 'parent'
-				&& $classReflection !== null
-				&& $classReflection->getParentClass() !== null
+					&& $classReflection !== null
+					&& $classReflection->getParentClass() !== null
 			) {
 				$typeClassName = $classReflection->getParentClass()->getName();
 			}
@@ -61,7 +60,7 @@ final class ParserNodeTypeToPHPStanType
 			}
 
 			return TypeCombinator::intersect(...$types);
-		} elseif (!$type instanceof Identifier) {
+		} elseif (! $type instanceof Identifier) {
 			throw new ShouldNotHappenException(get_class($type));
 		}
 
@@ -98,5 +97,4 @@ final class ParserNodeTypeToPHPStanType
 
 		return new MixedType();
 	}
-
 }

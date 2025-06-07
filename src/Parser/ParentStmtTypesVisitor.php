@@ -1,10 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 use function array_pop;
 use function count;
 use function get_class;
@@ -12,7 +12,6 @@ use function get_class;
 #[AutowiredService]
 final class ParentStmtTypesVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'parentStmtTypes';
 
 	/** @var array<int, class-string<Node\Stmt|Node\Expr\Closure>> */
@@ -26,7 +25,7 @@ final class ParentStmtTypesVisitor extends NodeVisitorAbstract
 
 	public function enterNode(Node $node): ?Node
 	{
-		if (!$node instanceof Node\Stmt && !$node instanceof Node\Expr\Closure) {
+		if (! $node instanceof Node\Stmt && ! $node instanceof Node\Expr\Closure) {
 			return null;
 		}
 
@@ -40,7 +39,7 @@ final class ParentStmtTypesVisitor extends NodeVisitorAbstract
 
 	public function leaveNode(Node $node): ?Node
 	{
-		if (!$node instanceof Node\Stmt && !$node instanceof Node\Expr\Closure) {
+		if (! $node instanceof Node\Stmt && ! $node instanceof Node\Expr\Closure) {
 			return null;
 		}
 
@@ -48,5 +47,4 @@ final class ParentStmtTypesVisitor extends NodeVisitorAbstract
 
 		return null;
 	}
-
 }

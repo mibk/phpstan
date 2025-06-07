@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -10,6 +9,7 @@ use PHPStan\Type\DynamicStaticMethodThrowTypeExtension;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\StaticCall;
 use SimpleXMLElement;
 use function count;
 use function extension_loaded;
@@ -18,7 +18,6 @@ use function libxml_use_internal_errors;
 #[AutowiredService]
 final class SimpleXMLElementConstructorThrowTypeExtension implements DynamicStaticMethodThrowTypeExtension
 {
-
 	public function isStaticMethodSupported(MethodReflection $methodReflection): bool
 	{
 		return extension_loaded('simplexml')
@@ -51,11 +50,10 @@ final class SimpleXMLElementConstructorThrowTypeExtension implements DynamicStat
 			libxml_use_internal_errors($internalErrorsOld);
 		}
 
-		if (!$valueType instanceof NeverType) {
+		if (! $valueType instanceof NeverType) {
 			return $methodReflection->getThrowType();
 		}
 
 		return null;
 	}
-
 }

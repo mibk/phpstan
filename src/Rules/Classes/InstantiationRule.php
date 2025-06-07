@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\New_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\Container;
@@ -24,6 +22,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
+use PhpParser\Node;
+use PhpParser\Node\Expr\New_;
 use function array_filter;
 use function array_map;
 use function array_merge;
@@ -37,7 +37,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class InstantiationRule implements Rule
 {
-
 	public function __construct(
 		private Container $container,
 		private ReflectionProvider $reflectionProvider,
@@ -64,7 +63,7 @@ final class InstantiationRule implements Rule
 	}
 
 	/**
-	 * @param Node\Expr\New_ $node
+	 * @param  Node\Expr\New_ $node
 	 * @return list<IdentifierRuleError>
 	 */
 	private function checkClassName(string $class, bool $isName, Node $node, Scope $scope): array
@@ -91,9 +90,9 @@ final class InstantiationRule implements Rule
 				$constructor = $classReflection->getConstructor();
 				if (
 					!$constructor->getPrototype()->getDeclaringClass()->isInterface()
-					&& $constructor instanceof PhpMethodReflection
-					&& !$constructor->isFinal()->yes()
-					&& !$constructor->getPrototype()->isAbstract()
+						&& $constructor instanceof PhpMethodReflection
+						&& !$constructor->isFinal()->yes()
+						&& !$constructor->getPrototype()->isAbstract()
 				) {
 					return [];
 				}
@@ -260,7 +259,7 @@ final class InstantiationRule implements Rule
 	}
 
 	/**
-	 * @param Node\Expr\New_ $node
+	 * @param  Node\Expr\New_ $node
 	 * @return array<int, array{string, bool}>
 	 */
 	private function getClassNames(Node $node, Scope $scope): array
@@ -276,7 +275,7 @@ final class InstantiationRule implements Rule
 			}
 
 			return array_map(
-				static fn (string $className) => [$className, true],
+				static fn(string $className) => [$className, true],
 				$classNames,
 			);
 		}
@@ -286,12 +285,12 @@ final class InstantiationRule implements Rule
 		if ($type->isClassString()->yes()) {
 			$concretes = array_filter(
 				$type->getClassStringObjectType()->getObjectClassReflections(),
-				static fn (ClassReflection $classReflection): bool => !$classReflection->isAbstract() && !$classReflection->isInterface(),
+				static fn(ClassReflection $classReflection): bool => !$classReflection->isAbstract() && !$classReflection->isInterface(),
 			);
 
 			if (count($concretes) > 0) {
 				return array_map(
-					static fn (ClassReflection $classReflection): array => [$classReflection->getName(), true],
+					static fn(ClassReflection $classReflection): array => [$classReflection->getName(), true],
 					$concretes,
 				);
 			}
@@ -299,14 +298,13 @@ final class InstantiationRule implements Rule
 
 		return array_merge(
 			array_map(
-				static fn (ConstantStringType $type): array => [$type->getValue(), true],
+				static fn(ConstantStringType $type): array => [$type->getValue(), true],
 				$type->getConstantStrings(),
 			),
 			array_map(
-				static fn (string $name): array => [$name, false],
+				static fn(string $name): array => [$name, false],
 				$type->getObjectClassNames(),
 			),
 		);
 	}
-
 }

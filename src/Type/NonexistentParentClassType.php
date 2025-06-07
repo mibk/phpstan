@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -25,7 +25,6 @@ use PHPStan\Type\Traits\UndecidedComparisonTypeTrait;
 
 class NonexistentParentClassType implements Type
 {
-
 	use JustNullableTypeTrait;
 	use NonArrayTypeTrait;
 	use NonCallableTypeTrait;
@@ -196,5 +195,4 @@ class NonexistentParentClassType implements Type
 	{
 		return new IdentifierTypeNode('parent');
 	}
-
 }

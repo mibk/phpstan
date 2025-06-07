@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassPropertyNode;
@@ -13,6 +12,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\UnionType;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class InvalidCallablePropertyTypeRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return ClassPropertyNode::class;
@@ -39,7 +38,7 @@ final class InvalidCallablePropertyTypeRule implements Rule
 		$nativeType = $propertyReflection->getNativeType();
 		$callableTypes = [];
 
-		TypeTraverser::map($nativeType, static function (Type $type, callable $traverse) use (&$callableTypes): Type {
+		TypeTraverser::map($nativeType, static function(Type $type, callable $traverse) use (&$callableTypes): Type {
 			if ($type instanceof UnionType || $type instanceof IntersectionType) {
 				return $traverse($type);
 			}
@@ -63,5 +62,4 @@ final class InvalidCallablePropertyTypeRule implements Rule
 			))->identifier('property.callableType')->nonIgnorable()->build(),
 		];
 	}
-
 }

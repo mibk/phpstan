@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -10,6 +9,7 @@ use PHPStan\Node\InClassNode;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use Serializable;
 use function sprintf;
 use function strtolower;
@@ -20,7 +20,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class MissingMagicSerializationMethodsRule implements Rule
 {
-
 	public function __construct(private PhpVersion $phpversion)
 	{
 	}
@@ -85,5 +84,4 @@ final class MissingMagicSerializationMethodsRule implements Rule
 
 		return $messages;
 	}
-
 }

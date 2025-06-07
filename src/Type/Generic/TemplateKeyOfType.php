@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 /** @api */
 final class TemplateKeyOfType extends KeyOfType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<KeyOfType> */
 	use TemplateTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
@@ -53,5 +52,4 @@ final class TemplateKeyOfType extends KeyOfType implements TemplateType
 	{
 		return false;
 	}
-
 }

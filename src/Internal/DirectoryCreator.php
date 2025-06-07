@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Internal;
 
@@ -8,7 +8,6 @@ use function mkdir;
 
 final class DirectoryCreator
 {
-
 	/**
 	 * @throws DirectoryCreatorException if unable to create directory.
 	 */
@@ -32,5 +31,4 @@ final class DirectoryCreator
 			throw new DirectoryCreatorException($directory);
 		}
 	}
-
 }

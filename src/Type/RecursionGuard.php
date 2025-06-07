@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 final class RecursionGuard
 {
-
 	/** @var true[] */
 	private static array $context = [];
 
 	/**
 	 * @template T
-	 * @param callable(): T $callback
-	 * @return T|ErrorType
+	 * @param    callable(): T $callback
+	 * @return   T|ErrorType
 	 */
 	public static function run(Type $type, callable $callback)
 	{
@@ -27,5 +26,4 @@ final class RecursionGuard
 			unset(self::$context[$key]);
 		}
 	}
-
 }

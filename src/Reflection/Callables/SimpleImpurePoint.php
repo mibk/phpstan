@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Callables;
 
@@ -13,7 +13,6 @@ use function sprintf;
  */
 final class SimpleImpurePoint
 {
-
 	/**
 	 * @param ImpurePointIdentifier $identifier
 	 */
@@ -68,5 +67,4 @@ final class SimpleImpurePoint
 	{
 		return $this->certain;
 	}
-
 }

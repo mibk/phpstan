@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\DependencyInjection\RegisteredCollector;
 use PHPStan\Reflection\ReflectionProvider;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Expression;
 use function strtolower;
 
 /**
@@ -16,7 +16,6 @@ use function strtolower;
 #[RegisteredCollector(level: 4)]
 final class PossiblyPureNewCollector implements Collector
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -28,11 +27,11 @@ final class PossiblyPureNewCollector implements Collector
 
 	public function processNode(Node $node, Scope $scope)
 	{
-		if (!$node->expr instanceof Node\Expr\New_) {
+		if (! $node->expr instanceof Node\Expr\New_) {
 			return null;
 		}
 
-		if (!$node->expr->class instanceof Node\Name) {
+		if (! $node->expr->class instanceof Node\Name) {
 			return null;
 		}
 
@@ -58,5 +57,4 @@ final class PossiblyPureNewCollector implements Collector
 
 		return [$constructor->getDeclaringClass()->getName(), $node->getStartLine()];
 	}
-
 }

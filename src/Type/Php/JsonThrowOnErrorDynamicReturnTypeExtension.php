@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -18,13 +16,14 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name\FullyQualified;
 use function is_bool;
 use function json_decode;
 
 #[AutowiredService]
 final class JsonThrowOnErrorDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	/** @var array<string, int> */
 	private array $argumentPositions = [
 		'json_encode' => 1,
@@ -129,5 +128,4 @@ final class JsonThrowOnErrorDynamicReturnTypeExtension implements DynamicFunctio
 
 		return ConstantTypeHelper::getTypeFromValue($decodedValue);
 	}
-
 }

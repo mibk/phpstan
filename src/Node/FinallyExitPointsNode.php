@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\NodeAbstract;
 use PHPStan\Analyser\StatementExitPoint;
+use PhpParser\NodeAbstract;
 
 /**
  * @api
  */
 final class FinallyExitPointsNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
 	 * @param StatementExitPoint[] $finallyExitPoints
 	 * @param StatementExitPoint[] $tryCatchExitPoints
@@ -48,5 +47,4 @@ final class FinallyExitPointsNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -20,7 +20,6 @@ use PHPStan\Type\UnionType;
 
 final class ExitFunctionReflection implements FunctionReflection
 {
-
 	public function __construct(private string $name)
 	{
 	}
@@ -142,5 +141,4 @@ final class ExitFunctionReflection implements FunctionReflection
 	{
 		return [];
 	}
-
 }

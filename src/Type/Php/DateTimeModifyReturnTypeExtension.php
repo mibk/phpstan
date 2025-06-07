@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use DateTime;
 use DateTimeInterface;
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
@@ -13,12 +12,12 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\MethodCall;
 use Throwable;
 use function count;
 
 final class DateTimeModifyReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-
 	/** @param class-string<DateTimeInterface> $dateTimeClass */
 	public function __construct(
 		private PhpVersion $phpVersion,
@@ -66,7 +65,7 @@ final class DateTimeModifyReturnTypeExtension implements DynamicMethodReturnType
 			$valueType = TypeCombinator::remove($valueType, $constantString);
 		}
 
-		if (!$valueType instanceof NeverType) {
+		if (! $valueType instanceof NeverType) {
 			return null;
 		}
 
@@ -86,5 +85,4 @@ final class DateTimeModifyReturnTypeExtension implements DynamicMethodReturnType
 
 		return null;
 	}
-
 }

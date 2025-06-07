@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Type;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\DynamicReturnTypeExtensionRegistry;
 #[AutowiredService(as: DynamicReturnTypeExtensionRegistryProvider::class)]
 final class LazyDynamicReturnTypeExtensionRegistryProvider implements DynamicReturnTypeExtensionRegistryProvider
 {
-
 	private ?DynamicReturnTypeExtensionRegistry $registry = null;
 
 	public function __construct(private Container $container)
@@ -31,5 +30,4 @@ final class LazyDynamicReturnTypeExtensionRegistryProvider implements DynamicRet
 
 		return $this->registry;
 	}
-
 }

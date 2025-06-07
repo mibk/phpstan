@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -7,7 +7,6 @@ use function array_values;
 
 final class OperatorTypeSpecifyingExtensionRegistry
 {
-
 	/**
 	 * @param OperatorTypeSpecifyingExtension[] $extensions
 	 */
@@ -22,7 +21,6 @@ final class OperatorTypeSpecifyingExtensionRegistry
 	 */
 	public function getOperatorTypeSpecifyingExtensions(string $operator, Type $leftType, Type $rightType): array
 	{
-		return array_values(array_filter($this->extensions, static fn (OperatorTypeSpecifyingExtension $extension): bool => $extension->isOperatorSupported($operator, $leftType, $rightType)));
+		return array_values(array_filter($this->extensions, static fn(OperatorTypeSpecifyingExtension $extension): bool => $extension->isOperatorSupported($operator, $leftType, $rightType)));
 	}
-
 }

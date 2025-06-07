@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\FunctionReturnStatementsNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -14,7 +14,6 @@ use function sprintf;
  */
 final class MissingCheckedExceptionInFunctionThrowsRule implements Rule
 {
-
 	public function __construct(private MissingCheckedExceptionInThrowsCheck $check)
 	{
 	}
@@ -43,5 +42,4 @@ final class MissingCheckedExceptionInFunctionThrowsRule implements Rule
 
 		return $errors;
 	}
-
 }

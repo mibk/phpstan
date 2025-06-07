@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\ClassReflection;
@@ -16,13 +15,13 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
 use function array_map;
 use function count;
 
 #[AutowiredService]
 final class GetParentClassDynamicFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -60,12 +59,12 @@ final class GetParentClassDynamicFunctionReturnTypeExtension implements DynamicF
 
 		$constantStrings = $argType->getConstantStrings();
 		if (count($constantStrings) > 0) {
-			return TypeCombinator::union(...array_map(fn (ConstantStringType $stringType): Type => $this->findParentClassNameType($stringType->getValue()), $constantStrings));
+			return TypeCombinator::union(...array_map(fn(ConstantStringType $stringType): Type => $this->findParentClassNameType($stringType->getValue()), $constantStrings));
 		}
 
 		$classNames = $argType->getObjectClassNames();
 		if (count($classNames) > 0) {
-			return TypeCombinator::union(...array_map(fn (string $classNames): Type => $this->findParentClassNameType($classNames), $classNames));
+			return TypeCombinator::union(...array_map(fn(string $classNames): Type => $this->findParentClassNameType($classNames), $classNames));
 		}
 
 		return null;
@@ -102,5 +101,4 @@ final class GetParentClassDynamicFunctionReturnTypeExtension implements DynamicF
 
 		return new ConstantStringType($parentClass->getName(), true);
 	}
-
 }

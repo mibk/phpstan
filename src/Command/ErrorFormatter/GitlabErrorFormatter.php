@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -17,7 +17,6 @@ use function implode;
 #[AutowiredService(name: 'errorFormatter.gitlab')]
 final class GitlabErrorFormatter implements ErrorFormatter
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '@simpleRelativePathHelper')]
 		private RelativePathHelper $relativePathHelper,
@@ -44,7 +43,7 @@ final class GitlabErrorFormatter implements ErrorFormatter
 				),
 				'severity' => $fileSpecificError->canBeIgnored() ? 'major' : 'blocker',
 				'location' => [
-					'path' => $this->relativePathHelper->getRelativePath($fileSpecificError->getFile()),
+					'path'  => $this->relativePathHelper->getRelativePath($fileSpecificError->getFile()),
 					'lines' => [
 						'begin' => $fileSpecificError->getLine() ?? 0,
 					],
@@ -58,9 +57,9 @@ final class GitlabErrorFormatter implements ErrorFormatter
 			$errorsArray[] = [
 				'description' => $notFileSpecificError,
 				'fingerprint' => hash('sha256', $notFileSpecificError),
-				'severity' => 'major',
-				'location' => [
-					'path' => '',
+				'severity'    => 'major',
+				'location'    => [
+					'path'  => '',
 					'lines' => [
 						'begin' => 0,
 					],
@@ -74,5 +73,4 @@ final class GitlabErrorFormatter implements ErrorFormatter
 
 		return $analysisResult->hasErrors() ? 1 : 0;
 	}
-
 }

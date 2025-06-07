@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
-use PhpParser\NodeAbstract;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InPropertyHookNode;
@@ -15,6 +13,8 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\NodeAbstract;
 use Throwable;
 use function sprintf;
 
@@ -24,7 +24,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class InvalidThrowsPhpDocValueRule implements Rule
 {
-
 	public function __construct(private FileTypeMapper $fileTypeMapper)
 	{
 	}
@@ -40,7 +39,7 @@ final class InvalidThrowsPhpDocValueRule implements Rule
 			if ($node instanceof Node\Stmt\Function_ || $node instanceof Node\Stmt\ClassMethod) {
 				return []; // is handled by virtual nodes
 			}
-		} elseif (!$node instanceof InPropertyHookNode) {
+		} elseif (! $node instanceof InPropertyHookNode) {
 			return [];
 		}
 
@@ -110,5 +109,4 @@ final class InvalidThrowsPhpDocValueRule implements Rule
 			TypeCombinator::intersect($phpDocThrowsType, ...$toIntersectWith),
 		)->yes();
 	}
-
 }

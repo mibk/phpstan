@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassPropertyNode;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<ClassPropertyNode>
@@ -16,7 +16,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class ReadOnlyPropertyRule implements Rule
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -34,22 +33,22 @@ final class ReadOnlyPropertyRule implements Rule
 
 		$errors = [];
 		if (!$this->phpVersion->supportsReadOnlyProperties()) {
-			 $errors[] = RuleErrorBuilder::message('Readonly properties are supported only on PHP 8.1 and later.')->nonIgnorable()
-				 ->identifier('property.readOnlyNotSupported')
-				 ->build();
+			$errors[] = RuleErrorBuilder::message('Readonly properties are supported only on PHP 8.1 and later.')->nonIgnorable()
+				->identifier('property.readOnlyNotSupported')
+				->build();
 		}
 
 		if ($node->getNativeType() === null) {
-			 $errors[] = RuleErrorBuilder::message('Readonly property must have a native type.')
-				 ->identifier('property.readOnlyNoNativeType')
-				 ->nonIgnorable()
-				 ->build();
+			$errors[] = RuleErrorBuilder::message('Readonly property must have a native type.')
+				->identifier('property.readOnlyNoNativeType')
+				->nonIgnorable()
+				->build();
 		}
 
 		if ($node->getDefault() !== null) {
-			 $errors[] = RuleErrorBuilder::message('Readonly property cannot have a default value.')->nonIgnorable()
-				 ->identifier('property.readOnlyDefaultValue')
-				 ->build();
+			$errors[] = RuleErrorBuilder::message('Readonly property cannot have a default value.')->nonIgnorable()
+				->identifier('property.readOnlyDefaultValue')
+				->build();
 		}
 
 		if ($node->isStatic()) {
@@ -60,5 +59,4 @@ final class ReadOnlyPropertyRule implements Rule
 
 		return $errors;
 	}
-
 }

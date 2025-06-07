@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -12,13 +11,13 @@ use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Type\Accessory\NonEmptyArrayType;
 use PHPStan\Type\FunctionTypeSpecifyingExtension;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class CountFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function isFunctionSupported(
@@ -50,5 +49,4 @@ final class CountFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyi
 	{
 		$this->typeSpecifier = $typeSpecifier;
 	}
-
 }

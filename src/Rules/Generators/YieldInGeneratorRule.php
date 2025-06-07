@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generators;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -11,6 +10,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NeverType;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class YieldInGeneratorRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $reportMaybes,
@@ -34,7 +33,7 @@ final class YieldInGeneratorRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node instanceof Node\Expr\Yield_ && !$node instanceof Node\Expr\YieldFrom) {
+		if (! $node instanceof Node\Expr\Yield_ && ! $node instanceof Node\Expr\YieldFrom) {
 			return [];
 		}
 
@@ -79,5 +78,4 @@ final class YieldInGeneratorRule implements Rule
 			))->identifier('generator.returnType')->build(),
 		];
 	}
-
 }

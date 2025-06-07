@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Printer;
 
-use PhpParser\Node;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 use function array_map;
 use function implode;
 
 final class NodeTypePrinter
 {
-
 	public static function printType(Node\Name|Node\Identifier|Node\ComplexType|null $type): ?string
 	{
 		if ($type === null) {
@@ -21,7 +20,7 @@ final class NodeTypePrinter
 		}
 
 		if ($type instanceof Node\UnionType) {
-			return implode('|', array_map(static function ($innerType): string {
+			return implode('|', array_map(static function($innerType): string {
 				$printedType = self::printType($innerType);
 				if ($printedType === null) {
 					throw new ShouldNotHappenException();
@@ -32,7 +31,7 @@ final class NodeTypePrinter
 		}
 
 		if ($type instanceof Node\IntersectionType) {
-			return implode('&', array_map(static function ($innerType): string {
+			return implode('&', array_map(static function($innerType): string {
 				$printedType = self::printType($innerType);
 				if ($printedType === null) {
 					throw new ShouldNotHappenException();
@@ -48,5 +47,4 @@ final class NodeTypePrinter
 
 		throw new ShouldNotHappenException();
 	}
-
 }

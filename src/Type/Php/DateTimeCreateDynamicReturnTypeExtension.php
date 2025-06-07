@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use DateTime;
 use DateTimeImmutable;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -13,6 +12,7 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function date_create;
 use function in_array;
@@ -20,7 +20,6 @@ use function in_array;
 #[AutowiredService]
 final class DateTimeCreateDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return in_array($functionReflection->getName(), ['date_create', 'date_create_immutable'], true);
@@ -47,5 +46,4 @@ final class DateTimeCreateDynamicReturnTypeExtension implements DynamicFunctionR
 
 		return TypeCombinator::union(...$types);
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
-use PhpParser\Parser;
 use PHPStan\BetterReflection\SourceLocator\Ast\Locator;
 use PHPStan\BetterReflection\SourceLocator\SourceStubber\PhpStormStubsSourceStubber;
 use PHPStan\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
@@ -12,11 +11,11 @@ use PHPStan\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use PHPStan\BetterReflection\SourceLocator\Type\SourceLocator;
 use PHPStan\Reflection\BetterReflection\SourceLocator\OptimizedPsrAutoloaderLocatorFactory;
 use PHPStan\Reflection\BetterReflection\SourceLocator\OptimizedSingleFileSourceLocatorRepository;
+use PhpParser\Parser;
 use function dirname;
 
 final class StubSourceLocatorFactory
 {
-
 	public function __construct(
 		private Parser $php8Parser,
 		private PhpStormStubsSourceStubber $phpStormStubsSourceStubber,
@@ -50,5 +49,4 @@ final class StubSourceLocatorFactory
 
 		return new MemoizingSourceLocator(new AggregateSourceLocator($locators));
 	}
-
 }

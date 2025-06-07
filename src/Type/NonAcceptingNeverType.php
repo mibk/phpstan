@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 /** @api */
 class NonAcceptingNeverType extends NeverType
 {
-
 	/** @api */
 	public function __construct()
 	{
@@ -37,5 +36,4 @@ class NonAcceptingNeverType extends NeverType
 	{
 		return 'never';
 	}
-
 }

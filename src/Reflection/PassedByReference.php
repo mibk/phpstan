@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -9,9 +9,8 @@ use function array_key_exists;
  */
 final class PassedByReference
 {
-
-	private const NO = 1;
-	private const READS_ARGUMENT = 2;
+	private const NO                   = 1;
+	private const READS_ARGUMENT       = 2;
 	private const CREATES_NEW_VARIABLE = 3;
 
 	/** @var self[] */
@@ -75,5 +74,4 @@ final class PassedByReference
 
 		return $this;
 	}
-
 }

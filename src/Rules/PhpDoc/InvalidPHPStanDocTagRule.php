@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
-use PhpParser\NodeAbstract;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\VirtualNode;
@@ -12,6 +10,8 @@ use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\NodeAbstract;
 use function in_array;
 use function sprintf;
 use function str_starts_with;
@@ -22,7 +22,6 @@ use function str_starts_with;
 #[RegisteredRule(level: 2)]
 final class InvalidPHPStanDocTagRule implements Rule
 {
-
 	private const POSSIBLE_PHPSTAN_TAGS = [
 		'@phpstan-param',
 		'@phpstan-param-out',
@@ -81,11 +80,11 @@ final class InvalidPHPStanDocTagRule implements Rule
 		if ($node instanceof VirtualNode) {
 			return [];
 		}
-		if (!$node instanceof Node\Stmt && !$node instanceof Node\PropertyHook) {
+		if (! $node instanceof Node\Stmt && ! $node instanceof Node\PropertyHook) {
 			return [];
 		}
 		if ($node instanceof Node\Stmt\Expression) {
-			if (!$node->expr instanceof Node\Expr\Assign && !$node->expr instanceof Node\Expr\AssignRef) {
+			if (! $node->expr instanceof Node\Expr\Assign && ! $node->expr instanceof Node\Expr\AssignRef) {
 				return [];
 			}
 		}
@@ -116,5 +115,4 @@ final class InvalidPHPStanDocTagRule implements Rule
 
 		return $errors;
 	}
-
 }

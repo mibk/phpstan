@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\AssignOp;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
@@ -15,6 +11,10 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\AssignOp;
 use function sprintf;
 
 /**
@@ -23,7 +23,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class OffsetAccessValueAssignmentRule implements Rule
 {
-
 	public function __construct(private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -36,14 +35,14 @@ final class OffsetAccessValueAssignmentRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if (
-			!$node instanceof Assign
-			&& !$node instanceof AssignOp
-			&& !$node instanceof Expr\AssignRef
+			! $node instanceof Assign
+				&& ! $node instanceof AssignOp
+				&& ! $node instanceof Expr\AssignRef
 		) {
 			return [];
 		}
 
-		if (!$node->var instanceof Expr\ArrayDimFetch) {
+		if (! $node->var instanceof Expr\ArrayDimFetch) {
 			return [];
 		}
 
@@ -63,7 +62,7 @@ final class OffsetAccessValueAssignmentRule implements Rule
 			$scope,
 			$arrayDimFetch->var,
 			'',
-			static function (Type $varType) use ($assignedValueType): bool {
+			static function(Type $varType) use ($assignedValueType): bool {
 				$result = $varType->setOffsetValueType(new MixedType(), $assignedValueType);
 				return !($result instanceof ErrorType);
 			},
@@ -77,7 +76,7 @@ final class OffsetAccessValueAssignmentRule implements Rule
 			return [];
 		}
 		$resultType = $arrayType->setOffsetValueType(new MixedType(), $assignedValueType);
-		if (!$resultType instanceof ErrorType) {
+		if (! $resultType instanceof ErrorType) {
 			return [];
 		}
 
@@ -91,5 +90,4 @@ final class OffsetAccessValueAssignmentRule implements Rule
 			))->identifier('offsetAssign.valueType')->build(),
 		];
 	}
-
 }

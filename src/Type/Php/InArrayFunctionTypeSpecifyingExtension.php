@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\BinaryOp\Equal;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -19,13 +15,16 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\FunctionTypeSpecifyingExtension;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\BinaryOp\Equal;
+use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function strtolower;
 
 #[AutowiredService]
 final class InArrayFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function setTypeSpecifier(TypeSpecifier $typeSpecifier): void
@@ -97,8 +96,8 @@ final class InArrayFunctionTypeSpecifyingExtension implements FunctionTypeSpecif
 		if (!$isStrictComparison) {
 			if (
 				$context->true()
-				&& $arrayType->isArray()->yes()
-				&& $arrayType->getIterableValueType()->isSuperTypeOf($needleType)->yes()
+					&& $arrayType->isArray()->yes()
+					&& $arrayType->getIterableValueType()->isSuperTypeOf($needleType)->yes()
 			) {
 				return $this->typeSpecifier->create(
 					$node->getArgs()[1]->value,
@@ -114,12 +113,12 @@ final class InArrayFunctionTypeSpecifyingExtension implements FunctionTypeSpecif
 		$specifiedTypes = new SpecifiedTypes();
 		if (
 			$context->true()
-			|| (
-				$context->false()
-				&& count($arrayValueType->getFiniteTypes()) > 0
-				&& count($needleType->getFiniteTypes()) > 0
-				&& $arrayType->isIterableAtLeastOnce()->yes()
-			)
+				|| (
+					$context->false()
+						&& count($arrayValueType->getFiniteTypes()) > 0
+						&& count($needleType->getFiniteTypes()) > 0
+						&& $arrayType->isIterableAtLeastOnce()->yes()
+				)
 		) {
 			$specifiedTypes = $this->typeSpecifier->create(
 				$needleExpr,
@@ -139,10 +138,10 @@ final class InArrayFunctionTypeSpecifyingExtension implements FunctionTypeSpecif
 
 		if (
 			$context->true()
-			|| (
-				$context->false()
-				&& count($needleType->getFiniteTypes()) === 1
-			)
+				|| (
+					$context->false()
+						&& count($needleType->getFiniteTypes()) === 1
+				)
 		) {
 			if ($context->true()) {
 				$arrayValueType = TypeCombinator::union($arrayValueType, $needleType);
@@ -169,5 +168,4 @@ final class InArrayFunctionTypeSpecifyingExtension implements FunctionTypeSpecif
 
 		return $specifiedTypes;
 	}
-
 }

@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
 use Attribute;
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InArrowFunctionNode;
 use PHPStan\Rules\AttributesCheck;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 
 /**
  * @implements Rule<InArrowFunctionNode>
@@ -16,7 +16,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 0)]
 final class ArrowFunctionAttributesRule implements Rule
 {
-
 	public function __construct(private AttributesCheck $attributesCheck)
 	{
 	}
@@ -35,5 +34,4 @@ final class ArrowFunctionAttributesRule implements Rule
 			'function',
 		);
 	}
-
 }

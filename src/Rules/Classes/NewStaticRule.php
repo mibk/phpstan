@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\Php\PhpMethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function strtolower;
 
 /**
@@ -16,7 +16,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class NewStaticRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Expr\New_::class;
@@ -24,7 +23,7 @@ final class NewStaticRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->class instanceof Node\Name) {
+		if (! $node->class instanceof Node\Name) {
 			return [];
 		}
 
@@ -79,5 +78,4 @@ final class NewStaticRule implements Rule
 
 		return $messages;
 	}
-
 }

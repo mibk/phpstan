@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 
 #[AutowiredService]
 final class MagicConstantParamDefaultVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'isMagicConstantParamDefault';
 
 	public function enterNode(Node $node): ?Node
@@ -19,5 +18,4 @@ final class MagicConstantParamDefaultVisitor extends NodeVisitorAbstract
 		}
 		return null;
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -11,13 +10,13 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function strtolower;
 
 #[AutowiredService]
 final class ArrayValuesFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -40,5 +39,4 @@ final class ArrayValuesFunctionDynamicReturnTypeExtension implements DynamicFunc
 
 		return $arrayType->getValuesArray();
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -13,7 +13,6 @@ use function is_bool;
 
 final class ResolvedMethodReflection implements ExtendedMethodReflection
 {
-
 	/** @var list<ExtendedParametersAcceptor>|null */
 	private ?array $variants = null;
 
@@ -73,7 +72,7 @@ final class ResolvedMethodReflection implements ExtendedMethodReflection
 	}
 
 	/**
-	 * @param ExtendedParametersAcceptor[] $variants
+	 * @param  ExtendedParametersAcceptor[] $variants
 	 * @return list<ResolvedFunctionVariant>
 	 */
 	private function resolveVariants(array $variants): array
@@ -177,7 +176,7 @@ final class ResolvedMethodReflection implements ExtendedMethodReflection
 
 	public function getAsserts(): Assertions
 	{
-		return $this->asserts ??= $this->reflection->getAsserts()->mapTypes(fn (Type $type) => TemplateTypeHelper::resolveTemplateTypes(
+		return $this->asserts ??= $this->reflection->getAsserts()->mapTypes(fn(Type $type) => TemplateTypeHelper::resolveTemplateTypes(
 			$type,
 			$this->resolvedTemplateTypeMap,
 			$this->callSiteVarianceMap,
@@ -228,5 +227,4 @@ final class ResolvedMethodReflection implements ExtendedMethodReflection
 	{
 		return $this->reflection->getAttributes();
 	}
-
 }

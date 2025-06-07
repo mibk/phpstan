@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -27,6 +27,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use const JSON_INVALID_UTF8_IGNORE;
+use function React\Promise\resolve;
 use function array_diff;
 use function array_key_exists;
 use function count;
@@ -37,14 +39,11 @@ use function is_bool;
 use function is_file;
 use function is_string;
 use function memory_get_peak_usage;
-use function React\Promise\resolve;
 use function sprintf;
 use function usort;
-use const JSON_INVALID_UTF8_IGNORE;
 
 final class FixerWorkerCommand extends Command
 {
-
 	private const NAME = 'fixer:worker';
 
 	/**
@@ -85,12 +84,12 @@ final class FixerWorkerCommand extends Command
 
 		if (
 			!is_array($paths)
-			|| (!is_string($memoryLimit) && $memoryLimit !== null)
-			|| (!is_string($autoloadFile) && $autoloadFile !== null)
-			|| (!is_string($configuration) && $configuration !== null)
-			|| (!is_string($level) && $level !== null)
-			|| (!is_bool($allowXdebug))
-			|| (!is_string($serverPort))
+				|| (!is_string($memoryLimit) && $memoryLimit !== null)
+				|| (!is_string($autoloadFile) && $autoloadFile !== null)
+				|| (!is_string($configuration) && $configuration !== null)
+				|| (!is_string($level) && $level !== null)
+				|| (!is_bool($allowXdebug))
+				|| (!is_string($serverPort))
 		) {
 			throw new ShouldNotHappenException();
 		}
@@ -127,7 +126,7 @@ final class FixerWorkerCommand extends Command
 
 		$loop = new StreamSelectLoop();
 		$tcpConnector = new TcpConnector($loop);
-		$tcpConnector->connect(sprintf('127.0.0.1:%d', $serverPort))->then(function (ConnectionInterface $connection) use ($container, $inceptionResult, $configuration, $input, $ignoredErrorHelperResult, $loop): void {
+		$tcpConnector->connect(sprintf('127.0.0.1:%d', $serverPort))->then(function(ConnectionInterface $connection) use ($container, $inceptionResult, $configuration, $input, $ignoredErrorHelperResult, $loop): void {
 			// phpcs:disable SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
 			$jsonInvalidUtf8Ignore = defined('JSON_INVALID_UTF8_IGNORE') ? JSON_INVALID_UTF8_IGNORE : 0;
 			// phpcs:enable
@@ -181,14 +180,14 @@ final class FixerWorkerCommand extends Command
 			$out->write([
 				'action' => 'analysisStream',
 				'result' => [
-					'errors' => $errorsFromResultCache,
+					'errors'        => $errorsFromResultCache,
 					'ignoredErrors' => $ignoredErrorsFromResultCache,
 					'analysedFiles' => array_diff($inceptionFiles, $resultCache->getFilesToAnalyse()),
 				],
 			]);
 
 			$filesToAnalyse = $resultCache->getFilesToAnalyse();
-			usort($filesToAnalyse, static function (string $a, string $b): int {
+			usort($filesToAnalyse, static function(string $a, string $b): int {
 				$aTime = @filemtime($a);
 				if ($aTime === false) {
 					return 1;
@@ -211,7 +210,7 @@ final class FixerWorkerCommand extends Command
 				$filesToAnalyse,
 				$configuration,
 				$input,
-				function (array $errors, array $locallyIgnoredErrors, array $analysedFiles) use ($out, $ignoredErrorHelperResult, $isOnlyFiles, $inceptionFiles): void {
+				function(array $errors, array $locallyIgnoredErrors, array $analysedFiles) use ($out, $ignoredErrorHelperResult, $isOnlyFiles, $inceptionFiles): void {
 					$internalErrors = [];
 					foreach ($errors as $fileSpecificError) {
 						if (!$fileSpecificError->hasNonIgnorableException()) {
@@ -235,13 +234,13 @@ final class FixerWorkerCommand extends Command
 					$out->write([
 						'action' => 'analysisStream',
 						'result' => [
-							'errors' => $errors,
+							'errors'        => $errors,
 							'ignoredErrors' => $ignoredErrors,
 							'analysedFiles' => $analysedFiles,
 						],
 					]);
 				},
-			)->then(function (AnalyserResult $intermediateAnalyserResult) use ($analyserResultFinalizer, $resultCacheManager, $resultCache, $inceptionResult, $isOnlyFiles, $ignoredErrorHelperResult, $inceptionFiles, $out): void {
+			)->then(function(AnalyserResult $intermediateAnalyserResult) use ($analyserResultFinalizer, $resultCacheManager, $resultCache, $inceptionResult, $isOnlyFiles, $ignoredErrorHelperResult, $inceptionFiles, $out): void {
 				$analyserResult = $resultCacheManager->process(
 					$intermediateAnalyserResult,
 					$resultCache,
@@ -293,7 +292,7 @@ final class FixerWorkerCommand extends Command
 				$out->write([
 					'action' => 'analysisStream',
 					'result' => [
-						'errors' => $collectorErrors,
+						'errors'        => $collectorErrors,
 						'ignoredErrors' => $ignoredCollectorErrors,
 						'analysedFiles' => [],
 					],
@@ -319,7 +318,7 @@ final class FixerWorkerCommand extends Command
 				$out->end([
 					'action' => 'analysisEnd',
 					'result' => [
-						'ignoreFileErrors' => $ignoreFileErrors,
+						'ignoreFileErrors'    => $ignoreFileErrors,
 						'ignoreNotFileErrors' => $ignoredErrorHelperProcessedResult->getOtherIgnoreMessages(),
 					],
 				]);
@@ -336,7 +335,7 @@ final class FixerWorkerCommand extends Command
 		$metadata = $error->getMetadata();
 		if (
 			$error->getIdentifier() === 'phpstan.internal'
-			&& array_key_exists(InternalError::STACK_TRACE_AS_STRING_METADATA_KEY, $metadata)
+				&& array_key_exists(InternalError::STACK_TRACE_AS_STRING_METADATA_KEY, $metadata)
 		) {
 			$message = sprintf('Internal error: %s', $message);
 		}
@@ -351,8 +350,8 @@ final class FixerWorkerCommand extends Command
 	}
 
 	/**
-	 * @param string[] $inceptionFiles
-	 * @param array<Error> $errors
+	 * @param  string[]     $inceptionFiles
+	 * @param  array<Error> $errors
 	 * @return array{list<Error>, list<array{Error, mixed[]|string}>}
 	 */
 	private function filterErrors(array $errors, IgnoredErrorHelperResult $ignoredErrorHelperResult, bool $onlyFiles, array $inceptionFiles, bool $hasInternalErrors): array
@@ -377,8 +376,8 @@ final class FixerWorkerCommand extends Command
 	}
 
 	/**
-	 * @param string[] $files
-	 * @param callable(list<Error>, list<Error>, string[]): void $onFileAnalysisHandler
+	 * @param  string[]                                           $files
+	 * @param  callable(list<Error>, list<Error>, string[]): void $onFileAnalysisHandler
 	 * @return PromiseInterface<AnalyserResult>
 	 */
 	private function runAnalyser(LoopInterface $loop, Container $container, array $files, ?string $configuration, InputInterface $input, callable $onFileAnalysisHandler): PromiseInterface
@@ -414,5 +413,4 @@ final class FixerWorkerCommand extends Command
 			$onFileAnalysisHandler,
 		);
 	}
-
 }

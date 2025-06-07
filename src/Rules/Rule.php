@@ -1,9 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node;
 
 /**
  * This is the interface custom rules implement. To register it in the configuration file
@@ -12,9 +12,9 @@ use PHPStan\Analyser\Scope;
  * ```
  * services:
  * 	-
- *		class: App\MyRule
- *		tags:
- *			- phpstan.rules.rule
+ * *		class: App\MyRule
+ * *		tags:
+ * *			- phpstan.rules.rule
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/rules
@@ -24,16 +24,14 @@ use PHPStan\Analyser\Scope;
  */
 interface Rule
 {
-
 	/**
 	 * @return class-string<TNodeType>
 	 */
 	public function getNodeType(): string;
 
 	/**
-	 * @param TNodeType $node
+	 * @param  TNodeType $node
 	 * @return list<IdentifierRuleError>
 	 */
 	public function processNode(Node $node, Scope $scope): array;
-
 }

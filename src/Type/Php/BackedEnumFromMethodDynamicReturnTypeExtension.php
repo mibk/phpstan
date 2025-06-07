@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use BackedEnum;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -12,13 +11,13 @@ use PHPStan\Type\Enum\EnumCaseObjectType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\StaticCall;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class BackedEnumFromMethodDynamicReturnTypeExtension implements DynamicStaticMethodReturnTypeExtension
 {
-
 	public function getClass(): string
 	{
 		return BackedEnum::class;
@@ -98,5 +97,4 @@ final class BackedEnumFromMethodDynamicReturnTypeExtension implements DynamicSta
 
 		return $result;
 	}
-
 }

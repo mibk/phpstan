@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Class_;
 use function count;
 use function sprintf;
 
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class ApiClassExtendsRule implements Rule
 {
-
 	public function __construct(
 		private ApiRuleHelper $apiRuleHelper,
 		private ReflectionProvider $reflectionProvider,
@@ -74,5 +73,4 @@ final class ApiClassExtendsRule implements Rule
 
 		return [$ruleError];
 	}
-
 }

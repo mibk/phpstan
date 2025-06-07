@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 final class TypeTraverser
 {
-
 	/** @var callable(Type $type, callable(Type): Type $traverse): Type */
 	private $cb;
 
@@ -57,5 +56,4 @@ final class TypeTraverser
 	{
 		return $type->traverse([$this, 'mapInternal']);
 	}
-
 }

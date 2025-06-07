@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -15,7 +15,6 @@ use function sprintf;
  */
 final class NonexistentAnalysedClassRule implements Rule
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -43,5 +42,4 @@ final class NonexistentAnalysedClassRule implements Rule
 				->build(),
 		];
 	}
-
 }

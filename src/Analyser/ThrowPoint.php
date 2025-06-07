@@ -1,11 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node;
 use Throwable;
 
 /**
@@ -13,7 +13,6 @@ use Throwable;
  */
 final class ThrowPoint
 {
-
 	/**
 	 * @param Node\Expr|Node\Stmt $node
 	 */
@@ -75,5 +74,4 @@ final class ThrowPoint
 	{
 		return new self($this->scope, TypeCombinator::remove($this->type, $catchType), $this->node, $this->explicit, $this->canContainAnyThrowable);
 	}
-
 }

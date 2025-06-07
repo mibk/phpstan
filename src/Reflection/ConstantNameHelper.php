@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -12,15 +12,13 @@ use function strtolower;
 
 final class ConstantNameHelper
 {
-
 	public static function normalize(string $name): string
 	{
 		if (!str_contains($name, '\\')) {
 			return $name;
 		}
 
-		$nameParts = array_filter(explode('\\', $name), static fn ($part) => $part !== '');
+		$nameParts = array_filter(explode('\\', $name), static fn($part) => $part !== '');
 		return strtolower(implode('\\', array_slice($nameParts, 0, -1))) . '\\' . end($nameParts);
 	}
-
 }

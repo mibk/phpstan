@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Closure;
-use PhpParser\Node\Expr\Yield_;
-use PhpParser\Node\Expr\YieldFrom;
-use PhpParser\NodeAbstract;
 use PHPStan\Analyser\ImpurePoint;
 use PHPStan\Analyser\StatementResult;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\Expr\YieldFrom;
+use PhpParser\Node\Expr\Yield_;
+use PhpParser\NodeAbstract;
 use function count;
 
 /**
@@ -16,14 +16,13 @@ use function count;
  */
 final class ClosureReturnStatementsNode extends NodeAbstract implements ReturnStatementsNode
 {
-
 	private Node\Expr\Closure $closureExpr;
 
 	/**
-	 * @param list<ReturnStatement> $returnStatements
+	 * @param list<ReturnStatement>  $returnStatements
 	 * @param list<Yield_|YieldFrom> $yieldStatements
 	 * @param list<ExecutionEndNode> $executionEnds
-	 * @param ImpurePoint[] $impurePoints
+	 * @param ImpurePoint[]          $impurePoints
 	 */
 	public function __construct(
 		Closure $closureExpr,
@@ -95,5 +94,4 @@ final class ClosureReturnStatementsNode extends NodeAbstract implements ReturnSt
 	{
 		return [];
 	}
-
 }

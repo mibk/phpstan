@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
 use ArrayAccess;
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\Expr\SetOffsetValueTypeExpr;
@@ -16,6 +15,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node;
 use function in_array;
 use function sprintf;
 use function strtolower;
@@ -26,7 +26,6 @@ use function strtolower;
 #[RegisteredRule(level: 3)]
 final class ReadOnlyPropertyAssignRule implements Rule
 {
-
 	public function __construct(
 		private PropertyReflectionFinder $propertyReflectionFinder,
 		private ConstructorsHelper $constructorsHelper,
@@ -42,7 +41,7 @@ final class ReadOnlyPropertyAssignRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		$propertyFetch = $node->getPropertyFetch();
-		if (!$propertyFetch instanceof Node\Expr\PropertyFetch) {
+		if (! $propertyFetch instanceof Node\Expr\PropertyFetch) {
 			return [];
 		}
 
@@ -78,13 +77,13 @@ final class ReadOnlyPropertyAssignRule implements Rule
 			}
 
 			$scopeMethod = $scope->getFunction();
-			if (!$scopeMethod instanceof MethodReflection) {
+			if (! $scopeMethod instanceof MethodReflection) {
 				throw new ShouldNotHappenException();
 			}
 
 			if (
 				in_array($scopeMethod->getName(), $this->constructorsHelper->getConstructors($scopeClassReflection), true)
-				|| strtolower($scopeMethod->getName()) === '__unserialize'
+					|| strtolower($scopeMethod->getName()) === '__unserialize'
 			) {
 				if (TypeUtils::findThisType($scope->getType($propertyFetch->var)) === null) {
 					$errors[] = RuleErrorBuilder::message(sprintf('Readonly property %s::$%s is not assigned on $this.', $declaringClass->getDisplayName(), $propertyReflection->getName()))
@@ -110,5 +109,4 @@ final class ReadOnlyPropertyAssignRule implements Rule
 
 		return $errors;
 	}
-
 }

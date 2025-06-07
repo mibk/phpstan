@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -12,9 +12,9 @@ namespace PHPStan\Type;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.broker.operatorTypeSpecifyingExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.broker.operatorTypeSpecifyingExtension
  * ```
  *
  * Learn more: https://github.com/phpstan/phpstan/pull/2114
@@ -23,9 +23,7 @@ namespace PHPStan\Type;
  */
 interface OperatorTypeSpecifyingExtension
 {
-
 	public function isOperatorSupported(string $operatorSigil, Type $leftSide, Type $rightSide): bool;
 
 	public function specifyType(string $operatorSigil, Type $leftSide, Type $rightSide): Type;
-
 }

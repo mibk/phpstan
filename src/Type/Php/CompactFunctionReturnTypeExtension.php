@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -12,13 +11,13 @@ use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function array_merge;
 use function count;
 
 #[AutowiredService]
 final class CompactFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $checkMaybeUndefinedVariables,
@@ -90,5 +89,4 @@ final class CompactFunctionReturnTypeExtension implements DynamicFunctionReturnT
 
 		return null;
 	}
-
 }

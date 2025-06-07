@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Dummy;
 
@@ -16,7 +16,6 @@ use PHPStan\Type\VoidType;
 
 final class DummyConstructorReflection implements ExtendedMethodReflection
 {
-
 	public function __construct(private ClassReflection $declaringClass)
 	{
 	}
@@ -156,5 +155,4 @@ final class DummyConstructorReflection implements ExtendedMethodReflection
 	{
 		return [];
 	}
-
 }

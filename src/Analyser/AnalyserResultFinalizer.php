@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -19,7 +19,6 @@ use function sprintf;
 #[AutowiredService]
 final class AnalyserResultFinalizer
 {
-
 	public function __construct(
 		private RuleRegistry $ruleRegistry,
 		private IgnoreErrorExtensionProvider $ignoreErrorExtensionProvider,
@@ -57,7 +56,7 @@ final class AnalyserResultFinalizer
 				$tempCollectorErrors[] = (new Error($e->getMessage(), $file, $node->getStartLine(), $e, tip: $e->getTip()))
 					->withIdentifier('phpstan.internal')
 					->withMetadata([
-						InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+						InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 						InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 					]);
 				continue;
@@ -65,7 +64,7 @@ final class AnalyserResultFinalizer
 				$tempCollectorErrors[] = (new Error(sprintf('Reflection error: %s not found.', $e->getIdentifier()->getName()), $file, $node->getStartLine(), $e, tip: 'Learn more at https://phpstan.org/user-guide/discovering-symbols'))
 					->withIdentifier('phpstan.reflection')
 					->withMetadata([
-						InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+						InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 						InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 					]);
 				continue;
@@ -73,7 +72,7 @@ final class AnalyserResultFinalizer
 				$tempCollectorErrors[] = (new Error(sprintf('Reflection error: %s', $e->getMessage()), $file, $node->getStartLine(), $e))
 					->withIdentifier('phpstan.reflection')
 					->withMetadata([
-						InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+						InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 						InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 					]);
 				continue;
@@ -236,5 +235,4 @@ final class AnalyserResultFinalizer
 			$locallyIgnoredCollectorErrors,
 		);
 	}
-
 }

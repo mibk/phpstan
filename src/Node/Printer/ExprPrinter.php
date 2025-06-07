@@ -1,9 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Printer;
 
-use PhpParser\Node\Expr;
 use PHPStan\DependencyInjection\AutowiredService;
+use PhpParser\Node\Expr;
 
 /**
  * @api
@@ -11,7 +11,6 @@ use PHPStan\DependencyInjection\AutowiredService;
 #[AutowiredService]
 final class ExprPrinter
 {
-
 	public function __construct(private Printer $printer)
 	{
 	}
@@ -27,5 +26,4 @@ final class ExprPrinter
 
 		return $exprString;
 	}
-
 }

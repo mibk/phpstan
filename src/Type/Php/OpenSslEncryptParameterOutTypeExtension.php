@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -13,6 +12,7 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function in_array;
 use function openssl_get_cipher_methods;
 use function strtolower;
@@ -21,7 +21,6 @@ use function substr;
 #[AutowiredService]
 final class OpenSslEncryptParameterOutTypeExtension implements FunctionParameterOutTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection, ParameterReflection $parameter): bool
 	{
 		return $functionReflection->getName() === 'openssl_encrypt' && $parameter->getName() === 'tag';
@@ -68,5 +67,4 @@ final class OpenSslEncryptParameterOutTypeExtension implements FunctionParameter
 
 		return TypeCombinator::union(...$tagTypes);
 	}
-
 }

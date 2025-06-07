@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan;
 
@@ -14,10 +14,9 @@ use function min;
  */
 final class TrinaryLogic
 {
-
-	private const YES = 1;
+	private const YES   = 1;
 	private const MAYBE = 0;
-	private const NO = -1;
+	private const NO    = -1;
 
 	/** @var self[] */
 	private static array $registry = [];
@@ -92,8 +91,8 @@ final class TrinaryLogic
 
 	/**
 	 * @template T
-	 * @param T[] $objects
-	 * @param callable(T): self $callback
+	 * @param    T[]               $objects
+	 * @param    callable(T): self $callback
 	 */
 	public function lazyAnd(
 		array $objects,
@@ -126,8 +125,8 @@ final class TrinaryLogic
 
 	/**
 	 * @template T
-	 * @param T[] $objects
-	 * @param callable(T): self $callback
+	 * @param    T[]               $objects
+	 * @param    callable(T): self $callback
 	 */
 	public function lazyOr(
 		array $objects,
@@ -164,8 +163,8 @@ final class TrinaryLogic
 
 	/**
 	 * @template T
-	 * @param T[] $objects
-	 * @param callable(T): self $callback
+	 * @param    T[]               $objects
+	 * @param    callable(T): self $callback
 	 */
 	public static function lazyExtremeIdentity(
 		array $objects,
@@ -204,8 +203,8 @@ final class TrinaryLogic
 
 	/**
 	 * @template T
-	 * @param T[] $objects
-	 * @param callable(T): self $callback
+	 * @param    T[]               $objects
+	 * @param    callable(T): self $callback
 	 */
 	public static function lazyMaxMin(
 		array $objects,
@@ -249,12 +248,11 @@ final class TrinaryLogic
 	public function describe(): string
 	{
 		static $labels = [
-			self::NO => 'No',
+			self::NO    => 'No',
 			self::MAYBE => 'Maybe',
-			self::YES => 'Yes',
+			self::YES   => 'Yes',
 		];
 
 		return $labels[$this->value];
 	}
-
 }

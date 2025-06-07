@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -26,7 +26,6 @@ use PHPStan\Type\Generic\TemplateTypeVariance;
  */
 interface Type
 {
-
 	/**
 	 * @return list<string>
 	 */
@@ -333,7 +332,7 @@ interface Type
 	 * Returns a new instance with all inner types mapped through $cb. Might
 	 * return the same instance if inner types did not change.
 	 *
-	 * @param callable(Type):Type $cb
+	 * @param callable(Type): Type $cb
 	 */
 	public function traverse(callable $cb): Type;
 
@@ -354,5 +353,4 @@ interface Type
 	public function tryRemove(Type $typeToRemove): ?Type;
 
 	public function generalize(GeneralizePrecision $precision): Type;
-
 }

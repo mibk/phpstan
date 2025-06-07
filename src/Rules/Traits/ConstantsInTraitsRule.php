@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Traits;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Stmt\ClassConst>
@@ -15,7 +15,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class ConstantsInTraitsRule implements Rule
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -44,5 +43,4 @@ final class ConstantsInTraitsRule implements Rule
 			)->identifier('classConstant.inTrait')->nonIgnorable()->build(),
 		];
 	}
-
 }

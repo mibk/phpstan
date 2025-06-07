@@ -1,20 +1,19 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use Closure;
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ClosureType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\MethodCall;
 
 #[AutowiredService]
 final class ClosureBindToDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-
 	public function getClass(): string
 	{
 		return Closure::class;
@@ -34,5 +33,4 @@ final class ClosureBindToDynamicReturnTypeExtension implements DynamicMethodRetu
 
 		return $closureType;
 	}
-
 }

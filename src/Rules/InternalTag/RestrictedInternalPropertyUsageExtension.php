@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\InternalTag;
 
@@ -13,7 +13,6 @@ use function strtolower;
 
 final class RestrictedInternalPropertyUsageExtension implements RestrictedPropertyUsageExtension
 {
-
 	public function __construct(private RestrictedInternalUsageHelper $helper)
 	{
 	}
@@ -94,5 +93,4 @@ final class RestrictedInternalPropertyUsageExtension implements RestrictedProper
 			sprintf('%s.internal', $propertyReflection->isStatic() ? 'staticProperty' : 'property'),
 		);
 	}
-
 }

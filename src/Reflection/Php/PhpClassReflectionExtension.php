@@ -1,12 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Declare_;
-use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\NodeScopeResolver;
 use PHPStan\Analyser\ScopeContext;
 use PHPStan\Analyser\ScopeFactory;
@@ -54,6 +49,11 @@ use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypehintHelper;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Declare_;
+use PhpParser\Node\Stmt\Namespace_;
 use function array_key_exists;
 use function array_keys;
 use function array_map;
@@ -68,7 +68,6 @@ use function strtolower;
 final class PhpClassReflectionExtension
 	implements PropertiesClassReflectionExtension, MethodsClassReflectionExtension
 {
-
 	/** @var ExtendedPropertyReflection[][] */
 	private array $propertiesIncludingAnnotations = [];
 
@@ -200,7 +199,7 @@ final class PhpClassReflectionExtension
 		if ($declaringClassReflection->isEnum()) {
 			if (
 				$propertyName === 'name'
-				|| ($declaringClassReflection->isBackedEnum() && $propertyName === 'value')
+					|| ($declaringClassReflection->isBackedEnum() && $propertyName === 'value')
 			) {
 				$types = [];
 				foreach (array_keys($classReflection->getEnumCases()) as $name) {
@@ -232,8 +231,8 @@ final class PhpClassReflectionExtension
 
 		if (
 			$includingAnnotations
-			&& !$declaringClassReflection->isEnum()
-			&& $this->annotationsPropertiesClassReflectionExtension->hasProperty($classReflection, $propertyName)
+				&& !$declaringClassReflection->isEnum()
+				&& $this->annotationsPropertiesClassReflectionExtension->hasProperty($classReflection, $propertyName)
 		) {
 			$hierarchyDistances = $classReflection->getClassHierarchyDistances();
 			$annotationProperty = $this->annotationsPropertiesClassReflectionExtension->getProperty($classReflection, $propertyName);
@@ -319,7 +318,7 @@ final class PhpClassReflectionExtension
 				$nativeClassReflection = $declaringClassReflection->getNativeReflection();
 				$positionalParameterNames = [];
 				if ($nativeClassReflection->getConstructor() !== null) {
-					$positionalParameterNames = array_map(static fn (ReflectionParameter $parameter): string => $parameter->getName(), $nativeClassReflection->getConstructor()->getParameters());
+					$positionalParameterNames = array_map(static fn(ReflectionParameter $parameter): string => $parameter->getName(), $nativeClassReflection->getConstructor()->getParameters());
 				}
 				$resolvedConstructorPhpDoc = $this->phpDocInheritanceResolver->resolvePhpDocForMethod(
 					$constructorDocComment,
@@ -338,13 +337,13 @@ final class PhpClassReflectionExtension
 
 		if (
 			$phpDocType === null
-			&& $this->inferPrivatePropertyTypeFromConstructor
-			&& $declaringClassReflection->getFileName() !== null
-			&& $propertyReflection->isPrivate()
-			&& !$propertyReflection->isPromoted()
-			&& !$propertyReflection->hasType()
-			&& $declaringClassReflection->hasConstructor()
-			&& $declaringClassReflection->getConstructor()->getDeclaringClass()->getName() === $declaringClassReflection->getName()
+				&& $this->inferPrivatePropertyTypeFromConstructor
+				&& $declaringClassReflection->getFileName() !== null
+				&& $propertyReflection->isPrivate()
+				&& !$propertyReflection->isPromoted()
+				&& !$propertyReflection->hasType()
+				&& $declaringClassReflection->hasConstructor()
+				&& $declaringClassReflection->getConstructor()->getDeclaringClass()->getName() === $declaringClassReflection->getName()
 		) {
 			$phpDocType = $this->inferPrivatePropertyType(
 				$propertyReflection->getName(),
@@ -386,8 +385,8 @@ final class PhpClassReflectionExtension
 				$getHookMethodReflectionVariantPhpDocReturnType = $getHookMethodReflectionVariant->getPhpDocReturnType();
 				if (
 					$getHookMethodReflectionVariantPhpDocReturnType instanceof MixedType
-					&& !$getHookMethodReflectionVariantPhpDocReturnType instanceof TemplateMixedType
-					&& !$getHookMethodReflectionVariantPhpDocReturnType->isExplicitMixed()
+						&& ! $getHookMethodReflectionVariantPhpDocReturnType instanceof TemplateMixedType
+						&& !$getHookMethodReflectionVariantPhpDocReturnType->isExplicitMixed()
 				) {
 					$getHook = $getHook->changePropertyGetHookPhpDocType($phpDocType);
 				}
@@ -414,8 +413,8 @@ final class PhpClassReflectionExtension
 					$setHookMethodReflectionParameterPhpDocType = $setHookMethodReflectionParameter->getPhpDocType();
 					if (
 						$setHookMethodReflectionParameterPhpDocType instanceof MixedType
-						&& !$setHookMethodReflectionParameterPhpDocType instanceof TemplateMixedType
-						&& !$setHookMethodReflectionParameterPhpDocType->isExplicitMixed()
+							&& ! $setHookMethodReflectionParameterPhpDocType instanceof TemplateMixedType
+							&& !$setHookMethodReflectionParameterPhpDocType->isExplicitMixed()
 					) {
 						$setHook = $setHook->changePropertySetHookPhpDocType($setHookMethodReflectionParameter->getName(), $phpDocType);
 					}
@@ -528,8 +527,8 @@ final class PhpClassReflectionExtension
 
 		if (
 			$declaringClass->isEnum()
-			&& $declaringClass->getName() !== 'UnitEnum'
-			&& strtolower($methodReflection->getName()) === 'cases'
+				&& $declaringClass->getName() !== 'UnitEnum'
+				&& strtolower($methodReflection->getName()) === 'cases'
 		) {
 			$arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
 			foreach (array_keys($classReflection->getEnumCases()) as $name) {
@@ -570,13 +569,13 @@ final class PhpClassReflectionExtension
 					$stubImmediatelyInvokedCallableParameters = [];
 					$stubClosureThisParameters = [];
 					if (count($methodSignatures) === 1) {
-						$stubPhpDocPair = $this->findMethodPhpDocIncludingAncestors($declaringClass, $declaringClass, $methodReflection->getName(), array_map(static fn (ParameterSignature $parameterSignature): string => $parameterSignature->getName(), $methodSignature->getParameters()));
+						$stubPhpDocPair = $this->findMethodPhpDocIncludingAncestors($declaringClass, $declaringClass, $methodReflection->getName(), array_map(static fn(ParameterSignature $parameterSignature): string => $parameterSignature->getName(), $methodSignature->getParameters()));
 						if ($stubPhpDocPair !== null) {
 							[$stubPhpDoc, $stubDeclaringClass] = $stubPhpDocPair;
 							$templateTypeMap = $stubDeclaringClass->getActiveTemplateTypeMap();
 							$callSiteVarianceMap = $stubDeclaringClass->getCallSiteVarianceMap();
 							$returnTag = $stubPhpDoc->getReturnTag();
-							$stubImmediatelyInvokedCallableParameters = array_map(static fn (bool $immediate) => TrinaryLogic::createFromBoolean($immediate), $stubPhpDoc->getParamsImmediatelyInvokedCallable());
+							$stubImmediatelyInvokedCallableParameters = array_map(static fn(bool $immediate) => TrinaryLogic::createFromBoolean($immediate), $stubPhpDoc->getParamsImmediatelyInvokedCallable());
 							if ($returnTag !== null) {
 								$stubPhpDocReturnType = TemplateTypeHelper::resolveTemplateTypes(
 									$returnTag->getType(),
@@ -586,7 +585,7 @@ final class PhpClassReflectionExtension
 								);
 							}
 
-							$stubClosureThisParameters = array_map(static fn ($tag) => $tag->getType(), $stubPhpDoc->getParamClosureThisTags());
+							$stubClosureThisParameters = array_map(static fn($tag) => $tag->getType(), $stubPhpDoc->getParamClosureThisTags());
 							foreach ($stubPhpDoc->getParamTags() as $name => $paramTag) {
 								$stubPhpDocParameterTypes[$name] = TemplateTypeHelper::resolveTemplateTypes(
 									$paramTag->getType(),
@@ -642,8 +641,8 @@ final class PhpClassReflectionExtension
 							if ($returnTag !== null && count($methodSignatures) === 1) {
 								$phpDocReturnType = $returnTag->getType();
 							}
-							$immediatelyInvokedCallableParameters = array_map(static fn ($immediate) => TrinaryLogic::createFromBoolean($immediate), $phpDocBlock->getParamsImmediatelyInvokedCallable());
-							$closureThisParameters = array_map(static fn ($tag) => $tag->getType(), $phpDocBlock->getParamClosureThisTags());
+							$immediatelyInvokedCallableParameters = array_map(static fn($immediate) => TrinaryLogic::createFromBoolean($immediate), $phpDocBlock->getParamsImmediatelyInvokedCallable());
+							$closureThisParameters = array_map(static fn($tag) => $tag->getType(), $phpDocBlock->getParamClosureThisTags());
 							foreach ($phpDocBlock->getParamTags() as $name => $paramTag) {
 								$phpDocParameterTypes[$name] = $paramTag->getType();
 							}
@@ -713,19 +712,19 @@ final class PhpClassReflectionExtension
 		$isDeprecated = $deprecation !== null;
 
 		$resolvedPhpDoc = null;
-		$stubPhpDocPair = $this->findMethodPhpDocIncludingAncestors($fileDeclaringClass, $fileDeclaringClass, $methodReflection->getName(), array_map(static fn (ReflectionParameter $parameter): string => $parameter->getName(), $methodReflection->getParameters()));
+		$stubPhpDocPair = $this->findMethodPhpDocIncludingAncestors($fileDeclaringClass, $fileDeclaringClass, $methodReflection->getName(), array_map(static fn(ReflectionParameter $parameter): string => $parameter->getName(), $methodReflection->getParameters()));
 		$phpDocBlockClassReflection = $fileDeclaringClass;
 
 		$methodDeclaringClass = $methodReflection->getBetterReflection()->getDeclaringClass();
 
 		if ($stubPhpDocPair === null && $methodDeclaringClass->isTrait()) {
-			if (! $methodReflection->getDeclaringClass()->isTrait() || $methodDeclaringClass->getName() !== $methodReflection->getDeclaringClass()->getName()) {
+			if (!$methodReflection->getDeclaringClass()->isTrait() || $methodDeclaringClass->getName() !== $methodReflection->getDeclaringClass()->getName()) {
 				$stubPhpDocPair = $this->findMethodPhpDocIncludingAncestors(
 					$this->reflectionProviderProvider->getReflectionProvider()->getClass($methodDeclaringClass->getName()),
 					$this->reflectionProviderProvider->getReflectionProvider()->getClass($methodReflection->getDeclaringClass()->getName()),
 					$methodReflection->getName(),
 					array_map(
-						static fn (ReflectionParameter $parameter): string => $parameter->getName(),
+						static fn(ReflectionParameter $parameter): string => $parameter->getName(),
 						$methodReflection->getParameters(),
 					),
 				);
@@ -738,7 +737,7 @@ final class PhpClassReflectionExtension
 
 		if ($resolvedPhpDoc === null) {
 			$docComment = $methodReflection->getDocComment() !== false ? $methodReflection->getDocComment() : null;
-			$positionalParameterNames = array_map(static fn (ReflectionParameter $parameter): string => $parameter->getName(), $methodReflection->getParameters());
+			$positionalParameterNames = array_map(static fn(ReflectionParameter $parameter): string => $parameter->getName(), $methodReflection->getParameters());
 
 			$resolvedPhpDoc = $this->phpDocInheritanceResolver->resolvePhpDocForMethod(
 				$docComment,
@@ -799,8 +798,8 @@ final class PhpClassReflectionExtension
 		}
 
 		$templateTypeMap = $resolvedPhpDoc->getTemplateTypeMap();
-		$immediatelyInvokedCallableParameters = array_map(static fn (bool $immediate) => TrinaryLogic::createFromBoolean($immediate), $resolvedPhpDoc->getParamsImmediatelyInvokedCallable());
-		$closureThisParameters = array_map(static fn ($tag) => $tag->getType(), $resolvedPhpDoc->getParamClosureThisTags());
+		$immediatelyInvokedCallableParameters = array_map(static fn(bool $immediate) => TrinaryLogic::createFromBoolean($immediate), $resolvedPhpDoc->getParamsImmediatelyInvokedCallable());
+		$closureThisParameters = array_map(static fn($tag) => $tag->getType(), $resolvedPhpDoc->getParamClosureThisTags());
 
 		foreach ($resolvedPhpDoc->getParamTags() as $paramName => $paramTag) {
 			if (array_key_exists($paramName, $phpDocParameterTypes)) {
@@ -873,16 +872,16 @@ final class PhpClassReflectionExtension
 	}
 
 	/**
-	 * @param array<string, Type> $stubPhpDocParameterTypes
-	 * @param array<string, bool> $stubPhpDocParameterVariadicity
-	 * @param array<string, Type> $phpDocParameterTypes
-	 * @param array<string, string> $phpDocParameterNameMapping
-	 * @param array<string, Type> $stubPhpDocParameterOutTypes
-	 * @param array<string, Type> $phpDocParameterOutTypes
+	 * @param array<string, Type>         $stubPhpDocParameterTypes
+	 * @param array<string, bool>         $stubPhpDocParameterVariadicity
+	 * @param array<string, Type>         $phpDocParameterTypes
+	 * @param array<string, string>       $phpDocParameterNameMapping
+	 * @param array<string, Type>         $stubPhpDocParameterOutTypes
+	 * @param array<string, Type>         $phpDocParameterOutTypes
 	 * @param array<string, TrinaryLogic> $stubImmediatelyInvokedCallableParameters
 	 * @param array<string, TrinaryLogic> $immediatelyInvokedCallableParameters
-	 * @param array<string, Type> $stubClosureThisParameters
-	 * @param array<string, Type> $closureThisParameters
+	 * @param array<string, Type>         $stubClosureThisParameters
+	 * @param array<string, Type>         $closureThisParameters
 	 */
 	private function createNativeMethodVariant(
 		FunctionSignature $methodSignature,
@@ -1060,7 +1059,7 @@ final class PhpClassReflectionExtension
 			$classScope = $classScope->enterNamespace($namespace);
 		}
 		$classScope = $classScope->enterClass($declaringClass);
-		[$templateTypeMap, $phpDocParameterTypes, $phpDocImmediatelyInvokedCallableParameters, $phpDocClosureThisTypeParameters, $phpDocReturnType, $phpDocThrowType, $deprecatedDescription, $isDeprecated, $isInternal, $isFinal, $isPure, $acceptsNamedArguments, , $phpDocComment, $asserts, $selfOutType, $phpDocParameterOutTypes] = $this->nodeScopeResolver->getPhpDocs($classScope, $methodNode);
+		[$templateTypeMap, $phpDocParameterTypes, $phpDocImmediatelyInvokedCallableParameters, $phpDocClosureThisTypeParameters, $phpDocReturnType, $phpDocThrowType, $deprecatedDescription, $isDeprecated, $isInternal, $isFinal, $isPure, $acceptsNamedArguments,, $phpDocComment, $asserts, $selfOutType, $phpDocParameterOutTypes] = $this->nodeScopeResolver->getPhpDocs($classScope, $methodNode);
 		$methodScope = $classScope->enterClassMethod(
 			$methodNode,
 			$templateTypeMap,
@@ -1083,24 +1082,24 @@ final class PhpClassReflectionExtension
 
 		$propertyTypes = [];
 		foreach ($methodNode->stmts as $statement) {
-			if (!$statement instanceof Node\Stmt\Expression) {
+			if (! $statement instanceof Node\Stmt\Expression) {
 				continue;
 			}
 
 			$expr = $statement->expr;
-			if (!$expr instanceof Node\Expr\Assign) {
+			if (! $expr instanceof Node\Expr\Assign) {
 				continue;
 			}
 
-			if (!$expr->var instanceof Node\Expr\PropertyFetch) {
+			if (! $expr->var instanceof Node\Expr\PropertyFetch) {
 				continue;
 			}
 
 			$propertyFetch = $expr->var;
 			if (
-				!$propertyFetch->var instanceof Node\Expr\Variable
-				|| $propertyFetch->var->name !== 'this'
-				|| !$propertyFetch->name instanceof Node\Identifier
+				! $propertyFetch->var instanceof Node\Expr\Variable
+					|| $propertyFetch->var->name !== 'this'
+					|| ! $propertyFetch->name instanceof Node\Identifier
 			) {
 				continue;
 			}
@@ -1129,14 +1128,14 @@ final class PhpClassReflectionExtension
 		foreach ($nodes as $node) {
 			if (
 				$node instanceof Class_
-				&& $node->namespacedName !== null
-				&& $node->namespacedName->toString() === $className
+					&& $node->namespacedName !== null
+					&& $node->namespacedName->toString() === $className
 			) {
 				return $node;
 			}
 			if (
-				!$node instanceof Namespace_
-				&& !$node instanceof Declare_
+				! $node instanceof Namespace_
+					&& ! $node instanceof Declare_
 			) {
 				continue;
 			}
@@ -1164,7 +1163,7 @@ final class PhpClassReflectionExtension
 		foreach ($classStatements as $statement) {
 			if (
 				$statement instanceof ClassMethod
-				&& $statement->name->toString() === $methodName
+					&& $statement->name->toString() === $methodName
 			) {
 				return $statement;
 			}
@@ -1196,7 +1195,7 @@ final class PhpClassReflectionExtension
 	}
 
 	/**
-	 * @param array<int, string> $positionalParameterNames
+	 * @param  array<int, string> $positionalParameterNames
 	 * @return array{ResolvedPhpDocBlock, ClassReflection}|null
 	 */
 	private function findMethodPhpDocIncludingAncestors(
@@ -1234,5 +1233,4 @@ final class PhpClassReflectionExtension
 
 		return null;
 	}
-
 }

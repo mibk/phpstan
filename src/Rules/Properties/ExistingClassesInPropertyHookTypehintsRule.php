@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -11,6 +9,8 @@ use PHPStan\Node\InPropertyHookNode;
 use PHPStan\Rules\FunctionDefinitionCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
 use function sprintf;
 use function ucfirst;
 
@@ -20,7 +20,6 @@ use function ucfirst;
 #[RegisteredRule(level: 0)]
 final class ExistingClassesInPropertyHookTypehintsRule implements Rule
 {
-
 	public function __construct(private FunctionDefinitionCheck $check)
 	{
 	}
@@ -86,5 +85,4 @@ final class ExistingClassesInPropertyHookTypehintsRule implements Rule
 			),
 		);
 	}
-
 }

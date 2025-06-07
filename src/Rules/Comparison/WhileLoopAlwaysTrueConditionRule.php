@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
-use PhpParser\Node\Scalar\Int_;
-use PhpParser\Node\Stmt\Break_;
-use PhpParser\Node\Stmt\Continue_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +9,10 @@ use PHPStan\Node\BreaklessWhileLoopNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
+use PhpParser\Node;
+use PhpParser\Node\Scalar\Int_;
+use PhpParser\Node\Stmt\Break_;
+use PhpParser\Node\Stmt\Continue_;
 
 /**
  * @implements Rule<BreaklessWhileLoopNode>
@@ -20,7 +20,6 @@ use PHPStan\Type\Constant\ConstantBooleanType;
 #[RegisteredRule(level: 4)]
 final class WhileLoopAlwaysTrueConditionRule implements Rule
 {
-
 	public function __construct(
 		private ConstantConditionRuleHelper $helper,
 		#[AutowiredParameter]
@@ -46,13 +45,13 @@ final class WhileLoopAlwaysTrueConditionRule implements Rule
 			if ($statement instanceof Break_) {
 				return [];
 			}
-			if (!$statement instanceof Continue_) {
+			if (! $statement instanceof Continue_) {
 				return [];
 			}
 			if ($statement->num === null) {
 				continue;
 			}
-			if (!$statement->num instanceof Int_) {
+			if (! $statement->num instanceof Int_) {
 				continue;
 			}
 			$value = $statement->num->value;
@@ -67,7 +66,7 @@ final class WhileLoopAlwaysTrueConditionRule implements Rule
 		$originalNode = $node->getOriginalNode();
 		$exprType = $this->helper->getBooleanType($scope, $originalNode->cond);
 		if ($exprType->isTrue()->yes()) {
-			$addTip = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $originalNode): RuleErrorBuilder {
+			$addTip = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $originalNode): RuleErrorBuilder {
 				if (!$this->treatPhpDocTypesAsCertain) {
 					return $ruleErrorBuilder;
 				}
@@ -92,5 +91,4 @@ final class WhileLoopAlwaysTrueConditionRule implements Rule
 
 		return [];
 	}
-
 }

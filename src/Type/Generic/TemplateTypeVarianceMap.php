@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -9,7 +9,6 @@ use function array_key_exists;
  */
 final class TemplateTypeVarianceMap
 {
-
 	private static ?TemplateTypeVarianceMap $empty = null;
 
 	/**
@@ -49,5 +48,4 @@ final class TemplateTypeVarianceMap
 	{
 		return $this->getVariances()[$name] ?? null;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -25,7 +25,6 @@ use function get_class;
 /** @api */
 class FloatType implements Type
 {
-
 	use NonArrayTypeTrait;
 	use NonCallableTypeTrait;
 	use NonIterableTypeTrait;
@@ -295,5 +294,4 @@ class FloatType implements Type
 	{
 		return [];
 	}
-
 }

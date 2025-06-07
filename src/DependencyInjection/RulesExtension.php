@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -9,7 +9,6 @@ use PHPStan\Rules\LazyRegistry;
 
 final class RulesExtension extends CompilerExtension
 {
-
 	public function getConfigSchema(): Schema
 	{
 		return Expect::listOf('string');
@@ -28,5 +27,4 @@ final class RulesExtension extends CompilerExtension
 				->addTag(LazyRegistry::RULE_TAG);
 		}
 	}
-
 }

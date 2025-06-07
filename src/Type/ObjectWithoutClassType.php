@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -14,7 +14,6 @@ use function sprintf;
 /** @api */
 class ObjectWithoutClassType implements SubtractableType
 {
-
 	use ObjectTypeTrait;
 	use NonGenericTypeTrait;
 	use UndecidedComparisonTypeTrait;
@@ -97,7 +96,7 @@ class ObjectWithoutClassType implements SubtractableType
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -119,9 +118,9 @@ class ObjectWithoutClassType implements SubtractableType
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			static fn (): string => 'object',
-			static fn (): string => 'object',
-			function () use ($level): string {
+			static fn(): string => 'object',
+			static fn(): string => 'object',
+			function() use ($level): string {
 				$description = 'object';
 				if ($this->subtractedType !== null) {
 					$description .= $this->subtractedType instanceof UnionType
@@ -202,7 +201,7 @@ class ObjectWithoutClassType implements SubtractableType
 
 	public function exponentiate(Type $exponent): Type
 	{
-		if (!$exponent instanceof NeverType && !$this->isSuperTypeOf($exponent)->no()) {
+		if (! $exponent instanceof NeverType && !$this->isSuperTypeOf($exponent)->no()) {
 			return TypeCombinator::union($this, $exponent);
 		}
 
@@ -221,5 +220,4 @@ class ObjectWithoutClassType implements SubtractableType
 	{
 		return new IdentifierTypeNode('object');
 	}
-
 }

@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
-use PhpParser\NodeTraverser;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\File\FileReader;
 use PHPStan\Parser\Parser;
 use PHPStan\Parser\ParserErrorsException;
+use PhpParser\NodeTraverser;
 
 #[AutowiredService]
 final class FileNodesFetcher
 {
-
 	public function __construct(
 		private CachingVisitor $cachingVisitor,
 		#[AutowiredParameter(ref: '@defaultAnalysisParser')]
@@ -46,5 +45,4 @@ final class FileNodesFetcher
 
 		return $result;
 	}
-
 }

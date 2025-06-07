@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -12,7 +12,6 @@ use PHPStan\Type\Type;
 
 final class UniversalObjectCrateProperty implements ExtendedPropertyReflection
 {
-
 	public function __construct(
 		private string $name,
 		private ClassReflection $declaringClass,
@@ -156,5 +155,4 @@ final class UniversalObjectCrateProperty implements ExtendedPropertyReflection
 	{
 		return [];
 	}
-
 }

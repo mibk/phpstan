@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
-use PhpParser\Node\Expr;
 use PHPStan\Reflection\ClassConstantReflection;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr;
 
 final class RewrittenDeclaringClassClassConstantReflection implements ClassConstantReflection
 {
-
 	public function __construct(
 		private ClassReflection $declaringClass,
 		private ClassConstantReflection $constantReflection,
@@ -107,5 +106,4 @@ final class RewrittenDeclaringClassClassConstantReflection implements ClassConst
 	{
 		return $this->constantReflection->getFileName();
 	}
-
 }

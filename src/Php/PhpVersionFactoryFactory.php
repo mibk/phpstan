@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Php;
 
@@ -18,10 +18,9 @@ use function is_string;
 #[AutowiredService]
 final class PhpVersionFactoryFactory
 {
-
 	/**
 	 * @param int|array{min: int, max: int}|null $phpVersion
-	 * @param string[] $composerAutoloaderProjectPaths
+	 * @param string[]                           $composerAutoloaderProjectPaths
 	 */
 	public function __construct(
 		#[AutowiredParameter]
@@ -63,5 +62,4 @@ final class PhpVersionFactoryFactory
 
 		return new PhpVersionFactory($versionId, $composerPhpVersion);
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -53,7 +53,6 @@ use function substr;
 #[AutowiredService]
 final class PhpDocNodeResolver
 {
-
 	public function __construct(
 		private TypeNodeResolver $typeNodeResolver,
 		private ConstExprNodeResolver $constExprNodeResolver,
@@ -183,7 +182,7 @@ final class PhpDocNodeResolver
 					}
 
 					$templateTypeScope = TemplateTypeScope::createWithMethod($nameScope->getClassName(), $tagValue->methodName);
-					$templateTypeMap = new TemplateTypeMap(array_map(static fn (TemplateTag $tag): Type => TemplateTypeFactory::fromTemplateTag($templateTypeScope, $tag), $templateTags));
+					$templateTypeMap = new TemplateTypeMap(array_map(static fn(TemplateTag $tag): Type => TemplateTypeFactory::fromTemplateTag($templateTypeScope, $tag), $templateTags));
 					$nameScope = $nameScope->withTemplateTypeMap($templateTypeMap);
 				}
 
@@ -289,15 +288,15 @@ final class PhpDocNodeResolver
 		$resolvedPrefix = [];
 
 		$prefixPriority = [
-			'' => 0,
-			'phan' => 1,
-			'psalm' => 2,
+			''        => 0,
+			'phan'    => 1,
+			'psalm'   => 2,
 			'phpstan' => 3,
 		];
 
 		foreach ($phpDocNode->getTags() as $phpDocTagNode) {
 			$valueNode = $phpDocTagNode->value;
-			if (!$valueNode instanceof TemplateTagValueNode) {
+			if (! $valueNode instanceof TemplateTagValueNode) {
 				continue;
 			}
 
@@ -483,7 +482,7 @@ final class PhpDocNodeResolver
 	 */
 	public function resolveMixinTags(PhpDocNode $phpDocNode, NameScope $nameScope): array
 	{
-		return array_map(fn (MixinTagValueNode $mixinTagValueNode): MixinTag => new MixinTag(
+		return array_map(fn(MixinTagValueNode $mixinTagValueNode): MixinTag => new MixinTag(
 			$this->typeNodeResolver->resolve($mixinTagValueNode->type, $nameScope),
 		), $phpDocNode->getMixinTagValues());
 	}
@@ -582,7 +581,7 @@ final class PhpDocNodeResolver
 	}
 
 	/**
-	 * @param AssertTag::NULL|AssertTag::IF_TRUE|AssertTag::IF_FALSE $if
+	 * @param  AssertTag::NULL|AssertTag::IF_TRUE|AssertTag::IF_FALSE $if
 	 * @return AssertTag[]
 	 */
 	private function resolveAssertTagsFor(PhpDocNode $phpDocNode, NameScope $nameScope, string $tagName, string $if): array
@@ -751,5 +750,4 @@ final class PhpDocNodeResolver
 
 		return false;
 	}
-
 }

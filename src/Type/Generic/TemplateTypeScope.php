@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -6,7 +6,6 @@ use function sprintf;
 
 final class TemplateTypeScope
 {
-
 	public static function createWithAnonymousFunction(): self
 	{
 		return new self(null, null);
@@ -67,5 +66,4 @@ final class TemplateTypeScope
 
 		return sprintf('method %s::%s()', $this->className, $this->functionName);
 	}
-
 }

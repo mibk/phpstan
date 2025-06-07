@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -16,13 +15,13 @@ use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function in_array;
 use function strtolower;
 
 #[AutowiredService]
 final class MbSubstituteCharacterDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -133,5 +132,4 @@ final class MbSubstituteCharacterDynamicReturnTypeExtension implements DynamicFu
 
 		return new BooleanType();
 	}
-
 }

@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Analyser\StatementExitPoint;
 use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeAbstract;
-use PHPStan\Analyser\StatementExitPoint;
 
 /**
  * @api
  */
 final class BreaklessWhileLoopNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
 	 * @param StatementExitPoint[] $exitPoints
 	 */
@@ -45,5 +44,4 @@ final class BreaklessWhileLoopNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

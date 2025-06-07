@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Traits;
 
@@ -25,7 +25,6 @@ use PHPStan\Type\TypeCombinator;
 
 trait ObjectTypeTrait
 {
-
 	use MaybeCallableTypeTrait;
 	use MaybeIterableTypeTrait;
 	use MaybeOffsetAccessibleTypeTrait;
@@ -69,7 +68,7 @@ trait ObjectTypeTrait
 			$property,
 			$property->getDeclaringClass(),
 			false,
-			static fn (Type $type): Type => $type,
+			static fn(Type $type): Type => $type,
 		);
 	}
 
@@ -95,7 +94,7 @@ trait ObjectTypeTrait
 			$method,
 			$method->getDeclaringClass(),
 			false,
-			static fn (Type $type): Type => $type,
+			static fn(Type $type): Type => $type,
 		);
 	}
 
@@ -282,5 +281,4 @@ trait ObjectTypeTrait
 
 		return $this;
 	}
-
 }

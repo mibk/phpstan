@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -33,17 +33,16 @@ use function is_file;
 #[GenerateFactory(interface: FunctionReflectionFactory::class)]
 final class PhpFunctionReflection implements FunctionReflection
 {
-
 	/** @var list<ExtendedFunctionVariant>|null */
 	private ?array $variants = null;
 
 	private ?bool $containsVariadicCalls = null;
 
 	/**
-	 * @param array<string, Type> $phpDocParameterTypes
-	 * @param array<string, Type> $phpDocParameterOutTypes
-	 * @param array<string, bool> $phpDocParameterImmediatelyInvokedCallable
-	 * @param array<string, Type> $phpDocParameterClosureThisTypes
+	 * @param array<string, Type>       $phpDocParameterTypes
+	 * @param array<string, Type>       $phpDocParameterOutTypes
+	 * @param array<string, bool>       $phpDocParameterImmediatelyInvokedCallable
+	 * @param array<string, Type>       $phpDocParameterClosureThisTypes
 	 * @param list<AttributeReflection> $attributes
 	 */
 	public function __construct(
@@ -124,7 +123,7 @@ final class PhpFunctionReflection implements FunctionReflection
 	 */
 	private function getParameters(): array
 	{
-		return array_map(function (ReflectionParameter $reflection): PhpParameterReflection {
+		return array_map(function(ReflectionParameter $reflection): PhpParameterReflection {
 			if (array_key_exists($reflection->getName(), $this->phpDocParameterImmediatelyInvokedCallable)) {
 				$immediatelyInvokedCallable = TrinaryLogic::createFromBoolean($this->phpDocParameterImmediatelyInvokedCallable[$reflection->getName()]);
 			} else {
@@ -163,7 +162,7 @@ final class PhpFunctionReflection implements FunctionReflection
 
 				if (
 					is_array($variadicFunctions)
-					&& array_key_exists($this->reflection->getName(), $variadicFunctions)
+						&& array_key_exists($this->reflection->getName(), $variadicFunctions)
 				) {
 					return $this->containsVariadicCalls = $variadicFunctions[$this->reflection->getName()];
 				}
@@ -278,5 +277,4 @@ final class PhpFunctionReflection implements FunctionReflection
 	{
 		return $this->attributes;
 	}
-
 }

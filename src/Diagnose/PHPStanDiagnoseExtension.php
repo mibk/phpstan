@@ -1,15 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Diagnose;
 
-use Phar;
 use PHPStan\Command\Output;
 use PHPStan\ExtensionInstaller\GeneratedConfig;
 use PHPStan\File\FileHelper;
 use PHPStan\Internal\ComposerHelper;
 use PHPStan\Php\ComposerPhpVersionFactory;
 use PHPStan\Php\PhpVersion;
+use Phar;
 use ReflectionClass;
+use const PHP_VERSION_ID;
 use function array_key_exists;
 use function array_slice;
 use function class_exists;
@@ -25,15 +26,13 @@ use function sprintf;
 use function str_starts_with;
 use function strlen;
 use function substr;
-use const PHP_VERSION_ID;
 
 final class PHPStanDiagnoseExtension implements DiagnoseExtension
 {
-
 	/**
 	 * @param int|array{min: int, max: int}|null $configPhpVersion
-	 * @param string[] $composerAutoloaderProjectPaths
-	 * @param string [] $allConfigFiles
+	 * @param string[]                           $composerAutoloaderProjectPaths
+	 * @param string[]                           $allConfigFiles
 	 */
 	public function __construct(
 		private PhpVersion $phpVersion,
@@ -56,7 +55,7 @@ final class PHPStanDiagnoseExtension implements DiagnoseExtension
 
 		if (
 			$this->phpVersion->getSource() === PhpVersion::SOURCE_CONFIG
-			&& is_array($this->configPhpVersion)
+				&& is_array($this->configPhpVersion)
 		) {
 			$minVersion = new PhpVersion($this->configPhpVersion['min']);
 			$maxVersion = new PhpVersion($this->configPhpVersion['max']);
@@ -67,7 +66,6 @@ final class PHPStanDiagnoseExtension implements DiagnoseExtension
 				$maxVersion->getVersionString(),
 				$this->phpVersion->getSourceLabel(),
 			));
-
 		} else {
 			$minComposerPhpVersion = $this->composerPhpVersionFactory->getMinVersion();
 			$maxComposerPhpVersion = $this->composerPhpVersionFactory->getMaxVersion();
@@ -204,5 +202,4 @@ final class PHPStanDiagnoseExtension implements DiagnoseExtension
 		}
 		$output->writeLineFormatted('');
 	}
-
 }

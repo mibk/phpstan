@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Process;
 
@@ -9,7 +9,6 @@ use PHPStan\DependencyInjection\AutowiredService;
 #[AutowiredService]
 final class CpuCoreCounter
 {
-
 	private ?int $count = null;
 
 	public function getNumberOfCpuCores(): int
@@ -26,5 +25,4 @@ final class CpuCoreCounter
 
 		return $this->count;
 	}
-
 }

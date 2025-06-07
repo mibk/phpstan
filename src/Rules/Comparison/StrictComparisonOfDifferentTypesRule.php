@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\RicherScopeGetTypeHelper;
 use PHPStan\Analyser\Scope;
@@ -15,6 +14,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
@@ -24,7 +24,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class StrictComparisonOfDifferentTypesRule implements Rule
 {
-
 	public function __construct(
 		private RicherScopeGetTypeHelper $richerScopeGetTypeHelper,
 		#[AutowiredParameter]
@@ -44,7 +43,7 @@ final class StrictComparisonOfDifferentTypesRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$scope instanceof MutatingScope) {
+		if (! $scope instanceof MutatingScope) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -57,14 +56,14 @@ final class StrictComparisonOfDifferentTypesRule implements Rule
 		}
 
 		$nodeType = $nodeTypeResult->type;
-		if (!$nodeType instanceof ConstantBooleanType) {
+		if (! $nodeType instanceof ConstantBooleanType) {
 			return [];
 		}
 
 		$leftType = $this->treatPhpDocTypesAsCertain ? $scope->getType($node->left) : $scope->getNativeType($node->left);
 		$rightType = $this->treatPhpDocTypesAsCertain ? $scope->getType($node->right) : $scope->getNativeType($node->right);
 
-		$addTip = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node, $nodeTypeResult): RuleErrorBuilder {
+		$addTip = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node, $nodeTypeResult): RuleErrorBuilder {
 			$reasons = $nodeTypeResult->reasons;
 			if (count($reasons) > 0) {
 				return $ruleErrorBuilder->acceptsReasonsTip($reasons);
@@ -90,22 +89,22 @@ final class StrictComparisonOfDifferentTypesRule implements Rule
 		if (
 			(
 				$leftType->isConstantScalarValue()->yes()
-				&& !$leftType->isString()->no()
-				&& !$rightType->isConstantScalarValue()->yes()
-				&& !$rightType->isString()->no()
-				&& (
-					TrinaryLogic::extremeIdentity($leftType->isLowercaseString(), $rightType->isLowercaseString())->maybe()
-					|| TrinaryLogic::extremeIdentity($leftType->isUppercaseString(), $rightType->isUppercaseString())->maybe()
-				)
+					&& !$leftType->isString()->no()
+					&& !$rightType->isConstantScalarValue()->yes()
+					&& !$rightType->isString()->no()
+					&& (
+						TrinaryLogic::extremeIdentity($leftType->isLowercaseString(), $rightType->isLowercaseString())->maybe()
+							|| TrinaryLogic::extremeIdentity($leftType->isUppercaseString(), $rightType->isUppercaseString())->maybe()
+					)
 			) || (
 				$rightType->isConstantScalarValue()->yes()
-				&& !$rightType->isString()->no()
-				&& !$leftType->isConstantScalarValue()->yes()
-				&& !$leftType->isString()->no()
-				&& (
-					TrinaryLogic::extremeIdentity($leftType->isLowercaseString(), $rightType->isLowercaseString())->maybe()
-					|| TrinaryLogic::extremeIdentity($leftType->isUppercaseString(), $rightType->isUppercaseString())->maybe()
-				)
+					&& !$rightType->isString()->no()
+					&& !$leftType->isConstantScalarValue()->yes()
+					&& !$leftType->isString()->no()
+					&& (
+						TrinaryLogic::extremeIdentity($leftType->isLowercaseString(), $rightType->isLowercaseString())->maybe()
+							|| TrinaryLogic::extremeIdentity($leftType->isUppercaseString(), $rightType->isUppercaseString())->maybe()
+					)
 			)
 		) {
 			$verbosity = VerbosityLevel::precise();
@@ -139,8 +138,8 @@ final class StrictComparisonOfDifferentTypesRule implements Rule
 
 		if (
 			$leftType->isEnum()->yes()
-			&& $rightType->isEnum()->yes()
-			&& $node->getAttribute(LastConditionVisitor::ATTRIBUTE_IS_MATCH_NAME, false) !== true
+				&& $rightType->isEnum()->yes()
+				&& $node->getAttribute(LastConditionVisitor::ATTRIBUTE_IS_MATCH_NAME, false) !== true
 		) {
 			$errorBuilder->addTip('Use match expression instead. PHPStan will report unhandled enum cases.');
 		}
@@ -151,5 +150,4 @@ final class StrictComparisonOfDifferentTypesRule implements Rule
 			$errorBuilder->build(),
 		];
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -13,13 +12,13 @@ use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FunctionTypeSpecifyingExtension;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function strtolower;
 
 #[AutowiredService]
 final class IsAFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function __construct(
@@ -41,7 +40,7 @@ final class IsAFunctionTypeSpecifyingExtension implements FunctionTypeSpecifying
 		}
 		$classType = $scope->getType($node->getArgs()[1]->value);
 
-		if (!$classType instanceof ConstantStringType && !$context->true()) {
+		if (! $classType instanceof ConstantStringType && !$context->true()) {
 			return new SpecifiedTypes([], []);
 		}
 
@@ -68,5 +67,4 @@ final class IsAFunctionTypeSpecifyingExtension implements FunctionTypeSpecifying
 	{
 		$this->typeSpecifier = $typeSpecifier;
 	}
-
 }

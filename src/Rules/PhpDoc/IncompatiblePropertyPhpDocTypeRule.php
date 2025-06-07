@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -12,6 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Generic\TemplateType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_merge;
 use function sprintf;
 
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class IncompatiblePropertyPhpDocTypeRule implements Rule
 {
-
 	public function __construct(
 		private GenericObjectTypeCheck $genericObjectTypeCheck,
 		private UnresolvableTypeHelper $unresolvableTypeHelper,
@@ -75,7 +74,6 @@ final class IncompatiblePropertyPhpDocTypeRule implements Rule
 					$phpDocType->describe(VerbosityLevel::typeOnly()),
 					$nativeType->describe(VerbosityLevel::typeOnly()),
 				))->identifier('property.phpDocType')->build();
-
 			} elseif ($isSuperType->maybe()) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					'%s for property %s::$%s with type %s is not subtype of native type %s.',
@@ -151,5 +149,4 @@ final class IncompatiblePropertyPhpDocTypeRule implements Rule
 
 		return $messages;
 	}
-
 }

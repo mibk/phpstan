@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Cache;
 
@@ -13,6 +13,7 @@ use PHPStan\Internal\DirectoryCreatorException;
 use PHPStan\ShouldNotHappenException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use const DIRECTORY_SEPARATOR;
 use function array_keys;
 use function closedir;
 use function dirname;
@@ -31,11 +32,9 @@ use function substr;
 use function uksort;
 use function unlink;
 use function var_export;
-use const DIRECTORY_SEPARATOR;
 
 final class FileCacheStorage implements CacheStorage
 {
-
 	private const CACHED_CLEARED_VERSION = 'v2-new';
 
 	public function __construct(private string $directory)
@@ -49,9 +48,9 @@ final class FileCacheStorage implements CacheStorage
 	{
 		[,, $filePath] = $this->getFilePaths($key);
 
-		return (static function () use ($variableKey, $filePath) {
+		return (static function() use ($variableKey, $filePath) {
 			$cacheItem = @include $filePath;
-			if (!$cacheItem instanceof CacheItem) {
+			if (! $cacheItem instanceof CacheItem) {
 				return null;
 			}
 			if (!$cacheItem->isVariableKeyValid($variableKey)) {
@@ -63,7 +62,7 @@ final class FileCacheStorage implements CacheStorage
 	}
 
 	/**
-	 * @param mixed $data
+	 * @param  mixed $data
 	 * @throws DirectoryCreatorException
 	 */
 	public function save(string $key, string $variableKey, $data): void
@@ -154,8 +153,8 @@ final class FileCacheStorage implements CacheStorage
 				$contents = FileReader::read($path);
 				if (
 					!str_starts_with($contents, $beginFunction)
-					&& !str_starts_with($contents, $beginMethod)
-					&& str_starts_with($contents, $beginNew)
+						&& !str_starts_with($contents, $beginMethod)
+						&& str_starts_with($contents, $beginNew)
 				) {
 					continue;
 				}
@@ -169,7 +168,7 @@ final class FileCacheStorage implements CacheStorage
 			}
 		}
 
-		uksort($emptyDirectoriesToCheck, static fn ($a, $b) => strlen($b) - strlen($a));
+		uksort($emptyDirectoriesToCheck, static fn($a, $b) => strlen($b) - strlen($a));
 
 		foreach (array_keys($emptyDirectoriesToCheck) as $directory) {
 			if (!$this->isDirectoryEmpty($directory)) {
@@ -202,5 +201,4 @@ final class FileCacheStorage implements CacheStorage
 		closedir($handle);
 		return true;
 	}
-
 }

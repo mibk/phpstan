@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\PhpDoc\Tag\TemplateTag;
@@ -16,13 +15,13 @@ use PHPStan\Type\Generic\TemplateTypeScope;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_keys;
 use function sprintf;
 
 #[AutowiredService]
 final class GenericCallableRuleHelper
 {
-
 	public function __construct(
 		private TemplateTypeCheck $templateTypeCheck,
 	)
@@ -46,7 +45,7 @@ final class GenericCallableRuleHelper
 	{
 		$errors = [];
 
-		TypeTraverser::map($callableType, function (Type $type, callable $traverse) use (&$errors, $node, $scope, $location, $functionName, $functionTemplateTags, $classReflection) {
+		TypeTraverser::map($callableType, function(Type $type, callable $traverse) use (&$errors, $node, $scope, $location, $functionName, $functionTemplateTags, $classReflection) {
 			if (!($type instanceof CallableType || $type instanceof ClosureType)) {
 				return $traverse($type);
 			}
@@ -118,5 +117,4 @@ final class GenericCallableRuleHelper
 
 		return $errors;
 	}
-
 }

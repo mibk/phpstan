@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 use function count;
 
 #[AutowiredService]
 final class ArrowFunctionArgVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'arrowFunctionCallArgs';
 
 	public function enterNode(Node $node): ?Node
 	{
-		if (!$node instanceof Node\Expr\FuncCall) {
+		if (! $node instanceof Node\Expr\FuncCall) {
 			return null;
 		}
 
@@ -39,5 +38,4 @@ final class ArrowFunctionArgVisitor extends NodeVisitorAbstract
 
 		return null;
 	}
-
 }

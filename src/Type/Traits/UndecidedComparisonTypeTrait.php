@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Traits;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 
 trait UndecidedComparisonTypeTrait
 {
-
 	public function isSmallerThan(Type $otherType, PhpVersion $phpVersion): TrinaryLogic
 	{
 		return TrinaryLogic::createMaybe();
@@ -39,5 +38,4 @@ trait UndecidedComparisonTypeTrait
 	{
 		return new MixedType();
 	}
-
 }

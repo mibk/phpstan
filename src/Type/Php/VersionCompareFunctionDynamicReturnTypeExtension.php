@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -17,6 +15,8 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\FuncCall;
 use function array_filter;
 use function count;
 use function is_array;
@@ -25,7 +25,6 @@ use function version_compare;
 #[AutowiredService]
 final class VersionCompareFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	/**
 	 * @param int|array{min: int, max: int}|null $configPhpVersion
 	 */
@@ -72,11 +71,11 @@ final class VersionCompareFunctionDynamicReturnTypeExtension implements DynamicF
 			);
 		}
 
-		if (count(array_filter($counts, static fn (int $count): bool => $count === 0)) > 0) {
+		if (count(array_filter($counts, static fn(int $count): bool => $count === 0)) > 0) {
 			return $returnType; // one of the arguments is not a constant string
 		}
 
-		if (count(array_filter($counts, static fn (int $count): bool => $count > 1)) > 1) {
+		if (count(array_filter($counts, static fn(int $count): bool => $count > 1)) > 1) {
 			return $returnType; // more than one argument can have multiple possibilities, avoid combinatorial explosion
 		}
 
@@ -104,7 +103,7 @@ final class VersionCompareFunctionDynamicReturnTypeExtension implements DynamicF
 	{
 		if (
 			$expr instanceof Expr\ConstFetch
-			&& $expr->name->toString() === 'PHP_VERSION'
+				&& $expr->name->toString() === 'PHP_VERSION'
 		) {
 			if (is_array($this->configPhpVersion)) {
 				$minVersion = new PhpVersion($this->configPhpVersion['min']);
@@ -124,5 +123,4 @@ final class VersionCompareFunctionDynamicReturnTypeExtension implements DynamicF
 
 		return $scope->getType($expr)->getConstantStrings();
 	}
-
 }

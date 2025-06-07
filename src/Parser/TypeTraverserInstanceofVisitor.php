@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 
 #[AutowiredService]
 final class TypeTraverserInstanceofVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'insideTypeTraverserMap';
 
 	private int $depth = 0;
@@ -29,10 +28,10 @@ final class TypeTraverserInstanceofVisitor extends NodeVisitorAbstract
 
 		if (
 			$node instanceof Node\Expr\StaticCall
-			&& $node->class instanceof Node\Name
-			&& $node->class->toLowerString() === 'phpstan\\type\\typetraverser'
-			&& $node->name instanceof Node\Identifier
-			&& $node->name->toLowerString() === 'map'
+				&& $node->class instanceof Node\Name
+				&& $node->class->toLowerString() === 'phpstan\\type\\typetraverser'
+				&& $node->name instanceof Node\Identifier
+				&& $node->name->toLowerString() === 'map'
 		) {
 			$this->depth++;
 		}
@@ -44,15 +43,14 @@ final class TypeTraverserInstanceofVisitor extends NodeVisitorAbstract
 	{
 		if (
 			$node instanceof Node\Expr\StaticCall
-			&& $node->class instanceof Node\Name
-			&& $node->class->toLowerString() === 'phpstan\\type\\typetraverser'
-			&& $node->name instanceof Node\Identifier
-			&& $node->name->toLowerString() === 'map'
+				&& $node->class instanceof Node\Name
+				&& $node->class->toLowerString() === 'phpstan\\type\\typetraverser'
+				&& $node->name instanceof Node\Identifier
+				&& $node->name->toLowerString() === 'map'
 		) {
 			$this->depth--;
 		}
 
 		return null;
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\NameScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -26,6 +25,7 @@ use PHPStan\Type\Generic\TemplateType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Stmt\ClassLike;
 use function array_key_exists;
 use function array_merge;
 use function in_array;
@@ -34,7 +34,6 @@ use function sprintf;
 #[AutowiredService]
 final class LocalTypeAliasesCheck
 {
-
 	/**
 	 * @param array<string, string> $globalTypeAliases
 	 */
@@ -84,7 +83,7 @@ final class LocalTypeAliasesCheck
 		}
 
 		$nameScope = $phpDoc->getNullableNameScope();
-		$resolveName = static function (string $name) use ($nameScope): string {
+		$resolveName = static function(string $name) use ($nameScope): string {
 			if ($nameScope === null) {
 				return $name;
 			}
@@ -340,13 +339,13 @@ final class LocalTypeAliasesCheck
 	}
 
 	/**
-	 * @param list<IdentifierRuleError> $errors
+	 * @param     list<IdentifierRuleError> $errors
 	 * @param-out list<IdentifierRuleError> $errors
 	 */
 	private function hasErrorType(Type $type, string $aliasName, array &$errors): bool
 	{
 		$foundError = false;
-		TypeTraverser::map($type, static function (Type $type, callable $traverse) use (&$errors, &$foundError, $aliasName): Type {
+		TypeTraverser::map($type, static function(Type $type, callable $traverse) use (&$errors, &$foundError, $aliasName): Type {
 			if ($foundError) {
 				return $type;
 			}
@@ -372,5 +371,4 @@ final class LocalTypeAliasesCheck
 
 		return $foundError;
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\ReflectionProvider;
@@ -26,6 +25,7 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node;
 use function array_key_exists;
 use function array_merge;
 use function hexdec;
@@ -37,7 +37,6 @@ use function sprintf;
 #[AutowiredService]
 final class FilterFunctionReturnTypeHelper
 {
-
 	/** All validation filters match 0x100. */
 	private const VALIDATION_FILTER_BITMASK = 0x100;
 
@@ -108,7 +107,7 @@ final class FilterFunctionReturnTypeHelper
 		if ($filterType === null) {
 			$filterValue = $this->getConstant('FILTER_DEFAULT');
 		} else {
-			if (!$filterType instanceof ConstantIntegerType) {
+			if (! $filterType instanceof ConstantIntegerType) {
 				return $mixedType;
 			}
 			$filterValue = $filterType->getValue();
@@ -188,23 +187,23 @@ final class FilterFunctionReturnTypeHelper
 		$nonFalsyStringType = TypeCombinator::intersect($stringType, new AccessoryNonFalsyStringType());
 
 		$this->filterTypeMap = [
-			$this->getConstant('FILTER_UNSAFE_RAW') => $stringType,
-			$this->getConstant('FILTER_SANITIZE_EMAIL') => $stringType,
-			$this->getConstant('FILTER_SANITIZE_ENCODED') => $stringType,
-			$this->getConstant('FILTER_SANITIZE_NUMBER_FLOAT') => $stringType,
-			$this->getConstant('FILTER_SANITIZE_NUMBER_INT') => $stringType,
+			$this->getConstant('FILTER_UNSAFE_RAW')             => $stringType,
+			$this->getConstant('FILTER_SANITIZE_EMAIL')         => $stringType,
+			$this->getConstant('FILTER_SANITIZE_ENCODED')       => $stringType,
+			$this->getConstant('FILTER_SANITIZE_NUMBER_FLOAT')  => $stringType,
+			$this->getConstant('FILTER_SANITIZE_NUMBER_INT')    => $stringType,
 			$this->getConstant('FILTER_SANITIZE_SPECIAL_CHARS') => $stringType,
-			$this->getConstant('FILTER_SANITIZE_STRING') => $stringType,
-			$this->getConstant('FILTER_SANITIZE_URL') => $stringType,
-			$this->getConstant('FILTER_VALIDATE_BOOLEAN') => $booleanType,
-			$this->getConstant('FILTER_VALIDATE_DOMAIN') => $stringType,
-			$this->getConstant('FILTER_VALIDATE_EMAIL') => $nonFalsyStringType,
-			$this->getConstant('FILTER_VALIDATE_FLOAT') => $floatType,
-			$this->getConstant('FILTER_VALIDATE_INT') => $intType,
-			$this->getConstant('FILTER_VALIDATE_IP') => $nonFalsyStringType,
-			$this->getConstant('FILTER_VALIDATE_MAC') => $nonFalsyStringType,
-			$this->getConstant('FILTER_VALIDATE_REGEXP') => $stringType,
-			$this->getConstant('FILTER_VALIDATE_URL') => $nonFalsyStringType,
+			$this->getConstant('FILTER_SANITIZE_STRING')        => $stringType,
+			$this->getConstant('FILTER_SANITIZE_URL')           => $stringType,
+			$this->getConstant('FILTER_VALIDATE_BOOLEAN')       => $booleanType,
+			$this->getConstant('FILTER_VALIDATE_DOMAIN')        => $stringType,
+			$this->getConstant('FILTER_VALIDATE_EMAIL')         => $nonFalsyStringType,
+			$this->getConstant('FILTER_VALIDATE_FLOAT')         => $floatType,
+			$this->getConstant('FILTER_VALIDATE_INT')           => $intType,
+			$this->getConstant('FILTER_VALIDATE_IP')            => $nonFalsyStringType,
+			$this->getConstant('FILTER_VALIDATE_MAC')           => $nonFalsyStringType,
+			$this->getConstant('FILTER_VALIDATE_REGEXP')        => $stringType,
+			$this->getConstant('FILTER_VALIDATE_URL')           => $nonFalsyStringType,
 		];
 
 		if ($this->reflectionProvider->hasConstant(new Node\Name('FILTER_SANITIZE_MAGIC_QUOTES'), null)) {
@@ -243,7 +242,7 @@ final class FilterFunctionReturnTypeHelper
 	{
 		$constant = $this->reflectionProvider->getConstant(new Node\Name($constantName), null);
 		$valueType = $constant->getValueType();
-		if (!$valueType instanceof ConstantIntegerType) {
+		if (! $valueType instanceof ConstantIntegerType) {
 			throw new ShouldNotHappenException(sprintf('Constant %s does not have integer type.', $constantName));
 		}
 
@@ -294,7 +293,7 @@ final class FilterFunctionReturnTypeHelper
 			}
 
 			if ($in instanceof ConstantFloatType) {
-				return $in->getValue() - (int) $in->getValue() === 0.0
+				return $in->getValue() - (int)$in->getValue() === 0.0
 					? $in->toInteger()
 					: $defaultType;
 			}
@@ -448,5 +447,4 @@ final class FilterFunctionReturnTypeHelper
 
 		return true;
 	}
-
 }

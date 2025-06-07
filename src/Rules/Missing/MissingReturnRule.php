@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Missing;
 
 use Generator;
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -20,6 +19,7 @@ use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
 use PHPStan\Type\VoidType;
+use PhpParser\Node;
 use function sprintf;
 use function ucfirst;
 
@@ -29,7 +29,6 @@ use function ucfirst;
 #[RegisteredRule(level: 0)]
 final class MissingReturnRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $checkExplicitMixedMissingReturn,
@@ -77,19 +76,19 @@ final class MissingReturnRule implements Rule
 		$returnType = TypeUtils::resolveLateResolvableTypes($returnType);
 
 		$isVoidSuperType = $returnType->isSuperTypeOf(new VoidType());
-		if ($isVoidSuperType->yes() && !$returnType instanceof MixedType) {
+		if ($isVoidSuperType->yes() && ! $returnType instanceof MixedType) {
 			return [];
 		}
 
 		if ($statementResult->hasYield()) {
 			if ($this->checkPhpDocMissingReturn) {
 				$generatorReturnType = $returnType->getTemplateType(Generator::class, 'TReturn');
-				if (!$generatorReturnType instanceof ErrorType) {
+				if (! $generatorReturnType instanceof ErrorType) {
 					$returnType = $generatorReturnType;
 					if ($returnType->isVoid()->yes()) {
 						return [];
 					}
-					if (!$returnType instanceof MixedType) {
+					if (! $returnType instanceof MixedType) {
 						return [
 							RuleErrorBuilder::message(
 								sprintf('%s should return %s but return statement is missing.', $description, $returnType->describe(VerbosityLevel::typeOnly())),
@@ -106,8 +105,8 @@ final class MissingReturnRule implements Rule
 
 		if (
 			!$node->hasNativeReturnTypehint()
-			&& !$this->checkPhpDocMissingReturn
-			&& TypeCombinator::containsNull($returnType)
+				&& !$this->checkPhpDocMissingReturn
+				&& TypeCombinator::containsNull($returnType)
 		) {
 			return [];
 		}
@@ -128,12 +127,12 @@ final class MissingReturnRule implements Rule
 
 		if (
 			$returnType instanceof MixedType
-			&& !$returnType instanceof TemplateMixedType
-			&& !$node->hasNativeReturnTypehint()
-			&& (
-				!$returnType->isExplicitMixed()
-				|| !$this->checkExplicitMixedMissingReturn
-			)
+				&& ! $returnType instanceof TemplateMixedType
+				&& !$node->hasNativeReturnTypehint()
+				&& (
+					!$returnType->isExplicitMixed()
+						|| !$this->checkExplicitMixedMissingReturn
+				)
 		) {
 			return [];
 		}
@@ -152,5 +151,4 @@ final class MissingReturnRule implements Rule
 			$errorBuilder->build(),
 		];
 	}
-
 }

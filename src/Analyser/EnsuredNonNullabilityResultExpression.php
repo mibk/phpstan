@@ -1,14 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node\Expr;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr;
 
 final class EnsuredNonNullabilityResultExpression
 {
-
 	public function __construct(
 		private Expr $expression,
 		private Type $originalType,
@@ -37,5 +36,4 @@ final class EnsuredNonNullabilityResultExpression
 	{
 		return $this->certainty;
 	}
-
 }

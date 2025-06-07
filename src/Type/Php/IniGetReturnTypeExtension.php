@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -11,13 +10,13 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function array_key_exists;
 use function count;
 
 #[AutowiredService]
 final class IniGetReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'ini_get';
@@ -39,12 +38,12 @@ final class IniGetReturnTypeExtension implements DynamicFunctionReturnTypeExtens
 			new AccessoryNumericStringType(),
 		);
 		$types = [
-			'date.timezone' => new StringType(),
-			'memory_limit' => new StringType(),
-			'max_execution_time' => $numericString,
-			'max_input_time' => $numericString,
+			'date.timezone'          => new StringType(),
+			'memory_limit'           => new StringType(),
+			'max_execution_time'     => $numericString,
+			'max_input_time'         => $numericString,
 			'default_socket_timeout' => $numericString,
-			'precision' => $numericString,
+			'precision'              => $numericString,
 		];
 
 		$argType = $scope->getType($args[0]->value);
@@ -62,5 +61,4 @@ final class IniGetReturnTypeExtension implements DynamicFunctionReturnTypeExtens
 
 		return null;
 	}
-
 }

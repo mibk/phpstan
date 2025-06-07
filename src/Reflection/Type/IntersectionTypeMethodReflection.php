@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Type;
 
@@ -21,7 +21,6 @@ use function is_bool;
 
 final class IntersectionTypeMethodReflection implements ExtendedMethodReflection
 {
-
 	/**
 	 * @param ExtendedMethodReflection[] $methods
 	 */
@@ -79,11 +78,11 @@ final class IntersectionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function getVariants(): array
 	{
-		$returnType = TypeCombinator::intersect(...array_map(static fn (MethodReflection $method): Type => TypeCombinator::intersect(...array_map(static fn (ParametersAcceptor $acceptor): Type => $acceptor->getReturnType(), $method->getVariants())), $this->methods));
-		$phpDocReturnType = TypeCombinator::intersect(...array_map(static fn (MethodReflection $method): Type => TypeCombinator::intersect(...array_map(static fn (ParametersAcceptor $acceptor): Type => $acceptor->getPhpDocReturnType(), $method->getVariants())), $this->methods));
-		$nativeReturnType = TypeCombinator::intersect(...array_map(static fn (MethodReflection $method): Type => TypeCombinator::intersect(...array_map(static fn (ParametersAcceptor $acceptor): Type => $acceptor->getNativeReturnType(), $method->getVariants())), $this->methods));
+		$returnType = TypeCombinator::intersect(...array_map(static fn(MethodReflection $method): Type => TypeCombinator::intersect(...array_map(static fn(ParametersAcceptor $acceptor): Type => $acceptor->getReturnType(), $method->getVariants())), $this->methods));
+		$phpDocReturnType = TypeCombinator::intersect(...array_map(static fn(MethodReflection $method): Type => TypeCombinator::intersect(...array_map(static fn(ParametersAcceptor $acceptor): Type => $acceptor->getPhpDocReturnType(), $method->getVariants())), $this->methods));
+		$nativeReturnType = TypeCombinator::intersect(...array_map(static fn(MethodReflection $method): Type => TypeCombinator::intersect(...array_map(static fn(ParametersAcceptor $acceptor): Type => $acceptor->getNativeReturnType(), $method->getVariants())), $this->methods));
 
-		return array_map(static fn (ExtendedParametersAcceptor $acceptor): ExtendedParametersAcceptor => new ExtendedFunctionVariant(
+		return array_map(static fn(ExtendedParametersAcceptor $acceptor): ExtendedParametersAcceptor => new ExtendedFunctionVariant(
 			$acceptor->getTemplateTypeMap(),
 			$acceptor->getResolvedTemplateTypeMap(),
 			$acceptor->getParameters(),
@@ -112,7 +111,7 @@ final class IntersectionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function isDeprecated(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (MethodReflection $method): TrinaryLogic => $method->isDeprecated());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(MethodReflection $method): TrinaryLogic => $method->isDeprecated());
 	}
 
 	public function getDeprecatedDescription(): ?string
@@ -139,22 +138,22 @@ final class IntersectionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function isFinal(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (MethodReflection $method): TrinaryLogic => $method->isFinal());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(MethodReflection $method): TrinaryLogic => $method->isFinal());
 	}
 
 	public function isFinalByKeyword(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => $method->isFinalByKeyword());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => $method->isFinalByKeyword());
 	}
 
 	public function isInternal(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (MethodReflection $method): TrinaryLogic => $method->isInternal());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(MethodReflection $method): TrinaryLogic => $method->isInternal());
 	}
 
 	public function isBuiltin(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => is_bool($method->isBuiltin()) ? TrinaryLogic::createFromBoolean($method->isBuiltin()) : $method->isBuiltin());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => is_bool($method->isBuiltin()) ? TrinaryLogic::createFromBoolean($method->isBuiltin()) : $method->isBuiltin());
 	}
 
 	public function getThrowType(): ?Type
@@ -179,12 +178,12 @@ final class IntersectionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function hasSideEffects(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (MethodReflection $method): TrinaryLogic => $method->hasSideEffects());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(MethodReflection $method): TrinaryLogic => $method->hasSideEffects());
 	}
 
 	public function isPure(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => $method->isPure());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => $method->isPure());
 	}
 
 	public function getDocComment(): ?string
@@ -205,7 +204,7 @@ final class IntersectionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function acceptsNamedArguments(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (MethodReflection $method): TrinaryLogic => $method->acceptsNamedArguments());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(MethodReflection $method): TrinaryLogic => $method->acceptsNamedArguments());
 	}
 
 	public function getSelfOutType(): ?Type
@@ -215,17 +214,16 @@ final class IntersectionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function returnsByReference(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => $method->returnsByReference());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => $method->returnsByReference());
 	}
 
 	public function isAbstract(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyMaxMin($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => is_bool($method->isAbstract()) ? TrinaryLogic::createFromBoolean($method->isAbstract()) : $method->isAbstract());
+		return TrinaryLogic::lazyMaxMin($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => is_bool($method->isAbstract()) ? TrinaryLogic::createFromBoolean($method->isAbstract()) : $method->isAbstract());
 	}
 
 	public function getAttributes(): array
 	{
 		return $this->methods[0]->getAttributes();
 	}
-
 }

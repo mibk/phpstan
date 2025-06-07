@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -12,7 +12,6 @@ use function strtolower;
 #[AutowiredService]
 final class PhpDocInheritanceResolver
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 		private StubPhpDocProvider $stubPhpDocProvider,
@@ -89,8 +88,8 @@ final class PhpDocInheritanceResolver
 		foreach ($phpDocBlock->getParents() as $parentPhpDocBlock) {
 			if (
 				$functionName !== null
-				&& strtolower($functionName) === '__construct'
-				&& $parentPhpDocBlock->getClassReflection()->isBuiltin()
+					&& strtolower($functionName) === '__construct'
+					&& $parentPhpDocBlock->getClassReflection()->isBuiltin()
 			) {
 				continue;
 			}
@@ -113,7 +112,7 @@ final class PhpDocInheritanceResolver
 		$classReflection = $phpDocBlock->getClassReflection();
 		if ($functionName !== null && $classReflection->getNativeReflection()->hasMethod($functionName)) {
 			$methodReflection = $classReflection->getNativeReflection()->getMethod($functionName);
-			$stub = $this->stubPhpDocProvider->findMethodPhpDoc($classReflection->getName(), $classReflection->getName(), $functionName, array_map(static fn (ReflectionParameter $parameter): string => $parameter->getName(), $methodReflection->getParameters()));
+			$stub = $this->stubPhpDocProvider->findMethodPhpDoc($classReflection->getName(), $classReflection->getName(), $functionName, array_map(static fn(ReflectionParameter $parameter): string => $parameter->getName(), $methodReflection->getParameters()));
 			if ($stub !== null) {
 				return $stub;
 			}
@@ -127,7 +126,7 @@ final class PhpDocInheritanceResolver
 
 				$propertyDeclaringClass = $propertyReflection->getBetterReflection()->getDeclaringClass();
 
-				if ($propertyDeclaringClass->isTrait() && (! $propertyReflection->getDeclaringClass()->isTrait() || $propertyReflection->getDeclaringClass()->getName() !== $propertyDeclaringClass->getName())) {
+				if ($propertyDeclaringClass->isTrait() && (!$propertyReflection->getDeclaringClass()->isTrait() || $propertyReflection->getDeclaringClass()->getName() !== $propertyDeclaringClass->getName())) {
 					$stub = $this->stubPhpDocProvider->findPropertyPhpDoc($propertyDeclaringClass->getName(), $propertyName);
 				}
 			}
@@ -151,5 +150,4 @@ final class PhpDocInheritanceResolver
 			$phpDocBlock->getDocComment(),
 		);
 	}
-
 }

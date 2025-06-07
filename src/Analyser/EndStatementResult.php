@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -6,7 +6,6 @@ use PhpParser\Node\Stmt;
 
 final class EndStatementResult
 {
-
 	public function __construct(
 		private Stmt $statement,
 		private StatementResult $result,
@@ -23,5 +22,4 @@ final class EndStatementResult
 	{
 		return $this->result;
 	}
-
 }

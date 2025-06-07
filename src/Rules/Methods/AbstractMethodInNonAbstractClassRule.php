@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 use function in_array;
 use function sprintf;
 
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class AbstractMethodInNonAbstractClassRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Stmt\ClassMethod::class;
@@ -73,5 +72,4 @@ final class AbstractMethodInNonAbstractClassRule implements Rule
 
 		return [];
 	}
-
 }

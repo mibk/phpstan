@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Property;
 
+use PHPStan\Analyser\Scope;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticPropertyFetch;
-use PHPStan\Analyser\Scope;
 
 /**
  * @api
  */
 final class PropertyRead
 {
-
 	public function __construct(
 		private PropertyFetch|StaticPropertyFetch $fetch,
 		private Scope $scope,
@@ -31,5 +30,4 @@ final class PropertyRead
 	{
 		return $this->scope;
 	}
-
 }

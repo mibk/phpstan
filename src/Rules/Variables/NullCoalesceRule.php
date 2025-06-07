@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Variables;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\IssetCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Expr>
@@ -15,7 +15,6 @@ use PHPStan\Type\Type;
 #[RegisteredRule(level: 1)]
 final class NullCoalesceRule implements Rule
 {
-
 	public function __construct(private IssetCheck $issetCheck)
 	{
 	}
@@ -27,7 +26,8 @@ final class NullCoalesceRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		$typeMessageCallback = static function (Type $type): ?string {
+		$typeMessageCallback = static function(Type $type): ?string
+		{
 			$isNull = $type->isNull();
 			if ($isNull->maybe()) {
 				return null;
@@ -54,5 +54,4 @@ final class NullCoalesceRule implements Rule
 
 		return [$error];
 	}
-
 }

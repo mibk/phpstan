@@ -1,10 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Error;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 use function array_map;
 use function class_exists;
 use function count;
@@ -18,15 +18,14 @@ use function sprintf;
  */
 final class RuleErrorBuilder
 {
-
-	private const TYPE_MESSAGE = 1;
-	private const TYPE_LINE = 2;
-	private const TYPE_FILE = 4;
-	private const TYPE_TIP = 8;
-	private const TYPE_IDENTIFIER = 16;
-	private const TYPE_METADATA = 32;
+	private const TYPE_MESSAGE       = 1;
+	private const TYPE_LINE          = 2;
+	private const TYPE_FILE          = 4;
+	private const TYPE_TIP           = 8;
+	private const TYPE_IDENTIFIER    = 16;
+	private const TYPE_METADATA      = 32;
 	private const TYPE_NON_IGNORABLE = 64;
-	private const TYPE_FIXABLE_NODE = 128;
+	private const TYPE_FIXABLE_NODE  = 128;
 
 	private int $type;
 
@@ -53,8 +52,8 @@ final class RuleErrorBuilder
 				[
 					[
 						'message', // property name
-						'string', // native type
-						'string', // PHPDoc type
+						'string',  // native type
+						'string',  // PHPDoc type
 					],
 				],
 			],
@@ -145,7 +144,7 @@ final class RuleErrorBuilder
 
 	/**
 	 * @phpstan-this-out self<T&LineRuleError>
-	 * @return self<T&LineRuleError>
+	 * @return           self<T&LineRuleError>
 	 */
 	public function line(int $line): self
 	{
@@ -157,7 +156,7 @@ final class RuleErrorBuilder
 
 	/**
 	 * @phpstan-this-out self<T&FileRuleError>
-	 * @return self<T&FileRuleError>
+	 * @return           self<T&FileRuleError>
 	 */
 	public function file(string $file, ?string $fileDescription = null): self
 	{
@@ -173,7 +172,7 @@ final class RuleErrorBuilder
 
 	/**
 	 * @phpstan-this-out self<T&TipRuleError>
-	 * @return self<T&TipRuleError>
+	 * @return           self<T&TipRuleError>
 	 */
 	public function tip(string $tip): self
 	{
@@ -185,7 +184,7 @@ final class RuleErrorBuilder
 
 	/**
 	 * @phpstan-this-out self<T&TipRuleError>
-	 * @return self<T&TipRuleError>
+	 * @return           self<T&TipRuleError>
 	 */
 	public function addTip(string $tip): self
 	{
@@ -197,7 +196,7 @@ final class RuleErrorBuilder
 
 	/**
 	 * @phpstan-this-out self<T&TipRuleError>
-	 * @return self<T&TipRuleError>
+	 * @return           self<T&TipRuleError>
 	 */
 	public function discoveringSymbolsTip(): self
 	{
@@ -205,9 +204,9 @@ final class RuleErrorBuilder
 	}
 
 	/**
-	 * @param list<string> $reasons
+	 * @param            list<string> $reasons
 	 * @phpstan-this-out self<T&TipRuleError>
-	 * @return self<T&TipRuleError>
+	 * @return           self<T&TipRuleError>
 	 */
 	public function acceptsReasonsTip(array $reasons): self
 	{
@@ -220,7 +219,7 @@ final class RuleErrorBuilder
 
 	/**
 	 * @phpstan-this-out self<T&TipRuleError>
-	 * @return self<T&TipRuleError>
+	 * @return           self<T&TipRuleError>
 	 */
 	public function treatPhpDocTypesAsCertainTip(): self
 	{
@@ -233,7 +232,7 @@ final class RuleErrorBuilder
 	 * List of all current error identifiers in PHPStan: https://phpstan.org/error-identifiers
 	 *
 	 * @phpstan-this-out self<T&IdentifierRuleError>
-	 * @return self<T&IdentifierRuleError>
+	 * @return           self<T&IdentifierRuleError>
 	 */
 	public function identifier(string $identifier): self
 	{
@@ -248,9 +247,9 @@ final class RuleErrorBuilder
 	}
 
 	/**
-	 * @param mixed[] $metadata
+	 * @param            mixed[] $metadata
 	 * @phpstan-this-out self<T&MetadataRuleError>
-	 * @return self<T&MetadataRuleError>
+	 * @return           self<T&MetadataRuleError>
 	 */
 	public function metadata(array $metadata): self
 	{
@@ -262,7 +261,7 @@ final class RuleErrorBuilder
 
 	/**
 	 * @phpstan-this-out self<T&NonIgnorableRuleError>
-	 * @return self<T&NonIgnorableRuleError>
+	 * @return           self<T&NonIgnorableRuleError>
 	 */
 	public function nonIgnorable(): self
 	{
@@ -272,12 +271,12 @@ final class RuleErrorBuilder
 	}
 
 	/**
-	 * @internal Experimental
-	 * @template TNode of Node
-	 * @param TNode $node
-	 * @param callable(TNode): Node $cb
+	 * @internal         Experimental
+	 * @template         TNode of Node
+	 * @param            TNode                 $node
+	 * @param            callable(TNode): Node $cb
 	 * @phpstan-this-out self<T&FixableNodeRuleError>
-	 * @return self<T&FixableNodeRuleError>
+	 * @return           self<T&FixableNodeRuleError>
 	 */
 	public function fixNode(Node $node, callable $cb): self
 	{
@@ -308,11 +307,10 @@ final class RuleErrorBuilder
 			if (count($this->tips) === 1) {
 				$ruleError->tip = $this->tips[0];
 			} else {
-				$ruleError->tip = implode("\n", array_map(static fn (string $tip) => sprintf('• %s', $tip), $this->tips));
+				$ruleError->tip = implode("\n", array_map(static fn(string $tip) => sprintf('• %s', $tip), $this->tips));
 			}
 		}
 
 		return $ruleError;
 	}
-
 }

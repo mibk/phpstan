@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -16,6 +15,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use UnhandledMatchError;
 use function array_map;
 use function count;
@@ -27,7 +27,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class MatchExpressionRule implements Rule
 {
-
 	public function __construct(
 		private ConstantConditionRuleHelper $constantConditionRuleHelper,
 		#[AutowiredParameter]
@@ -55,7 +54,7 @@ final class MatchExpressionRule implements Rule
 		foreach ($node->getArms() as $i => $arm) {
 			if (
 				$nextArmIsDeadForNativeType
-				|| ($nextArmIsDeadForType && $this->treatPhpDocTypesAsCertain)
+					|| ($nextArmIsDeadForType && $this->treatPhpDocTypesAsCertain)
 			) {
 				continue;
 			}
@@ -71,7 +70,7 @@ final class MatchExpressionRule implements Rule
 				);
 
 				$armConditionResult = $armConditionScope->getType($armConditionExpr);
-				if (!$armConditionResult instanceof ConstantBooleanType) {
+				if (! $armConditionResult instanceof ConstantBooleanType) {
 					continue;
 				}
 				if ($armConditionResult->getValue()) {
@@ -80,7 +79,7 @@ final class MatchExpressionRule implements Rule
 
 				if (!$this->treatPhpDocTypesAsCertain) {
 					$armConditionNativeResult = $armConditionScope->getNativeType($armConditionExpr);
-					if (!$armConditionNativeResult instanceof ConstantBooleanType) {
+					if (! $armConditionNativeResult instanceof ConstantBooleanType) {
 						continue;
 					}
 					if ($armConditionNativeResult->getValue()) {
@@ -90,7 +89,7 @@ final class MatchExpressionRule implements Rule
 
 				if ($matchConditionType instanceof ConstantBooleanType) {
 					$armConditionStandaloneResult = $this->constantConditionRuleHelper->getBooleanType($armConditionScope, $armCondition->getCondition());
-					if (!$armConditionStandaloneResult instanceof ConstantBooleanType) {
+					if (! $armConditionStandaloneResult instanceof ConstantBooleanType) {
 						continue;
 					}
 				}
@@ -134,9 +133,9 @@ final class MatchExpressionRule implements Rule
 				$remainingType = $cases[0];
 			}
 			if (
-				!$remainingType instanceof NeverType
-				&& !$this->isUnhandledMatchErrorCaught($node)
-				&& !$this->hasUnhandledMatchErrorThrowsTag($scope)
+				! $remainingType instanceof NeverType
+					&& !$this->isUnhandledMatchErrorCaught($node)
+					&& !$this->hasUnhandledMatchErrorThrowsTag($scope)
 			) {
 				$errors[] = RuleErrorBuilder::message(sprintf(
 					'Match expression does not handle remaining %s: %s',
@@ -156,7 +155,7 @@ final class MatchExpressionRule implements Rule
 			return false;
 		}
 
-		$tryCatchType = TypeCombinator::union(...array_map(static fn (string $class) => new ObjectType($class), $tryCatchTypes));
+		$tryCatchType = TypeCombinator::union(...array_map(static fn(string $class) => new ObjectType($class), $tryCatchTypes));
 
 		return $tryCatchType->isSuperTypeOf(new ObjectType(UnhandledMatchError::class))->yes();
 	}
@@ -175,5 +174,4 @@ final class MatchExpressionRule implements Rule
 
 		return $throwsType->isSuperTypeOf(new ObjectType(UnhandledMatchError::class))->yes();
 	}
-
 }

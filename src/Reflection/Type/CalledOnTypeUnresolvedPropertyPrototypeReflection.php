@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Type;
 
@@ -12,7 +12,6 @@ use PHPStan\Type\TypeTraverser;
 
 final class CalledOnTypeUnresolvedPropertyPrototypeReflection implements UnresolvedPropertyPrototypeReflection
 {
-
 	private ?ExtendedPropertyReflection $transformedProperty = null;
 
 	private ?self $cachedDoNotResolveTemplateTypeMapToBounds = null;
@@ -82,7 +81,7 @@ final class CalledOnTypeUnresolvedPropertyPrototypeReflection implements Unresol
 
 	private function transformStaticType(Type $type): Type
 	{
-		return TypeTraverser::map($type, function (Type $type, callable $traverse): Type {
+		return TypeTraverser::map($type, function(Type $type, callable $traverse): Type {
 			if ($type instanceof StaticType) {
 				return $this->fetchedOnType;
 			}
@@ -90,5 +89,4 @@ final class CalledOnTypeUnresolvedPropertyPrototypeReflection implements Unresol
 			return $traverse($type);
 		});
 	}
-
 }

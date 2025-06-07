@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\TooWideTypehints;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\MethodReturnStatementsNode;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -15,7 +15,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class TooWideMethodParameterOutTypeRule implements Rule
 {
-
 	public function __construct(
 		private TooWideParameterOutTypeCheck $check,
 	)
@@ -38,5 +37,4 @@ final class TooWideMethodParameterOutTypeRule implements Rule
 			sprintf('Method %s::%s()', $inMethod->getDeclaringClass()->getDisplayName(), $inMethod->getName()),
 		);
 	}
-
 }

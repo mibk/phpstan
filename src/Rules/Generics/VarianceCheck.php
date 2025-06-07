@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
@@ -14,9 +14,8 @@ use function sprintf;
 #[AutowiredService]
 final class VarianceCheck
 {
-
 	/**
-	 * @param 'function'|'method' $identifier
+	 * @param  'function'|'method' $identifier
 	 * @return list<IdentifierRuleError>
 	 */
 	public function checkParametersAcceptor(
@@ -33,7 +32,7 @@ final class VarianceCheck
 		$errors = [];
 
 		foreach ($parametersAcceptor->getTemplateTypeMap()->getTypes() as $templateType) {
-			if (!$templateType instanceof TemplateType
+			if (! $templateType instanceof TemplateType
 				|| $templateType->getScope()->getFunctionName() === null
 				|| $templateType->getVariance()->invariant()
 			) {
@@ -108,5 +107,4 @@ final class VarianceCheck
 	{
 		return $positionVariance->validPosition($type->getVariance());
 	}
-
 }

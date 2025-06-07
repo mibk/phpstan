@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -12,13 +11,13 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\MethodCall;
 use SimpleXMLElement;
 use function extension_loaded;
 
 #[AutowiredService]
 final class SimpleXMLElementXpathMethodReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-
 	public function getClass(): string
 	{
 		return SimpleXMLElement::class;
@@ -49,11 +48,10 @@ final class SimpleXMLElementXpathMethodReturnTypeExtension implements DynamicMet
 			$argType = TypeCombinator::remove($argType, $constantString);
 		}
 
-		if (!$argType instanceof NeverType) {
+		if (! $argType instanceof NeverType) {
 			return null;
 		}
 
 		return new ArrayType(new MixedType(), $scope->getType($methodCall->var));
 	}
-
 }

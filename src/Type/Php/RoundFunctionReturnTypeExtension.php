@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -20,13 +19,13 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class RoundFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -97,5 +96,4 @@ final class RoundFunctionReturnTypeExtension implements DynamicFunctionReturnTyp
 
 		return new FloatType();
 	}
-
 }

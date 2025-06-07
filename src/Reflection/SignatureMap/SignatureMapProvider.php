@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\SignatureMap;
 
@@ -10,7 +10,6 @@ use ReflectionFunctionAbstract;
 #[AutowiredService(factory: '@PHPStan\Reflection\SignatureMap\SignatureMapProviderFactory::create')]
 interface SignatureMapProvider
 {
-
 	public function hasMethodSignature(string $className, string $methodName): bool;
 
 	public function hasFunctionSignature(string $name): bool;
@@ -41,5 +40,4 @@ interface SignatureMapProvider
 	 * @return array{nativeType: Type}
 	 */
 	public function getClassConstantMetadata(string $className, string $constantName): array;
-
 }

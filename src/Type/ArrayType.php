@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -36,7 +36,6 @@ use function sprintf;
 /** @api */
 class ArrayType implements Type
 {
-
 	use ArrayTypeTrait;
 	use MaybeCallableTypeTrait;
 	use NonObjectTypeTrait;
@@ -52,7 +51,7 @@ class ArrayType implements Type
 		if ($keyType->describe(VerbosityLevel::value()) === '(int|string)') {
 			$keyType = new MixedType();
 		}
-		if ($keyType instanceof StrictMixedType && !$keyType instanceof TemplateStrictMixedType) {
+		if ($keyType instanceof StrictMixedType && ! $keyType instanceof TemplateStrictMixedType) {
 			$keyType = new UnionType([new StringType(), new IntegerType()]);
 		}
 
@@ -136,7 +135,7 @@ class ArrayType implements Type
 		$isMixedKeyType = $this->keyType instanceof MixedType && $this->keyType->describe(VerbosityLevel::precise()) === 'mixed' && !$this->keyType->isExplicitMixed();
 		$isMixedItemType = $this->itemType instanceof MixedType && $this->itemType->describe(VerbosityLevel::precise()) === 'mixed' && !$this->itemType->isExplicitMixed();
 
-		$valueHandler = function () use ($level, $isMixedKeyType, $isMixedItemType): string {
+		$valueHandler = function() use ($level, $isMixedKeyType, $isMixedItemType): string {
 			if ($isMixedKeyType || $this->keyType instanceof NeverType) {
 				if ($isMixedItemType || $this->itemType instanceof NeverType) {
 					return 'array';
@@ -151,7 +150,7 @@ class ArrayType implements Type
 		return $level->handle(
 			$valueHandler,
 			$valueHandler,
-			function () use ($level, $isMixedKeyType, $isMixedItemType): string {
+			function() use ($level, $isMixedKeyType, $isMixedItemType): string {
 				if ($isMixedKeyType) {
 					if ($isMixedItemType) {
 						return 'array';
@@ -193,7 +192,7 @@ class ArrayType implements Type
 	public function getIterableKeyType(): Type
 	{
 		$keyType = $this->keyType;
-		if ($keyType instanceof MixedType && !$keyType instanceof TemplateMixedType) {
+		if ($keyType instanceof MixedType && ! $keyType instanceof TemplateMixedType) {
 			return new BenevolentUnionType([new IntegerType(), new StringType()]);
 		}
 		if ($keyType instanceof StrictMixedType) {
@@ -306,7 +305,7 @@ class ArrayType implements Type
 				}
 			} else {
 				$integerTypes = [];
-				TypeTraverser::map($this->keyType, static function (Type $type, callable $traverse) use (&$integerTypes): Type {
+				TypeTraverser::map($this->keyType, static function(Type $type, callable $traverse) use (&$integerTypes): Type {
 					if ($type instanceof UnionType) {
 						return $traverse($type);
 					}
@@ -585,5 +584,4 @@ class ArrayType implements Type
 	{
 		return [];
 	}
-
 }

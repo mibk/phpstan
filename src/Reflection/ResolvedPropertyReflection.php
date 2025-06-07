@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
 
 final class ResolvedPropertyReflection implements WrapperPropertyReflection
 {
-
 	private ?Type $readableType = null;
 
 	private ?Type $writableType = null;
@@ -207,5 +206,4 @@ final class ResolvedPropertyReflection implements WrapperPropertyReflection
 	{
 		return $this->reflection->getAttributes();
 	}
-
 }

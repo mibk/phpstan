@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -16,6 +15,7 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 use function strtolower;
 
@@ -25,7 +25,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class FunctionCallableRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -65,7 +64,7 @@ final class FunctionCallableRule implements Rule
 					$calledFunctionName = $this->reflectionProvider->resolveFunctionName($functionName, $scope);
 					if (
 						strtolower($function->getName()) === strtolower($calledFunctionName)
-						&& $function->getName() !== $calledFunctionName
+							&& $function->getName() !== $calledFunctionName
 					) {
 						return [
 							RuleErrorBuilder::message(sprintf(
@@ -95,7 +94,7 @@ final class FunctionCallableRule implements Rule
 			$scope,
 			NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $functionName),
 			'Creating callable from an unknown class %s.',
-			static fn (Type $type): bool => $type->isCallable()->yes(),
+			static fn(Type $type): bool => $type->isCallable()->yes(),
 		);
 		$type = $typeResult->getType();
 		if ($type instanceof ErrorType) {
@@ -120,5 +119,4 @@ final class FunctionCallableRule implements Rule
 
 		return [];
 	}
-
 }

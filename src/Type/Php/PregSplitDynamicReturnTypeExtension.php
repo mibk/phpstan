@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use Nette\Utils\RegexpException;
 use Nette\Utils\Strings;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -26,6 +25,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function is_array;
 use function is_int;
@@ -36,7 +36,6 @@ use function strtolower;
 #[AutowiredService]
 final class PregSplitDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(
 		private readonly BitwiseFlagHelper $bitwiseFlagAnalyser,
 	)
@@ -209,5 +208,4 @@ final class PregSplitDynamicReturnTypeExtension implements DynamicFunctionReturn
 	{
 		return (new UnionType([new IntegerType(), new StringType()]))->isSuperTypeOf($type)->yes();
 	}
-
 }

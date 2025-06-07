@@ -1,25 +1,24 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node\PropertyHook;
-use PhpParser\NodeAbstract;
 use PHPStan\Analyser\ImpurePoint;
 use PHPStan\Analyser\StatementResult;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
+use PhpParser\Node\PropertyHook;
+use PhpParser\NodeAbstract;
 
 /**
  * @api
  */
 final class PropertyHookReturnStatementsNode extends NodeAbstract implements ReturnStatementsNode
 {
-
 	/**
-	 * @param list<ReturnStatement> $returnStatements
+	 * @param list<ReturnStatement>  $returnStatements
 	 * @param list<ExecutionEndNode> $executionEnds
-	 * @param ImpurePoint[] $impurePoints
+	 * @param ImpurePoint[]          $impurePoints
 	 */
 	public function __construct(
 		private PropertyHook $hook,
@@ -107,5 +106,4 @@ final class PropertyHookReturnStatementsNode extends NodeAbstract implements Ret
 	{
 		return [];
 	}
-
 }

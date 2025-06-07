@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Php;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
  */
 final class PhpVersions
 {
-
 	public function __construct(
 		private Type $phpVersions,
 	)
@@ -42,5 +41,4 @@ final class PhpVersions
 	{
 		return IntegerRangeType::fromInterval(80100, null)->isSuperTypeOf($this->phpVersions)->result;
 	}
-
 }

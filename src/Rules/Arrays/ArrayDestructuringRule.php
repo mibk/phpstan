@@ -1,11 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
 use ArrayAccess;
-use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Assign;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\Expr\TypeExpr;
@@ -18,6 +15,9 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Assign;
 use function array_merge;
 use function sprintf;
 
@@ -27,7 +27,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class ArrayDestructuringRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 		private NonexistentOffsetInArrayDimFetchCheck $nonexistentOffsetInArrayDimFetchCheck,
@@ -42,7 +41,7 @@ final class ArrayDestructuringRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->var instanceof Node\Expr\List_) {
+		if (! $node->var instanceof Node\Expr\List_) {
 			return [];
 		}
 
@@ -62,7 +61,7 @@ final class ArrayDestructuringRule implements Rule
 			$scope,
 			$expr,
 			'',
-			static fn (Type $varType): bool => $varType->isArray()->yes() || (new ObjectType(ArrayAccess::class))->isSuperTypeOf($varType)->yes(),
+			static fn(Type $varType): bool => $varType->isArray()->yes() || (new ObjectType(ArrayAccess::class))->isSuperTypeOf($varType)->yes(),
 		);
 		$exprType = $exprTypeResult->getType();
 		if ($exprType instanceof ErrorType) {
@@ -101,7 +100,7 @@ final class ArrayDestructuringRule implements Rule
 			);
 			$errors = array_merge($errors, $itemErrors);
 
-			if (!$item->value instanceof Node\Expr\List_) {
+			if (! $item->value instanceof Node\Expr\List_) {
 				$i++;
 				continue;
 			}
@@ -115,5 +114,4 @@ final class ArrayDestructuringRule implements Rule
 
 		return $errors;
 	}
-
 }

@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Debug;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\PhpDocParser\Printer\Printer;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 use function strtolower;
@@ -19,7 +19,6 @@ use function strtolower;
 #[AutowiredService]
 final class DumpPhpDocTypeRule implements Rule
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider, private Printer $printer)
 	{
 	}
@@ -31,7 +30,7 @@ final class DumpPhpDocTypeRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Name) {
+		if (! $node->name instanceof Node\Name) {
 			return [];
 		}
 
@@ -57,5 +56,4 @@ final class DumpPhpDocTypeRule implements Rule
 			)->nonIgnorable()->identifier('phpstan.dumpPhpDocType')->build(),
 		];
 	}
-
 }

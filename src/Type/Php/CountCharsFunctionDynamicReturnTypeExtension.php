@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -17,12 +16,12 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 
 #[AutowiredService]
 final class CountCharsFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -60,5 +59,4 @@ final class CountCharsFunctionDynamicReturnTypeExtension implements DynamicFunct
 			? $stringType
 			: TypeUtils::toBenevolentUnion(new UnionType([$stringType, new ConstantBooleanType(false)]));
 	}
-
 }

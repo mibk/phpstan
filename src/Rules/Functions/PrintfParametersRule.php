@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function array_key_exists;
 use function count;
 use function in_array;
@@ -20,18 +20,17 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class PrintfParametersRule implements Rule
 {
-
 	private const FORMAT_ARGUMENT_POSITIONS = [
-		'printf' => 0,
+		'printf'  => 0,
 		'sprintf' => 0,
-		'sscanf' => 1,
-		'fscanf' => 1,
+		'sscanf'  => 1,
+		'fscanf'  => 1,
 	];
 	private const MINIMUM_NUMBER_OF_ARGUMENTS = [
-		'printf' => 1,
+		'printf'  => 1,
 		'sprintf' => 1,
-		'sscanf' => 3,
-		'fscanf' => 3,
+		'sscanf'  => 3,
+		'fscanf'  => 3,
 	];
 
 	public function __construct(
@@ -116,5 +115,4 @@ final class PrintfParametersRule implements Rule
 
 		return [];
 	}
-
 }

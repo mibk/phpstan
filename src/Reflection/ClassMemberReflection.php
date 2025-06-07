@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
 /** @api */
 interface ClassMemberReflection
 {
-
 	public function getDeclaringClass(): ClassReflection;
 
 	public function isStatic(): bool;
@@ -15,5 +14,4 @@ interface ClassMemberReflection
 	public function isPublic(): bool;
 
 	public function getDocComment(): ?string;
-
 }

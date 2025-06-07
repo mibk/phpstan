@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Fixable;
 
@@ -9,8 +9,7 @@ use function rtrim;
 
 final class PhpPrinter extends Standard
 {
-
-	public const TAB_WIDTH = 4;
+	public const TAB_WIDTH                          = 4;
 	public const FUNC_ARGS_TRAILING_COMMA_ATTRIBUTE = 'trailing_comma';
 
 	/**
@@ -31,5 +30,4 @@ final class PhpPrinter extends Standard
 
 		return $result;
 	}
-
 }

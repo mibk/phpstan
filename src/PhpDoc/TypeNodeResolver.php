@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -7,7 +7,6 @@ use Generator;
 use Iterator;
 use IteratorAggregate;
 use Nette\Utils\Strings;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\ConstantResolver;
 use PHPStan\Analyser\NameScope;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -107,6 +106,7 @@ use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\ValueOfType;
 use PHPStan\Type\VoidType;
+use PhpParser\Node\Name;
 use Traversable;
 use function array_key_exists;
 use function array_map;
@@ -128,7 +128,6 @@ use function substr;
 #[AutowiredService]
 final class TypeNodeResolver
 {
-
 	/** @var array<string, true> */
 	private array $genericTypeResolvingStack = [];
 
@@ -154,34 +153,24 @@ final class TypeNodeResolver
 
 		if ($typeNode instanceof IdentifierTypeNode) {
 			return $this->resolveIdentifierTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof ThisTypeNode) {
 			return $this->resolveThisTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof NullableTypeNode) {
 			return $this->resolveNullableTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof UnionTypeNode) {
 			return $this->resolveUnionTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof IntersectionTypeNode) {
 			return $this->resolveIntersectionTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof ConditionalTypeNode) {
 			return $this->resolveConditionalTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof ConditionalTypeForParameterNode) {
 			return $this->resolveConditionalTypeForParameterNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof ArrayTypeNode) {
 			return $this->resolveArrayTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof GenericTypeNode) {
 			return $this->resolveGenericTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof CallableTypeNode) {
 			return $this->resolveCallableTypeNode($typeNode, $nameScope);
-
 		} elseif ($typeNode instanceof ArrayShapeNode) {
 			return $this->resolveArrayShapeNode($typeNode, $nameScope);
 		} elseif ($typeNode instanceof ObjectShapeNode) {
@@ -200,291 +189,291 @@ final class TypeNodeResolver
 	private function resolveIdentifierTypeNode(IdentifierTypeNode $typeNode, NameScope $nameScope): Type
 	{
 		switch (strtolower($typeNode->name)) {
-			case 'int':
-				return new IntegerType();
+		case 'int':
+			return new IntegerType();
 
-			case 'integer':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+		case 'integer':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
 
-				if ($type !== null) {
-					return $type;
-				}
+			if ($type !== null) {
+				return $type;
+			}
 
-				return new IntegerType();
+			return new IntegerType();
 
-			case 'positive-int':
-				return IntegerRangeType::fromInterval(1, null);
+		case 'positive-int':
+			return IntegerRangeType::fromInterval(1, null);
 
-			case 'negative-int':
-				return IntegerRangeType::fromInterval(null, -1);
+		case 'negative-int':
+			return IntegerRangeType::fromInterval(null, -1);
 
-			case 'non-positive-int':
-				return IntegerRangeType::fromInterval(null, 0);
+		case 'non-positive-int':
+			return IntegerRangeType::fromInterval(null, 0);
 
-			case 'non-negative-int':
-				return IntegerRangeType::fromInterval(0, null);
+		case 'non-negative-int':
+			return IntegerRangeType::fromInterval(0, null);
 
-			case 'non-zero-int':
-				return new UnionType([
-					IntegerRangeType::fromInterval(null, -1),
-					IntegerRangeType::fromInterval(1, null),
-				]);
+		case 'non-zero-int':
+			return new UnionType([
+				IntegerRangeType::fromInterval(null, -1),
+				IntegerRangeType::fromInterval(1, null),
+			]);
 
-			case 'string':
-				return new StringType();
+		case 'string':
+			return new StringType();
 
-			case 'lowercase-string':
-				return new IntersectionType([new StringType(), new AccessoryLowercaseStringType()]);
+		case 'lowercase-string':
+			return new IntersectionType([new StringType(), new AccessoryLowercaseStringType()]);
 
-			case 'uppercase-string':
-				return new IntersectionType([new StringType(), new AccessoryUppercaseStringType()]);
+		case 'uppercase-string':
+			return new IntersectionType([new StringType(), new AccessoryUppercaseStringType()]);
 
-			case 'literal-string':
-				return new IntersectionType([new StringType(), new AccessoryLiteralStringType()]);
+		case 'literal-string':
+			return new IntersectionType([new StringType(), new AccessoryLiteralStringType()]);
 
-			case 'class-string':
-			case 'interface-string':
-			case 'trait-string':
-				return new ClassStringType();
+		case 'class-string':
+		case 'interface-string':
+		case 'trait-string':
+			return new ClassStringType();
 
-			case 'enum-string':
-				return new GenericClassStringType(new ObjectType('UnitEnum'));
+		case 'enum-string':
+			return new GenericClassStringType(new ObjectType('UnitEnum'));
 
-			case 'callable-string':
-				return new IntersectionType([new StringType(), new CallableType()]);
+		case 'callable-string':
+			return new IntersectionType([new StringType(), new CallableType()]);
 
-			case 'array-key':
-				return new BenevolentUnionType([new IntegerType(), new StringType()]);
+		case 'array-key':
+			return new BenevolentUnionType([new IntegerType(), new StringType()]);
 
-			case 'scalar':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+		case 'scalar':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
 
-				if ($type !== null) {
-					return $type;
-				}
+			if ($type !== null) {
+				return $type;
+			}
 
-				return new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]);
+			return new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]);
 
-			case 'empty-scalar':
-				return TypeCombinator::intersect(
-					new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]),
-					StaticTypeFactory::falsey(),
-				);
+		case 'empty-scalar':
+			return TypeCombinator::intersect(
+				new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]),
+				StaticTypeFactory::falsey(),
+			);
 
-			case 'non-empty-scalar':
-				return TypeCombinator::remove(
-					new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]),
-					StaticTypeFactory::falsey(),
-				);
+		case 'non-empty-scalar':
+			return TypeCombinator::remove(
+				new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]),
+				StaticTypeFactory::falsey(),
+			);
 
-			case 'number':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+		case 'number':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
 
-				if ($type !== null) {
-					return $type;
-				}
+			if ($type !== null) {
+				return $type;
+			}
 
-				return new UnionType([new IntegerType(), new FloatType()]);
+			return new UnionType([new IntegerType(), new FloatType()]);
 
-			case 'numeric':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+		case 'numeric':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
 
-				if ($type !== null) {
-					return $type;
-				}
+			if ($type !== null) {
+				return $type;
+			}
 
-				return new UnionType([
-					new IntegerType(),
-					new FloatType(),
-					new IntersectionType([
-						new StringType(),
-						new AccessoryNumericStringType(),
-					]),
-				]);
-
-			case 'numeric-string':
-				return new IntersectionType([
+			return new UnionType([
+				new IntegerType(),
+				new FloatType(),
+				new IntersectionType([
 					new StringType(),
 					new AccessoryNumericStringType(),
-				]);
+				]),
+			]);
 
-			case 'non-empty-string':
-				return new IntersectionType([
-					new StringType(),
-					new AccessoryNonEmptyStringType(),
-				]);
+		case 'numeric-string':
+			return new IntersectionType([
+				new StringType(),
+				new AccessoryNumericStringType(),
+			]);
 
-			case 'non-empty-lowercase-string':
-				return new IntersectionType([
-					new StringType(),
-					new AccessoryNonEmptyStringType(),
-					new AccessoryLowercaseStringType(),
-				]);
+		case 'non-empty-string':
+			return new IntersectionType([
+				new StringType(),
+				new AccessoryNonEmptyStringType(),
+			]);
 
-			case 'non-empty-uppercase-string':
-				return new IntersectionType([
-					new StringType(),
-					new AccessoryNonEmptyStringType(),
-					new AccessoryUppercaseStringType(),
-				]);
+		case 'non-empty-lowercase-string':
+			return new IntersectionType([
+				new StringType(),
+				new AccessoryNonEmptyStringType(),
+				new AccessoryLowercaseStringType(),
+			]);
 
-			case 'truthy-string':
-			case 'non-falsy-string':
-				return new IntersectionType([
-					new StringType(),
-					new AccessoryNonFalsyStringType(),
-				]);
+		case 'non-empty-uppercase-string':
+			return new IntersectionType([
+				new StringType(),
+				new AccessoryNonEmptyStringType(),
+				new AccessoryUppercaseStringType(),
+			]);
 
-			case 'non-empty-literal-string':
-				return new IntersectionType([
-					new StringType(),
-					new AccessoryNonEmptyStringType(),
-					new AccessoryLiteralStringType(),
-				]);
+		case 'truthy-string':
+		case 'non-falsy-string':
+			return new IntersectionType([
+				new StringType(),
+				new AccessoryNonFalsyStringType(),
+			]);
 
-			case 'bool':
-				return new BooleanType();
+		case 'non-empty-literal-string':
+			return new IntersectionType([
+				new StringType(),
+				new AccessoryNonEmptyStringType(),
+				new AccessoryLiteralStringType(),
+			]);
 
-			case 'boolean':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+		case 'bool':
+			return new BooleanType();
 
-				if ($type !== null) {
-					return $type;
-				}
+		case 'boolean':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
 
-				return new BooleanType();
+			if ($type !== null) {
+				return $type;
+			}
 
-			case 'true':
-				return new ConstantBooleanType(true);
+			return new BooleanType();
 
-			case 'false':
-				return new ConstantBooleanType(false);
+		case 'true':
+			return new ConstantBooleanType(true);
 
-			case 'null':
-				return new NullType();
+		case 'false':
+			return new ConstantBooleanType(false);
 
-			case 'float':
-				return new FloatType();
+		case 'null':
+			return new NullType();
 
-			case 'double':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+		case 'float':
+			return new FloatType();
 
-				if ($type !== null) {
-					return $type;
-				}
+		case 'double':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
 
-				return new FloatType();
+			if ($type !== null) {
+				return $type;
+			}
 
-			case 'array':
-			case 'associative-array':
-				return new ArrayType(new MixedType(), new MixedType());
+			return new FloatType();
 
-			case 'non-empty-array':
-				return TypeCombinator::intersect(
-					new ArrayType(new MixedType(), new MixedType()),
-					new NonEmptyArrayType(),
-				);
+		case 'array':
+		case 'associative-array':
+			return new ArrayType(new MixedType(), new MixedType());
 
-			case 'iterable':
-				return new IterableType(new MixedType(), new MixedType());
+		case 'non-empty-array':
+			return TypeCombinator::intersect(
+				new ArrayType(new MixedType(), new MixedType()),
+				new NonEmptyArrayType(),
+			);
 
-			case 'callable':
-				return new CallableType();
+		case 'iterable':
+			return new IterableType(new MixedType(), new MixedType());
 
-			case 'pure-callable':
-				return new CallableType(isPure: TrinaryLogic::createYes());
+		case 'callable':
+			return new CallableType();
 
-			case 'pure-closure':
-				return ClosureType::createPure();
+		case 'pure-callable':
+			return new CallableType(isPure: TrinaryLogic::createYes());
 
-			case 'resource':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+		case 'pure-closure':
+			return ClosureType::createPure();
 
-				if ($type !== null) {
-					return $type;
-				}
+		case 'resource':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
 
-				return new ResourceType();
+			if ($type !== null) {
+				return $type;
+			}
 
-			case 'open-resource':
-			case 'closed-resource':
-				return new ResourceType();
+			return new ResourceType();
 
-			case 'mixed':
-				return new MixedType(true);
+		case 'open-resource':
+		case 'closed-resource':
+			return new ResourceType();
 
-			case 'non-empty-mixed':
-				return new MixedType(true, StaticTypeFactory::falsey());
+		case 'mixed':
+			return new MixedType(true);
 
-			case 'void':
-				return new VoidType();
+		case 'non-empty-mixed':
+			return new MixedType(true, StaticTypeFactory::falsey());
 
-			case 'object':
-				return new ObjectWithoutClassType();
+		case 'void':
+			return new VoidType();
 
-			case 'callable-object':
-				return new IntersectionType([new ObjectWithoutClassType(), new CallableType()]);
+		case 'object':
+			return new ObjectWithoutClassType();
 
-			case 'callable-array':
-				return new IntersectionType([new ArrayType(new MixedType(), new MixedType()), new CallableType()]);
+		case 'callable-object':
+			return new IntersectionType([new ObjectWithoutClassType(), new CallableType()]);
 
-			case 'never':
-			case 'noreturn':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+		case 'callable-array':
+			return new IntersectionType([new ArrayType(new MixedType(), new MixedType()), new CallableType()]);
 
-				if ($type !== null) {
-					return $type;
-				}
+		case 'never':
+		case 'noreturn':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
 
-				return new NonAcceptingNeverType();
+			if ($type !== null) {
+				return $type;
+			}
 
-			case 'never-return':
-			case 'never-returns':
-			case 'no-return':
-				return new NonAcceptingNeverType();
+			return new NonAcceptingNeverType();
 
-			case 'list':
-				return TypeCombinator::intersect(new ArrayType(IntegerRangeType::createAllGreaterThanOrEqualTo(0), new MixedType()), new AccessoryArrayListType());
-			case 'non-empty-list':
-				return TypeCombinator::intersect(
-					new ArrayType(IntegerRangeType::createAllGreaterThanOrEqualTo(0), new MixedType()),
-					new NonEmptyArrayType(),
-					new AccessoryArrayListType(),
-				);
+		case 'never-return':
+		case 'never-returns':
+		case 'no-return':
+			return new NonAcceptingNeverType();
 
-			case 'empty':
-				$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
-				if ($type !== null) {
-					return $type;
-				}
+		case 'list':
+			return TypeCombinator::intersect(new ArrayType(IntegerRangeType::createAllGreaterThanOrEqualTo(0), new MixedType()), new AccessoryArrayListType());
+		case 'non-empty-list':
+			return TypeCombinator::intersect(
+				new ArrayType(IntegerRangeType::createAllGreaterThanOrEqualTo(0), new MixedType()),
+				new NonEmptyArrayType(),
+				new AccessoryArrayListType(),
+			);
 
-				return StaticTypeFactory::falsey();
-			case '__stringandstringable':
-				return new StringAlwaysAcceptingObjectWithToStringType();
+		case 'empty':
+			$type = $this->tryResolvePseudoTypeClassType($typeNode, $nameScope);
+			if ($type !== null) {
+				return $type;
+			}
+
+			return StaticTypeFactory::falsey();
+		case '__stringandstringable':
+			return new StringAlwaysAcceptingObjectWithToStringType();
 		}
 
 		if ($nameScope->getClassName() !== null) {
 			switch (strtolower($typeNode->name)) {
-				case 'self':
-					return new ObjectType($nameScope->getClassName());
+			case 'self':
+				return new ObjectType($nameScope->getClassName());
 
-				case 'static':
-					if ($this->getReflectionProvider()->hasClass($nameScope->getClassName())) {
-						$classReflection = $this->getReflectionProvider()->getClass($nameScope->getClassName());
+			case 'static':
+				if ($this->getReflectionProvider()->hasClass($nameScope->getClassName())) {
+					$classReflection = $this->getReflectionProvider()->getClass($nameScope->getClassName());
 
-						return new StaticType($classReflection);
+					return new StaticType($classReflection);
+				}
+
+				return new ErrorType();
+			case 'parent':
+				if ($this->getReflectionProvider()->hasClass($nameScope->getClassName())) {
+					$classReflection = $this->getReflectionProvider()->getClass($nameScope->getClassName());
+					if ($classReflection->getParentClass() !== null) {
+						return new ObjectType($classReflection->getParentClass()->getName());
 					}
+				}
 
-					return new ErrorType();
-				case 'parent':
-					if ($this->getReflectionProvider()->hasClass($nameScope->getClassName())) {
-						$classReflection = $this->getReflectionProvider()->getClass($nameScope->getClassName());
-						if ($classReflection->getParentClass() !== null) {
-							return new ObjectType($classReflection->getParentClass()->getName());
-						}
-					}
-
-					return new NonexistentParentClassType();
+				return new NonexistentParentClassType();
 			}
 		}
 
@@ -593,7 +582,7 @@ final class TypeNodeResolver
 					continue;
 				}
 
-				if ($type instanceof ObjectType && !$type instanceof GenericObjectType) {
+				if ($type instanceof ObjectType && ! $type instanceof GenericObjectType) {
 					$type = new IntersectionType([$type, new IterableType(new MixedType(), $arrayTypeType)]);
 				} elseif ($type instanceof ArrayType) {
 					$type = new ArrayType(new MixedType(), $arrayTypeType);
@@ -655,16 +644,16 @@ final class TypeNodeResolver
 		$mainTypeName = strtolower($typeNode->type->name);
 		$genericTypes = $this->resolveMultiple($typeNode->genericTypes, $nameScope);
 		$variances = array_map(
-			static function (string $variance): TemplateTypeVariance {
+			static function(string $variance): TemplateTypeVariance {
 				switch ($variance) {
-					case GenericTypeNode::VARIANCE_INVARIANT:
-						return TemplateTypeVariance::createInvariant();
-					case GenericTypeNode::VARIANCE_COVARIANT:
-						return TemplateTypeVariance::createCovariant();
-					case GenericTypeNode::VARIANCE_CONTRAVARIANT:
-						return TemplateTypeVariance::createContravariant();
-					case GenericTypeNode::VARIANCE_BIVARIANT:
-						return TemplateTypeVariance::createBivariant();
+				case GenericTypeNode::VARIANCE_INVARIANT:
+					return TemplateTypeVariance::createInvariant();
+				case GenericTypeNode::VARIANCE_COVARIANT:
+					return TemplateTypeVariance::createCovariant();
+				case GenericTypeNode::VARIANCE_CONTRAVARIANT:
+					return TemplateTypeVariance::createContravariant();
+				case GenericTypeNode::VARIANCE_BIVARIANT:
+					return TemplateTypeVariance::createBivariant();
 				}
 			},
 			$typeNode->variances,
@@ -681,7 +670,7 @@ final class TypeNodeResolver
 				$finiteTypes = $keyType->getFiniteTypes();
 				if (
 					count($finiteTypes) === 1
-					&& ($finiteTypes[0] instanceof ConstantStringType || $finiteTypes[0] instanceof ConstantIntegerType)
+						&& ($finiteTypes[0] instanceof ConstantStringType || $finiteTypes[0] instanceof ConstantIntegerType)
 				) {
 					$arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
 					$arrayBuilder->setOffsetValueType($finiteTypes[0], $genericTypes[1], true);
@@ -712,7 +701,6 @@ final class TypeNodeResolver
 		} elseif ($mainTypeName === 'iterable') {
 			if (count($genericTypes) === 1) { // iterable<ValueType>
 				return new IterableType(new MixedType(true), $genericTypes[0]);
-
 			}
 
 			if (count($genericTypes) === 2) { // iterable<KeyType, ValueType>
@@ -736,7 +724,6 @@ final class TypeNodeResolver
 			return new ErrorType();
 		} elseif ($mainTypeName === 'int') {
 			if (count($genericTypes) === 2) { // int<min, max>, int<1, 3>
-
 				if ($genericTypes[0] instanceof ConstantIntegerType) {
 					$min = $genericTypes[0]->getValue();
 				} elseif ($typeNode->genericTypes[0] instanceof IdentifierTypeNode && $typeNode->genericTypes[0]->name === 'min') {
@@ -844,7 +831,7 @@ final class TypeNodeResolver
 				$templateTypes = array_values($classReflection->getTemplateTypeMap()->getTypes());
 				for ($i = count($genericTypes), $templateTypesCount = count($templateTypes); $i < $templateTypesCount; $i++) {
 					$templateType = $templateTypes[$i];
-					if (!$templateType instanceof TemplateType || $templateType->getDefault() === null) {
+					if (! $templateType instanceof TemplateType || $templateType->getDefault() === null) {
 						continue;
 					}
 					$genericTypes[] = $templateType->getDefault();
@@ -913,7 +900,7 @@ final class TypeNodeResolver
 
 				if (
 					count($genericTypes) !== 1
-					|| $classReflection->getTemplateTypeMap()->count() === 1
+						|| $classReflection->getTemplateTypeMap()->count() === 1
 				) {
 					return new GenericObjectType($mainTypeClassName, $genericTypes, variances: $variances);
 				}
@@ -977,7 +964,7 @@ final class TypeNodeResolver
 			$templateTypeScope = TemplateTypeScope::createWithAnonymousFunction();
 
 			$templateTypeMap = new TemplateTypeMap(array_map(
-				static fn (TemplateTag $tag): Type => TemplateTypeFactory::fromTemplateTag($templateTypeScope, $tag),
+				static fn(TemplateTag $tag): Type => TemplateTypeFactory::fromTemplateTag($templateTypeScope, $tag),
 				$templateTags,
 			));
 
@@ -990,7 +977,7 @@ final class TypeNodeResolver
 
 		$isVariadic = false;
 		$parameters = array_values(array_map(
-			function (CallableTypeParameterNode $parameterNode) use ($nameScope, &$isVariadic): NativeParameterReflection {
+			function(CallableTypeParameterNode $parameterNode) use ($nameScope, &$isVariadic): NativeParameterReflection {
 				$isVariadic = $isVariadic || $parameterNode->isVariadic;
 				$parameterName = $parameterNode->parameterName;
 				if (str_starts_with($parameterName, '$')) {
@@ -1018,10 +1005,9 @@ final class TypeNodeResolver
 			}
 
 			return new CallableType($parameters, $returnType, $isVariadic, $templateTypeMap, templateTags: $templateTags, isPure: $pure);
-
 		} elseif (
 			$mainType instanceof ObjectType
-			&& $mainType->getClassName() === Closure::class
+				&& $mainType->getClassName() === Closure::class
 		) {
 			return new ClosureType($parameters, $returnType, $isVariadic, $templateTypeMap, templateTags: $templateTags, impurePoints: [
 				new SimpleImpurePoint(
@@ -1111,8 +1097,8 @@ final class TypeNodeResolver
 
 		if (
 			$constExpr instanceof ConstExprFalseNode
-			|| $constExpr instanceof ConstExprTrueNode
-			|| $constExpr instanceof ConstExprNullNode
+				|| $constExpr instanceof ConstExprTrueNode
+				|| $constExpr instanceof ConstExprNullNode
 		) {
 			throw new ShouldNotHappenException(); // we prefer IdentifierTypeNode
 		}
@@ -1124,22 +1110,21 @@ final class TypeNodeResolver
 
 			if ($nameScope->getClassName() !== null) {
 				switch (strtolower($constExpr->className)) {
-					case 'static':
-					case 'self':
-						$className = $nameScope->getClassName();
-						break;
+				case 'static':
+				case 'self':
+					$className = $nameScope->getClassName();
+					break;
 
-					case 'parent':
-						if ($this->getReflectionProvider()->hasClass($nameScope->getClassName())) {
-							$classReflection = $this->getReflectionProvider()->getClass($nameScope->getClassName());
-							if ($classReflection->getParentClass() === null) {
-								return new ErrorType();
-
-							}
-
-							$className = $classReflection->getParentClass()->getName();
+				case 'parent':
+					if ($this->getReflectionProvider()->hasClass($nameScope->getClassName())) {
+						$classReflection = $this->getReflectionProvider()->getClass($nameScope->getClassName());
+						if ($classReflection->getParentClass() === null) {
+							return new ErrorType();
 						}
-						break;
+
+						$className = $classReflection->getParentClass()->getName();
+					}
+					break;
 				}
 			}
 
@@ -1235,7 +1220,7 @@ final class TypeNodeResolver
 
 	private function expandIntMaskToType(Type $type): ?Type
 	{
-		$ints = array_map(static fn (ConstantIntegerType $type) => $type->getValue(), TypeUtils::getConstantIntegers($type));
+		$ints = array_map(static fn(ConstantIntegerType $type) => $type->getValue(), TypeUtils::getConstantIntegers($type));
 		if (count($ints) === 0) {
 			return null;
 		}
@@ -1266,12 +1251,12 @@ final class TypeNodeResolver
 			return IntegerRangeType::fromInterval($min, $max);
 		}
 
-		return TypeCombinator::union(...array_map(static fn ($value) => new ConstantIntegerType($value), $values));
+		return TypeCombinator::union(...array_map(static fn($value) => new ConstantIntegerType($value), $values));
 	}
 
 	/**
 	 * @api
-	 * @param TypeNode[] $typeNodes
+	 * @param  TypeNode[] $typeNodes
 	 * @return list<Type>
 	 */
 	public function resolveMultiple(array $typeNodes, NameScope $nameScope): array
@@ -1293,5 +1278,4 @@ final class TypeNodeResolver
 	{
 		return $this->typeAliasResolverProvider->getTypeAliasResolver();
 	}
-
 }

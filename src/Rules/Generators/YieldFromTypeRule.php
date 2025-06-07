@@ -1,10 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generators;
 
 use Generator;
-use PhpParser\Node;
-use PhpParser\Node\Expr\YieldFrom;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -14,6 +12,8 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\YieldFrom;
 use function sprintf;
 
 /**
@@ -22,7 +22,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class YieldFromTypeRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 		#[AutowiredParameter]
@@ -52,9 +51,9 @@ final class YieldFromTypeRule implements Rule
 					->build(),
 			];
 		} elseif (
-			!$exprType instanceof MixedType
-			&& $this->reportMaybes
-			&& $isIterable->maybe()
+			! $exprType instanceof MixedType
+				&& $this->reportMaybes
+				&& $isIterable->maybe()
 		) {
 			return [
 				RuleErrorBuilder::message(sprintf(
@@ -145,5 +144,4 @@ final class YieldFromTypeRule implements Rule
 
 		return $messages;
 	}
-
 }

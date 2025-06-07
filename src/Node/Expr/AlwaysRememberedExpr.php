@@ -1,14 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Expr;
 
-use PhpParser\Node\Expr;
 use PHPStan\Node\VirtualNode;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr;
 
 final class AlwaysRememberedExpr extends Expr implements VirtualNode
 {
-
 	public function __construct(public Expr $expr, private Type $type, private Type $nativeType)
 	{
 		parent::__construct([]);
@@ -41,5 +40,4 @@ final class AlwaysRememberedExpr extends Expr implements VirtualNode
 	{
 		return ['expr'];
 	}
-
 }

@@ -1,13 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
 use PHPStan\Dependency\ExportedNode\ExportedAttributeNode;
 use PHPStan\Dependency\ExportedNode\ExportedClassConstantNode;
 use PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode;
@@ -29,6 +23,12 @@ use PHPStan\Node\Printer\NodeTypePrinter;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FileTypeMapper;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Function_;
 use function array_map;
 use function is_string;
 use function sprintf;
@@ -36,7 +36,6 @@ use function sprintf;
 #[AutowiredService]
 final class ExportedNodeResolver
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private FileTypeMapper $fileTypeMapper,
@@ -85,7 +84,7 @@ final class ExportedNodeResolver
 				$extendsName,
 				$implementsNames,
 				$usedTraits,
-				array_map(static function (Node\Stmt\TraitUseAdaptation $adaptation): ExportedTraitUseAdaptation {
+				array_map(static function(Node\Stmt\TraitUseAdaptation $adaptation): ExportedTraitUseAdaptation {
 					if ($adaptation instanceof Node\Stmt\TraitUseAdaptation\Alias) {
 						return ExportedTraitUseAdaptation::createAlias(
 							$adaptation->trait !== null ? $adaptation->trait->toString() : null,
@@ -99,7 +98,7 @@ final class ExportedNodeResolver
 						return ExportedTraitUseAdaptation::createPrecedence(
 							$adaptation->trait !== null ? $adaptation->trait->toString() : null,
 							$adaptation->method->toString(),
-							array_map(static fn (Name $name): string => $name->toString(), $adaptation->insteadof),
+							array_map(static fn(Name $name): string => $name->toString(), $adaptation->insteadof),
 						);
 					}
 
@@ -111,7 +110,7 @@ final class ExportedNodeResolver
 		}
 
 		if ($node instanceof Node\Stmt\Interface_ && isset($node->namespacedName)) {
-			$extendsNames = array_map(static fn (Name $name): string => (string) $name, $node->extends);
+			$extendsNames = array_map(static fn(Name $name): string => (string) $name, $node->extends);
 			$docComment = $node->getDocComment();
 
 			$interfaceName = $node->namespacedName->toString();
@@ -130,7 +129,7 @@ final class ExportedNodeResolver
 		}
 
 		if ($node instanceof Node\Stmt\Enum_ && $node->namespacedName !== null) {
-			$implementsNames = array_map(static fn (Name $name): string => (string) $name, $node->implements);
+			$implementsNames = array_map(static fn(Name $name): string => (string) $name, $node->implements);
 			$docComment = $node->getDocComment();
 
 			$enumName = $node->namespacedName->toString();
@@ -178,7 +177,7 @@ final class ExportedNodeResolver
 					$docComment !== null ? $docComment->getText() : null,
 				),
 				$usedTraits,
-				array_map(static function (Node\Stmt\TraitUseAdaptation $adaptation): ExportedTraitUseAdaptation {
+				array_map(static function(Node\Stmt\TraitUseAdaptation $adaptation): ExportedTraitUseAdaptation {
 					if ($adaptation instanceof Node\Stmt\TraitUseAdaptation\Alias) {
 						return ExportedTraitUseAdaptation::createAlias(
 							$adaptation->trait !== null ? $adaptation->trait->toString() : null,
@@ -192,7 +191,7 @@ final class ExportedNodeResolver
 						return ExportedTraitUseAdaptation::createPrecedence(
 							$adaptation->trait !== null ? $adaptation->trait->toString() : null,
 							$adaptation->method->toString(),
-							array_map(static fn (Name $name): string => $name->toString(), $adaptation->insteadof),
+							array_map(static fn(Name $name): string => $name->toString(), $adaptation->insteadof),
 						);
 					}
 
@@ -230,21 +229,21 @@ final class ExportedNodeResolver
 	}
 
 	/**
-	 * @param Node\Param[] $params
+	 * @param  Node\Param[] $params
 	 * @return ExportedParameterNode[]
 	 */
 	private function exportParameterNodes(array $params): array
 	{
 		$nodes = [];
 		foreach ($params as $param) {
-			if (!$param->var instanceof Node\Expr\Variable || !is_string($param->var->name)) {
+			if (! $param->var instanceof Node\Expr\Variable || !is_string($param->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$type = $param->type;
 			if (
 				$type !== null
-				&& $param->default instanceof Node\Expr\ConstFetch
-				&& $param->default->name->toLowerString() === 'null'
+					&& $param->default instanceof Node\Expr\ConstFetch
+					&& $param->default->name->toLowerString() === 'null'
 			) {
 				if ($type instanceof Node\UnionType) {
 					$innerTypes = $type->types;
@@ -295,7 +294,7 @@ final class ExportedNodeResolver
 	}
 
 	/**
-	 * @param Node\Stmt[] $statements
+	 * @param  Node\Stmt[] $statements
 	 * @return ExportedNode[]
 	 */
 	private function exportClassStatements(array $statements, string $fileName, string $namespacedName): array
@@ -348,7 +347,7 @@ final class ExportedNodeResolver
 
 			$docComment = $node->getDocComment();
 
-			$names = array_map(static fn (Node\PropertyItem $prop): string => $prop->name->toString(), $node->props);
+			$names = array_map(static fn(Node\PropertyItem $prop): string => $prop->name->toString(), $node->props);
 			$virtual = false;
 			if ($this->reflectionProvider->hasClass($namespacedName)) {
 				$classReflection = $this->reflectionProvider->getClass($namespacedName);
@@ -430,7 +429,7 @@ final class ExportedNodeResolver
 	}
 
 	/**
-	 * @param Node\AttributeGroup[] $attributeGroups
+	 * @param  Node\AttributeGroup[] $attributeGroups
 	 * @return ExportedAttributeNode[]
 	 */
 	private function exportAttributeNodes(array $attributeGroups): array
@@ -454,7 +453,7 @@ final class ExportedNodeResolver
 	}
 
 	/**
-	 * @param Node\PropertyHook[] $hooks
+	 * @param  Node\PropertyHook[] $hooks
 	 * @return ExportedPropertyHookNode[]
 	 */
 	private function exportPropertyHooks(
@@ -489,5 +488,4 @@ final class ExportedNodeResolver
 
 		return $nodes;
 	}
-
 }

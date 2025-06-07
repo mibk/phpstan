@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection;
 
-use Phar;
-use PhpParser\Parser;
 use PHPStan\BetterReflection\SourceLocator\Ast\Locator;
 use PHPStan\BetterReflection\SourceLocator\SourceStubber\PhpStormStubsSourceStubber;
 use PHPStan\BetterReflection\SourceLocator\SourceStubber\ReflectionSourceStubber;
@@ -26,6 +24,8 @@ use PHPStan\Reflection\BetterReflection\SourceLocator\PhpVersionBlacklistSourceL
 use PHPStan\Reflection\BetterReflection\SourceLocator\ReflectionClassSourceLocator;
 use PHPStan\Reflection\BetterReflection\SourceLocator\RewriteClassAliasSourceLocator;
 use PHPStan\Reflection\BetterReflection\SourceLocator\SkipClassAliasSourceLocator;
+use Phar;
+use PhpParser\Parser;
 use function array_merge;
 use function array_unique;
 use function extension_loaded;
@@ -35,7 +35,6 @@ use function is_file;
 #[AutowiredService]
 final class BetterReflectionSourceLocatorFactory
 {
-
 	/**
 	 * @param string[] $scanFiles
 	 * @param string[] $scanDirectories
@@ -153,5 +152,4 @@ final class BetterReflectionSourceLocatorFactory
 
 		return new MemoizingSourceLocator(new AggregateSourceLocator($locators));
 	}
-
 }

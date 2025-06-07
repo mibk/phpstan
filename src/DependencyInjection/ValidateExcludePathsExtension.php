@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -14,7 +14,6 @@ use function sprintf;
 
 final class ValidateExcludePathsExtension extends CompilerExtension
 {
-
 	/**
 	 * @throws InvalidExcludePathsException
 	 */
@@ -66,12 +65,11 @@ final class ValidateExcludePathsExtension extends CompilerExtension
 
 		foreach ($newExcludePaths as $key => $p) {
 			$newExcludePaths[$key] = array_map(
-				static fn ($path) => $path instanceof OptionalPath ? $path->path : $path,
+				static fn($path) => $path instanceof OptionalPath ? $path->path : $path,
 				$p,
 			);
 		}
 
 		$builder->parameters['excludePaths'] = $newExcludePaths;
 	}
-
 }

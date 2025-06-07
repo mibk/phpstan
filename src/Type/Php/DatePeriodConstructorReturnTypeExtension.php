@@ -1,12 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use DatePeriod;
 use DateTime;
 use DateTimeInterface;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -16,12 +14,13 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name;
 use function strtolower;
 
 #[AutowiredService]
 final class DatePeriodConstructorReturnTypeExtension implements DynamicStaticMethodReturnTypeExtension
 {
-
 	public function getClass(): string
 	{
 		return DatePeriod::class;
@@ -38,7 +37,7 @@ final class DatePeriodConstructorReturnTypeExtension implements DynamicStaticMet
 			return new ObjectType(DatePeriod::class);
 		}
 
-		if (!$methodCall->class instanceof Name) {
+		if (! $methodCall->class instanceof Name) {
 			return new ObjectType(DatePeriod::class);
 		}
 
@@ -56,7 +55,7 @@ final class DatePeriodConstructorReturnTypeExtension implements DynamicStaticMet
 			$thirdArgType = $scope->getType($methodCall->getArgs()[2]->value);
 		}
 
-		if (!$thirdArgType instanceof Type) {
+		if (! $thirdArgType instanceof Type) {
 			return new GenericObjectType(DatePeriod::class, [
 				$firstArgType,
 				new NullType(),
@@ -82,5 +81,4 @@ final class DatePeriodConstructorReturnTypeExtension implements DynamicStaticMet
 
 		return new ObjectType(DatePeriod::class);
 	}
-
 }

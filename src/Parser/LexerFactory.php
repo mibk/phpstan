@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
-use PhpParser\Lexer;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
+use PhpParser\Lexer;
 use const PHP_VERSION_ID;
 
 #[AutowiredService]
 final class LexerFactory
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -28,5 +27,4 @@ final class LexerFactory
 	{
 		return new Lexer\Emulative();
 	}
-
 }

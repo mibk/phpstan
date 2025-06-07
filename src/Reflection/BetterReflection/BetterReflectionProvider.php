@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection;
 
 use Closure;
 use Nette\Utils\Strings;
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Identifier\Exception\InvalidIdentifierName;
 use PHPStan\BetterReflection\NodeCompiler\Exception\UnableToCompileNode;
@@ -52,6 +51,8 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\Generic\TemplateTypeMap;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use const PHP_VERSION_ID;
 use function array_key_exists;
 use function array_key_first;
 use function array_map;
@@ -59,11 +60,9 @@ use function base64_decode;
 use function in_array;
 use function sprintf;
 use function strtolower;
-use const PHP_VERSION_ID;
 
 final class BetterReflectionProvider implements ReflectionProvider
 {
-
 	/** @var FunctionReflection[] */
 	private array $functionReflections = [];
 
@@ -323,7 +322,7 @@ final class BetterReflectionProvider implements ReflectionProvider
 		$phpDocParameterImmediatelyInvokedCallable = [];
 		$phpDocParameterClosureThisTypeTags = [];
 
-		$resolvedPhpDoc = $this->stubPhpDocProvider->findFunctionPhpDoc($reflectionFunction->getName(), array_map(static fn (ReflectionParameter $parameter): string => $parameter->getName(), $reflectionFunction->getParameters()));
+		$resolvedPhpDoc = $this->stubPhpDocProvider->findFunctionPhpDoc($reflectionFunction->getName(), array_map(static fn(ReflectionParameter $parameter): string => $parameter->getName(), $reflectionFunction->getParameters()));
 		if ($resolvedPhpDoc === null && $reflectionFunction->getFileName() !== false && $reflectionFunction->getDocComment() !== false) {
 			$docComment = $reflectionFunction->getDocComment();
 			$resolvedPhpDoc = $this->fileTypeMapper->getResolvedPhpDoc($reflectionFunction->getFileName(), null, null, $reflectionFunction->getName(), $docComment);
@@ -331,7 +330,7 @@ final class BetterReflectionProvider implements ReflectionProvider
 
 		if ($resolvedPhpDoc !== null) {
 			$templateTypeMap = $resolvedPhpDoc->getTemplateTypeMap();
-			$phpDocParameterTypes = array_map(static fn ($tag) => $tag->getType(), $resolvedPhpDoc->getParamTags());
+			$phpDocParameterTypes = array_map(static fn($tag) => $tag->getType(), $resolvedPhpDoc->getParamTags());
 			$phpDocReturnTag = $resolvedPhpDoc->getReturnTag();
 			$phpDocThrowsTag = $resolvedPhpDoc->getThrowsTag();
 			if (!$isDeprecated) {
@@ -364,9 +363,9 @@ final class BetterReflectionProvider implements ReflectionProvider
 			$asserts,
 			$acceptsNamedArguments,
 			$phpDocComment,
-			array_map(static fn (ParamOutTag $paramOutTag): Type => $paramOutTag->getType(), $phpDocParameterOutTags),
+			array_map(static fn(ParamOutTag $paramOutTag): Type => $paramOutTag->getType(), $phpDocParameterOutTags),
 			$phpDocParameterImmediatelyInvokedCallable,
-			array_map(static fn (ParamClosureThisTag $tag): Type => $tag->getType(), $phpDocParameterClosureThisTypeTags),
+			array_map(static fn(ParamClosureThisTag $tag): Type => $tag->getType(), $phpDocParameterClosureThisTypeTags),
 			$this->attributeReflectionFactory->fromNativeReflection($reflectionFunction->getAttributes(), InitializerExprContext::fromFunction($reflectionFunction->getName(), $reflectionFunction->getFileName() !== false ? $reflectionFunction->getFileName() : null)),
 		);
 	}
@@ -378,7 +377,7 @@ final class BetterReflectionProvider implements ReflectionProvider
 			return $name;
 		}
 
-		return $this->resolveName($nameNode, function (string $name): bool {
+		return $this->resolveName($nameNode, function(string $name): bool {
 			try {
 				$this->reflector->reflectFunction($name);
 				return true;
@@ -454,7 +453,7 @@ final class BetterReflectionProvider implements ReflectionProvider
 
 	public function resolveConstantName(Node\Name $nameNode, ?NamespaceAnswerer $namespaceAnswerer): ?string
 	{
-		return $this->resolveName($nameNode, function (string $name): bool {
+		return $this->resolveName($nameNode, function(string $name): bool {
 			try {
 				$this->reflector->reflectConstant($name);
 				return true;
@@ -490,5 +489,4 @@ final class BetterReflectionProvider implements ReflectionProvider
 
 		return null;
 	}
-
 }

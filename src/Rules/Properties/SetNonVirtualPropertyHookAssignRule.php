@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\Expr\PropertyInitializationExpr;
@@ -11,6 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\NeverType;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class SetNonVirtualPropertyHookAssignRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return PropertyHookReturnStatementsNode::class;
@@ -91,5 +90,4 @@ final class SetNonVirtualPropertyHookAssignRule implements Rule
 			))->identifier('propertySetHook.noAssign')->build(),
 		];
 	}
-
 }

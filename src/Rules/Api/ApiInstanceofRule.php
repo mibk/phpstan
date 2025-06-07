@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ClassReflection;
@@ -13,6 +12,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 use function strtolower;
@@ -23,7 +23,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class ApiInstanceofRule implements Rule
 {
-
 	public function __construct(
 		private ApiRuleHelper $apiRuleHelper,
 		private ReflectionProvider $reflectionProvider,
@@ -38,7 +37,7 @@ final class ApiInstanceofRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->class instanceof Node\Name) {
+		if (! $node->class instanceof Node\Name) {
 			return [];
 		}
 
@@ -116,5 +115,4 @@ final class ApiInstanceofRule implements Rule
 			))->build(),
 		];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -6,7 +6,6 @@ use function count;
 
 final class FileMonitorResult
 {
-
 	/**
 	 * @param string[] $newFiles
 	 * @param string[] $changedFiles
@@ -34,5 +33,4 @@ final class FileMonitorResult
 			|| count($this->changedFiles) > 0
 			|| count($this->deletedFiles) > 0;
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Operators;
 
-use PhpParser\Node;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -15,6 +14,7 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 use function strlen;
 use function substr;
@@ -25,7 +25,6 @@ use function substr;
 #[RegisteredRule(level: 2)]
 final class InvalidBinaryOperationRule implements Rule
 {
-
 	public function __construct(
 		private ExprPrinter $exprPrinter,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -41,8 +40,8 @@ final class InvalidBinaryOperationRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if (
-			!$node instanceof Node\Expr\BinaryOp
-			&& !$node instanceof Node\Expr\AssignOp
+			! $node instanceof Node\Expr\BinaryOp
+				&& ! $node instanceof Node\Expr\AssignOp
 		) {
 			return [];
 		}
@@ -70,11 +69,11 @@ final class InvalidBinaryOperationRule implements Rule
 		}
 
 		if ($node instanceof Node\Expr\AssignOp\Concat || $node instanceof Node\Expr\BinaryOp\Concat) {
-			$callback = static fn (Type $type): bool => !$type->toString() instanceof ErrorType;
+			$callback = static fn(Type $type): bool => !$type->toString() instanceof ErrorType;
 		} elseif ($node instanceof Node\Expr\AssignOp\Plus || $node instanceof Node\Expr\BinaryOp\Plus) {
-			$callback = static fn (Type $type): bool => !$type->toNumber() instanceof ErrorType || $type->isArray()->yes();
+			$callback = static fn(Type $type): bool => !$type->toNumber() instanceof ErrorType || $type->isArray()->yes();
 		} else {
-			$callback = static fn (Type $type): bool => !$type->toNumber() instanceof ErrorType;
+			$callback = static fn(Type $type): bool => !$type->toNumber() instanceof ErrorType;
 		}
 
 		$leftType = $this->ruleLevelHelper->findTypeToCheck(
@@ -97,7 +96,7 @@ final class InvalidBinaryOperationRule implements Rule
 			return [];
 		}
 
-		if (!$scope instanceof MutatingScope) {
+		if (! $scope instanceof MutatingScope) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -121,5 +120,4 @@ final class InvalidBinaryOperationRule implements Rule
 				->build(),
 		];
 	}
-
 }

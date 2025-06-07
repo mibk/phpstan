@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use Closure;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\ExtendedParametersAcceptor;
@@ -14,11 +13,11 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\Generic\TemplateTypeVarianceMap;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\StaticCall;
 
 #[AutowiredService]
 final class ClosureFromCallableDynamicReturnTypeExtension implements DynamicStaticMethodReturnTypeExtension
 {
-
 	public function getClass(): string
 	{
 		return Closure::class;
@@ -60,5 +59,4 @@ final class ClosureFromCallableDynamicReturnTypeExtension implements DynamicStat
 
 		return TypeCombinator::union(...$closureTypes);
 	}
-
 }

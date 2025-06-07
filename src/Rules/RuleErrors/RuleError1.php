@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
@@ -9,12 +9,10 @@ use PHPStan\Rules\RuleError;
  */
 final class RuleError1 implements RuleError
 {
-
 	public string $message;
 
 	public function getMessage(): string
 	{
 		return $this->message;
 	}
-
 }

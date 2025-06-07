@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Regex;
 
@@ -8,10 +8,9 @@ use PHPStan\Type\Type;
 /** @immutable */
 final class RegexAstWalkResult
 {
-
 	/**
 	 * @param array<int, RegexCapturingGroup> $capturingGroups
-	 * @param list<string> $markVerbs
+	 * @param list<string>                    $markVerbs
 	 */
 	public function __construct(
 		private int $alternationId,
@@ -126,5 +125,4 @@ final class RegexAstWalkResult
 	{
 		return $this->subjectBaseType;
 	}
-
 }

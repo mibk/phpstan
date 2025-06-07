@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -20,6 +19,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 use function is_bool;
@@ -29,7 +29,6 @@ use function substr;
 #[AutowiredService]
 final class SubstrDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -68,8 +67,8 @@ final class SubstrDynamicReturnTypeExtension implements DynamicFunctionReturnTyp
 		$constantStrings = $string->getConstantStrings();
 		if (
 			count($constantStrings) > 0
-			&& $offset instanceof ConstantIntegerType
-			&& ($length === null || $length instanceof ConstantIntegerType)
+				&& $offset instanceof ConstantIntegerType
+				&& ($length === null || $length instanceof ConstantIntegerType)
 		) {
 			$results = [];
 			foreach ($constantStrings as $constantString) {
@@ -128,5 +127,4 @@ final class SubstrDynamicReturnTypeExtension implements DynamicFunctionReturnTyp
 
 		return null;
 	}
-
 }

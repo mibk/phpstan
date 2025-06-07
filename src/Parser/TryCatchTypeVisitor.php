@@ -1,10 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 use function array_pop;
 use function array_reverse;
 use function count;
@@ -12,7 +12,6 @@ use function count;
 #[AutowiredService]
 final class TryCatchTypeVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'tryCatchTypes';
 
 	/** @var array<int, array<int, string>|null> */
@@ -62,8 +61,8 @@ final class TryCatchTypeVisitor extends NodeVisitorAbstract
 	public function leaveNode(Node $node): ?Node
 	{
 		if (
-			!$node instanceof Node\Stmt\TryCatch
-			&& !$node instanceof Node\FunctionLike
+			! $node instanceof Node\Stmt\TryCatch
+				&& ! $node instanceof Node\FunctionLike
 		) {
 			return null;
 		}
@@ -72,5 +71,4 @@ final class TryCatchTypeVisitor extends NodeVisitorAbstract
 
 		return null;
 	}
-
 }

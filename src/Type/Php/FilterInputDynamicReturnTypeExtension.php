@@ -1,19 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 
 #[AutowiredService]
 final class FilterInputDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private FilterFunctionReturnTypeHelper $filterFunctionReturnTypeHelper)
 	{
 	}
@@ -36,5 +35,4 @@ final class FilterInputDynamicReturnTypeExtension implements DynamicFunctionRetu
 			isset($functionCall->getArgs()[3]) ? $scope->getType($functionCall->getArgs()[3]->value) : null,
 		);
 	}
-
 }

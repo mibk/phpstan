@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -12,7 +12,6 @@ use function explode;
 #[AutowiredService]
 final class ConstructorsHelper
 {
-
 	/** @var array<string, list<string>> */
 	private array $additionalConstructorsCache = [];
 
@@ -77,5 +76,4 @@ final class ConstructorsHelper
 
 		return $constructors;
 	}
-
 }

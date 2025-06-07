@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Type;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\Type;
 
 final class CallbackUnresolvedPropertyPrototypeReflection implements UnresolvedPropertyPrototypeReflection
 {
-
 	/** @var callable(Type): Type */
 	private $transformStaticTypeCallback;
 
@@ -90,5 +89,4 @@ final class CallbackUnresolvedPropertyPrototypeReflection implements UnresolvedP
 		$callback = $this->transformStaticTypeCallback;
 		return $callback($type);
 	}
-
 }

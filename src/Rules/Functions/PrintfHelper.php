@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
 use Nette\Utils\Strings;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
+use const PREG_SET_ORDER;
 use function array_filter;
 use function count;
 use function max;
 use function sprintf;
 use function strlen;
-use const PREG_SET_ORDER;
 
 #[AutowiredService]
 final class PrintfHelper
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -47,7 +46,7 @@ final class PrintfHelper
 			return 0;
 		}
 
-		$placeholders = array_filter($matches, static fn (array $match): bool => strlen($match['before']) % 2 === 0);
+		$placeholders = array_filter($matches, static fn(array $match): bool => strlen($match['before']) % 2 === 0);
 
 		if (count($placeholders) === 0) {
 			return 0;
@@ -73,5 +72,4 @@ final class PrintfHelper
 
 		return max($maxPositionedNumber, $maxOrdinaryNumber);
 	}
-
 }

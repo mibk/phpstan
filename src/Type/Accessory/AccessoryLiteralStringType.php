@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -35,7 +35,6 @@ use PHPStan\Type\VerbosityLevel;
 
 class AccessoryLiteralStringType implements CompoundType, AccessoryType
 {
-
 	use MaybeCallableTypeTrait;
 	use NonArrayTypeTrait;
 	use NonObjectTypeTrait;
@@ -374,5 +373,4 @@ class AccessoryLiteralStringType implements CompoundType, AccessoryType
 	{
 		return new IdentifierTypeNode('literal-string');
 	}
-
 }

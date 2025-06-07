@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -10,7 +10,6 @@ use PhpParser\NodeAbstract;
  */
 final class InvalidateExprNode extends NodeAbstract implements VirtualNode
 {
-
 	public function __construct(private Expr $expr)
 	{
 		parent::__construct($expr->getAttributes());
@@ -33,5 +32,4 @@ final class InvalidateExprNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

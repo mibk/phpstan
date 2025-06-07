@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -7,7 +7,6 @@ use function array_key_exists;
 #[AutowiredService(as: Container::class)]
 final class MemoizingContainer implements Container
 {
-
 	/** @var array<string, mixed> */
 	private array $servicesByType = [];
 
@@ -64,5 +63,4 @@ final class MemoizingContainer implements Container
 	{
 		return $this->originalContainer->getParameter($parameterName);
 	}
-
 }

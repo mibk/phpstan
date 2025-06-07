@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
@@ -8,7 +8,6 @@ use function class_parents;
 
 final class DirectRegistry implements Registry
 {
-
 	/** @var Rule[][] */
 	private array $rules = [];
 
@@ -27,8 +26,8 @@ final class DirectRegistry implements Registry
 
 	/**
 	 * @template TNodeType of Node
-	 * @param class-string<TNodeType> $nodeType
-	 * @return array<Rule<TNodeType>>
+	 * @param    class-string<TNodeType> $nodeType
+	 * @return   array<Rule<TNodeType>>
 	 */
 	public function getRules(string $nodeType): array
 	{
@@ -52,5 +51,4 @@ final class DirectRegistry implements Registry
 
 		return $selectedRules;
 	}
-
 }

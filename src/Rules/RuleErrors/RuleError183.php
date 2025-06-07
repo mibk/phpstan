@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
-use PhpParser\Node;
 use PHPStan\Rules\FileRuleError;
 use PHPStan\Rules\FixableNodeRuleError;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\LineRuleError;
 use PHPStan\Rules\MetadataRuleError;
 use PHPStan\Rules\RuleError;
+use PhpParser\Node;
 
 /**
  * @internal Use PHPStan\Rules\RuleErrorBuilder instead.
  */
 final class RuleError183 implements RuleError, LineRuleError, FileRuleError, IdentifierRuleError, MetadataRuleError, FixableNodeRuleError
 {
-
 	public string $message;
 
 	public int $line;
@@ -79,5 +78,4 @@ final class RuleError183 implements RuleError, LineRuleError, FileRuleError, Ide
 	{
 		return $this->newNodeCallable;
 	}
-
 }

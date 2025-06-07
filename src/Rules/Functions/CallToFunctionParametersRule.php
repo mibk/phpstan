@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -11,6 +9,8 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\FunctionCallParametersCheck;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 
 /**
  * @implements Rule<Node\Expr\FuncCall>
@@ -18,7 +18,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 0)]
 final class CallToFunctionParametersRule implements Rule
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider, private FunctionCallParametersCheck $check)
 	{
 	}
@@ -70,5 +69,4 @@ final class CallToFunctionParametersRule implements Rule
 			'Function ' . $functionName . ' invoked with %s, but it\'s not allowed because of @no-named-arguments.',
 		);
 	}
-
 }

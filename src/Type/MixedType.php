@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -42,7 +42,6 @@ use function sprintf;
 /** @api */
 class MixedType implements CompoundType, SubtractableType
 {
-
 	use NonGenericTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
 	use NonGeneralizableTypeTrait;
@@ -310,7 +309,7 @@ class MixedType implements CompoundType, SubtractableType
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -331,7 +330,7 @@ class MixedType implements CompoundType, SubtractableType
 
 	public function isSubTypeOf(Type $otherType): IsSuperTypeOfResult
 	{
-		if ($otherType instanceof self && !$otherType instanceof TemplateMixedType) {
+		if ($otherType instanceof self && ! $otherType instanceof TemplateMixedType) {
 			return IsSuperTypeOfResult::createYes();
 		}
 
@@ -401,7 +400,7 @@ class MixedType implements CompoundType, SubtractableType
 			$property,
 			$property->getDeclaringClass(),
 			false,
-			static fn (Type $type): Type => $type,
+			static fn(Type $type): Type => $type,
 		);
 	}
 
@@ -427,7 +426,7 @@ class MixedType implements CompoundType, SubtractableType
 			$method,
 			$method->getDeclaringClass(),
 			false,
-			static fn (Type $type): Type => $type,
+			static fn(Type $type): Type => $type,
 		);
 	}
 
@@ -454,9 +453,9 @@ class MixedType implements CompoundType, SubtractableType
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			static fn (): string => 'mixed',
-			static fn (): string => 'mixed',
-			function () use ($level): string {
+			static fn(): string => 'mixed',
+			static fn(): string => 'mixed',
+			function() use ($level): string {
 				$description = 'mixed';
 				if ($this->subtractedType !== null) {
 					$description .= $this->subtractedType instanceof UnionType
@@ -466,7 +465,7 @@ class MixedType implements CompoundType, SubtractableType
 
 				return $description;
 			},
-			function () use ($level): string {
+			function() use ($level): string {
 				$description = 'mixed';
 				if ($this->subtractedType !== null) {
 					$description .= $this->subtractedType instanceof UnionType
@@ -521,7 +520,7 @@ class MixedType implements CompoundType, SubtractableType
 		]);
 		if (
 			$this->subtractedType !== null
-			&& $this->subtractedType->isSuperTypeOf($castsToZero)->yes()
+				&& $this->subtractedType->isSuperTypeOf($castsToZero)->yes()
 		) {
 			return new UnionType([
 				IntegerRangeType::fromInterval(null, -1),
@@ -687,7 +686,7 @@ class MixedType implements CompoundType, SubtractableType
 
 	public function subtract(Type $type): Type
 	{
-		if ($type instanceof self && !$type instanceof TemplateType) {
+		if ($type instanceof self && ! $type instanceof TemplateType) {
 			return new NeverType();
 		}
 		if ($this->subtractedType !== null) {
@@ -1051,5 +1050,4 @@ class MixedType implements CompoundType, SubtractableType
 	{
 		return new IdentifierTypeNode('mixed');
 	}
-
 }

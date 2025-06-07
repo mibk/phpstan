@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -13,6 +9,10 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Rules\FunctionCallParametersCheck;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Scalar\String_;
 use function array_merge;
 
 /**
@@ -21,7 +21,6 @@ use function array_merge;
 #[RegisteredRule(level: 0)]
 final class CallMethodsRule implements Rule
 {
-
 	public function __construct(
 		private MethodCallCheck $methodCallCheck,
 		private FunctionCallParametersCheck $parametersCheck,
@@ -101,5 +100,4 @@ final class CallMethodsRule implements Rule
 			'Method ' . $messagesMethodName . ' invoked with %s, but it\'s not allowed because of @no-named-arguments.',
 		));
 	}
-
 }

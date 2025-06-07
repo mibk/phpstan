@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -21,7 +21,6 @@ use PHPStan\Type\Type;
  */
 interface ExtendedMethodReflection extends MethodReflection
 {
-
 	/**
 	 * @return list<ExtendedParametersAcceptor>
 	 */
@@ -64,5 +63,4 @@ interface ExtendedMethodReflection extends MethodReflection
 	 * @return list<AttributeReflection>
 	 */
 	public function getAttributes(): array;
-
 }

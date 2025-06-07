@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Constant;
 
-use PhpParser\Node\Expr\ClassConstFetch;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node\Expr\ClassConstFetch;
 
 /**
  * @api
  */
 final class ClassConstantFetch
 {
-
 	public function __construct(private ClassConstFetch $node, private Scope $scope)
 	{
 	}
@@ -24,5 +23,4 @@ final class ClassConstantFetch
 	{
 		return $this->scope;
 	}
-
 }

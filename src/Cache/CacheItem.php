@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Cache;
 
 final class CacheItem
 {
-
 	/**
 	 * @param mixed $data
 	 */
@@ -32,5 +31,4 @@ final class CacheItem
 	{
 		return new self($properties['variableKey'], $properties['data']);
 	}
-
 }

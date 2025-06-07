@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Type;
 
@@ -8,9 +8,8 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService(as: ParameterOutTypeExtensionProvider::class)]
 final class LazyParameterOutTypeExtensionProvider implements ParameterOutTypeExtensionProvider
 {
-
-	public const FUNCTION_TAG = 'phpstan.functionParameterOutTypeExtension';
-	public const METHOD_TAG = 'phpstan.methodParameterOutTypeExtension';
+	public const FUNCTION_TAG      = 'phpstan.functionParameterOutTypeExtension';
+	public const METHOD_TAG        = 'phpstan.methodParameterOutTypeExtension';
 	public const STATIC_METHOD_TAG = 'phpstan.staticMethodParameterOutTypeExtension';
 
 	public function __construct(private Container $container)
@@ -31,5 +30,4 @@ final class LazyParameterOutTypeExtensionProvider implements ParameterOutTypeExt
 	{
 		return $this->container->getServicesByTag(self::STATIC_METHOD_TAG);
 	}
-
 }

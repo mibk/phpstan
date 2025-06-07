@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -12,6 +11,7 @@ use PHPStan\Rules\ClassNameNodePair;
 use PHPStan\Rules\ClassNameUsageLocation;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function array_map;
 use function sprintf;
 
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class ExistingClassesInInterfaceExtendsRule implements Rule
 {
-
 	public function __construct(
 		private ClassNameCheck $classCheck,
 		private ReflectionProvider $reflectionProvider,
@@ -41,7 +40,7 @@ final class ExistingClassesInInterfaceExtendsRule implements Rule
 		$currentInterfaceName = (string) $node->namespacedName;
 		$messages = $this->classCheck->checkClassNames(
 			$scope,
-			array_map(static fn (Node\Name $interfaceName): ClassNameNodePair => new ClassNameNodePair((string) $interfaceName, $interfaceName), $node->extends),
+			array_map(static fn(Node\Name $interfaceName): ClassNameNodePair => new ClassNameNodePair((string) $interfaceName, $interfaceName), $node->extends),
 			ClassNameUsageLocation::from(ClassNameUsageLocation::INTERFACE_EXTENDS, [
 				'currentClassName' => $currentInterfaceName,
 			]),
@@ -102,5 +101,4 @@ final class ExistingClassesInInterfaceExtendsRule implements Rule
 
 		return $messages;
 	}
-
 }

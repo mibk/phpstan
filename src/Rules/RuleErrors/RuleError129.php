@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
-use PhpParser\Node;
 use PHPStan\Rules\FixableNodeRuleError;
 use PHPStan\Rules\RuleError;
+use PhpParser\Node;
 
 /**
  * @internal Use PHPStan\Rules\RuleErrorBuilder instead.
  */
 final class RuleError129 implements RuleError, FixableNodeRuleError
 {
-
 	public string $message;
 
 	public Node $originalNode;
@@ -36,5 +35,4 @@ final class RuleError129 implements RuleError, FixableNodeRuleError
 	{
 		return $this->newNodeCallable;
 	}
-
 }

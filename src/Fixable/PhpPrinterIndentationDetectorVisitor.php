@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Fixable;
 
@@ -6,17 +6,16 @@ use PhpParser\Internal\TokenStream;
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitorAbstract;
+use const PREG_SET_ORDER;
 use function count;
 use function is_array;
 use function preg_match;
 use function preg_match_all;
 use function property_exists;
 use function strlen;
-use const PREG_SET_ORDER;
 
 final class PhpPrinterIndentationDetectorVisitor extends NodeVisitorAbstract
 {
-
 	public string $indentCharacter = ' ';
 
 	public int $indentSize = 4;
@@ -39,7 +38,7 @@ final class PhpPrinterIndentationDetectorVisitor extends NodeVisitorAbstract
 		}
 
 		$firstStmt = $node->stmts[0];
-		if (!$firstStmt instanceof Node) {
+		if (! $firstStmt instanceof Node) {
 			return null;
 		}
 		$text = $this->origTokens->getTokenCode($node->getStartTokenPos(), $firstStmt->getStartTokenPos(), 0);
@@ -77,5 +76,4 @@ final class PhpPrinterIndentationDetectorVisitor extends NodeVisitorAbstract
 
 		return null;
 	}
-
 }

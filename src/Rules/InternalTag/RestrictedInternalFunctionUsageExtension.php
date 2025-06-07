@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\InternalTag;
 
@@ -12,7 +12,6 @@ use function sprintf;
 
 final class RestrictedInternalFunctionUsageExtension implements RestrictedFunctionUsageExtension
 {
-
 	public function __construct(private RestrictedInternalUsageHelper $helper)
 	{
 	}
@@ -47,5 +46,4 @@ final class RestrictedInternalFunctionUsageExtension implements RestrictedFuncti
 			'function.internal',
 		);
 	}
-
 }

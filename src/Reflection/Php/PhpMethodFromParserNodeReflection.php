@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Reflection\Assertions;
 use PHPStan\Reflection\AttributeReflection;
 use PHPStan\Reflection\ClassMemberReflection;
@@ -22,6 +20,8 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\VoidType;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassMethod;
 use function in_array;
 use function sprintf;
 use function strtolower;
@@ -31,15 +31,14 @@ use function strtolower;
  */
 final class PhpMethodFromParserNodeReflection extends PhpFunctionFromParserNodeReflection implements ExtendedMethodReflection
 {
-
 	/**
-	 * @param Type[] $realParameterTypes
-	 * @param Type[] $phpDocParameterTypes
-	 * @param Type[] $realParameterDefaultValues
+	 * @param Type[]                                   $realParameterTypes
+	 * @param Type[]                                   $phpDocParameterTypes
+	 * @param Type[]                                   $realParameterDefaultValues
 	 * @param array<string, list<AttributeReflection>> $parameterAttributes
-	 * @param array<string, bool> $immediatelyInvokedCallableParameters
-	 * @param array<string, Type> $phpDocClosureThisTypeParameters
-	 * @param list<AttributeReflection> $attributes
+	 * @param array<string, bool>                      $immediatelyInvokedCallableParameters
+	 * @param array<string, Type>                      $phpDocClosureThisTypeParameters
+	 * @param list<AttributeReflection>                $attributes
 	 */
 	public function __construct(
 		private ClassReflection $declaringClass,
@@ -163,7 +162,7 @@ final class PhpMethodFromParserNodeReflection extends PhpFunctionFromParserNodeR
 	public function getName(): string
 	{
 		$function = $this->getFunctionLike();
-		if (!$function instanceof Node\PropertyHook) {
+		if (! $function instanceof Node\PropertyHook) {
 			return parent::getName();
 		}
 
@@ -194,7 +193,7 @@ final class PhpMethodFromParserNodeReflection extends PhpFunctionFromParserNodeR
 	public function getPropertyHookName(): ?string
 	{
 		$function = $this->getFunctionLike();
-		if (!$function instanceof Node\PropertyHook) {
+		if (! $function instanceof Node\PropertyHook) {
 			return null;
 		}
 
@@ -285,7 +284,7 @@ final class PhpMethodFromParserNodeReflection extends PhpFunctionFromParserNodeR
 	{
 		if (
 			strtolower($this->getName()) !== '__construct'
-			&& $this->getReturnType()->isVoid()->yes()
+				&& $this->getReturnType()->isVoid()->yes()
 		) {
 			return TrinaryLogic::createYes();
 		}
@@ -295,5 +294,4 @@ final class PhpMethodFromParserNodeReflection extends PhpFunctionFromParserNodeR
 
 		return TrinaryLogic::createMaybe();
 	}
-
 }

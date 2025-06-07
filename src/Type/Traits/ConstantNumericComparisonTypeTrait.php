@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Traits;
 
@@ -13,7 +13,6 @@ use PHPStan\Type\TypeCombinator;
 
 trait ConstantNumericComparisonTypeTrait
 {
-
 	public function getSmallerType(PhpVersion $phpVersion): Type
 	{
 		$subtractedTypes = [
@@ -21,7 +20,7 @@ trait ConstantNumericComparisonTypeTrait
 			IntegerRangeType::createAllGreaterThanOrEqualTo($this->value),
 		];
 
-		if (!(bool) $this->value) {
+		if (!(bool)$this->value) {
 			$subtractedTypes[] = new NullType();
 			$subtractedTypes[] = new ConstantBooleanType(false);
 			$subtractedTypes[] = new ConstantFloatType(0.0); // subtract range when we support float-ranges
@@ -37,7 +36,7 @@ trait ConstantNumericComparisonTypeTrait
 			// subtract range when we support float-ranges
 		];
 
-		if (!(bool) $this->value) {
+		if (!(bool)$this->value) {
 			$subtractedTypes[] = new ConstantBooleanType(true);
 		}
 
@@ -74,5 +73,4 @@ trait ConstantNumericComparisonTypeTrait
 
 		return TypeCombinator::remove(new MixedType(), TypeCombinator::union(...$subtractedTypes));
 	}
-
 }

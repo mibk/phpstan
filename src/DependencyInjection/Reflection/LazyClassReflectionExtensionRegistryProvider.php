@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Reflection;
 
@@ -19,7 +19,6 @@ use function array_merge;
 #[AutowiredService(as: ClassReflectionExtensionRegistryProvider::class)]
 final class LazyClassReflectionExtensionRegistryProvider implements ClassReflectionExtensionRegistryProvider
 {
-
 	private ?ClassReflectionExtensionRegistry $registry = null;
 
 	public function __construct(private Container $container)
@@ -48,5 +47,4 @@ final class LazyClassReflectionExtensionRegistryProvider implements ClassReflect
 
 		return $this->registry;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -24,7 +24,6 @@ use function sprintf;
 
 class HasPropertyType implements AccessoryType, CompoundType
 {
-
 	use ObjectTypeTrait;
 	use NonGenericTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
@@ -154,5 +153,4 @@ class HasPropertyType implements AccessoryType, CompoundType
 	{
 		return new IdentifierTypeNode(''); // no PHPDoc representation
 	}
-
 }

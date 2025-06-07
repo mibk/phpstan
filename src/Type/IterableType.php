@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -26,7 +26,6 @@ use function sprintf;
 /** @api */
 class IterableType implements CompoundType
 {
-
 	use MaybeArrayTypeTrait;
 	use MaybeCallableTypeTrait;
 	use MaybeObjectTypeTrait;
@@ -113,7 +112,7 @@ class IterableType implements CompoundType
 
 	private function isNestedTypeSuperTypeOf(Type $a, Type $b): IsSuperTypeOfResult
 	{
-		if (!$a instanceof MixedType || !$b instanceof MixedType) {
+		if (! $a instanceof MixedType || ! $b instanceof MixedType) {
 			return $a->isSuperTypeOf($b);
 		}
 
@@ -530,5 +529,4 @@ class IterableType implements CompoundType
 			],
 		);
 	}
-
 }

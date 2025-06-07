@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Type;
 
@@ -20,7 +20,6 @@ use function is_bool;
 
 final class UnionTypeMethodReflection implements ExtendedMethodReflection
 {
-
 	/**
 	 * @param ExtendedMethodReflection[] $methods
 	 */
@@ -78,7 +77,7 @@ final class UnionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function getVariants(): array
 	{
-		$variants = array_merge(...array_map(static fn (MethodReflection $method) => $method->getVariants(), $this->methods));
+		$variants = array_merge(...array_map(static fn(MethodReflection $method) => $method->getVariants(), $this->methods));
 
 		return [ParametersAcceptorSelector::combineAcceptors($variants)];
 	}
@@ -95,7 +94,7 @@ final class UnionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function isDeprecated(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (MethodReflection $method): TrinaryLogic => $method->isDeprecated());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(MethodReflection $method): TrinaryLogic => $method->isDeprecated());
 	}
 
 	public function getDeprecatedDescription(): ?string
@@ -122,22 +121,22 @@ final class UnionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function isFinal(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (MethodReflection $method): TrinaryLogic => $method->isFinal());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(MethodReflection $method): TrinaryLogic => $method->isFinal());
 	}
 
 	public function isFinalByKeyword(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => $method->isFinalByKeyword());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => $method->isFinalByKeyword());
 	}
 
 	public function isInternal(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => $method->isInternal());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => $method->isInternal());
 	}
 
 	public function isBuiltin(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => is_bool($method->isBuiltin()) ? TrinaryLogic::createFromBoolean($method->isBuiltin()) : $method->isBuiltin());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => is_bool($method->isBuiltin()) ? TrinaryLogic::createFromBoolean($method->isBuiltin()) : $method->isBuiltin());
 	}
 
 	public function getThrowType(): ?Type
@@ -162,12 +161,12 @@ final class UnionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function hasSideEffects(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (MethodReflection $method): TrinaryLogic => $method->hasSideEffects());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(MethodReflection $method): TrinaryLogic => $method->hasSideEffects());
 	}
 
 	public function isPure(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => $method->isPure());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => $method->isPure());
 	}
 
 	public function getDocComment(): ?string
@@ -182,7 +181,7 @@ final class UnionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function acceptsNamedArguments(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => $method->acceptsNamedArguments());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => $method->acceptsNamedArguments());
 	}
 
 	public function getSelfOutType(): ?Type
@@ -192,17 +191,16 @@ final class UnionTypeMethodReflection implements ExtendedMethodReflection
 
 	public function returnsByReference(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => $method->returnsByReference());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => $method->returnsByReference());
 	}
 
 	public function isAbstract(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn (ExtendedMethodReflection $method): TrinaryLogic => is_bool($method->isAbstract()) ? TrinaryLogic::createFromBoolean($method->isAbstract()) : $method->isAbstract());
+		return TrinaryLogic::lazyExtremeIdentity($this->methods, static fn(ExtendedMethodReflection $method): TrinaryLogic => is_bool($method->isAbstract()) ? TrinaryLogic::createFromBoolean($method->isAbstract()) : $method->isAbstract());
 	}
 
 	public function getAttributes(): array
 	{
 		return $this->methods[0]->getAttributes();
 	}
-
 }

@@ -1,16 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\File\CouldNotReadFileException;
 use PHPStan\File\FileReader;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function dirname;
 use function is_dir;
 use function is_file;
@@ -22,7 +22,6 @@ use function str_starts_with;
 #[RegisteredRule(level: 0)]
 final class PhpStanNamespaceIn3rdPartyPackageRule implements Rule
 {
-
 	public function __construct(private ApiRuleHelper $apiRuleHelper)
 	{
 	}
@@ -87,5 +86,4 @@ final class PhpStanNamespaceIn3rdPartyPackageRule implements Rule
 			return null;
 		}
 	}
-
 }

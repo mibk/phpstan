@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -7,7 +7,6 @@ use function array_merge;
 #[AutowiredService]
 final class DerivativeContainerFactory
 {
-
 	/**
 	 * @param string[] $additionalConfigFiles
 	 * @param string[] $analysedPaths
@@ -64,5 +63,4 @@ final class DerivativeContainerFactory
 			$this->singleReflectionInsteadOfFile,
 		);
 	}
-
 }

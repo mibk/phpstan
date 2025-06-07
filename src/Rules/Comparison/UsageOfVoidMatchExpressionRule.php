@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Expr\Match_>
@@ -14,7 +14,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 2)]
 final class UsageOfVoidMatchExpressionRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Expr\Match_::class;
@@ -31,5 +30,4 @@ final class UsageOfVoidMatchExpressionRule implements Rule
 
 		return [];
 	}
-
 }

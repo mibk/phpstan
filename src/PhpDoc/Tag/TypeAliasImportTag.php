@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
 /** @api */
 final class TypeAliasImportTag
 {
-
 	public function __construct(private string $importedAlias, private string $importedFrom, private ?string $importedAs)
 	{
 	}
@@ -24,5 +23,4 @@ final class TypeAliasImportTag
 	{
 		return $this->importedAs;
 	}
-
 }

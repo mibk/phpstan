@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\ThrowPoint;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -12,12 +11,12 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use Throwable;
 
 #[AutowiredService]
 final class MissingCheckedExceptionInThrowsCheck
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '@exceptionTypeResolver')]
 		private ExceptionTypeResolver $exceptionTypeResolver,
@@ -26,7 +25,7 @@ final class MissingCheckedExceptionInThrowsCheck
 	}
 
 	/**
-	 * @param ThrowPoint[] $throwPoints
+	 * @param  ThrowPoint[] $throwPoints
 	 * @return array<int, array{string, Node\Expr|Node\Stmt}>
 	 */
 	public function check(?Type $throwType, array $throwPoints): array
@@ -51,7 +50,7 @@ final class MissingCheckedExceptionInThrowsCheck
 
 				$isCheckedException = TrinaryLogic::createNo()->lazyOr(
 					$throwPointType->getObjectClassNames(),
-					fn (string $objectClassName) => TrinaryLogic::createFromBoolean($this->exceptionTypeResolver->isCheckedException($objectClassName, $throwPoint->getScope())),
+					fn(string $objectClassName) => TrinaryLogic::createFromBoolean($this->exceptionTypeResolver->isCheckedException($objectClassName, $throwPoint->getScope())),
 				);
 				if ($isCheckedException->no()) {
 					continue;
@@ -63,5 +62,4 @@ final class MissingCheckedExceptionInThrowsCheck
 
 		return $classes;
 	}
-
 }

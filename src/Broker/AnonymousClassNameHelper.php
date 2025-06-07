@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Broker;
 
-use PhpParser\Node;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\File\FileHelper;
 use PHPStan\File\RelativePathHelper;
 use PHPStan\Parser\AnonymousClassVisitor;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 use function md5;
 use function sprintf;
 
 #[AutowiredService]
 final class AnonymousClassNameHelper
 {
-
 	public function __construct(
 		private FileHelper $fileHelper,
 		#[AutowiredParameter(ref: '@simpleRelativePathHelper')]
@@ -53,5 +52,4 @@ final class AnonymousClassNameHelper
 			$hash,
 		);
 	}
-
 }

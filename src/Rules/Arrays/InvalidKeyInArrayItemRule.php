@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -10,6 +9,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -18,7 +18,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class InvalidKeyInArrayItemRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $reportMaybes,
@@ -45,7 +44,7 @@ final class InvalidKeyInArrayItemRule implements Rule
 					sprintf('Invalid array key type %s.', $dimensionType->describe(VerbosityLevel::typeOnly())),
 				)->identifier('array.invalidKey')->build(),
 			];
-		} elseif ($this->reportMaybes && $isSuperType->maybe() && !$dimensionType instanceof MixedType) {
+		} elseif ($this->reportMaybes && $isSuperType->maybe() && ! $dimensionType instanceof MixedType) {
 			return [
 				RuleErrorBuilder::message(
 					sprintf('Possibly invalid array key type %s.', $dimensionType->describe(VerbosityLevel::typeOnly())),
@@ -55,5 +54,4 @@ final class InvalidKeyInArrayItemRule implements Rule
 
 		return [];
 	}
-
 }

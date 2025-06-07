@@ -1,19 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node;
-use PhpParser\NodeAbstract;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
+use PhpParser\Node;
+use PhpParser\NodeAbstract;
 
 /**
  * @api
  */
 final class InPropertyHookNode extends NodeAbstract implements VirtualNode
 {
-
 	public function __construct(
 		private ClassReflection $classReflection,
 		private PhpMethodFromParserNodeReflection $hookReflection,
@@ -56,5 +55,4 @@ final class InPropertyHookNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

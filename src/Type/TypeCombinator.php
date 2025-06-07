@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -25,6 +25,8 @@ use PHPStan\Type\Generic\TemplateBenevolentUnionType;
 use PHPStan\Type\Generic\TemplateType;
 use PHPStan\Type\Generic\TemplateTypeFactory;
 use PHPStan\Type\Generic\TemplateUnionType;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use function array_key_exists;
 use function array_key_first;
 use function array_map;
@@ -38,15 +40,12 @@ use function is_int;
 use function md5;
 use function sprintf;
 use function usort;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
 
 /**
  * @api
  */
 final class TypeCombinator
 {
-
 	public static function addNull(Type $type): Type
 	{
 		$nullType = new NullType();
@@ -238,8 +237,8 @@ final class TypeCombinator
 		$enumCaseTypes = array_values($enumCaseTypes);
 		usort(
 			$integerRangeTypes,
-			static fn (IntegerRangeType $a, IntegerRangeType $b): int => ($a->getMin() ?? PHP_INT_MIN) <=> ($b->getMin() ?? PHP_INT_MIN)
-				?: ($a->getMax() ?? PHP_INT_MAX) <=> ($b->getMax() ?? PHP_INT_MAX)
+			static fn(IntegerRangeType $a, IntegerRangeType $b): int => ($a->getMin() ?? PHP_INT_MIN) <=> ($b->getMin() ?? PHP_INT_MIN)
+				?: ($a->getMax() ?? PHP_INT_MAX) <=> ($b->getMax() ?? PHP_INT_MAX),
 		);
 		$types = array_merge($types, $integerRangeTypes);
 		$types = array_values($types);
@@ -466,9 +465,9 @@ final class TypeCombinator
 
 		if (
 			$a instanceof ConstantStringType
-			&& $a->getValue() === ''
-			&& ($b->describe(VerbosityLevel::value()) === 'non-empty-string'
-			|| $b->describe(VerbosityLevel::value()) === 'non-falsy-string')
+				&& $a->getValue() === ''
+				&& ($b->describe(VerbosityLevel::value()) === 'non-empty-string'
+					|| $b->describe(VerbosityLevel::value()) === 'non-falsy-string')
 		) {
 			return [null, self::intersect(
 				new StringType(),
@@ -478,9 +477,9 @@ final class TypeCombinator
 
 		if (
 			$b instanceof ConstantStringType
-			&& $b->getValue() === ''
-			&& ($a->describe(VerbosityLevel::value()) === 'non-empty-string'
-				|| $a->describe(VerbosityLevel::value()) === 'non-falsy-string')
+				&& $b->getValue() === ''
+				&& ($a->describe(VerbosityLevel::value()) === 'non-empty-string'
+					|| $a->describe(VerbosityLevel::value()) === 'non-falsy-string')
 		) {
 			return [self::intersect(
 				new StringType(),
@@ -490,8 +489,8 @@ final class TypeCombinator
 
 		if (
 			$a instanceof ConstantStringType
-			&& $a->getValue() === '0'
-			&& $b->describe(VerbosityLevel::value()) === 'non-falsy-string'
+				&& $a->getValue() === '0'
+				&& $b->describe(VerbosityLevel::value()) === 'non-falsy-string'
 		) {
 			return [null, self::intersect(
 				new StringType(),
@@ -502,8 +501,8 @@ final class TypeCombinator
 
 		if (
 			$b instanceof ConstantStringType
-			&& $b->getValue() === '0'
-			&& $a->describe(VerbosityLevel::value()) === 'non-falsy-string'
+				&& $b->getValue() === '0'
+				&& $a->describe(VerbosityLevel::value()) === 'non-falsy-string'
 		) {
 			return [self::intersect(
 				new StringType(),
@@ -570,7 +569,7 @@ final class TypeCombinator
 		if ($b instanceof IntersectionType) {
 			$subtractableTypes = [];
 			foreach ($b->getTypes() as $innerType) {
-				if (!$innerType instanceof SubtractableType) {
+				if (! $innerType instanceof SubtractableType) {
 					continue;
 				}
 
@@ -592,7 +591,6 @@ final class TypeCombinator
 
 			if (count($subtractedTypes) === 0) {
 				return $a->getTypeWithoutSubtractedType();
-
 			}
 
 			$subtractedType = self::union(...$subtractedTypes);
@@ -635,7 +633,7 @@ final class TypeCombinator
 	}
 
 	/**
-	 * @param Type[] $arrayTypes
+	 * @param  Type[] $arrayTypes
 	 * @return Type[]
 	 */
 	private static function processArrayAccessoryTypes(array $arrayTypes): array
@@ -715,7 +713,7 @@ final class TypeCombinator
 	}
 
 	/**
-	 * @param list<Type> $arrayTypes
+	 * @param  list<Type> $arrayTypes
 	 * @return Type[]
 	 */
 	private static function processArrayTypes(array $arrayTypes): array
@@ -742,7 +740,7 @@ final class TypeCombinator
 		/** @var int|float $nextConstantKeyTypeIndex */
 		$nextConstantKeyTypeIndex = 1;
 		$constantArraysMap = array_map(
-			static fn (Type $t) => $t->getConstantArrays(),
+			static fn(Type $t) => $t->getConstantArrays(),
 			$arrayTypes,
 		);
 
@@ -792,7 +790,7 @@ final class TypeCombinator
 			$scopes = [];
 			$useTemplateArray = true;
 			foreach ($arrayTypes as $arrayType) {
-				if (!$arrayType instanceof TemplateArrayType) {
+				if (! $arrayType instanceof TemplateArrayType) {
 					$useTemplateArray = false;
 					break;
 				}
@@ -825,13 +823,13 @@ final class TypeCombinator
 		$reducedArrayTypes = self::reduceArrays($arrayTypes, true);
 
 		return array_map(
-			static fn (Type $arrayType) => self::intersect($arrayType, ...$accessoryTypes),
+			static fn(Type $arrayType) => self::intersect($arrayType, ...$accessoryTypes),
 			self::optimizeConstantArrays($reducedArrayTypes),
 		);
 	}
 
 	/**
-	 * @param Type[] $types
+	 * @param  Type[] $types
 	 * @return Type[]
 	 */
 	private static function optimizeConstantArrays(array $types): array
@@ -846,8 +844,8 @@ final class TypeCombinator
 		$eachIsOversized = true;
 		foreach ($types as $type) {
 			$isOversized = false;
-			$result = TypeTraverser::map($type, static function (Type $type, callable $traverse) use (&$isOversized): Type {
-				if (!$type instanceof ConstantArrayType) {
+			$result = TypeTraverser::map($type, static function(Type $type, callable $traverse) use (&$isOversized): Type {
+				if (! $type instanceof ConstantArrayType) {
 					return $traverse($type);
 				}
 
@@ -862,7 +860,7 @@ final class TypeCombinator
 				$keyTypes = [];
 				$nextAutoIndex = 0;
 				foreach ($type->getKeyTypes() as $i => $innerKeyType) {
-					if (!$innerKeyType instanceof ConstantIntegerType) {
+					if (! $innerKeyType instanceof ConstantIntegerType) {
 						$isList = false;
 					} elseif ($innerKeyType->getValue() !== $nextAutoIndex) {
 						$isList = false;
@@ -875,7 +873,7 @@ final class TypeCombinator
 					$keyTypes[$generalizedKeyType->describe(VerbosityLevel::precise())] = $generalizedKeyType;
 
 					$innerValueType = $type->getValueTypes()[$i];
-					$generalizedValueType = TypeTraverser::map($innerValueType, static function (Type $type) use ($traverse): Type {
+					$generalizedValueType = TypeTraverser::map($innerValueType, static function(Type $type) use ($traverse): Type {
 						if ($type instanceof ArrayType || $type instanceof ConstantArrayType) {
 							return TypeCombinator::intersect($type, new OversizedArrayType());
 						}
@@ -945,7 +943,7 @@ final class TypeCombinator
 	{
 		$constantArrayValuesCount = 0;
 		foreach ($types as $type) {
-			TypeTraverser::map($type, static function (Type $type, callable $traverse) use (&$constantArrayValuesCount): Type {
+			TypeTraverser::map($type, static function(Type $type, callable $traverse) use (&$constantArrayValuesCount): Type {
 				if ($type instanceof ConstantArrayType) {
 					$constantArrayValuesCount += count($type->getValueTypes());
 				}
@@ -957,7 +955,7 @@ final class TypeCombinator
 	}
 
 	/**
-	 * @param list<Type> $constantArrays
+	 * @param  list<Type> $constantArrays
 	 * @return list<Type>
 	 */
 	private static function reduceArrays(array $constantArrays, bool $preserveTaggedUnions): array
@@ -1018,8 +1016,8 @@ final class TypeCombinator
 
 				if (
 					$preserveTaggedUnions
-					&& $overlappingKeysCount === count($arraysToProcess[$i]->getKeyTypes())
-					&& $arraysToProcess[$j]->isKeysSupersetOf($arraysToProcess[$i])
+						&& $overlappingKeysCount === count($arraysToProcess[$i]->getKeyTypes())
+						&& $arraysToProcess[$j]->isKeysSupersetOf($arraysToProcess[$i])
 				) {
 					$arraysToProcess[$j] = $arraysToProcess[$j]->mergeWith($arraysToProcess[$i]);
 					unset($arraysToProcess[$i]);
@@ -1028,8 +1026,8 @@ final class TypeCombinator
 
 				if (
 					$preserveTaggedUnions
-					&& $overlappingKeysCount === count($arraysToProcess[$j]->getKeyTypes())
-					&& $arraysToProcess[$i]->isKeysSupersetOf($arraysToProcess[$j])
+						&& $overlappingKeysCount === count($arraysToProcess[$j]->getKeyTypes())
+						&& $arraysToProcess[$i]->isKeysSupersetOf($arraysToProcess[$j])
 				) {
 					$arraysToProcess[$i] = $arraysToProcess[$i]->mergeWith($arraysToProcess[$j]);
 					unset($arraysToProcess[$j]);
@@ -1038,9 +1036,9 @@ final class TypeCombinator
 
 				if (
 					!$preserveTaggedUnions
-					// both arrays have same keys
-					&& $overlappingKeysCount === count($arraysToProcess[$i]->getKeyTypes())
-					&& $overlappingKeysCount === count($arraysToProcess[$j]->getKeyTypes())
+						// both arrays have same keys
+						&& $overlappingKeysCount === count($arraysToProcess[$i]->getKeyTypes())
+						&& $overlappingKeysCount === count($arraysToProcess[$j]->getKeyTypes())
 				) {
 					$arraysToProcess[$j] = $arraysToProcess[$j]->mergeWith($arraysToProcess[$i]);
 					unset($arraysToProcess[$i]);
@@ -1064,8 +1062,8 @@ final class TypeCombinator
 			return $types[0];
 		}
 
-		$sortTypes = static function (Type $a, Type $b): int {
-			if (!$a instanceof UnionType || !$b instanceof UnionType) {
+		$sortTypes = static function(Type $a, Type $b): int {
+			if (! $a instanceof UnionType || ! $b instanceof UnionType) {
 				return 0;
 			}
 
@@ -1088,7 +1086,7 @@ final class TypeCombinator
 		usort($types, $sortTypes);
 		// transform A & (B | C) to (A & B) | (A & C)
 		foreach ($types as $i => $type) {
-			if (!$type instanceof UnionType) {
+			if (! $type instanceof UnionType) {
 				continue;
 			}
 
@@ -1144,7 +1142,7 @@ final class TypeCombinator
 		$hasOffsetValueTypeCount = 0;
 		$newTypes = [];
 		foreach ($types as $type) {
-			if (!$type instanceof HasOffsetValueType) {
+			if (! $type instanceof HasOffsetValueType) {
 				$newTypes[] = $type;
 				continue;
 			}
@@ -1158,7 +1156,7 @@ final class TypeCombinator
 			$typesCount = count($types);
 		}
 
-		usort($types, static function (Type $a, Type $b): int {
+		usort($types, static function(Type $a, Type $b): int {
 			// move subtractables with subtracts before those without to avoid loosing them in the union logic
 			if ($a instanceof SubtractableType && $a->getSubtractedType() !== null) {
 				return -1;
@@ -1167,10 +1165,10 @@ final class TypeCombinator
 				return 1;
 			}
 
-			if ($a instanceof ConstantArrayType && !$b instanceof ConstantArrayType) {
+			if ($a instanceof ConstantArrayType && ! $b instanceof ConstantArrayType) {
 				return -1;
 			}
-			if ($b instanceof ConstantArrayType && !$a instanceof ConstantArrayType) {
+			if ($b instanceof ConstantArrayType && ! $a instanceof ConstantArrayType) {
 				return 1;
 			}
 
@@ -1264,9 +1262,9 @@ final class TypeCombinator
 
 					if (
 						$types[$i] instanceof ConstantArrayType
-						&& count($types[$i]->getKeyTypes()) === 1
-						&& $types[$i]->isOptionalKey(0)
-						&& $types[$j] instanceof NonEmptyArrayType
+							&& count($types[$i]->getKeyTypes()) === 1
+							&& $types[$i]->isOptionalKey(0)
+							&& $types[$j] instanceof NonEmptyArrayType
 					) {
 						$types[$i] = $types[$i]->makeOffsetRequired($types[$i]->getKeyTypes()[0]);
 						array_splice($types, $j--, 1);
@@ -1276,9 +1274,9 @@ final class TypeCombinator
 
 					if (
 						$types[$j] instanceof ConstantArrayType
-						&& count($types[$j]->getKeyTypes()) === 1
-						&& $types[$j]->isOptionalKey(0)
-						&& $types[$i] instanceof NonEmptyArrayType
+							&& count($types[$j]->getKeyTypes()) === 1
+							&& $types[$j]->isOptionalKey(0)
+							&& $types[$i] instanceof NonEmptyArrayType
 					) {
 						$types[$j] = $types[$j]->makeOffsetRequired($types[$j]->getKeyTypes()[0]);
 						array_splice($types, $i--, 1);
@@ -1373,7 +1371,7 @@ final class TypeCombinator
 
 					if (
 						($types[$i] instanceof ArrayType || $types[$i] instanceof ConstantArrayType || $types[$i] instanceof IterableType) &&
-						($types[$j] instanceof ArrayType || $types[$j] instanceof ConstantArrayType || $types[$j] instanceof IterableType)
+							($types[$j] instanceof ArrayType || $types[$j] instanceof ConstantArrayType || $types[$j] instanceof IterableType)
 					) {
 						$keyType = self::intersect($types[$i]->getIterableKeyType(), $types[$j]->getKeyType());
 						$itemType = self::intersect($types[$i]->getItemType(), $types[$j]->getItemType());
@@ -1397,9 +1395,9 @@ final class TypeCombinator
 
 					if (
 						$types[$i] instanceof ArrayType
-						&& get_class($types[$i]) === ArrayType::class
-						&& $types[$j] instanceof AccessoryArrayListType
-						&& !$types[$j]->getIterableKeyType()->isSuperTypeOf($types[$i]->getIterableKeyType())->yes()
+							&& get_class($types[$i]) === ArrayType::class
+							&& $types[$j] instanceof AccessoryArrayListType
+							&& !$types[$j]->getIterableKeyType()->isSuperTypeOf($types[$i]->getIterableKeyType())->yes()
 					) {
 						$keyType = self::intersect($types[$i]->getIterableKeyType(), $types[$j]->getIterableKeyType());
 						if ($keyType instanceof NeverType) {
@@ -1440,5 +1438,4 @@ final class TypeCombinator
 	{
 		return self::remove($type, StaticTypeFactory::truthy());
 	}
-
 }

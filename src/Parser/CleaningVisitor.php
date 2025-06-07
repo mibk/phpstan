@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\Reflection\ParametersAcceptor;
 use PhpParser\Node;
 use PhpParser\NodeFinder;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\Reflection\ParametersAcceptor;
 use function in_array;
 use function is_array;
 
 final class CleaningVisitor extends NodeVisitorAbstract
 {
-
 	private NodeFinder $nodeFinder;
 
 	public function __construct()
@@ -48,12 +47,12 @@ final class CleaningVisitor extends NodeVisitorAbstract
 	}
 
 	/**
-	 * @param Node\Stmt[] $stmts
+	 * @param  Node\Stmt[] $stmts
 	 * @return Node\Stmt[]
 	 */
 	private function keepVariadicsAndYields(array $stmts, ?string $hookedPropertyName): array
 	{
-		$results = $this->nodeFinder->find($stmts, static function (Node $node) use ($hookedPropertyName): bool {
+		$results = $this->nodeFinder->find($stmts, static function(Node $node) use ($hookedPropertyName): bool {
 			if ($node instanceof Node\Expr\YieldFrom || $node instanceof Node\Expr\Yield_) {
 				return true;
 			}
@@ -68,10 +67,10 @@ final class CleaningVisitor extends NodeVisitorAbstract
 			if ($hookedPropertyName !== null) {
 				if (
 					$node instanceof Node\Expr\PropertyFetch
-					&& $node->var instanceof Node\Expr\Variable
-					&& $node->var->name === 'this'
-					&& $node->name instanceof Node\Identifier
-					&& $node->name->toString() === $hookedPropertyName
+						&& $node->var instanceof Node\Expr\Variable
+						&& $node->var->name === 'this'
+						&& $node->name instanceof Node\Identifier
+						&& $node->name->toString() === $hookedPropertyName
 				) {
 					return true;
 				}
@@ -83,15 +82,15 @@ final class CleaningVisitor extends NodeVisitorAbstract
 		foreach ($results as $result) {
 			if (
 				$result instanceof Node\Expr\Yield_
-				|| $result instanceof Node\Expr\YieldFrom
-				|| $result instanceof Node\Expr\Closure
-				|| $result instanceof Node\Expr\ArrowFunction
-				|| $result instanceof Node\Expr\PropertyFetch
+					|| $result instanceof Node\Expr\YieldFrom
+					|| $result instanceof Node\Expr\Closure
+					|| $result instanceof Node\Expr\ArrowFunction
+					|| $result instanceof Node\Expr\PropertyFetch
 			) {
 				$newStmts[] = new Node\Stmt\Expression($result);
 				continue;
 			}
-			if (!$result instanceof Node\Expr\FuncCall) {
+			if (! $result instanceof Node\Expr\FuncCall) {
 				continue;
 			}
 
@@ -100,5 +99,4 @@ final class CleaningVisitor extends NodeVisitorAbstract
 
 		return $newStmts;
 	}
-
 }

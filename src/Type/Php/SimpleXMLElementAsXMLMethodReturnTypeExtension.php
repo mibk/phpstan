@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -12,13 +11,13 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\MethodCall;
 use SimpleXMLElement;
 use function count;
 
 #[AutowiredService]
 final class SimpleXMLElementAsXMLMethodReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-
 	public function getClass(): string
 	{
 		return SimpleXMLElement::class;
@@ -36,5 +35,4 @@ final class SimpleXMLElementAsXMLMethodReturnTypeExtension implements DynamicMet
 		}
 		return new UnionType([new StringType(), new ConstantBooleanType(false)]);
 	}
-
 }

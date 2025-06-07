@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
-use PhpParser\Node\ArrayItem;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\Expr\GetIterableKeyTypeExpr;
@@ -14,6 +12,8 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\ArrayItem;
 use function sprintf;
 
 /**
@@ -22,7 +22,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class ArrayUnpackingRule implements Rule
 {
-
 	public function __construct(private PhpVersion $phpVersion, private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -42,7 +41,7 @@ final class ArrayUnpackingRule implements Rule
 			$scope,
 			new GetIterableKeyTypeExpr($node->value),
 			'',
-			static fn (Type $type): bool => $type->isString()->no(),
+			static fn(Type $type): bool => $type->isString()->no(),
 		);
 
 		$keyType = $typeResult->getType();
@@ -63,5 +62,4 @@ final class ArrayUnpackingRule implements Rule
 			))->identifier('arrayUnpacking.stringOffset')->build(),
 		];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -30,7 +30,6 @@ use function strtolower;
 #[AutowiredService]
 final class ConstExprNodeResolver
 {
-
 	public function __construct(
 		private ReflectionProvider\ReflectionProviderProvider $reflectionProviderProvider,
 		private InitializerExprTypeResolver $initializerExprTypeResolver,
@@ -71,22 +70,21 @@ final class ConstExprNodeResolver
 		if ($node instanceof ConstFetchNode) {
 			if ($nameScope->getClassName() !== null) {
 				switch (strtolower($node->className)) {
-					case 'static':
-					case 'self':
-						$className = $nameScope->getClassName();
-						break;
+				case 'static':
+				case 'self':
+					$className = $nameScope->getClassName();
+					break;
 
-					case 'parent':
-						if ($this->getReflectionProvider()->hasClass($nameScope->getClassName())) {
-							$classReflection = $this->getReflectionProvider()->getClass($nameScope->getClassName());
-							if ($classReflection->getParentClass() === null) {
-								return new ErrorType();
-
-							}
-
-							$className = $classReflection->getParentClass()->getName();
+				case 'parent':
+					if ($this->getReflectionProvider()->hasClass($nameScope->getClassName())) {
+						$classReflection = $this->getReflectionProvider()->getClass($nameScope->getClassName());
+						if ($classReflection->getParentClass() === null) {
+							return new ErrorType();
 						}
-						break;
+
+						$className = $classReflection->getParentClass()->getName();
+					}
+					break;
 				}
 			}
 			if (!isset($className)) {
@@ -137,5 +135,4 @@ final class ConstExprNodeResolver
 	{
 		return $this->reflectionProviderProvider->getReflectionProvider();
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Constant;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
  */
 final class ConstantArrayTypeAndMethod
 {
-
 	private function __construct(
 		private ?Type $type,
 		private ?string $method,
@@ -64,5 +63,4 @@ final class ConstantArrayTypeAndMethod
 	{
 		return $this->certainty;
 	}
-
 }

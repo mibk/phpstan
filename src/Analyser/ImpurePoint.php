@@ -1,9 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node;
 use PHPStan\Node\VirtualNode;
+use PhpParser\Node;
 
 /**
  * @phpstan-type ImpurePointIdentifier = 'echo'|'die'|'exit'|'propertyAssign'|'propertyAssignByRef'|'propertyUnset'|'methodCall'|'new'|'functionCall'|'include'|'require'|'print'|'eval'|'superglobal'|'yield'|'yieldFrom'|'static'|'global'|'betweenPhpTags'|'staticPropertyAccess'
@@ -11,7 +11,6 @@ use PHPStan\Node\VirtualNode;
  */
 final class ImpurePoint
 {
-
 	/**
 	 * @param Node\Expr|Node\Stmt|VirtualNode $node
 	 * @param ImpurePointIdentifier $identifier
@@ -56,5 +55,4 @@ final class ImpurePoint
 	{
 		return $this->certain;
 	}
-
 }

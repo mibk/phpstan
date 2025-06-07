@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -20,7 +20,6 @@ use function is_int;
 
 final class GenericParametersAcceptorResolver
 {
-
 	/**
 	 * @api
 	 * @param array<int|string, Type> $argTypes
@@ -72,8 +71,8 @@ final class GenericParametersAcceptorResolver
 		$returnType = $parametersAcceptor->getReturnType();
 		if (
 			$returnType instanceof ConditionalTypeForParameter
-			&& !$returnType->isNegated()
-			&& array_key_exists($returnType->getParameterName(), $passedArgs)
+				&& !$returnType->isNegated()
+				&& array_key_exists($returnType->getParameterName(), $passedArgs)
 		) {
 			$paramType = $returnType->getTarget();
 			$argType = $passedArgs[$returnType->getParameterName()];
@@ -81,17 +80,17 @@ final class GenericParametersAcceptorResolver
 		}
 
 		$resolvedTemplateTypeMap = new TemplateTypeMap(array_merge(
-			$parametersAcceptor->getTemplateTypeMap()->map(static fn (string $name, Type $type): Type => new ErrorType())->getTypes(),
+			$parametersAcceptor->getTemplateTypeMap()->map(static fn(string $name, Type $type): Type => new ErrorType())->getTypes(),
 			$typeMap->getTypes(),
 		));
 
 		$originalParametersAcceptor = $parametersAcceptor;
 
-		if (!$parametersAcceptor instanceof ExtendedParametersAcceptor) {
+		if (! $parametersAcceptor instanceof ExtendedParametersAcceptor) {
 			$parametersAcceptor = new ExtendedFunctionVariant(
 				$parametersAcceptor->getTemplateTypeMap(),
 				$parametersAcceptor->getResolvedTemplateTypeMap(),
-				array_map(static fn (ParameterReflection $parameter): ExtendedParameterReflection => new ExtendedDummyParameter(
+				array_map(static fn(ParameterReflection $parameter): ExtendedParameterReflection => new ExtendedDummyParameter(
 					$parameter->getName(),
 					$parameter->getType(),
 					$parameter->isOptional(),
@@ -133,5 +132,4 @@ final class GenericParametersAcceptorResolver
 
 		return $result;
 	}
-
 }

@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Interface_;
 use function array_merge;
 use function count;
 use function in_array;
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class ApiInterfaceExtendsRule implements Rule
 {
-
 	public function __construct(
 		private ApiRuleHelper $apiRuleHelper,
 		private ReflectionProvider $reflectionProvider,
@@ -85,5 +84,4 @@ final class ApiInterfaceExtendsRule implements Rule
 
 		return [$ruleError];
 	}
-
 }

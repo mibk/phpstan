@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
 final class DirectAlwaysUsedMethodExtensionProvider implements AlwaysUsedMethodExtensionProvider
 {
-
 	/**
 	 * @param AlwaysUsedMethodExtension[] $extensions
 	 */
@@ -16,5 +15,4 @@ final class DirectAlwaysUsedMethodExtensionProvider implements AlwaysUsedMethodE
 	{
 		return $this->extensions;
 	}
-
 }

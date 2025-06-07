@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -6,7 +6,5 @@ use PHPStan\BetterReflection\SourceLocator\Type\Composer\Psr\PsrAutoloaderMappin
 
 interface OptimizedPsrAutoloaderLocatorFactory
 {
-
 	public function create(PsrAutoloaderMapping $mapping): OptimizedPsrAutoloaderLocator;
-
 }

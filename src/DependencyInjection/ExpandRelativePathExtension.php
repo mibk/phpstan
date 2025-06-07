@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -8,10 +8,8 @@ use Nette\Schema\Schema;
 
 final class ExpandRelativePathExtension extends CompilerExtension
 {
-
 	public function getConfigSchema(): Schema
 	{
 		return Expect::listOf('string');
 	}
-
 }

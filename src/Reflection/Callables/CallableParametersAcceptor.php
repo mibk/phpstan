@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Callables;
 
@@ -11,7 +11,6 @@ use PHPStan\TrinaryLogic;
  */
 interface CallableParametersAcceptor extends ParametersAcceptor
 {
-
 	/**
 	 * @return SimpleThrowPoint[]
 	 */
@@ -35,5 +34,4 @@ interface CallableParametersAcceptor extends ParametersAcceptor
 	 * @return string[]
 	 */
 	public function getUsedVariables(): array;
-
 }

@@ -1,12 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\ArrayDimFetch;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -22,13 +17,17 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FunctionTypeSpecifyingExtension;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\ArrayDimFetch;
+use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class ArrayKeyExistsFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function setTypeSpecifier(TypeSpecifier $typeSpecifier): void
@@ -62,8 +61,8 @@ final class ArrayKeyExistsFunctionTypeSpecifyingExtension implements FunctionTyp
 		$arrayType = $scope->getType($array);
 
 		if (
-			!$keyType instanceof ConstantIntegerType
-			&& !$keyType instanceof ConstantStringType
+			! $keyType instanceof ConstantIntegerType
+				&& ! $keyType instanceof ConstantStringType
 		) {
 			if ($context->true()) {
 				if ($arrayType->isIterableAtLeastOnce()->no()) {
@@ -121,5 +120,4 @@ final class ArrayKeyExistsFunctionTypeSpecifyingExtension implements FunctionTyp
 			$scope,
 		);
 	}
-
 }

@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -20,6 +18,8 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function array_combine;
 use function array_fill_keys;
 use function array_map;
@@ -30,7 +30,6 @@ use function strtolower;
 #[AutowiredService]
 final class FilterVarArrayDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private FilterFunctionReturnTypeHelper $filterFunctionReturnTypeHelper, private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -97,7 +96,7 @@ final class FilterVarArrayDynamicReturnTypeExtension implements DynamicFunctionR
 			$addEmpty = false;
 
 			$keysType = $inputConstantArrayType;
-			$inputKeysList = array_map(static fn ($type) => $type->getValue(), $inputConstantArrayType->getKeyTypes());
+			$inputKeysList = array_map(static fn($type) => $type->getValue(), $inputConstantArrayType->getKeyTypes());
 			$filterTypesMap = array_fill_keys($inputKeysList, $filterArgType);
 			$inputTypesMap = array_combine($inputKeysList, $inputConstantArrayType->getValueTypes());
 			$optionalKeys = [];
@@ -125,11 +124,11 @@ final class FilterVarArrayDynamicReturnTypeExtension implements DynamicFunctionR
 		} else {
 			$keysType = $filterConstantArrayType;
 			$filterKeyTypes = $filterConstantArrayType->getKeyTypes();
-			$filterKeysList = array_map(static fn ($type) => $type->getValue(), $filterKeyTypes);
+			$filterKeysList = array_map(static fn($type) => $type->getValue(), $filterKeyTypes);
 			$filterTypesMap = array_combine($filterKeysList, $keysType->getValueTypes());
 
 			if ($inputConstantArrayType !== null) {
-				$inputKeysList = array_map(static fn ($type) => $type->getValue(), $inputConstantArrayType->getKeyTypes());
+				$inputKeysList = array_map(static fn($type) => $type->getValue(), $inputConstantArrayType->getKeyTypes());
 				$inputTypesMap = array_combine($inputKeysList, $inputConstantArrayType->getValueTypes());
 
 				$optionalKeys = [];
@@ -196,5 +195,4 @@ final class FilterVarArrayDynamicReturnTypeExtension implements DynamicFunctionR
 
 		return [$filterType, $type];
 	}
-
 }

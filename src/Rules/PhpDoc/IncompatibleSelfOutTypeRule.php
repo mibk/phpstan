@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -12,6 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_merge;
 use function sprintf;
 
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class IncompatibleSelfOutTypeRule implements Rule
 {
-
 	public function __construct(
 		private UnresolvableTypeHelper $unresolvableTypeHelper,
 		private GenericObjectTypeCheck $genericObjectTypeCheck,
@@ -101,5 +100,4 @@ final class IncompatibleSelfOutTypeRule implements Rule
 			),
 		));
 	}
-
 }

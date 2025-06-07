@@ -1,17 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Whitespace;
 
 use Nette\Utils\Strings;
-use PhpParser\Node;
-use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor;
-use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\FileNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor;
+use PhpParser\NodeVisitorAbstract;
 use function count;
 
 /**
@@ -20,7 +20,6 @@ use function count;
 #[RegisteredRule(level: 0)]
 final class FileWhitespaceRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return FileNode::class;
@@ -42,8 +41,7 @@ final class FileWhitespaceRule implements Rule
 		}
 
 		$nodeTraverser = new NodeTraverser();
-		$visitor = new class () extends NodeVisitorAbstract {
-
+		$visitor = new class() extends NodeVisitorAbstract {
 			/** @var Node[] */
 			private array $lastNodes = [];
 
@@ -74,7 +72,6 @@ final class FileWhitespaceRule implements Rule
 			{
 				return $this->lastNodes;
 			}
-
 		};
 		$nodeTraverser->addVisitor($visitor);
 		$nodeTraverser->traverse($nodes);
@@ -82,7 +79,7 @@ final class FileWhitespaceRule implements Rule
 		$lastNodes = $visitor->getLastNodes();
 		$lastNodes[] = $nodes[count($nodes) - 1];
 		foreach ($lastNodes as $lastNode) {
-			if (!$lastNode instanceof Node\Stmt\InlineHTML || Strings::match($lastNode->value, '#^(\s+)$#') === null) {
+			if (! $lastNode instanceof Node\Stmt\InlineHTML || Strings::match($lastNode->value, '#^(\s+)$#') === null) {
 				continue;
 			}
 
@@ -93,5 +90,4 @@ final class FileWhitespaceRule implements Rule
 
 		return $messages;
 	}
-
 }

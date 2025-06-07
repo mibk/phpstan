@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -36,7 +36,6 @@ use PHPStan\Type\VerbosityLevel;
 
 class AccessoryNonEmptyStringType implements CompoundType, AccessoryType
 {
-
 	use MaybeCallableTypeTrait;
 	use NonArrayTypeTrait;
 	use NonObjectTypeTrait;
@@ -386,5 +385,4 @@ class AccessoryNonEmptyStringType implements CompoundType, AccessoryType
 	{
 		return new IdentifierTypeNode('non-empty-string');
 	}
-
 }

@@ -1,16 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Regexp;
 
 use Nette\Utils\RegexpException;
 use Nette\Utils\Strings;
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Regex\RegexExpressionHelper;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function in_array;
 use function sprintf;
 use function str_starts_with;
@@ -22,7 +22,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class RegularExpressionPatternRule implements Rule
 {
-
 	public function __construct(
 		private RegexExpressionHelper $regexExpressionHelper,
 	)
@@ -56,7 +55,7 @@ final class RegularExpressionPatternRule implements Rule
 	 */
 	private function extractPatterns(FuncCall $functionCall, Scope $scope): array
 	{
-		if (!$functionCall->name instanceof Node\Name) {
+		if (! $functionCall->name instanceof Node\Name) {
 			return [];
 		}
 		$functionName = strtolower((string) $functionCall->name);
@@ -130,5 +129,4 @@ final class RegularExpressionPatternRule implements Rule
 
 		return null;
 	}
-
 }

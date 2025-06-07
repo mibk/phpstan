@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Fixable;
 
+use PHPStan\Node\Expr\AlwaysRememberedExpr;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\Node\Expr\AlwaysRememberedExpr;
 
 final class UnwrapVirtualNodesVisitor extends NodeVisitorAbstract
 {
-
 	public function enterNode(Node $node): ?Node
 	{
-		if (!$node instanceof Node\Expr\Match_) {
+		if (! $node instanceof Node\Expr\Match_) {
 			return null;
 		}
 
-		if (!$node->cond instanceof AlwaysRememberedExpr) {
+		if (! $node->cond instanceof AlwaysRememberedExpr) {
 			return null;
 		}
 
@@ -23,5 +22,4 @@ final class UnwrapVirtualNodesVisitor extends NodeVisitorAbstract
 
 		return $node;
 	}
-
 }

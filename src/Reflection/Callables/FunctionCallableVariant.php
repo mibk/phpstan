@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Callables;
 
@@ -18,11 +18,10 @@ use function count;
 
 final class FunctionCallableVariant implements CallableParametersAcceptor, ExtendedParametersAcceptor
 {
-
-	/** @var SimpleThrowPoint[]|null  */
+	/** @var SimpleThrowPoint[]|null */
 	private ?array $throwPoints = null;
 
-	/** @var SimpleImpurePoint[]|null  */
+	/** @var SimpleImpurePoint[]|null */
 	private ?array $impurePoints = null;
 
 	public function __construct(
@@ -33,12 +32,12 @@ final class FunctionCallableVariant implements CallableParametersAcceptor, Exten
 	}
 
 	/**
-	 * @param ExtendedParametersAcceptor[] $variants
+	 * @param  ExtendedParametersAcceptor[] $variants
 	 * @return self[]
 	 */
 	public static function createFromVariants(FunctionReflection|ExtendedMethodReflection $function, array $variants): array
 	{
-		return array_map(static fn (ExtendedParametersAcceptor $variant) => new self($function, $variant), $variants);
+		return array_map(static fn(ExtendedParametersAcceptor $variant) => new self($function, $variant), $variants);
 	}
 
 	public function getTemplateTypeMap(): TemplateTypeMap
@@ -167,5 +166,4 @@ final class FunctionCallableVariant implements CallableParametersAcceptor, Exten
 	{
 		return $this->function->acceptsNamedArguments();
 	}
-
 }

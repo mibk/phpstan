@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassPropertiesNode;
@@ -11,6 +10,7 @@ use PHPStan\Node\Property\PropertyRead;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function array_key_exists;
 use function sprintf;
 
@@ -20,7 +20,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class GetNonVirtualPropertyHookReadRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return ClassPropertiesNode::class;
@@ -31,27 +30,27 @@ final class GetNonVirtualPropertyHookReadRule implements Rule
 		$reads = [];
 		$classReflection = $node->getClassReflection();
 		foreach ($node->getPropertyUsages() as $propertyUsage) {
-			if (!$propertyUsage instanceof PropertyRead) {
+			if (! $propertyUsage instanceof PropertyRead) {
 				continue;
 			}
 
 			$fetch = $propertyUsage->getFetch();
-			if (!$fetch instanceof Node\Expr\PropertyFetch) {
+			if (! $fetch instanceof Node\Expr\PropertyFetch) {
 				continue;
 			}
 
-			if (!$fetch->name instanceof Node\Identifier) {
+			if (! $fetch->name instanceof Node\Identifier) {
 				continue;
 			}
 
 			$propertyName = $fetch->name->toString();
-			if (!$fetch->var instanceof Node\Expr\Variable || $fetch->var->name !== 'this') {
+			if (! $fetch->var instanceof Node\Expr\Variable || $fetch->var->name !== 'this') {
 				continue;
 			}
 
 			$usageScope = $propertyUsage->getScope();
 			$inFunction = $usageScope->getFunction();
-			if (!$inFunction instanceof PhpMethodFromParserNodeReflection) {
+			if (! $inFunction instanceof PhpMethodFromParserNodeReflection) {
 				continue;
 			}
 
@@ -130,5 +129,4 @@ final class GetNonVirtualPropertyHookReadRule implements Rule
 
 		return $getHook->getStartLine();
 	}
-
 }

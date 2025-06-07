@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 
 #[AutowiredService]
 final class ArrayFilterFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private ArrayFilterFunctionReturnTypeHelper $arrayFilterFunctionReturnTypeHelper)
 	{
 	}
@@ -30,5 +29,4 @@ final class ArrayFilterFunctionReturnTypeExtension implements DynamicFunctionRet
 
 		return $this->arrayFilterFunctionReturnTypeHelper->getType($scope, $arrayArg, $callbackArg, $flagArg);
 	}
-
 }

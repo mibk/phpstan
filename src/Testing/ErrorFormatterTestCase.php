@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
@@ -25,12 +25,11 @@ use function stream_get_contents;
 
 abstract class ErrorFormatterTestCase extends PHPStanTestCase
 {
-
 	protected const DIRECTORY_PATH = '/data/folder/with space/and unicode 😃/project';
 
-	private const KIND_DECORATED = 'decorated';
-	private const KIND_PLAIN = 'plain';
-	private const KIND_VERBOSE = '+verbose';
+	private const KIND_DECORATED   = 'decorated';
+	private const KIND_PLAIN       = 'plain';
+	private const KIND_VERBOSE     = '+verbose';
 	private const KIND_NOT_VERBOSE = '+not-verbose';
 
 	/** @var array<string, StreamOutput> */
@@ -131,9 +130,8 @@ abstract class ErrorFormatterTestCase extends PHPStanTestCase
 
 	private function rtrimMultiline(string $output): string
 	{
-		$result = array_map(static fn (string $line): string => rtrim($line, " \r\n"), explode("\n", $output));
+		$result = array_map(static fn(string $line): string => rtrim($line, " \r\n"), explode("\n", $output));
 
 		return implode("\n", $result);
 	}
-
 }

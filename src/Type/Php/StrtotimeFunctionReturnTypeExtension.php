@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -15,6 +14,7 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node\Expr\FuncCall;
 use function array_map;
 use function array_unique;
 use function count;
@@ -25,7 +25,6 @@ use function strtotime;
 #[AutowiredService]
 final class StrtotimeFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'strtotime';
@@ -45,8 +44,8 @@ final class StrtotimeFunctionReturnTypeExtension implements DynamicFunctionRetur
 		if ($argType instanceof MixedType) {
 			return TypeUtils::toBenevolentUnion($defaultReturnType);
 		}
-		$results = array_unique(array_map(static fn (ConstantStringType $string): int|bool => strtotime($string->getValue()), $argType->getConstantStrings()));
-		$resultTypes = array_unique(array_map(static fn (int|bool $value): string => gettype($value), $results));
+		$results = array_unique(array_map(static fn(ConstantStringType $string): int|bool => strtotime($string->getValue()), $argType->getConstantStrings()));
+		$resultTypes = array_unique(array_map(static fn(int | bool $value): string => gettype($value), $results));
 
 		if (count($resultTypes) !== 1 || count($results) === 0) {
 			return $defaultReturnType;
@@ -68,5 +67,4 @@ final class StrtotimeFunctionReturnTypeExtension implements DynamicFunctionRetur
 
 		return new IntegerType();
 	}
-
 }

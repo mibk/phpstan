@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\TooWideTypehints;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClosureReturnStatementsNode;
@@ -11,6 +10,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
@@ -20,7 +20,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class TooWideClosureReturnTypehintRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return ClosureReturnStatementsNode::class;
@@ -44,7 +43,7 @@ final class TooWideClosureReturnTypehintRule implements Rule
 		}
 
 		$closureReturnType = $scope->getFunctionType($closureExpr->returnType, false, false);
-		if (!$closureReturnType instanceof UnionType) {
+		if (! $closureReturnType instanceof UnionType) {
 			return [];
 		}
 
@@ -81,5 +80,4 @@ final class TooWideClosureReturnTypehintRule implements Rule
 
 		return $messages;
 	}
-
 }

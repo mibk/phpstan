@@ -1,18 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\SignatureMap;
 
-use PhpParser\Node\AttributeGroup;
-use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\ClassConst;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionMethod;
 use PHPStan\DependencyInjection\AutowiredService;
-use PHPStan\Php\PhpVersion;
 use PHPStan\Php8StubsMap;
+use PHPStan\Php\PhpVersion;
 use PHPStan\PhpDoc\Tag\ParamTag;
 use PHPStan\Reflection\BetterReflection\SourceLocator\FileNodesFetcher;
 use PHPStan\Reflection\InitializerExprContext;
@@ -26,6 +19,13 @@ use PHPStan\Type\ParserNodeTypeToPHPStanType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypehintHelper;
+use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
 use ReflectionFunctionAbstract;
 use function array_key_exists;
 use function array_map;
@@ -38,7 +38,6 @@ use function strtolower;
 #[AutowiredService(as: Php8SignatureMapProvider::class)]
 final class Php8SignatureMapProvider implements SignatureMapProvider
 {
-
 	private const DIRECTORY = __DIR__ . '/../../../vendor/phpstan/php-8-stubs';
 
 	/** @var array<string, array<string, array{ClassMethod, string}>> */
@@ -102,7 +101,7 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 		}
 
 		foreach ($class[0]->getNode()->stmts as $stmt) {
-			if (!$stmt instanceof ClassMethod) {
+			if (! $stmt instanceof ClassMethod) {
 				continue;
 			}
 
@@ -126,11 +125,11 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 			foreach ($attrGroup->attrs as $attr) {
 				if ($attr->name->toString() === 'Until') {
 					$arg = $attr->args[0]->value;
-					if (!$arg instanceof String_) {
+					if (! $arg instanceof String_) {
 						throw new ShouldNotHappenException();
 					}
 					$parts = explode('.', $arg->value);
-					$versionId = (int) $parts[0] * 10000 + (int) ($parts[1] ?? 0) * 100 + (int) ($parts[2] ?? 0);
+					$versionId = (int)$parts[0]*10000 + (int)($parts[1] ?? 0)*100 + (int)($parts[2] ?? 0);
 					if ($this->phpVersion->getVersionId() >= $versionId) {
 						return false;
 					}
@@ -140,11 +139,11 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 				}
 
 				$arg = $attr->args[0]->value;
-				if (!$arg instanceof String_) {
+				if (! $arg instanceof String_) {
 					throw new ShouldNotHappenException();
 				}
 				$parts = explode('.', $arg->value);
-				$versionId = (int) $parts[0] * 10000 + (int) ($parts[1] ?? 0) * 100 + (int) ($parts[2] ?? 0);
+				$versionId = (int)$parts[0]*10000 + (int)($parts[1] ?? 0)*100 + (int)($parts[2] ?? 0);
 				if ($this->phpVersion->getVersionId() < $versionId) {
 					return false;
 				}
@@ -220,7 +219,7 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 	}
 
 	/**
-	 * @param array{positional: array<int, FunctionSignature>, named: ?array<int, FunctionSignature>} $functionMapSignatures
+	 * @param  array{positional: array<int, FunctionSignature>, named: ?array<int, FunctionSignature>} $functionMapSignatures
 	 * @return array{positional: array<int, FunctionSignature>, named: ?array<int, FunctionSignature>}
 	 */
 	private function getMergedSignatures(FunctionSignature $nativeSignature, array $functionMapSignatures): array
@@ -248,7 +247,7 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 					$nativeParam !== null
 						? $nativeParam->isVariadic()
 						: false
-					);
+				);
 			}
 
 			if ($hasMiddleVariadicParam) {
@@ -393,7 +392,7 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 				$functionName,
 				$function->getDocComment()->getText(),
 			);
-			$phpDocParameterTypes = array_map(static fn (ParamTag $param): Type => $param->getType(), $phpDoc->getParamTags());
+			$phpDocParameterTypes = array_map(static fn(ParamTag $param): Type => $param->getType(), $phpDoc->getParamTags());
 			if ($phpDoc->getReturnTag() !== null) {
 				$phpDocReturnType = $phpDoc->getReturnTag()->getType();
 			}
@@ -409,7 +408,7 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 		$variadic = false;
 		foreach ($function->getParams() as $param) {
 			$name = $param->var;
-			if (!$name instanceof Variable || !is_string($name->name)) {
+			if (! $name instanceof Variable || !is_string($name->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$parameterType = ParserNodeTypeToPHPStanType::resolve($param->type, $classReflection);
@@ -501,7 +500,7 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 		}
 
 		foreach ($class[0]->getNode()->stmts as $stmt) {
-			if (!$stmt instanceof ClassConst) {
+			if (! $stmt instanceof ClassConst) {
 				continue;
 			}
 
@@ -524,5 +523,4 @@ final class Php8SignatureMapProvider implements SignatureMapProvider
 
 		return null;
 	}
-
 }

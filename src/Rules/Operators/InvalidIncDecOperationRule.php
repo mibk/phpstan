@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Operators;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
@@ -19,6 +18,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function get_class;
 use function sprintf;
 
@@ -28,7 +28,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class InvalidIncDecOperationRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 	)
@@ -43,38 +42,38 @@ final class InvalidIncDecOperationRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if (
-			!$node instanceof Node\Expr\PreInc
-			&& !$node instanceof Node\Expr\PostInc
-			&& !$node instanceof Node\Expr\PreDec
-			&& !$node instanceof Node\Expr\PostDec
+			! $node instanceof Node\Expr\PreInc
+				&& ! $node instanceof Node\Expr\PostInc
+				&& ! $node instanceof Node\Expr\PreDec
+				&& ! $node instanceof Node\Expr\PostDec
 		) {
 			return [];
 		}
 
 		switch (get_class($node)) {
-			case Node\Expr\PreInc::class:
-				$nodeType = 'preInc';
-				break;
-			case Node\Expr\PostInc::class:
-				$nodeType = 'postInc';
-				break;
-			case Node\Expr\PreDec::class:
-				$nodeType = 'preDec';
-				break;
-			case Node\Expr\PostDec::class:
-				$nodeType = 'postDec';
-				break;
-			default:
-				throw new ShouldNotHappenException();
+		case Node\Expr\PreInc::class:
+			$nodeType = 'preInc';
+			break;
+		case Node\Expr\PostInc::class:
+			$nodeType = 'postInc';
+			break;
+		case Node\Expr\PreDec::class:
+			$nodeType = 'preDec';
+			break;
+		case Node\Expr\PostDec::class:
+			$nodeType = 'postDec';
+			break;
+		default:
+			throw new ShouldNotHappenException();
 		}
 
 		$operatorString = $node instanceof Node\Expr\PreInc || $node instanceof Node\Expr\PostInc ? '++' : '--';
 
 		if (
-			!$node->var instanceof Node\Expr\Variable
-			&& !$node->var instanceof Node\Expr\ArrayDimFetch
-			&& !$node->var instanceof Node\Expr\PropertyFetch
-			&& !$node->var instanceof Node\Expr\StaticPropertyFetch
+			! $node->var instanceof Node\Expr\Variable
+				&& ! $node->var instanceof Node\Expr\ArrayDimFetch
+				&& ! $node->var instanceof Node\Expr\PropertyFetch
+				&& ! $node->var instanceof Node\Expr\StaticPropertyFetch
 		) {
 			return [
 				RuleErrorBuilder::message(sprintf(
@@ -92,7 +91,7 @@ final class InvalidIncDecOperationRule implements Rule
 			$scope,
 			$node->var,
 			'',
-			static fn (Type $type): bool => $allowedTypes->isSuperTypeOf($type)->yes(),
+			static fn(Type $type): bool => $allowedTypes->isSuperTypeOf($type)->yes(),
 		)->getType();
 
 		if ($varType instanceof ErrorType || $allowedTypes->isSuperTypeOf($varType)->yes()) {
@@ -110,5 +109,4 @@ final class InvalidIncDecOperationRule implements Rule
 				->build(),
 		];
 	}
-
 }

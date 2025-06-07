@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -16,7 +16,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class NullsafeMethodCallRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Expr\NullsafeMethodCall::class;
@@ -35,5 +34,4 @@ final class NullsafeMethodCallRule implements Rule
 				->build(),
 		];
 	}
-
 }

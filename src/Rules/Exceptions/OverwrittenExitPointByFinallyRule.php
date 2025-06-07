@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\FinallyExitPointsNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class OverwrittenExitPointByFinallyRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return FinallyExitPointsNode::class;
@@ -67,5 +66,4 @@ final class OverwrittenExitPointByFinallyRule implements Rule
 
 		return 'exit point';
 	}
-
 }

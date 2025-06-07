@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Deprecation;
 
@@ -13,18 +13,16 @@ use PHPStan\BetterReflection\Reflection\Adapter\ReflectionEnumUnitCase;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyProvider
- *		tags:
- *			- phpstan.enumCaseDeprecationExtension
+ * *		class: App\PHPStan\MyProvider
+ * *		tags:
+ * *			- phpstan.enumCaseDeprecationExtension
  * ```
  *
  * @api
  */
 interface EnumCaseDeprecationExtension
 {
-
 	public const ENUM_CASE_EXTENSION_TAG = 'phpstan.enumCaseDeprecationExtension';
 
 	public function getEnumCaseDeprecation(ReflectionEnumUnitCase|ReflectionEnumBackedCase $reflection): ?Deprecation;
-
 }

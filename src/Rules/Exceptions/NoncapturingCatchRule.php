@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Stmt\Catch_>
@@ -14,7 +14,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class NoncapturingCatchRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Stmt\Catch_::class;
@@ -40,5 +39,4 @@ final class NoncapturingCatchRule implements Rule
 				->build(),
 		];
 	}
-
 }

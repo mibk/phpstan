@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Variables;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ExecutionEndNode;
@@ -19,6 +18,7 @@ use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -27,7 +27,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class ParameterOutExecutionEndTypeRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 	)
@@ -99,7 +98,7 @@ final class ParameterOutExecutionEndTypeRule implements Rule
 			$scope,
 			$variableExpr,
 			'',
-			static fn (Type $type): bool => $outType->isSuperTypeOf($type)->yes(),
+			static fn(Type $type): bool => $outType->isSuperTypeOf($type)->yes(),
 		);
 		$type = $typeResult->getType();
 		if ($type instanceof ErrorType) {
@@ -130,5 +129,4 @@ final class ParameterOutExecutionEndTypeRule implements Rule
 			$errorBuilder->build(),
 		];
 	}
-
 }

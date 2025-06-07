@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -30,7 +30,6 @@ use function sprintf;
 #[AutowiredService]
 final class AnalyseApplication
 {
-
 	public function __construct(
 		private AnalyserRunner $analyserRunner,
 		private AnalyserResultFinalizer $analyserResultFinalizer,
@@ -43,7 +42,7 @@ final class AnalyseApplication
 	}
 
 	/**
-	 * @param string[] $files
+	 * @param string[]     $files
 	 * @param mixed[]|null $projectConfigArray
 	 */
 	public function analyse(
@@ -98,8 +97,8 @@ final class AnalyseApplication
 			$forceValidateStubFiles = (bool) ($_SERVER['__PHPSTAN_FORCE_VALIDATE_STUB_FILES'] ?? false);
 			if (
 				$resultCache->isFullAnalysis()
-				&& count($projectStubFiles) !== 0
-				&& (!$onlyFiles || $forceValidateStubFiles)
+					&& count($projectStubFiles) !== 0
+					&& (!$onlyFiles || $forceValidateStubFiles)
 			) {
 				$stubErrors = $this->stubValidator->validate($projectStubFiles, $debug);
 				$intermediateAnalyserResult = new AnalyserResult(
@@ -137,9 +136,9 @@ final class AnalyseApplication
 			$changedProjectExtensionFilesOutsideOfAnalysedPaths = [];
 			if (
 				$isResultCacheUsed
-				&& $resultCacheResult->isSaved()
-				&& !$onlyFiles
-				&& $projectConfigArray !== null
+					&& $resultCacheResult->isSaved()
+					&& !$onlyFiles
+					&& $projectConfigArray !== null
 			) {
 				foreach ($resultCache->getProjectExtensionFiles() as $file => [$hash, $isAnalysed, $className]) {
 					if ($isAnalysed) {
@@ -225,7 +224,7 @@ final class AnalyseApplication
 
 		if (!$debug) {
 			$preFileCallback = null;
-			$postFileCallback = static function (int $step) use ($errorOutput): void {
+			$postFileCallback = static function(int $step) use ($errorOutput): void {
 				$errorOutput->getStyle()->progressAdvance($step);
 			};
 
@@ -233,14 +232,14 @@ final class AnalyseApplication
 			$errorOutput->getStyle()->progressAdvance($allAnalysedFilesCount - $filesCount);
 		} else {
 			$startTime = null;
-			$preFileCallback = static function (string $file) use ($stdOutput, &$startTime): void {
+			$preFileCallback = static function(string $file) use ($stdOutput, &$startTime): void {
 				$stdOutput->writeLineFormatted($file);
 				$startTime = microtime(true);
 			};
 			$postFileCallback = null;
 			if ($stdOutput->isDebug()) {
 				$previousMemory = memory_get_peak_usage(true);
-				$postFileCallback = static function () use ($stdOutput, &$previousMemory, &$startTime): void {
+				$postFileCallback = static function() use ($stdOutput, &$previousMemory, &$startTime): void {
 					if ($startTime === null) {
 						throw new ShouldNotHappenException();
 					}
@@ -316,7 +315,7 @@ final class AnalyseApplication
 	}
 
 	/**
-	 * @param array<string, array<string>> $dependencies
+	 * @param  array<string, array<string>> $dependencies
 	 * @return array<string, array<string>>
 	 */
 	private function switchTmpFileInDependencies(array $dependencies, string $insteadOfFile, string $tmpFile): array
@@ -345,7 +344,7 @@ final class AnalyseApplication
 	}
 
 	/**
-	 * @param list<Error> $errors
+	 * @param  list<Error> $errors
 	 * @return list<Error>
 	 */
 	private function switchTmpFileInErrors(array $errors, string $insteadOfFile, string $tmpFile): array
@@ -366,7 +365,7 @@ final class AnalyseApplication
 	}
 
 	/**
-	 * @param array<string, LinesToIgnore> $linesToIgnore
+	 * @param  array<string, LinesToIgnore> $linesToIgnore
 	 * @return array<string, LinesToIgnore>
 	 */
 	private function swittchTmpFileInLinesToIgnore(array $linesToIgnore, string $insteadOfFile, string $tmpFile): array
@@ -391,5 +390,4 @@ final class AnalyseApplication
 
 		return $newLinesToIgnore;
 	}
-
 }

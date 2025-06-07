@@ -1,12 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\FunctionLike;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
 use PHPStan\Reflection\Assertions;
 use PHPStan\Reflection\AttributeReflection;
 use PHPStan\Reflection\ExtendedFunctionVariant;
@@ -21,6 +16,11 @@ use PHPStan\Type\Generic\TemplateTypeVarianceMap;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypehintHelper;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
 use function array_reverse;
 use function is_array;
 use function is_string;
@@ -30,7 +30,6 @@ use function is_string;
  */
 class PhpFunctionFromParserNodeReflection implements FunctionReflection, ExtendedParametersAcceptor
 {
-
 	/** @var Function_|ClassMethod|Node\PropertyHook */
 	private Node\FunctionLike $functionLike;
 
@@ -38,15 +37,15 @@ class PhpFunctionFromParserNodeReflection implements FunctionReflection, Extende
 	private ?array $variants = null;
 
 	/**
-	 * @param Function_|ClassMethod|Node\PropertyHook $functionLike
-	 * @param Type[] $realParameterTypes
-	 * @param Type[] $phpDocParameterTypes
-	 * @param Type[] $realParameterDefaultValues
+	 * @param Function_|ClassMethod|Node\PropertyHook  $functionLike
+	 * @param Type[]                                   $realParameterTypes
+	 * @param Type[]                                   $phpDocParameterTypes
+	 * @param Type[]                                   $realParameterDefaultValues
 	 * @param array<string, list<AttributeReflection>> $parameterAttributes
-	 * @param Type[] $parameterOutTypes
-	 * @param array<string, bool> $immediatelyInvokedCallableParameters
-	 * @param array<string, Type> $phpDocClosureThisTypeParameters
-	 * @param list<AttributeReflection> $attributes
+	 * @param Type[]                                   $parameterOutTypes
+	 * @param array<string, bool>                      $immediatelyInvokedCallableParameters
+	 * @param array<string, Type>                      $phpDocClosureThisTypeParameters
+	 * @param list<AttributeReflection>                $attributes
 	 */
 	public function __construct(
 		FunctionLike $functionLike,
@@ -91,7 +90,7 @@ class PhpFunctionFromParserNodeReflection implements FunctionReflection, Extende
 			return $this->functionLike->name->name;
 		}
 
-		if (!$this->functionLike instanceof Function_) {
+		if (! $this->functionLike instanceof Function_) {
 			// PropertyHook is handled in PhpMethodFromParserNodeReflection subclass
 			throw new ShouldNotHappenException();
 		}
@@ -156,7 +155,7 @@ class PhpFunctionFromParserNodeReflection implements FunctionReflection, Extende
 				$isOptional = false;
 			}
 
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 
@@ -333,5 +332,4 @@ class PhpFunctionFromParserNodeReflection implements FunctionReflection, Extende
 	{
 		return $this->attributes;
 	}
-
 }

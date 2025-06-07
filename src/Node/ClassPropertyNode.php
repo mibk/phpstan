@@ -1,20 +1,19 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Type\Type;
 use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\NodeAbstract;
-use PHPStan\Reflection\ClassReflection;
-use PHPStan\Type\Type;
 
 /**
  * @api
  */
 final class ClassPropertyNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
 	 * @param non-empty-string $name
 	 */
@@ -183,5 +182,4 @@ final class ClassPropertyNode extends NodeAbstract implements VirtualNode
 	{
 		return $this->classReflection->getNativeProperty($this->name)->isReadable();
 	}
-
 }

@@ -1,12 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 final class GeneralizePrecision
 {
-
-	private const LESS_SPECIFIC = 1;
-	private const MORE_SPECIFIC = 2;
+	private const LESS_SPECIFIC     = 1;
+	private const MORE_SPECIFIC     = 2;
 	private const TEMPLATE_ARGUMENT = 3;
 
 	/** @var self[] */
@@ -49,5 +48,4 @@ final class GeneralizePrecision
 	{
 		return $this->value === self::TEMPLATE_ARGUMENT;
 	}
-
 }

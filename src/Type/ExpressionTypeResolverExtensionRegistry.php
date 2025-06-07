@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 final class ExpressionTypeResolverExtensionRegistry
 {
-
 	/**
 	 * @param array<ExpressionTypeResolverExtension> $extensions
 	 */
@@ -21,5 +20,4 @@ final class ExpressionTypeResolverExtensionRegistry
 	{
 		return $this->extensions;
 	}
-
 }

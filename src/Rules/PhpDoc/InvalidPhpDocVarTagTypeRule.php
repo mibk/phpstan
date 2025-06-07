@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -17,6 +16,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_map;
 use function array_merge;
 use function is_string;
@@ -28,7 +28,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class InvalidPhpDocVarTagTypeRule implements Rule
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 		private ReflectionProvider $reflectionProvider,
@@ -55,8 +54,8 @@ final class InvalidPhpDocVarTagTypeRule implements Rule
 	{
 		if (
 			$node instanceof Node\Stmt\Property
-			|| $node instanceof Node\Stmt\ClassConst
-			|| $node instanceof Node\Stmt\Const_
+				|| $node instanceof Node\Stmt\ClassConst
+				|| $node instanceof Node\Stmt\Const_
 		) {
 			return [];
 		}
@@ -161,7 +160,7 @@ final class InvalidPhpDocVarTagTypeRule implements Rule
 				$errors,
 				$this->classCheck->checkClassNames(
 					$scope,
-					array_map(static fn (string $class): ClassNameNodePair => new ClassNameNodePair($class, $node), $referencedClasses),
+					array_map(static fn(string $class): ClassNameNodePair => new ClassNameNodePair($class, $node), $referencedClasses),
 					ClassNameUsageLocation::from(ClassNameUsageLocation::PHPDOC_TAG_VAR),
 					$this->checkClassCaseSensitivity,
 				),
@@ -170,5 +169,4 @@ final class InvalidPhpDocVarTagTypeRule implements Rule
 
 		return $errors;
 	}
-
 }

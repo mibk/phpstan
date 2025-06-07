@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -16,13 +12,16 @@ use PHPStan\Reflection\FunctionReflection;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\CallableType;
 use PHPStan\Type\FunctionTypeSpecifyingExtension;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
 use function count;
 use function strtolower;
 
 #[AutowiredService]
 final class IsCallableFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function __construct(private MethodExistsTypeSpecifyingExtension $methodExistsExtension)
@@ -49,9 +48,9 @@ final class IsCallableFunctionTypeSpecifyingExtension implements FunctionTypeSpe
 		$valueType = $scope->getType($value);
 		if (
 			$value instanceof Array_
-			&& count($value->items) === 2
-			&& $valueType->isConstantArray()->yes()
-			&& !$valueType->isCallable()->no()
+				&& count($value->items) === 2
+				&& $valueType->isConstantArray()->yes()
+				&& !$valueType->isCallable()->no()
 		) {
 			$functionCall = new FuncCall(new Name('method_exists'), [
 				new Arg($value->items[0]->value),
@@ -67,5 +66,4 @@ final class IsCallableFunctionTypeSpecifyingExtension implements FunctionTypeSpe
 	{
 		$this->typeSpecifier = $typeSpecifier;
 	}
-
 }

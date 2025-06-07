@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Playground;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FileTypeMapper;
+use PhpParser\Node;
 use function count;
 use function is_string;
 
@@ -16,7 +16,6 @@ use function is_string;
  */
 final class StaticVarWithoutTypeRule implements Rule
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 	)
@@ -77,5 +76,4 @@ final class StaticVarWithoutTypeRule implements Rule
 
 		return [];
 	}
-
 }

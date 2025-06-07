@@ -1,10 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PhpParser\Node\Expr\StaticCall;
 
 /**
  * This is the interface dynamic throw type extensions implement for static methods.
@@ -14,9 +14,9 @@ use PHPStan\Reflection\MethodReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.dynamicStaticMethodThrowTypeExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.dynamicStaticMethodThrowTypeExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/dynamic-throw-type-extensions
@@ -25,9 +25,7 @@ use PHPStan\Reflection\MethodReflection;
  */
 interface DynamicStaticMethodThrowTypeExtension
 {
-
 	public function isStaticMethodSupported(MethodReflection $methodReflection): bool;
 
 	public function getThrowTypeFromStaticMethodCall(MethodReflection $methodReflection, StaticCall $methodCall, Scope $scope): ?Type;
-
 }

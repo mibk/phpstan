@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\FunctionCallParametersCheck;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function ucfirst;
 
@@ -19,7 +19,6 @@ use function ucfirst;
 #[RegisteredRule(level: 5)]
 final class CallUserFuncRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private FunctionCallParametersCheck $check,
@@ -34,7 +33,7 @@ final class CallUserFuncRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Name) {
+		if (! $node->name instanceof Node\Name) {
 			return [];
 		}
 
@@ -86,5 +85,4 @@ final class CallUserFuncRule implements Rule
 			ucfirst($callableDescription) . ' invoked with %s, but it\'s not allowed because of @no-named-arguments.',
 		);
 	}
-
 }

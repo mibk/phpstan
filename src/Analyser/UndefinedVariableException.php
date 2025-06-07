@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -13,7 +13,6 @@ use function sprintf;
  */
 final class UndefinedVariableException extends AnalysedCodeException
 {
-
 	public function __construct(private Scope $scope, private string $variableName)
 	{
 		parent::__construct(sprintf('Undefined variable: $%s', $variableName));
@@ -33,5 +32,4 @@ final class UndefinedVariableException extends AnalysedCodeException
 	{
 		return null;
 	}
-
 }

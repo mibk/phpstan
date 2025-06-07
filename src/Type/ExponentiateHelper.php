@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -12,7 +12,6 @@ use function pow;
 
 final class ExponentiateHelper
 {
-
 	public static function exponentiate(Type $base, Type $exponent): Type
 	{
 		if ($exponent instanceof UnionType) {
@@ -127,5 +126,4 @@ final class ExponentiateHelper
 		}
 		return pow($base, $exp);
 	}
-
 }

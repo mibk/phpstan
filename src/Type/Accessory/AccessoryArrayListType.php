@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -31,7 +31,6 @@ use PHPStan\Type\VerbosityLevel;
 /** @api */
 class AccessoryArrayListType implements CompoundType, AccessoryType
 {
-
 	use MaybeCallableTypeTrait;
 	use NonObjectTypeTrait;
 	use NonGenericTypeTrait;
@@ -498,5 +497,4 @@ class AccessoryArrayListType implements CompoundType, AccessoryType
 	{
 		return new IdentifierTypeNode('list');
 	}
-
 }

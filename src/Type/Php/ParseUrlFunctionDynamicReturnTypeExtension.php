@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -19,9 +18,8 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use ValueError;
-use function count;
-use function parse_url;
 use const PHP_URL_FRAGMENT;
 use const PHP_URL_HOST;
 use const PHP_URL_PASS;
@@ -30,21 +28,22 @@ use const PHP_URL_PORT;
 use const PHP_URL_QUERY;
 use const PHP_URL_SCHEME;
 use const PHP_URL_USER;
+use function count;
+use function parse_url;
 
 #[AutowiredService]
 final class ParseUrlFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
-	/** @var array<int,Type>|null */
+	/** @var array<int, Type>|null */
 	private ?array $componentTypesPairedConstants = null;
 
-	/** @var array<string,Type>|null */
+	/** @var array<string, Type>|null */
 	private ?array $componentTypesPairedStrings = null;
 
-	/** @var array<int,Type>|null */
+	/** @var array<int, Type>|null */
 	private ?array $componentTypesPairedConstantsForLowercaseString = null;
 
-	/** @var array<string,Type>|null */
+	/** @var array<string, Type>|null */
 	private ?array $componentTypesPairedStringsForLowercaseString = null;
 
 	private ?Type $allComponentsTogetherType = null;
@@ -73,7 +72,7 @@ final class ParseUrlFunctionDynamicReturnTypeExtension implements DynamicFunctio
 			}
 
 			$componentType = $componentType->toInteger();
-			if (!$componentType instanceof ConstantIntegerType) {
+			if (! $componentType instanceof ConstantIntegerType) {
 				return $this->createAllComponentsReturnType($urlType->isLowercaseString()->yes());
 			}
 		} else {
@@ -185,46 +184,45 @@ final class ParseUrlFunctionDynamicReturnTypeExtension implements DynamicFunctio
 		$portOrFalseOrNull = TypeCombinator::union($port, $false, $null);
 
 		$this->componentTypesPairedConstants = [
-			PHP_URL_SCHEME => $stringOrFalseOrNull,
-			PHP_URL_HOST => $stringOrFalseOrNull,
-			PHP_URL_PORT => $portOrFalseOrNull,
-			PHP_URL_USER => $stringOrFalseOrNull,
-			PHP_URL_PASS => $stringOrFalseOrNull,
-			PHP_URL_PATH => $stringOrFalseOrNull,
-			PHP_URL_QUERY => $stringOrFalseOrNull,
+			PHP_URL_SCHEME   => $stringOrFalseOrNull,
+			PHP_URL_HOST     => $stringOrFalseOrNull,
+			PHP_URL_PORT     => $portOrFalseOrNull,
+			PHP_URL_USER     => $stringOrFalseOrNull,
+			PHP_URL_PASS     => $stringOrFalseOrNull,
+			PHP_URL_PATH     => $stringOrFalseOrNull,
+			PHP_URL_QUERY    => $stringOrFalseOrNull,
 			PHP_URL_FRAGMENT => $stringOrFalseOrNull,
 		];
 		$this->componentTypesPairedConstantsForLowercaseString = [
-			PHP_URL_SCHEME => $lowercaseStringOrFalseOrNull,
-			PHP_URL_HOST => $lowercaseStringOrFalseOrNull,
-			PHP_URL_PORT => $portOrFalseOrNull,
-			PHP_URL_USER => $lowercaseStringOrFalseOrNull,
-			PHP_URL_PASS => $lowercaseStringOrFalseOrNull,
-			PHP_URL_PATH => $lowercaseStringOrFalseOrNull,
-			PHP_URL_QUERY => $lowercaseStringOrFalseOrNull,
+			PHP_URL_SCHEME   => $lowercaseStringOrFalseOrNull,
+			PHP_URL_HOST     => $lowercaseStringOrFalseOrNull,
+			PHP_URL_PORT     => $portOrFalseOrNull,
+			PHP_URL_USER     => $lowercaseStringOrFalseOrNull,
+			PHP_URL_PASS     => $lowercaseStringOrFalseOrNull,
+			PHP_URL_PATH     => $lowercaseStringOrFalseOrNull,
+			PHP_URL_QUERY    => $lowercaseStringOrFalseOrNull,
 			PHP_URL_FRAGMENT => $lowercaseStringOrFalseOrNull,
 		];
 
 		$this->componentTypesPairedStrings = [
-			'scheme' => $string,
-			'host' => $string,
-			'port' => $port,
-			'user' => $string,
-			'pass' => $string,
-			'path' => $string,
-			'query' => $string,
+			'scheme'   => $string,
+			'host'     => $string,
+			'port'     => $port,
+			'user'     => $string,
+			'pass'     => $string,
+			'path'     => $string,
+			'query'    => $string,
 			'fragment' => $string,
 		];
 		$this->componentTypesPairedStringsForLowercaseString = [
-			'scheme' => $lowercaseString,
-			'host' => $lowercaseString,
-			'port' => $port,
-			'user' => $lowercaseString,
-			'pass' => $lowercaseString,
-			'path' => $lowercaseString,
-			'query' => $lowercaseString,
+			'scheme'   => $lowercaseString,
+			'host'     => $lowercaseString,
+			'port'     => $port,
+			'user'     => $lowercaseString,
+			'pass'     => $lowercaseString,
+			'path'     => $lowercaseString,
+			'query'    => $lowercaseString,
 			'fragment' => $lowercaseString,
 		];
 	}
-
 }

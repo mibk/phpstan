@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\SignatureMap;
 
@@ -29,7 +29,6 @@ use function strtolower;
 #[AutowiredService]
 final class NativeFunctionReflectionProvider
 {
-
 	/** @var NativeFunctionReflection[] */
 	private array $functionMap = [];
 
@@ -90,7 +89,7 @@ final class NativeFunctionReflectionProvider
 
 		$functionSignaturesResult = $this->signatureMapProvider->getFunctionSignatures($lowerCasedFunctionName, null, $reflectionFunctionAdapter);
 
-		$phpDoc = $this->stubPhpDocProvider->findFunctionPhpDoc($lowerCasedFunctionName, array_map(static fn (ParameterSignature $parameter): string => $parameter->getName(), $functionSignaturesResult['positional'][0]->getParameters()));
+		$phpDoc = $this->stubPhpDocProvider->findFunctionPhpDoc($lowerCasedFunctionName, array_map(static fn(ParameterSignature $parameter): string => $parameter->getName(), $functionSignaturesResult['positional'][0]->getParameters()));
 		if ($phpDoc !== null) {
 			if ($phpDoc->hasPhpDocString()) {
 				$docComment = $phpDoc->getPhpDocString();
@@ -109,7 +108,7 @@ final class NativeFunctionReflectionProvider
 				$variantsByType[$signatureType][] = new ExtendedFunctionVariant(
 					TemplateTypeMap::createEmpty(),
 					null,
-					array_map(static function (ParameterSignature $parameterSignature) use ($phpDoc): ExtendedNativeParameterReflection {
+					array_map(static function(ParameterSignature $parameterSignature) use ($phpDoc): ExtendedNativeParameterReflection {
 						$type = $parameterSignature->getType();
 
 						$phpDocType = null;
@@ -194,5 +193,4 @@ final class NativeFunctionReflectionProvider
 
 		return null;
 	}
-
 }

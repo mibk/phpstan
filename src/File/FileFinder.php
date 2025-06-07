@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -12,7 +12,6 @@ use function is_file;
 
 final class FileFinder
 {
-
 	/**
 	 * @param string[] $fileExtensions
 	 */
@@ -46,9 +45,8 @@ final class FileFinder
 			}
 		}
 
-		$files = array_values(array_unique(array_filter($files, fn (string $file): bool => !$this->fileExcluder->isExcludedFromAnalysing($file))));
+		$files = array_values(array_unique(array_filter($files, fn(string $file): bool => !$this->fileExcluder->isExcludedFromAnalysing($file))));
 
 		return new FileFinderResult($files, $onlyFiles);
 	}
-
 }

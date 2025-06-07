@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\ReflectionProvider;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ConstantReflection;
@@ -10,10 +9,10 @@ use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\NamespaceAnswerer;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 
 final class DummyReflectionProvider implements ReflectionProvider
 {
-
 	public function hasClass(string $className): bool
 	{
 		return false;
@@ -68,5 +67,4 @@ final class DummyReflectionProvider implements ReflectionProvider
 	{
 		return null;
 	}
-
 }

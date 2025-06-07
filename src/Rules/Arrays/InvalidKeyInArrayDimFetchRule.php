@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +12,7 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class InvalidKeyInArrayDimFetchRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 		#[AutowiredParameter]
@@ -50,7 +49,7 @@ final class InvalidKeyInArrayDimFetchRule implements Rule
 			$scope,
 			$node->var,
 			'',
-			static fn (Type $varType): bool => $varType->isArray()->no() || AllowedArrayKeysTypes::getType()->isSuperTypeOf($dimensionType)->yes(),
+			static fn(Type $varType): bool => $varType->isArray()->no() || AllowedArrayKeysTypes::getType()->isSuperTypeOf($dimensionType)->yes(),
 		)->getType();
 
 		if ($varType instanceof ErrorType || $varType->isArray()->no()) {
@@ -68,5 +67,4 @@ final class InvalidKeyInArrayDimFetchRule implements Rule
 			)->identifier('offsetAccess.invalidOffset')->build(),
 		];
 	}
-
 }

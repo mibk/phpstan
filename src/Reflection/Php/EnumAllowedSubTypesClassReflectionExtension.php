@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -11,7 +11,6 @@ use function array_keys;
 #[AutowiredService]
 final class EnumAllowedSubTypesClassReflectionExtension implements AllowedSubTypesClassReflectionExtension
 {
-
 	public function supports(ClassReflection $classReflection): bool
 	{
 		return $classReflection->isEnum();
@@ -26,5 +25,4 @@ final class EnumAllowedSubTypesClassReflectionExtension implements AllowedSubTyp
 
 		return $cases;
 	}
-
 }

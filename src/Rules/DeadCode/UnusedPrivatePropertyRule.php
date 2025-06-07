@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -14,6 +13,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
+use PhpParser\Node;
 use function array_key_exists;
 use function array_map;
 use function count;
@@ -28,7 +28,6 @@ use function str_contains;
 #[RegisteredRule(level: 4)]
 final class UnusedPrivatePropertyRule implements Rule
 {
-
 	/**
 	 * @param string[] $alwaysWrittenTags
 	 * @param string[] $alwaysReadTags
@@ -115,9 +114,9 @@ final class UnusedPrivatePropertyRule implements Rule
 			$read = $alwaysRead;
 			$written = $alwaysWritten || $property->getDefault() !== null;
 			$properties[$propertyName] = [
-				'read' => $read,
-				'written' => $written,
-				'node' => $property,
+				'read'         => $read,
+				'written'      => $written,
+				'node'         => $property,
 				'onlyReadable' => $property->isReadable() && !$property->isWritable(),
 				'onlyWritable' => $property->isWritable() && !$property->isReadable(),
 			];
@@ -131,20 +130,20 @@ final class UnusedPrivatePropertyRule implements Rule
 				$propertyNames = [$propertyName];
 				if (
 					$usageScope->getFunction() !== null
-					&& $fetch instanceof Node\Expr\PropertyFetch
-					&& $fetch->var instanceof Node\Expr\Variable
-					&& is_string($fetch->var->name)
-					&& $fetch->var->name === 'this'
+						&& $fetch instanceof Node\Expr\PropertyFetch
+						&& $fetch->var instanceof Node\Expr\Variable
+						&& is_string($fetch->var->name)
+						&& $fetch->var->name === 'this'
 				) {
 					$methodReflection = $usageScope->getFunction();
 					if (
 						$methodReflection instanceof PhpMethodFromParserNodeReflection
-						&& $methodReflection->isPropertyHook()
-						&& $methodReflection->getHookedPropertyName() === $propertyName
-						&& (
-							$methodReflection->getPropertyHookName() === 'set'
-							|| $usage instanceof PropertyRead
-						)
+							&& $methodReflection->isPropertyHook()
+							&& $methodReflection->getHookedPropertyName() === $propertyName
+							&& (
+								$methodReflection->getPropertyHookName() === 'set'
+									|| $usage instanceof PropertyRead
+							)
 					) {
 						continue;
 					}
@@ -165,7 +164,7 @@ final class UnusedPrivatePropertyRule implements Rule
 					continue;
 				}
 
-				$propertyNames = array_map(static fn (ConstantStringType $type): string => $type->getValue(), $strings);
+				$propertyNames = array_map(static fn(ConstantStringType $type): string => $type->getValue(), $strings);
 			}
 
 			if ($fetch instanceof Node\Expr\PropertyFetch) {
@@ -262,5 +261,4 @@ final class UnusedPrivatePropertyRule implements Rule
 
 		return $errors;
 	}
-
 }

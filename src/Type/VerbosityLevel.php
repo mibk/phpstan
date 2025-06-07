@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -16,11 +16,10 @@ use PHPStan\Type\Generic\TemplateType;
 
 final class VerbosityLevel
 {
-
 	private const TYPE_ONLY = 1;
-	private const VALUE = 2;
-	private const PRECISE = 3;
-	private const CACHE = 4;
+	private const VALUE     = 2;
+	private const PRECISE   = 3;
+	private const CACHE     = 4;
 
 	/** @var self[] */
 	private static array $registry;
@@ -89,7 +88,7 @@ final class VerbosityLevel
 	/** @api */
 	public static function getRecommendedLevelByType(Type $acceptingType, ?Type $acceptedType = null): self
 	{
-		$moreVerboseCallback = static function (Type $type, callable $traverse) use (&$moreVerbose, &$veryVerbose): Type {
+		$moreVerboseCallback = static function(Type $type, callable $traverse) use (&$moreVerbose, &$veryVerbose): Type {
 			if ($type->isCallable()->yes()) {
 				$moreVerbose = true;
 
@@ -109,18 +108,18 @@ final class VerbosityLevel
 			if (
 				// synced with IntersectionType::describe()
 				$type instanceof AccessoryNonEmptyStringType
-				|| $type instanceof AccessoryNonFalsyStringType
-				|| $type instanceof AccessoryLiteralStringType
-				|| $type instanceof AccessoryNumericStringType
-				|| $type instanceof NonEmptyArrayType
-				|| $type instanceof AccessoryArrayListType
+					|| $type instanceof AccessoryNonFalsyStringType
+					|| $type instanceof AccessoryLiteralStringType
+					|| $type instanceof AccessoryNumericStringType
+					|| $type instanceof NonEmptyArrayType
+					|| $type instanceof AccessoryArrayListType
 			) {
 				$moreVerbose = true;
 				return $type;
 			}
 			if (
 				$type instanceof AccessoryLowercaseStringType
-				|| $type instanceof AccessoryUppercaseStringType
+					|| $type instanceof AccessoryUppercaseStringType
 			) {
 				$moreVerbose = true;
 				$veryVerbose = true;
@@ -152,13 +151,13 @@ final class VerbosityLevel
 		}
 
 		$containsInvariantTemplateType = false;
-		TypeTraverser::map($acceptingType, static function (Type $type, callable $traverse) use (&$containsInvariantTemplateType): Type {
+		TypeTraverser::map($acceptingType, static function(Type $type, callable $traverse) use (&$containsInvariantTemplateType): Type {
 			if ($type instanceof GenericObjectType || $type instanceof GenericStaticType) {
 				$reflection = $type->getClassReflection();
 				if ($reflection !== null) {
 					$templateTypeMap = $reflection->getTemplateTypeMap();
 					foreach ($templateTypeMap->getTypes() as $templateType) {
-						if (!$templateType instanceof TemplateType) {
+						if (! $templateType instanceof TemplateType) {
 							continue;
 						}
 
@@ -193,8 +192,8 @@ final class VerbosityLevel
 	}
 
 	/**
-	 * @param callable(): string $typeOnlyCallback
-	 * @param callable(): string $valueCallback
+	 * @param callable(): string      $typeOnlyCallback
+	 * @param callable(): string      $valueCallback
 	 * @param callable(): string|null $preciseCallback
 	 * @param callable(): string|null $cacheCallback
 	 */
@@ -231,5 +230,4 @@ final class VerbosityLevel
 
 		return $valueCallback();
 	}
-
 }

@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\Variable;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\InitializerExprTypeResolver;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\TypeResult;
+use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\Variable;
 use function is_string;
 
 #[AutowiredService]
 final class RicherScopeGetTypeHelper
 {
-
 	public function __construct(private InitializerExprTypeResolver $initializerExprTypeResolver)
 	{
 	}
@@ -27,10 +26,10 @@ final class RicherScopeGetTypeHelper
 	{
 		if (
 			$expr->left instanceof Variable
-			&& is_string($expr->left->name)
-			&& $expr->right instanceof Variable
-			&& is_string($expr->right->name)
-			&& $expr->left->name === $expr->right->name
+				&& is_string($expr->left->name)
+				&& $expr->right instanceof Variable
+				&& is_string($expr->right->name)
+				&& $expr->left->name === $expr->right->name
 		) {
 			return new TypeResult(new ConstantBooleanType(true), []);
 		}
@@ -38,17 +37,17 @@ final class RicherScopeGetTypeHelper
 		$leftType = $scope->getType($expr->left);
 		$rightType = $scope->getType($expr->right);
 
-		if (!$scope instanceof MutatingScope) {
+		if (! $scope instanceof MutatingScope) {
 			return $this->initializerExprTypeResolver->resolveIdenticalType($leftType, $rightType);
 		}
 
 		if (
 			(
 				$expr->left instanceof Node\Expr\PropertyFetch
-				|| $expr->left instanceof Node\Expr\StaticPropertyFetch
+					|| $expr->left instanceof Node\Expr\StaticPropertyFetch
 			)
 			&& $rightType->isNull()->yes()
-			&& !$scope->hasPropertyNativeType($expr->left)
+				&& !$scope->hasPropertyNativeType($expr->left)
 		) {
 			return new TypeResult(new BooleanType(), []);
 		}
@@ -56,10 +55,10 @@ final class RicherScopeGetTypeHelper
 		if (
 			(
 				$expr->right instanceof Node\Expr\PropertyFetch
-				|| $expr->right instanceof Node\Expr\StaticPropertyFetch
+					|| $expr->right instanceof Node\Expr\StaticPropertyFetch
 			)
 			&& $leftType->isNull()->yes()
-			&& !$scope->hasPropertyNativeType($expr->right)
+				&& !$scope->hasPropertyNativeType($expr->right)
 		) {
 			return new TypeResult(new BooleanType(), []);
 		}
@@ -80,5 +79,4 @@ final class RicherScopeGetTypeHelper
 
 		return new TypeResult(new BooleanType(), []);
 	}
-
 }

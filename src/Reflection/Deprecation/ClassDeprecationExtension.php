@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Deprecation;
 
@@ -13,18 +13,16 @@ use PHPStan\BetterReflection\Reflection\Adapter\ReflectionEnum;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyProvider
- *		tags:
- *			- phpstan.classDeprecationExtension
+ * *		class: App\PHPStan\MyProvider
+ * *		tags:
+ * *			- phpstan.classDeprecationExtension
  * ```
  *
  * @api
  */
 interface ClassDeprecationExtension
 {
-
 	public const CLASS_EXTENSION_TAG = 'phpstan.classDeprecationExtension';
 
 	public function getClassDeprecation(ReflectionClass|ReflectionEnum $reflection): ?Deprecation;
-
 }

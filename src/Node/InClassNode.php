@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Reflection\ClassReflection;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
-use PHPStan\Reflection\ClassReflection;
 
 /**
  * @api
  */
 final class InClassNode extends Node\Stmt implements VirtualNode
 {
-
 	public function __construct(private ClassLike $originalNode, private ClassReflection $classReflection)
 	{
 		parent::__construct($originalNode->getAttributes());
@@ -39,5 +38,4 @@ final class InClassNode extends Node\Stmt implements VirtualNode
 	{
 		return [];
 	}
-
 }

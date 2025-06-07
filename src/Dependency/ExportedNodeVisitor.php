@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency;
 
+use PHPStan\ShouldNotHappenException;
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\ShouldNotHappenException;
 
 final class ExportedNodeVisitor extends NodeVisitorAbstract
 {
-
 	private ?string $fileName = null;
 
 	/** @var RootExportedNode[] */
@@ -49,13 +48,12 @@ final class ExportedNodeVisitor extends NodeVisitorAbstract
 
 		if (
 			$node instanceof Node\Stmt\ClassMethod
-			|| $node instanceof Node\Stmt\Function_
-			|| $node instanceof Node\Stmt\Trait_
+				|| $node instanceof Node\Stmt\Function_
+				|| $node instanceof Node\Stmt\Trait_
 		) {
 			return NodeVisitor::DONT_TRAVERSE_CHILDREN;
 		}
 
 		return null;
 	}
-
 }

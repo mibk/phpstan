@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -9,7 +9,6 @@ use function substr;
 
 final class SimpleRelativePathHelper implements RelativePathHelper
 {
-
 	public function __construct(private string $currentWorkingDirectory)
 	{
 	}
@@ -22,5 +21,4 @@ final class SimpleRelativePathHelper implements RelativePathHelper
 
 		return str_replace('\\', '/', $filename);
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -12,7 +12,6 @@ use stdClass;
 
 final class ObjectShapePropertyReflection implements ExtendedPropertyReflection
 {
-
 	public function __construct(private string $name, private Type $type)
 	{
 	}
@@ -153,5 +152,4 @@ final class ObjectShapePropertyReflection implements ExtendedPropertyReflection
 	{
 		return [];
 	}
-
 }

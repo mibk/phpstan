@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Cast;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
@@ -12,6 +11,7 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function get_class;
 use function sprintf;
 use function strtolower;
@@ -23,7 +23,6 @@ use function substr;
 #[RegisteredRule(level: 2)]
 final class InvalidCastRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -38,7 +37,8 @@ final class InvalidCastRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		$castTypeCallback = static function (Type $type) use ($node): ?array {
+		$castTypeCallback = static function(Type $type) use ($node): ?array
+		{
 			if ($node instanceof Node\Expr\Cast\Int_) {
 				return [$type->toInteger(), 'int'];
 			} elseif ($node instanceof Node\Expr\Cast\Bool_) {
@@ -56,7 +56,7 @@ final class InvalidCastRule implements Rule
 			$scope,
 			$node->expr,
 			'',
-			static function (Type $type) use ($castTypeCallback): bool {
+			static function(Type $type) use ($castTypeCallback): bool {
 				$castResult = $castTypeCallback($type);
 				if ($castResult === null) {
 					return true;
@@ -64,7 +64,7 @@ final class InvalidCastRule implements Rule
 
 				[$castType] = $castResult;
 
-				return !$castType instanceof ErrorType;
+				return ! $castType instanceof ErrorType;
 			},
 		);
 		$type = $typeResult->getType();
@@ -100,5 +100,4 @@ final class InvalidCastRule implements Rule
 
 		return [];
 	}
-
 }

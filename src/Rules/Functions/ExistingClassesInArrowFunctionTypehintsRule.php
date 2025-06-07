@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Php\PhpVersion;
@@ -11,6 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\NonAcceptingNeverType;
 use PHPStan\Type\ParserNodeTypeToPHPStanType;
+use PhpParser\Node;
 use function array_merge;
 
 /**
@@ -19,7 +19,6 @@ use function array_merge;
 #[RegisteredRule(level: 0)]
 final class ExistingClassesInArrowFunctionTypehintsRule implements Rule
 {
-
 	public function __construct(private FunctionDefinitionCheck $check, private PhpVersion $phpVersion)
 	{
 	}
@@ -53,5 +52,4 @@ final class ExistingClassesInArrowFunctionTypehintsRule implements Rule
 			'Anonymous function has unresolvable native return type.',
 		));
 	}
-
 }

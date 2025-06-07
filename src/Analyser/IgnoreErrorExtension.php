@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -13,9 +13,9 @@ use PhpParser\Node;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.ignoreErrorExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.ignoreErrorExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/ignore-error-extensions
@@ -24,9 +24,7 @@ use PhpParser\Node;
  */
 interface IgnoreErrorExtension
 {
-
 	public const EXTENSION_TAG = 'phpstan.ignoreErrorExtension';
 
 	public function shouldIgnore(Error $error, Node $node, Scope $scope): bool;
-
 }

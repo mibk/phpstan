@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
 final class TemplateTypeReference
 {
-
 	public function __construct(private TemplateType $type, private TemplateTypeVariance $positionVariance)
 	{
 	}
@@ -18,5 +17,4 @@ final class TemplateTypeReference
 	{
 		return $this->positionVariance;
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -22,13 +21,14 @@ use PHPStan\Type\Regex\RegexGroupParser;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use function count;
-use function in_array;
-use function is_string;
+use PhpParser\Node\Expr;
 use const PREG_OFFSET_CAPTURE;
 use const PREG_PATTERN_ORDER;
 use const PREG_SET_ORDER;
 use const PREG_UNMATCHED_AS_NULL;
+use function count;
+use function in_array;
+use function is_string;
 
 /**
  * @api
@@ -36,7 +36,6 @@ use const PREG_UNMATCHED_AS_NULL;
 #[AutowiredService]
 final class RegexArrayShapeMatcher
 {
-
 	/**
 	 * Pass this into $flagsType as well if the library supports emulating PREG_UNMATCHED_AS_NULL on PHP 7.2 and 7.3
 	 */
@@ -73,11 +72,11 @@ final class RegexArrayShapeMatcher
 
 		$flags = null;
 		if ($flagsType !== null) {
-			if (!$flagsType instanceof ConstantIntegerType) {
+			if (! $flagsType instanceof ConstantIntegerType) {
 				return null;
 			}
 
-			/** @var int-mask<PREG_OFFSET_CAPTURE | PREG_PATTERN_ORDER | PREG_SET_ORDER | PREG_UNMATCHED_AS_NULL | self::PREG_UNMATCHED_AS_NULL_ON_72_73> $flags */
+			/** @var int-mask<PREG_OFFSET_CAPTURE|PREG_PATTERN_ORDER|PREG_SET_ORDER|PREG_UNMATCHED_AS_NULL|self::PREG_UNMATCHED_AS_NULL_ON_72_73> $flags */
 			$flags = $flagsType->getValue() & (PREG_OFFSET_CAPTURE | PREG_PATTERN_ORDER | PREG_SET_ORDER | PREG_UNMATCHED_AS_NULL | self::PREG_UNMATCHED_AS_NULL_ON_72_73);
 
 			// some other unsupported/unexpected flag was passed in
@@ -128,8 +127,8 @@ final class RegexArrayShapeMatcher
 
 		if (
 			!$matchesAll
-			&& $wasMatched->yes()
-			&& $onlyOptionalTopLevelGroup !== null
+				&& $wasMatched->yes()
+				&& $onlyOptionalTopLevelGroup !== null
 		) {
 			// if only one top level capturing optional group exists
 			// we build a more precise tagged union of a empty-match and a match with the group
@@ -159,9 +158,9 @@ final class RegexArrayShapeMatcher
 			return $combiType;
 		} elseif (
 			!$matchesAll
-			&& $onlyOptionalTopLevelGroup === null
-			&& $onlyTopLevelAlternation !== null
-			&& !$wasMatched->no()
+				&& $onlyOptionalTopLevelGroup === null
+				&& $onlyTopLevelAlternation !== null
+				&& !$wasMatched->no()
 		) {
 			// if only a single top level alternation exist built a more precise tagged union
 
@@ -183,7 +182,7 @@ final class RegexArrayShapeMatcher
 						);
 					} elseif (
 						$group->getAlternationId() === $onlyTopLevelAlternation->getId()
-						&& !$this->containsUnmatchedAsNull($flags, $matchesAll)
+							&& !$this->containsUnmatchedAsNull($flags, $matchesAll)
 					) {
 						$comboList = $comboList->removeGroup($group);
 					}
@@ -204,10 +203,10 @@ final class RegexArrayShapeMatcher
 
 			if (
 				!$this->containsUnmatchedAsNull($flags, $matchesAll)
-				&& (
-					$onlyTopLevelAlternation->getAlternationsCount() !== count($onlyTopLevelAlternation->getGroupCombinations())
-					|| $isOptionalAlternation
-				)
+					&& (
+						$onlyTopLevelAlternation->getAlternationsCount() !== count($onlyTopLevelAlternation->getGroupCombinations())
+							|| $isOptionalAlternation
+					)
 			) {
 				// positive match has a subject but not any capturing group
 				$builder = ConstantArrayTypeBuilder::createEmpty();
@@ -373,16 +372,16 @@ final class RegexArrayShapeMatcher
 			if (
 				(
 					!$this->containsSetOrder($flags)
-					&& !$this->containsUnmatchedAsNull($flags, $matchesAll)
-					&& $captureGroup->isOptional()
+						&& !$this->containsUnmatchedAsNull($flags, $matchesAll)
+						&& $captureGroup->isOptional()
 				)
 				||
-				(
-					$this->containsSetOrder($flags)
-					&& !$this->containsUnmatchedAsNull($flags, $matchesAll)
-					&& $captureGroup->isOptional()
-					&& !$isTrailingOptional
-				)
+					(
+						$this->containsSetOrder($flags)
+							&& !$this->containsUnmatchedAsNull($flags, $matchesAll)
+							&& $captureGroup->isOptional()
+							&& !$isTrailingOptional
+					)
 			) {
 				$groupValueType = $this->getValueType(
 					TypeCombinator::union($captureGroup->getType(), new ConstantStringType('')),
@@ -496,5 +495,4 @@ final class RegexArrayShapeMatcher
 
 		return $scope->getType($patternExpr);
 	}
-
 }

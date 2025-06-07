@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Pure;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\MethodReturnStatementsNode;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -15,7 +15,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class PureMethodRule implements Rule
 {
-
 	public function __construct(private FunctionPurityCheck $check)
 	{
 	}
@@ -41,5 +40,4 @@ final class PureMethodRule implements Rule
 			$method->isConstructor(),
 		);
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\ReflectionProvider;
 
@@ -9,7 +9,6 @@ use PHPStan\Reflection\ReflectionProvider;
 #[AutowiredService(as: ReflectionProviderProvider::class)]
 final class LazyReflectionProviderProvider implements ReflectionProviderProvider
 {
-
 	public function __construct(private Container $container)
 	{
 	}
@@ -18,5 +17,4 @@ final class LazyReflectionProviderProvider implements ReflectionProviderProvider
 	{
 		return $this->container->getByType(ReflectionProvider::class);
 	}
-
 }

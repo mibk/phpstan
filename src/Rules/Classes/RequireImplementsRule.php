@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassNode;
@@ -10,6 +9,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -18,7 +18,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class RequireImplementsRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InClassNode::class;
@@ -33,7 +32,7 @@ final class RequireImplementsRule implements Rule
 			$implementsTags = $trait->getRequireImplementsTags();
 			foreach ($implementsTags as $implementsTag) {
 				$type = $implementsTag->getType();
-				if (!$type instanceof ObjectType) {
+				if (! $type instanceof ObjectType) {
 					continue;
 				}
 
@@ -56,5 +55,4 @@ final class RequireImplementsRule implements Rule
 
 		return $errors;
 	}
-
 }

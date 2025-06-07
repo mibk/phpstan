@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\TooWideTypehints;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassPropertiesNode;
@@ -15,6 +14,7 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
@@ -24,7 +24,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class TooWidePropertyTypeRule implements Rule
 {
-
 	public function __construct(
 		private ReadWritePropertiesExtensionProvider $extensionProvider,
 		private PropertyReflectionFinder $propertyReflectionFinder,
@@ -59,7 +58,7 @@ final class TooWidePropertyTypeRule implements Rule
 
 			$propertyReflection = $classReflection->getNativeProperty($propertyName);
 			$propertyType = $propertyReflection->getWritableType();
-			if (!$propertyType instanceof UnionType) {
+			if (! $propertyType instanceof UnionType) {
 				continue;
 			}
 			foreach ($this->extensionProvider->getExtensions() as $extension) {
@@ -120,7 +119,6 @@ final class TooWidePropertyTypeRule implements Rule
 					->line($property->getStartLine())
 					->build();
 			}
-
 		}
 		return $errors;
 	}
@@ -133,5 +131,4 @@ final class TooWidePropertyTypeRule implements Rule
 
 		return sprintf('Static property %s::$%s', $property->getDeclaringClass()->getDisplayName(), $propertyName);
 	}
-
 }

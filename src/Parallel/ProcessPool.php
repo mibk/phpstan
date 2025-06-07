@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parallel;
 
@@ -11,7 +11,6 @@ use function sprintf;
 
 final class ProcessPool
 {
-
 	/** @var array<string, Process> */
 	private array $processes = [];
 
@@ -69,5 +68,4 @@ final class ProcessPool
 			$this->quitProcess($identifier);
 		}
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -10,7 +10,6 @@ use PhpParser\Node\Name;
  */
 final class InstantiationCallableNode extends Expr implements VirtualNode
 {
-
 	public function __construct(private Name|Expr $class, private Expr\New_ $originalNode)
 	{
 		parent::__construct($this->originalNode->getAttributes());
@@ -41,5 +40,4 @@ final class InstantiationCallableNode extends Expr implements VirtualNode
 	{
 		return [];
 	}
-
 }

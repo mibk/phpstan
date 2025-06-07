@@ -1,20 +1,19 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
-use PhpParser\Node;
 use PHPStan\Rules\FixableNodeRuleError;
 use PHPStan\Rules\MetadataRuleError;
 use PHPStan\Rules\NonIgnorableRuleError;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\TipRuleError;
+use PhpParser\Node;
 
 /**
  * @internal Use PHPStan\Rules\RuleErrorBuilder instead.
  */
 final class RuleError233 implements RuleError, TipRuleError, MetadataRuleError, NonIgnorableRuleError, FixableNodeRuleError
 {
-
 	public string $message;
 
 	public string $tip;
@@ -57,5 +56,4 @@ final class RuleError233 implements RuleError, TipRuleError, MetadataRuleError, 
 	{
 		return $this->newNodeCallable;
 	}
-
 }

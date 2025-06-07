@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name;
 use function sprintf;
 
 /**
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class CallPrivateMethodThroughStaticRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return StaticCall::class;
@@ -25,10 +24,10 @@ final class CallPrivateMethodThroughStaticRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Identifier) {
+		if (! $node->name instanceof Node\Identifier) {
 			return [];
 		}
-		if (!$node->class instanceof Name) {
+		if (! $node->class instanceof Name) {
 			return [];
 		}
 
@@ -60,5 +59,4 @@ final class CallPrivateMethodThroughStaticRule implements Rule
 			))->identifier('staticClassAccess.privateMethod')->build(),
 		];
 	}
-
 }

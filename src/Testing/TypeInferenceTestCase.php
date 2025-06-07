@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\NodeScopeResolver;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\ScopeContext;
@@ -29,7 +26,11 @@ use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name;
 use Symfony\Component\Finder\Finder;
+use const PHP_VERSION;
 use function array_map;
 use function array_merge;
 use function count;
@@ -45,15 +46,13 @@ use function stripos;
 use function strpos;
 use function strtolower;
 use function version_compare;
-use const PHP_VERSION;
 
 /** @api */
 abstract class TypeInferenceTestCase extends PHPStanTestCase
 {
-
 	/**
-	 * @param callable(Node , Scope ): void $callback
-	 * @param string[] $dynamicConstantNames
+	 * @param callable(Node, Scope): void $callback
+	 * @param string[]                    $dynamicConstantNames
 	 */
 	public static function processFile(
 		string $file,
@@ -94,7 +93,7 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 			self::getContainer()->getParameter('treatPhpDocTypesAsCertain'),
 			true,
 		);
-		$resolver->setAnalysedFiles(array_map(static fn (string $file): string => $fileHelper->normalizePath($file), array_merge([$file], static::getAdditionalAnalysedFiles())));
+		$resolver->setAnalysedFiles(array_map(static fn(string $file): string => $fileHelper->normalizePath($file), array_merge([$file], static::getAdditionalAnalysedFiles())));
 
 		$scopeFactory = self::createScopeFactory($reflectionProvider, $typeSpecifier, $dynamicConstantNames);
 		$scope = $scopeFactory->create(ScopeContext::create($file));
@@ -186,7 +185,7 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 
 		$asserts = [];
 		$delayedErrors = [];
-		self::processFile($file, static function (Node $node, Scope $scope) use (&$asserts, &$delayedErrors, $file, $relativePathHelper, $reflectionProvider): void {
+		self::processFile($file, static function(Node $node, Scope $scope) use (&$asserts, &$delayedErrors, $file, $relativePathHelper, $reflectionProvider): void {
 			if ($node instanceof InClassNode) {
 				if (!$reflectionProvider->hasClass($node->getClassReflection()->getName())) {
 					$delayedErrors[] = sprintf(
@@ -204,12 +203,12 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 					$delayedErrors[] = sprintf('Trait %s not found in ReflectionProvider. Configure "autoload-dev" section in composer.json to include your tests directory.', $node->namespacedName->toString());
 				}
 			}
-			if (!$node instanceof Node\Expr\FuncCall) {
+			if (! $node instanceof Node\Expr\FuncCall) {
 				return;
 			}
 
 			$nameNode = $node->name;
-			if (!$nameNode instanceof Name) {
+			if (! $nameNode instanceof Name) {
 				return;
 			}
 
@@ -223,7 +222,7 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 				));
 			} elseif ($functionName === 'PHPStan\\Testing\\assertType') {
 				$expectedType = $scope->getType($node->getArgs()[0]->value);
-				if (!$expectedType instanceof ConstantScalarType) {
+				if (! $expectedType instanceof ConstantScalarType) {
 					self::fail(sprintf(
 						'Expected type must be a literal string, %s given in %s on line %d.',
 						$expectedType->describe(VerbosityLevel::precise()),
@@ -235,7 +234,7 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 				$assert = ['type', $file, $expectedType->getValue(), $actualType->describe(VerbosityLevel::precise()), $node->getStartLine()];
 			} elseif ($functionName === 'PHPStan\\Testing\\assertNativeType') {
 				$expectedType = $scope->getType($node->getArgs()[0]->value);
-				if (!$expectedType instanceof ConstantScalarType) {
+				if (! $expectedType instanceof ConstantScalarType) {
 					self::fail(sprintf(
 						'Expected type must be a literal string, %s given in %s on line %d.',
 						$expectedType->describe(VerbosityLevel::precise()),
@@ -248,10 +247,10 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 				$assert = ['type', $file, $expectedType->getValue(), $actualType->describe(VerbosityLevel::precise()), $node->getStartLine()];
 			} elseif ($functionName === 'PHPStan\\Testing\\assertVariableCertainty') {
 				$certainty = $node->getArgs()[0]->value;
-				if (!$certainty instanceof StaticCall) {
+				if (! $certainty instanceof StaticCall) {
 					self::fail(sprintf('First argument of %s() must be TrinaryLogic call', $functionName));
 				}
-				if (!$certainty->class instanceof Node\Name) {
+				if (! $certainty->class instanceof Node\Name) {
 					self::fail(sprintf('ERROR: Invalid TrinaryLogic call.'));
 				}
 
@@ -259,7 +258,7 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 					self::fail(sprintf('ERROR: Invalid TrinaryLogic call.'));
 				}
 
-				if (!$certainty->name instanceof Node\Identifier) {
+				if (! $certainty->name instanceof Node\Identifier) {
 					self::fail(sprintf('ERROR: Invalid TrinaryLogic call.'));
 				}
 
@@ -282,8 +281,8 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 				$correctFunction = null;
 
 				$assertFunctions = [
-					'assertType' => 'PHPStan\\Testing\\assertType',
-					'assertNativeType' => 'PHPStan\\Testing\\assertNativeType',
+					'assertType'              => 'PHPStan\\Testing\\assertType',
+					'assertNativeType'        => 'PHPStan\\Testing\\assertNativeType',
 					'assertVariableCertainty' => 'PHPStan\\Testing\\assertVariableCertainty',
 				];
 				foreach ($assertFunctions as $assertFn => $fqFunctionName) {
@@ -423,5 +422,4 @@ abstract class TypeInferenceTestCase extends PHPStanTestCase
 	{
 		return [];
 	}
-
 }

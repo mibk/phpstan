@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\TooWideTypehints;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InArrowFunctionNode;
@@ -10,6 +9,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -18,7 +18,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class TooWideArrowFunctionReturnTypehintRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InArrowFunctionNode::class;
@@ -37,7 +36,7 @@ final class TooWideArrowFunctionReturnTypehintRule implements Rule
 		}
 
 		$functionReturnType = $scope->getFunctionType($arrowFunction->returnType, false, false);
-		if (!$functionReturnType instanceof UnionType) {
+		if (! $functionReturnType instanceof UnionType) {
 			return [];
 		}
 
@@ -59,5 +58,4 @@ final class TooWideArrowFunctionReturnTypehintRule implements Rule
 
 		return $messages;
 	}
-
 }

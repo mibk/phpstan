@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -9,7 +9,6 @@ use function count;
 
 final class ExportedAttributeNode implements ExportedNode, JsonSerializable
 {
-
 	/**
 	 * @param array<int|string, string> $args argument name or index(string|int) => value expression (string)
 	 */
@@ -22,7 +21,7 @@ final class ExportedAttributeNode implements ExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -79,5 +78,4 @@ final class ExportedAttributeNode implements ExportedNode, JsonSerializable
 			$data['args'],
 		);
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -11,9 +11,8 @@ use function is_string;
 
 final class ProjectConfigHelper
 {
-
 	/**
-	 * @param array<mixed> $projectConfig
+	 * @param  array<mixed> $projectConfig
 	 * @return list<string>
 	 */
 	public static function getServiceClassNames(array $projectConfig): array
@@ -42,7 +41,7 @@ final class ProjectConfigHelper
 	}
 
 	/**
-	 * @param mixed $definition
+	 * @param  mixed $definition
 	 * @return string[]
 	 */
 	private static function getClassesFromConfigDefinition($definition): array
@@ -62,5 +61,4 @@ final class ProjectConfigHelper
 
 		return [];
 	}
-
 }

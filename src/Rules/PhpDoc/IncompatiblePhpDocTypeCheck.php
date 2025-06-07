@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Internal\SprintfHelper;
@@ -16,6 +15,7 @@ use PHPStan\Type\ClosureType;
 use PHPStan\Type\Generic\TemplateType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_merge;
 use function in_array;
 use function sprintf;
@@ -23,7 +23,6 @@ use function sprintf;
 #[AutowiredService]
 final class IncompatiblePhpDocTypeCheck
 {
-
 	public function __construct(
 		private GenericObjectTypeCheck $genericObjectTypeCheck,
 		private UnresolvableTypeHelper $unresolvableTypeHelper,
@@ -33,8 +32,8 @@ final class IncompatiblePhpDocTypeCheck
 	}
 
 	/**
-	 * @param array<string, Type> $nativeParameterTypes
-	 * @param array<string, bool> $byRefParameters
+	 * @param  array<string, Type> $nativeParameterTypes
+	 * @param  array<string, bool> $byRefParameters
 	 * @return list<IdentifierRuleError>
 	 */
 	public function check(
@@ -59,7 +58,6 @@ final class IncompatiblePhpDocTypeCheck
 						$tagName,
 						$parameterName,
 					))->identifier('parameter.notFound')->build();
-
 				} elseif (
 					$this->unresolvableTypeHelper->containsUnresolvableType($phpDocParamType)
 				) {
@@ -68,14 +66,13 @@ final class IncompatiblePhpDocTypeCheck
 						$tagName,
 						$parameterName,
 					))->identifier('parameter.unresolvableType')->build();
-
 				} else {
 					$nativeParamType = $nativeParameterTypes[$parameterName];
 					if (
 						$phpDocParamTag instanceof ParamTag
-						&& $phpDocParamTag->isVariadic()
-						&& $phpDocParamType->isArray()->yes()
-						&& $nativeParamType->isArray()->no()
+							&& $phpDocParamTag->isVariadic()
+							&& $phpDocParamType->isArray()->yes()
+							&& $nativeParamType->isArray()->no()
 					) {
 						$phpDocParamType = $phpDocParamType->getIterableValueType();
 					}
@@ -134,7 +131,6 @@ final class IncompatiblePhpDocTypeCheck
 								$parameterName,
 								$tagName,
 							))->identifier('parameter.notByRef')->build();
-
 						}
 						continue;
 					}
@@ -149,7 +145,6 @@ final class IncompatiblePhpDocTypeCheck
 								$phpDocParamType->describe(VerbosityLevel::typeOnly()),
 								$nativeParamType->describe(VerbosityLevel::typeOnly()),
 							))->identifier('parameter.phpDocType')->build();
-
 						} elseif ($isParamSuperType->maybe()) {
 							$errorBuilder = RuleErrorBuilder::message(sprintf(
 								'PHPDoc tag %s for parameter $%s with type %s is not subtype of native type %s.',
@@ -188,7 +183,6 @@ final class IncompatiblePhpDocTypeCheck
 				$this->unresolvableTypeHelper->containsUnresolvableType($phpDocReturnType)
 			) {
 				$errors[] = RuleErrorBuilder::message('PHPDoc tag @return contains unresolvable type.')->identifier('return.unresolvableType')->build();
-
 			} else {
 				$isReturnSuperType = $nativeReturnType->isSuperTypeOf($phpDocReturnType);
 				$errors = array_merge($errors, $this->genericObjectTypeCheck->check(
@@ -206,7 +200,6 @@ final class IncompatiblePhpDocTypeCheck
 						$phpDocReturnType->describe(VerbosityLevel::typeOnly()),
 						$nativeReturnType->describe(VerbosityLevel::typeOnly()),
 					))->identifier('return.phpDocType')->build();
-
 				} elseif ($isReturnSuperType->maybe()) {
 					$errorBuilder = RuleErrorBuilder::message(sprintf(
 						'PHPDoc tag @return with type %s is not subtype of native type %s.',
@@ -234,5 +227,4 @@ final class IncompatiblePhpDocTypeCheck
 
 		return $errors;
 	}
-
 }

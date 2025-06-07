@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
  */
 class FunctionVariant implements ParametersAcceptor
 {
-
 	private TemplateTypeVarianceMap $callSiteVarianceMap;
 
 	/**
@@ -62,5 +61,4 @@ class FunctionVariant implements ParametersAcceptor
 	{
 		return $this->returnType;
 	}
-
 }

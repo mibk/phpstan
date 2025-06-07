@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Accessory\AccessoryArrayListType;
@@ -12,12 +11,12 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\MethodCall;
 use ReflectionAttribute;
 use function count;
 
 final class ReflectionGetAttributesMethodReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-
 	/**
 	 * @param class-string $className One of reflection classes: https://www.php.net/manual/en/book.reflection.php
 	 */
@@ -46,5 +45,4 @@ final class ReflectionGetAttributesMethodReturnTypeExtension implements DynamicM
 
 		return TypeCombinator::intersect(new ArrayType(new IntegerType(), new GenericObjectType(ReflectionAttribute::class, [$classType])), new AccessoryArrayListType());
 	}
-
 }

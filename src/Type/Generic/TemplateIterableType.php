@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 /** @api */
 final class TemplateIterableType extends IterableType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<IterableType> */
 	use TemplateTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
@@ -34,5 +33,4 @@ final class TemplateIterableType extends IterableType implements TemplateType
 		$this->bound = $bound;
 		$this->default = $default;
 	}
-
 }

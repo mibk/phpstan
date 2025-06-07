@@ -1,16 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayDimFetch;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Expr\StaticPropertyFetch;
-use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\Constant\ClassConstantFetch;
 use PHPStan\Node\Property\PropertyAssign;
@@ -19,6 +10,15 @@ use PHPStan\Node\Property\PropertyWrite;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ArrayDimFetch;
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\StaticPropertyFetch;
+use PhpParser\Node\Identifier;
 use ReflectionProperty;
 use function count;
 use function in_array;
@@ -26,7 +26,6 @@ use function strtolower;
 
 final class ClassStatementsGatherer
 {
-
 	private const PROPERTY_ENUMERATING_FUNCTIONS = [
 		'get_object_vars',
 		'array_walk',
@@ -185,8 +184,8 @@ final class ClassStatementsGatherer
 		}
 		if (
 			$node instanceof Expr\FuncCall
-			&& $node->name instanceof Node\Name
-			&& in_array($node->name->toLowerString(), self::PROPERTY_ENUMERATING_FUNCTIONS, true)
+				&& $node->name instanceof Node\Name
+				&& in_array($node->name->toLowerString(), self::PROPERTY_ENUMERATING_FUNCTIONS, true)
 		) {
 			$this->tryToApplyPropertyReads($node, $scope);
 			return;
@@ -204,7 +203,7 @@ final class ClassStatementsGatherer
 			$this->propertyAssigns[] = new PropertyAssign($node, $scope);
 			return;
 		}
-		if (!$node instanceof Expr) {
+		if (! $node instanceof Expr) {
 			return;
 		}
 		if ($node instanceof Expr\AssignOp\Coalesce) {
@@ -212,7 +211,7 @@ final class ClassStatementsGatherer
 			return;
 		}
 		if ($node instanceof Expr\AssignRef) {
-			if (!$node->expr instanceof PropertyFetch && !$node->expr instanceof StaticPropertyFetch) {
+			if (! $node->expr instanceof PropertyFetch && ! $node->expr instanceof StaticPropertyFetch) {
 				$this->gatherNodes($node->expr, $scope);
 				return;
 			}
@@ -235,7 +234,7 @@ final class ClassStatementsGatherer
 		while ($node instanceof ArrayDimFetch) {
 			$node = $node->var;
 		}
-		if (!$node instanceof PropertyFetch && !$node instanceof StaticPropertyFetch) {
+		if (! $node instanceof PropertyFetch && ! $node instanceof StaticPropertyFetch) {
 			return;
 		}
 
@@ -271,7 +270,7 @@ final class ClassStatementsGatherer
 
 	private function tryToApplyPropertyWritesFromAncestorConstructor(StaticCall $ancestorConstructorCall, Scope $scope): void
 	{
-		if (!$ancestorConstructorCall->class instanceof Node\Name) {
+		if (! $ancestorConstructorCall->class instanceof Node\Name) {
 			return;
 		}
 
@@ -295,5 +294,4 @@ final class ClassStatementsGatherer
 			);
 		}
 	}
-
 }

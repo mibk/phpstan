@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
+use PHPStan\Reflection\ParametersAcceptor;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
-use PHPStan\Reflection\ParametersAcceptor;
 use function array_filter;
 use function array_key_exists;
 use function in_array;
@@ -14,7 +14,6 @@ use function in_array;
 #[AutowiredService]
 final class VariadicFunctionsVisitor extends NodeVisitorAbstract
 {
-
 	private ?Node $topNode = null;
 
 	private ?string $inNamespace = null;
@@ -55,10 +54,10 @@ final class VariadicFunctionsVisitor extends NodeVisitorAbstract
 
 		if (
 			$this->inFunction !== null
-			&& $node instanceof Node\Expr\FuncCall
-			&& $node->name instanceof Name
-			&& in_array((string) $node->name, ParametersAcceptor::VARIADIC_FUNCTIONS, true)
-			&& !array_key_exists($this->inFunction, $this->variadicFunctions)
+				&& $node instanceof Node\Expr\FuncCall
+				&& $node->name instanceof Name
+				&& in_array((string) $node->name, ParametersAcceptor::VARIADIC_FUNCTIONS, true)
+				&& !array_key_exists($this->inFunction, $this->variadicFunctions)
 		) {
 			$this->variadicFunctions[$this->inFunction] = true;
 		}
@@ -86,11 +85,10 @@ final class VariadicFunctionsVisitor extends NodeVisitorAbstract
 			foreach ($this->variadicFunctions as $name => $variadic) {
 				self::$cache[$name] = $variadic;
 			}
-			$functions = array_filter($this->variadicFunctions, static fn (bool $variadic) => $variadic);
+			$functions = array_filter($this->variadicFunctions, static fn(bool $variadic) => $variadic);
 			$this->topNode->setAttribute(self::ATTRIBUTE_NAME, $functions);
 		}
 
 		return null;
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -10,13 +9,13 @@ use PHPStan\Reflection\ParameterReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\FunctionParameterOutTypeExtension;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function in_array;
 use function strtolower;
 
 #[AutowiredService]
 final class PregMatchParameterOutTypeExtension implements FunctionParameterOutTypeExtension
 {
-
 	public function __construct(
 		private RegexArrayShapeMatcher $regexShapeMatcher,
 	)
@@ -53,5 +52,4 @@ final class PregMatchParameterOutTypeExtension implements FunctionParameterOutTy
 		}
 		return $this->regexShapeMatcher->matchAllExpr($patternArg->value, $flagsType, TrinaryLogic::createMaybe(), $scope);
 	}
-
 }

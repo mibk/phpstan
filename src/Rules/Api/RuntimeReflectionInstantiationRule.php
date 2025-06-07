@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use ReflectionClass;
 use ReflectionClassConstant;
 use ReflectionExtension;
@@ -29,7 +29,6 @@ use function str_starts_with;
 #[RegisteredRule(level: 0)]
 final class RuntimeReflectionInstantiationRule implements Rule
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -41,7 +40,7 @@ final class RuntimeReflectionInstantiationRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->class instanceof Node\Name) {
+		if (! $node->class instanceof Node\Name) {
 			return [];
 		}
 
@@ -93,5 +92,4 @@ final class RuntimeReflectionInstantiationRule implements Rule
 			)->identifier('phpstanApi.runtimeReflection')->build(),
 		];
 	}
-
 }

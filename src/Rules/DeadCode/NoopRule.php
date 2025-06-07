@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\NoopExpressionNode;
 use PHPStan\Node\Printer\ExprPrinter;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function preg_split;
 use function sprintf;
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class NoopRule implements Rule
 {
-
 	public function __construct(private ExprPrinter $exprPrinter)
 	{
 	}
@@ -102,8 +101,8 @@ final class NoopRule implements Rule
 
 		if (
 			$expr instanceof Node\Expr\NullsafeMethodCall
-			|| $expr instanceof Node\Expr\MethodCall
-			|| $expr instanceof Node\Expr\StaticCall
+				|| $expr instanceof Node\Expr\MethodCall
+				|| $expr instanceof Node\Expr\StaticCall
 		) {
 			// handled by *WithoutSideEffectsRule rules
 			return [];
@@ -111,8 +110,8 @@ final class NoopRule implements Rule
 
 		if (
 			$expr instanceof Node\Expr\Assign
-			|| $expr instanceof Node\Expr\AssignOp
-			|| $expr instanceof Node\Expr\AssignRef
+				|| $expr instanceof Node\Expr\AssignOp
+				|| $expr instanceof Node\Expr\AssignRef
 		) {
 			return [];
 		}
@@ -136,5 +135,4 @@ final class NoopRule implements Rule
 				->build(),
 		];
 	}
-
 }

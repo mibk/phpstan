@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
@@ -9,9 +9,8 @@ use PHPStan\Type\Type;
  */
 final class FoundTypeResult
 {
-
 	/**
-	 * @param string[] $referencedClasses
+	 * @param string[]                  $referencedClasses
 	 * @param list<IdentifierRuleError> $unknownClassErrors
 	 */
 	public function __construct(
@@ -48,5 +47,4 @@ final class FoundTypeResult
 	{
 		return $this->tip;
 	}
-
 }

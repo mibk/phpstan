@@ -1,22 +1,21 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
+use const COUNT_RECURSIVE;
 use function count;
 use function in_array;
-use const COUNT_RECURSIVE;
 
 #[AutowiredService]
 final class CountFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return in_array($functionReflection->getName(), ['sizeof', 'count'], true);
@@ -41,5 +40,4 @@ final class CountFunctionReturnTypeExtension implements DynamicFunctionReturnTyp
 
 		return $scope->getType($functionCall->getArgs()[0]->value)->getArraySize();
 	}
-
 }

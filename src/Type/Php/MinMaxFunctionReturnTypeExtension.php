@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\BinaryOp\Smaller;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\Ternary;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Node\Expr\AlwaysRememberedExpr;
@@ -18,13 +15,15 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\BinaryOp\Smaller;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Ternary;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class MinMaxFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(
 		private PhpVersion $phpVersion,
 	)
@@ -194,21 +193,21 @@ final class MinMaxFunctionReturnTypeExtension implements DynamicFunctionReturnTy
 	{
 		if (
 			$firstType->isArray()->yes()
-			&& $secondType->isConstantScalarValue()->yes()
+				&& $secondType->isConstantScalarValue()->yes()
 		) {
 			return $secondType;
 		}
 
 		if (
 			$firstType->isConstantScalarValue()->yes()
-			&& $secondType->isArray()->yes()
+				&& $secondType->isArray()->yes()
 		) {
 			return $firstType;
 		}
 
 		if (
 			$firstType instanceof ConstantArrayType
-			&& $secondType instanceof ConstantArrayType
+				&& $secondType instanceof ConstantArrayType
 		) {
 			if ($secondType->getArraySize() < $firstType->getArraySize()) {
 				return $secondType;
@@ -233,7 +232,7 @@ final class MinMaxFunctionReturnTypeExtension implements DynamicFunctionReturnTy
 
 		if (
 			$firstType instanceof ConstantScalarType
-			&& $secondType instanceof ConstantScalarType
+				&& $secondType instanceof ConstantScalarType
 		) {
 			if ($secondType->getValue() < $firstType->getValue()) {
 				return $secondType;
@@ -246,5 +245,4 @@ final class MinMaxFunctionReturnTypeExtension implements DynamicFunctionReturnTy
 
 		return null;
 	}
-
 }

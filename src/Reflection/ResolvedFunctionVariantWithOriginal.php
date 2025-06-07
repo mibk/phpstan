@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -21,7 +21,6 @@ use function array_map;
 
 final class ResolvedFunctionVariantWithOriginal implements ResolvedFunctionVariant
 {
-
 	/** @var list<ExtendedParameterReflection>|null */
 	private ?array $parameters = null;
 
@@ -71,7 +70,7 @@ final class ResolvedFunctionVariantWithOriginal implements ResolvedFunctionVaria
 
 		if ($parameters === null) {
 			$parameters = array_map(
-				function (ExtendedParameterReflection $param): ExtendedParameterReflection {
+				function(ExtendedParameterReflection $param): ExtendedParameterReflection {
 					$paramType = TypeUtils::resolveLateResolvableTypes(
 						TemplateTypeHelper::resolveTemplateTypes(
 							$this->resolveConditionalTypesForParameter($param->getType()),
@@ -204,11 +203,11 @@ final class ResolvedFunctionVariantWithOriginal implements ResolvedFunctionVaria
 	{
 		$references = $type->getReferencedTemplateTypes($positionVariance);
 
-		$objectCb = function (Type $type, callable $traverse) use ($references): Type {
+		$objectCb = function(Type $type, callable $traverse) use ($references): Type {
 			if (
 				$type instanceof TemplateType
-				&& !$type->isArgument()
-				&& $type->getScope()->getFunctionName() !== null
+					&& !$type->isArgument()
+					&& $type->getScope()->getFunctionName() !== null
 			) {
 				$newType = $this->resolvedTemplateTypeMap->getType($type->getName());
 				if ($newType === null || $newType instanceof ErrorType) {
@@ -245,7 +244,7 @@ final class ResolvedFunctionVariantWithOriginal implements ResolvedFunctionVaria
 			return $traverse($type);
 		};
 
-		return TypeTraverser::map($type, function (Type $type, callable $traverse) use ($references, $objectCb): Type {
+		return TypeTraverser::map($type, function(Type $type, callable $traverse) use ($references, $objectCb): Type {
 			if ($type instanceof GenericObjectType || $type instanceof GenericStaticType) {
 				return TypeTraverser::map($type, $objectCb);
 			}
@@ -288,7 +287,7 @@ final class ResolvedFunctionVariantWithOriginal implements ResolvedFunctionVaria
 
 	private function resolveConditionalTypesForParameter(Type $type): Type
 	{
-		return TypeTraverser::map($type, function (Type $type, callable $traverse): Type {
+		return TypeTraverser::map($type, function(Type $type, callable $traverse): Type {
 			if ($type instanceof ConditionalTypeForParameter && array_key_exists($type->getParameterName(), $this->passedArgs)) {
 				$type = $type->toConditional($this->passedArgs[$type->getParameterName()]);
 			}
@@ -296,5 +295,4 @@ final class ResolvedFunctionVariantWithOriginal implements ResolvedFunctionVaria
 			return $traverse($type);
 		});
 	}
-
 }

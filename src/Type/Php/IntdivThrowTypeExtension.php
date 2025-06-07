@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use ArithmeticError;
 use DivisionByZeroError;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -12,13 +11,13 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicFunctionThrowTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
-use function count;
+use PhpParser\Node\Expr\FuncCall;
 use const PHP_INT_MIN;
+use function count;
 
 #[AutowiredService]
 final class IntdivThrowTypeExtension implements DynamicFunctionThrowTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'intdiv';
@@ -48,5 +47,4 @@ final class IntdivThrowTypeExtension implements DynamicFunctionThrowTypeExtensio
 
 		return null;
 	}
-
 }

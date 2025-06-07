@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
 use function count;
 use function sprintf;
 
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class GetTemplateTypeRule implements Rule
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -35,7 +34,7 @@ final class GetTemplateTypeRule implements Rule
 		if (count($args) < 2) {
 			return [];
 		}
-		if (!$node->name instanceof Node\Identifier) {
+		if (! $node->name instanceof Node\Identifier) {
 			return [];
 		}
 
@@ -79,5 +78,4 @@ final class GetTemplateTypeRule implements Rule
 
 		return $errors;
 	}
-
 }

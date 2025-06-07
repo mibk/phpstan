@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -10,6 +9,7 @@ use PHPStan\Parser\LastConditionVisitor;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -18,7 +18,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class ElseIfConstantConditionRule implements Rule
 {
-
 	public function __construct(
 		private ConstantConditionRuleHelper $helper,
 		#[AutowiredParameter]
@@ -43,7 +42,7 @@ final class ElseIfConstantConditionRule implements Rule
 	{
 		$exprType = $this->helper->getBooleanType($scope, $node->cond);
 		if ($exprType instanceof ConstantBooleanType) {
-			$addTip = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
+			$addTip = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
 				if (!$this->treatPhpDocTypesAsCertain) {
 					return $ruleErrorBuilder;
 				}
@@ -78,5 +77,4 @@ final class ElseIfConstantConditionRule implements Rule
 
 		return [];
 	}
-
 }

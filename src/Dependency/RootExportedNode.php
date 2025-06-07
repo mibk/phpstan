@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency;
 
 interface RootExportedNode extends ExportedNode
 {
-
 	public const TYPE_CLASS = 'class';
 
 	public const TYPE_INTERFACE = 'interface';
@@ -19,5 +18,4 @@ interface RootExportedNode extends ExportedNode
 	public function getType(): string;
 
 	public function getName(): string;
-
 }

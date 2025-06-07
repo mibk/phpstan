@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -9,12 +9,11 @@ use PHPStan\Type\Type;
 
 interface FunctionReflectionFactory
 {
-
 	/**
-	 * @param array<string, Type> $phpDocParameterTypes
-	 * @param array<string, Type> $phpDocParameterOutTypes
-	 * @param array<string, bool> $phpDocParameterImmediatelyInvokedCallable
-	 * @param array<string, Type> $phpDocParameterClosureThisTypes
+	 * @param array<string, Type>       $phpDocParameterTypes
+	 * @param array<string, Type>       $phpDocParameterOutTypes
+	 * @param array<string, bool>       $phpDocParameterImmediatelyInvokedCallable
+	 * @param array<string, Type>       $phpDocParameterClosureThisTypes
 	 * @param list<AttributeReflection> $attributes
 	 */
 	public function create(
@@ -36,5 +35,4 @@ interface FunctionReflectionFactory
 		array $phpDocParameterClosureThisTypes,
 		array $attributes,
 	): PhpFunctionReflection;
-
 }

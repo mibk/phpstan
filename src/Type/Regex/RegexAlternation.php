@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Regex;
 
@@ -6,7 +6,6 @@ use function array_key_exists;
 
 final class RegexAlternation
 {
-
 	/** @var array<int, list<int>> */
 	private array $groupCombinations = [];
 
@@ -43,5 +42,4 @@ final class RegexAlternation
 	{
 		return $this->groupCombinations;
 	}
-
 }

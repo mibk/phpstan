@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Type;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\ExpressionTypeResolverExtensionRegistry;
 #[AutowiredService(as: ExpressionTypeResolverExtensionRegistryProvider::class)]
 final class LazyExpressionTypeResolverExtensionRegistryProvider implements ExpressionTypeResolverExtensionRegistryProvider
 {
-
 	private ?ExpressionTypeResolverExtensionRegistry $registry = null;
 
 	public function __construct(private Container $container)
@@ -27,5 +26,4 @@ final class LazyExpressionTypeResolverExtensionRegistryProvider implements Expre
 
 		return $this->registry;
 	}
-
 }

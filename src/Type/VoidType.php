@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -20,7 +20,6 @@ use PHPStan\Type\Traits\UndecidedComparisonTypeTrait;
 /** @api */
 class VoidType implements Type
 {
-
 	use NonArrayTypeTrait;
 	use NonCallableTypeTrait;
 	use NonIterableTypeTrait;
@@ -268,5 +267,4 @@ class VoidType implements Type
 	{
 		return new IdentifierTypeNode('void');
 	}
-
 }

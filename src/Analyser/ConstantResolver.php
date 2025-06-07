@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node\Name;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\ComposerPhpVersionFactory;
 use PHPStan\Php\PhpVersion;
@@ -22,27 +21,27 @@ use PHPStan\Type\ResourceType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Name;
+use const INF;
+use const NAN;
+use const PHP_INT_SIZE;
 use function array_key_exists;
 use function in_array;
 use function is_array;
 use function is_int;
 use function max;
 use function sprintf;
-use const INF;
-use const NAN;
-use const PHP_INT_SIZE;
 
 #[AutowiredService(factory: '@PHPStan\Analyser\ConstantResolverFactory::create')]
 final class ConstantResolver
 {
-
 	public const PHP_MIN_ANALYZABLE_VERSION_ID = 50207;
 
 	/** @var array<string, true> */
 	private array $currentlyResolving = [];
 
 	/**
-	 * @param string[] $dynamicConstantNames
+	 * @param string[]                           $dynamicConstantNames
 	 * @param int|array{min: int, max: int}|null $phpVersion
 	 */
 	public function __construct(
@@ -119,8 +118,8 @@ final class ConstantResolver
 
 			if (
 				$minPhpVersion !== null
-				&& $maxPhpVersion !== null
-				&& $maxPhpVersion->getMajorVersionId() === $minPhpVersion->getMajorVersionId()
+					&& $maxPhpVersion !== null
+					&& $maxPhpVersion->getMajorVersionId() === $minPhpVersion->getMajorVersionId()
 			) {
 				$minMinor = $minPhpVersion->getMinorVersionId();
 				$maxMinor = $maxPhpVersion->getMinorVersionId();
@@ -134,9 +133,9 @@ final class ConstantResolver
 
 			if (
 				$minPhpVersion !== null
-				&& $maxPhpVersion !== null
-				&& $maxPhpVersion->getMajorVersionId() === $minPhpVersion->getMajorVersionId()
-				&& $maxPhpVersion->getMinorVersionId() === $minPhpVersion->getMinorVersionId()
+					&& $maxPhpVersion !== null
+					&& $maxPhpVersion->getMajorVersionId() === $minPhpVersion->getMajorVersionId()
+					&& $maxPhpVersion->getMinorVersionId() === $minPhpVersion->getMinorVersionId()
 			) {
 				$minRelease = $minPhpVersion->getPatchVersionId();
 				$maxRelease = $maxPhpVersion->getPatchVersionId();
@@ -439,5 +438,4 @@ final class ConstantResolver
 	{
 		return $this->reflectionProviderProvider->getReflectionProvider();
 	}
-
 }

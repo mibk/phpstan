@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -16,6 +16,8 @@ use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\Accessory\AccessoryUppercaseStringType;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use function array_filter;
 use function array_map;
 use function assert;
@@ -28,13 +30,10 @@ use function is_int;
 use function max;
 use function min;
 use function sprintf;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
 
 /** @api */
 class IntegerRangeType extends IntegerType implements CompoundType
 {
-
 	private function __construct(private ?int $min, private ?int $max)
 	{
 		parent::__construct();
@@ -275,7 +274,7 @@ class IntegerRangeType extends IntegerType implements CompoundType
 		if ($this->min !== null && $this->max !== null) {
 			$matchingConstantIntegers = array_filter(
 				$otherType->getTypes(),
-				fn (Type $type): bool => $type instanceof ConstantIntegerType && $type->getValue() >= $this->min && $type->getValue() <= $this->max,
+				fn(Type $type): bool => $type instanceof ConstantIntegerType && $type->getValue() >= $this->min && $type->getValue() <= $this->max,
 			);
 
 			if (count($matchingConstantIntegers) === ($this->max - $this->min + 1)) {
@@ -283,7 +282,7 @@ class IntegerRangeType extends IntegerType implements CompoundType
 			}
 		}
 
-		return IsSuperTypeOfResult::createNo()->or(...array_map(fn (Type $innerType) => $this->isSubTypeOf($innerType), $otherType->getTypes()));
+		return IsSuperTypeOfResult::createNo()->or(...array_map(fn(Type $innerType) => $this->isSubTypeOf($innerType), $otherType->getTypes()));
 	}
 
 	public function isAcceptedBy(Type $acceptingType, bool $strictTypes): AcceptsResult
@@ -621,7 +620,7 @@ class IntegerRangeType extends IntegerType implements CompoundType
 
 			if (
 				$this->min !== null && $removeMax !== null && $removeMax < $this->min
-				|| $this->max !== null && $removeMin !== null && $this->max < $removeMin
+					|| $this->max !== null && $removeMin !== null && $this->max < $removeMin
 			) {
 				return $this;
 			}
@@ -746,12 +745,11 @@ class IntegerRangeType extends IntegerType implements CompoundType
 
 		if (
 			$this->isSmallerThan($type, $phpVersion)->yes()
-			|| $this->isGreaterThan($type, $phpVersion)->yes()
+				|| $this->isGreaterThan($type, $phpVersion)->yes()
 		) {
 			return new ConstantBooleanType(false);
 		}
 
 		return parent::looseCompare($type, $phpVersion);
 	}
-
 }

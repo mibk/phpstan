@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 /** @api */
 interface ParametersAcceptor
 {
-
 	public const VARIADIC_FUNCTIONS = [
 		'func_get_args',
 		'func_get_arg',
@@ -27,5 +26,4 @@ interface ParametersAcceptor
 	public function isVariadic(): bool;
 
 	public function getReturnType(): Type;
-
 }

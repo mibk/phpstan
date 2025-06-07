@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -16,9 +16,7 @@ use Attribute;
 #[Attribute(flags: Attribute::TARGET_PARAMETER)]
 final class AutowiredParameter
 {
-
 	public function __construct(public ?string $ref = null)
 	{
 	}
-
 }

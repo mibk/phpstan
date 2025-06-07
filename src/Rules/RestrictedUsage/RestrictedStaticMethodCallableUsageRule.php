@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
-use PhpParser\Node;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\DependencyInjection\Container;
@@ -15,6 +12,9 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 
 /**
  * @implements Rule<StaticMethodCallableNode>
@@ -22,7 +22,6 @@ use PHPStan\Type\Type;
 #[AutowiredService]
 final class RestrictedStaticMethodCallableUsageRule implements Rule
 {
-
 	public function __construct(
 		private Container $container,
 		private ReflectionProvider $reflectionProvider,
@@ -60,8 +59,8 @@ final class RestrictedStaticMethodCallableUsageRule implements Rule
 			$classTypeResult = $this->ruleLevelHelper->findTypeToCheck(
 				$scope,
 				$node->getClass(),
-				'', // We don't care about the error message
-				static fn (Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
+				'',                         // We don't care about the error message
+				static fn(Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
 			);
 
 			if ($classTypeResult->getType() instanceof ErrorType) {
@@ -105,5 +104,4 @@ final class RestrictedStaticMethodCallableUsageRule implements Rule
 
 		return $errors;
 	}
-
 }

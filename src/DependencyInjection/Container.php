@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
 /** @api */
 interface Container
 {
-
 	public function hasService(string $serviceName): bool;
 
 	/**
@@ -16,14 +15,14 @@ interface Container
 
 	/**
 	 * @template T of object
-	 * @param class-string<T> $className
-	 * @return T
-	 * @throws MissingServiceException
+	 * @param    class-string<T> $className
+	 * @return   T
+	 * @throws   MissingServiceException
 	 */
 	public function getByType(string $className);
 
 	/**
-	 * @param class-string $className
+	 * @param  class-string $className
 	 * @return string[]
 	 */
 	public function findServiceNamesByType(string $className): array;
@@ -45,5 +44,4 @@ interface Container
 	 * @throws ParameterNotFoundException
 	 */
 	public function getParameter(string $parameterName);
-
 }

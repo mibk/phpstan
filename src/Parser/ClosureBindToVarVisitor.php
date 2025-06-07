@@ -1,25 +1,24 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 
 #[AutowiredService]
 final class ClosureBindToVarVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'closureBindToVar';
 
 	public function enterNode(Node $node): ?Node
 	{
 		if (
 			$node instanceof Node\Expr\MethodCall
-			&& $node->name instanceof Identifier
-			&& $node->name->toLowerString() === 'bindto'
-			&& !$node->isFirstClassCallable()
+				&& $node->name instanceof Identifier
+				&& $node->name->toLowerString() === 'bindto'
+				&& !$node->isFirstClassCallable()
 		) {
 			$args = $node->getArgs();
 			if (isset($args[0])) {
@@ -28,5 +27,4 @@ final class ClosureBindToVarVisitor extends NodeVisitorAbstract
 		}
 		return null;
 	}
-
 }

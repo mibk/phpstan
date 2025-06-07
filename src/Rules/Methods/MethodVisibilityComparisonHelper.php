@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
@@ -13,7 +13,6 @@ use function sprintf;
 #[AutowiredService]
 final class MethodVisibilityComparisonHelper
 {
-
 	/** @return list<IdentifierRuleError> */
 	public function compare(ExtendedMethodReflection $prototype, ClassReflection $prototypeDeclaringClass, PhpMethodFromParserNodeReflection $method): array
 	{
@@ -49,5 +48,4 @@ final class MethodVisibilityComparisonHelper
 
 		return $messages;
 	}
-
 }

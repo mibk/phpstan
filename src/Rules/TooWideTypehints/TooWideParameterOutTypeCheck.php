@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\TooWideTypehints;
 
-use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Node\ExecutionEndNode;
@@ -13,16 +12,16 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Expr\Variable;
 use function sprintf;
 
 #[AutowiredService]
 final class TooWideParameterOutTypeCheck
 {
-
 	/**
-	 * @param list<ExecutionEndNode> $executionEnds
-	 * @param list<ReturnStatement> $returnStatements
-	 * @param ExtendedParameterReflection[] $parameters
+	 * @param  list<ExecutionEndNode>        $executionEnds
+	 * @param  list<ReturnStatement>         $returnStatements
+	 * @param  ExtendedParameterReflection[] $parameters
 	 * @return list<IdentifierRuleError>
 	 */
 	public function check(
@@ -87,7 +86,7 @@ final class TooWideParameterOutTypeCheck
 		}
 
 		$outType = TypeUtils::resolveLateResolvableTypes($outType);
-		if (!$outType instanceof UnionType) {
+		if (! $outType instanceof UnionType) {
 			return [];
 		}
 
@@ -116,5 +115,4 @@ final class TooWideParameterOutTypeCheck
 
 		return $messages;
 	}
-
 }

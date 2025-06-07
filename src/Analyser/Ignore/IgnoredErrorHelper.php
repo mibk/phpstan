@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser\Ignore;
 
@@ -17,7 +17,6 @@ use function sprintf;
 #[AutowiredService]
 final class IgnoredErrorHelper
 {
-
 	/**
 	 * @param (string|mixed[])[] $ignoreErrors
 	 */
@@ -90,10 +89,10 @@ final class IgnoredErrorHelper
 			}
 
 			$uniquedExpandedIgnoreErrors[$key] = [
-				'message' => $ignoreError['message'] ?? null,
-				'path' => $ignoreError['path'],
-				'identifier' => $ignoreError['identifier'] ?? null,
-				'count' => ($uniquedExpandedIgnoreErrors[$key]['count'] ?? 1) + ($ignoreError['count'] ?? 1),
+				'message'         => $ignoreError['message'] ?? null,
+				'path'            => $ignoreError['path'],
+				'identifier'      => $ignoreError['identifier'] ?? null,
+				'count'           => ($uniquedExpandedIgnoreErrors[$key]['count'] ?? 1) + ($ignoreError['count'] ?? 1),
 				'reportUnmatched' => ($uniquedExpandedIgnoreErrors[$key]['reportUnmatched'] ?? $this->reportUnmatchedIgnoredErrors) || ($ignoreError['reportUnmatched'] ?? $this->reportUnmatchedIgnoredErrors),
 			];
 		}
@@ -102,7 +101,7 @@ final class IgnoredErrorHelper
 
 		foreach ($expandedIgnoreErrors as $i => $ignoreError) {
 			$ignoreErrorEntry = [
-				'index' => $i,
+				'index'       => $i,
 				'ignoreError' => $ignoreError,
 			];
 			try {
@@ -135,5 +134,4 @@ final class IgnoredErrorHelper
 
 		return new IgnoredErrorHelperResult($this->fileHelper, $errors, $otherIgnoreErrors, $ignoreErrorsByFile, $expandedIgnoreErrors, $this->reportUnmatchedIgnoredErrors);
 	}
-
 }

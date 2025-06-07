@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -9,7 +9,6 @@ use function count;
 /** @api */
 class BenevolentUnionType extends UnionType
 {
-
 	/**
 	 * @api
 	 * @param Type[] $types
@@ -22,7 +21,7 @@ class BenevolentUnionType extends UnionType
 	public function filterTypes(callable $filterCb): Type
 	{
 		$result = parent::filterTypes($filterCb);
-		if (!$result instanceof self && $result instanceof UnionType) {
+		if (! $result instanceof self && $result instanceof UnionType) {
 			return TypeUtils::toBenevolentUnion($result);
 		}
 
@@ -154,7 +153,7 @@ class BenevolentUnionType extends UnionType
 		$types = [];
 		$changed = false;
 
-		if (!$right instanceof UnionType) {
+		if (! $right instanceof UnionType) {
 			return $this;
 		}
 
@@ -177,5 +176,4 @@ class BenevolentUnionType extends UnionType
 
 		return $this;
 	}
-
 }

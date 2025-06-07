@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use DateInterval;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -13,12 +12,12 @@ use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\StaticCall;
 use function count;
 
 #[AutowiredService]
 final class DateIntervalConstructorThrowTypeExtension implements DynamicStaticMethodThrowTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -47,7 +46,7 @@ final class DateIntervalConstructorThrowTypeExtension implements DynamicStaticMe
 			$valueType = TypeCombinator::remove($valueType, $constantString);
 		}
 
-		if (!$valueType instanceof NeverType) {
+		if (! $valueType instanceof NeverType) {
 			return $this->exceptionType();
 		}
 
@@ -62,5 +61,4 @@ final class DateIntervalConstructorThrowTypeExtension implements DynamicStaticMe
 
 		return new ObjectType('Exception');
 	}
-
 }

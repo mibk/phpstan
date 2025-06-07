@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Analyser\Scope;
 use PhpParser\Node\Expr;
 use PhpParser\NodeAbstract;
-use PHPStan\Analyser\Scope;
 
 /**
  * @api
  */
 final class MatchExpressionNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
 	 * @param MatchExpressionArm[] $arms
 	 */
@@ -55,5 +54,4 @@ final class MatchExpressionNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

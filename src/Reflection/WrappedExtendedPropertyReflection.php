@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 
 final class WrappedExtendedPropertyReflection implements ExtendedPropertyReflection
 {
-
 	public function __construct(private string $name, private PropertyReflection $property)
 	{
 	}
@@ -148,5 +147,4 @@ final class WrappedExtendedPropertyReflection implements ExtendedPropertyReflect
 	{
 		return [];
 	}
-
 }

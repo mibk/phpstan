@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
@@ -12,6 +11,7 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use Throwable;
 use function sprintf;
 
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class ThrowExprTypeRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 	)
@@ -40,7 +39,7 @@ final class ThrowExprTypeRule implements Rule
 			$scope,
 			$node->expr,
 			'Throwing object of an unknown class %s.',
-			static fn (Type $type): bool => $throwableType->isSuperTypeOf($type)->yes(),
+			static fn(Type $type): bool => $throwableType->isSuperTypeOf($type)->yes(),
 		);
 
 		$foundType = $typeResult->getType();
@@ -60,5 +59,4 @@ final class ThrowExprTypeRule implements Rule
 			))->identifier('throw.notThrowable')->build(),
 		];
 	}
-
 }

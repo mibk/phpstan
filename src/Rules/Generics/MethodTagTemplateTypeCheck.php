@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Internal\SprintfHelper;
@@ -12,6 +11,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\Generic\TemplateTypeScope;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Stmt\ClassLike;
 use function array_keys;
 use function array_merge;
 use function sprintf;
@@ -19,7 +19,6 @@ use function sprintf;
 #[AutowiredService]
 final class MethodTagTemplateTypeCheck
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 		private TemplateTypeCheck $templateTypeCheck,
@@ -81,5 +80,4 @@ final class MethodTagTemplateTypeCheck
 
 		return $messages;
 	}
-
 }

@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parallel;
 
 final class Schedule
 {
-
 	/**
 	 * @param array<array<string>> $jobs
 	 */
@@ -24,5 +23,4 @@ final class Schedule
 	{
 		return $this->jobs;
 	}
-
 }

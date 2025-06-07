@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
+use PhpParser\Node\Expr\StaticCall;
 
 /**
  * This is the interface type-specifying extensions implement for static methods.
@@ -16,9 +16,9 @@ use PHPStan\Reflection\MethodReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.typeSpecifier.staticMethodTypeSpecifyingExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.typeSpecifier.staticMethodTypeSpecifyingExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/type-specifying-extensions
@@ -27,12 +27,10 @@ use PHPStan\Reflection\MethodReflection;
  */
 interface StaticMethodTypeSpecifyingExtension
 {
-
 	/** @return class-string */
 	public function getClass(): string;
 
 	public function isStaticMethodSupported(MethodReflection $staticMethodReflection, StaticCall $node, TypeSpecifierContext $context): bool;
 
 	public function specifyTypes(MethodReflection $staticMethodReflection, StaticCall $node, Scope $scope, TypeSpecifierContext $context): SpecifiedTypes;
-
 }

@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 use function count;
 
 #[AutowiredService]
 final class LastConditionVisitor extends NodeVisitorAbstract
 {
-
-	public const ATTRIBUTE_NAME = 'isLastCondition';
+	public const ATTRIBUTE_NAME          = 'isLastCondition';
 	public const ATTRIBUTE_IS_MATCH_NAME = 'isMatch';
 
 	public function enterNode(Node $node): ?Node
@@ -22,8 +21,8 @@ final class LastConditionVisitor extends NodeVisitorAbstract
 			$elseIsMissingOrThrowing = $node->else === null
 				|| (
 					count($node->else->stmts) === 1
-					&& $node->else->stmts[0] instanceof Node\Stmt\Expression
-					&& $node->else->stmts[0]->expr instanceof Node\Expr\Throw_
+						&& $node->else->stmts[0] instanceof Node\Stmt\Expression
+						&& $node->else->stmts[0]->expr instanceof Node\Expr\Throw_
 				);
 
 			foreach ($node->elseifs as $i => $elseif) {
@@ -49,19 +48,19 @@ final class LastConditionVisitor extends NodeVisitorAbstract
 
 		if (
 			$node instanceof Node\Stmt\Function_
-			|| $node instanceof Node\Stmt\ClassMethod
-			|| $node instanceof Node\Stmt\If_
-			|| $node instanceof Node\Stmt\ElseIf_
-			|| $node instanceof Node\Stmt\Else_
-			|| $node instanceof Node\Stmt\Case_
-			|| $node instanceof Node\Stmt\Catch_
-			|| $node instanceof Node\Stmt\Do_
-			|| $node instanceof Node\Stmt\Finally_
-			|| $node instanceof Node\Stmt\For_
-			|| $node instanceof Node\Stmt\Foreach_
-			|| $node instanceof Node\Stmt\Namespace_
-			|| $node instanceof Node\Stmt\TryCatch
-			|| $node instanceof Node\Stmt\While_
+				|| $node instanceof Node\Stmt\ClassMethod
+				|| $node instanceof Node\Stmt\If_
+				|| $node instanceof Node\Stmt\ElseIf_
+				|| $node instanceof Node\Stmt\Else_
+				|| $node instanceof Node\Stmt\Case_
+				|| $node instanceof Node\Stmt\Catch_
+				|| $node instanceof Node\Stmt\Do_
+				|| $node instanceof Node\Stmt\Finally_
+				|| $node instanceof Node\Stmt\For_
+				|| $node instanceof Node\Stmt\Foreach_
+				|| $node instanceof Node\Stmt\Namespace_
+				|| $node instanceof Node\Stmt\TryCatch
+				|| $node instanceof Node\Stmt\While_
 		) {
 			$statements = $node->stmts ?? [];
 			$statementCount = count($statements);
@@ -72,11 +71,11 @@ final class LastConditionVisitor extends NodeVisitorAbstract
 
 			$lastStatement = $statements[$statementCount - 1];
 
-			if (!$lastStatement instanceof Node\Stmt\Expression) {
+			if (! $lastStatement instanceof Node\Stmt\Expression) {
 				return null;
 			}
 
-			if (!$lastStatement->expr instanceof Node\Expr\Throw_) {
+			if (! $lastStatement->expr instanceof Node\Expr\Throw_) {
 				return null;
 			}
 
@@ -91,5 +90,4 @@ final class LastConditionVisitor extends NodeVisitorAbstract
 
 		return null;
 	}
-
 }

@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
-use PhpParser\Node\Expr;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClassConstant;
 use PHPStan\Internal\DeprecatedAttributeHelper;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypehintHelper;
+use PhpParser\Node\Expr;
 
 final class RealClassClassConstantReflection implements ClassConstantReflection
 {
-
 	private ?Type $valueType = null;
 
 	/**
@@ -152,5 +151,4 @@ final class RealClassClassConstantReflection implements ClassConstantReflection
 	{
 		return $this->attributes;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
@@ -14,7 +14,6 @@ use PHPStan\Rules\RuleError;
  */
 final class RuleError119 implements RuleError, LineRuleError, FileRuleError, IdentifierRuleError, MetadataRuleError, NonIgnorableRuleError
 {
-
 	public string $message;
 
 	public int $line;
@@ -60,5 +59,4 @@ final class RuleError119 implements RuleError, LineRuleError, FileRuleError, Ide
 	{
 		return $this->metadata;
 	}
-
 }

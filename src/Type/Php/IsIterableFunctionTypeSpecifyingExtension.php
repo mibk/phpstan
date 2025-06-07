@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -14,12 +13,12 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FunctionTypeSpecifyingExtension;
 use PHPStan\Type\IterableType;
 use PHPStan\Type\MixedType;
+use PhpParser\Node\Expr\FuncCall;
 use function strtolower;
 
 #[AutowiredService]
 final class IsIterableFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function isFunctionSupported(FunctionReflection $functionReflection, FuncCall $node, TypeSpecifierContext $context): bool
@@ -45,5 +44,4 @@ final class IsIterableFunctionTypeSpecifyingExtension implements FunctionTypeSpe
 	{
 		$this->typeSpecifier = $typeSpecifier;
 	}
-
 }

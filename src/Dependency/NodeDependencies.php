@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency;
 
@@ -9,7 +9,6 @@ use function array_values;
 
 final class NodeDependencies
 {
-
 	/**
 	 * @param array<int, ClassReflection|FunctionReflection> $reflections
 	 */
@@ -22,7 +21,7 @@ final class NodeDependencies
 	}
 
 	/**
-	 * @param array<string, true> $analysedFiles
+	 * @param  array<string, true> $analysedFiles
 	 * @return string[]
 	 */
 	public function getFileDependencies(string $currentFile, array $analysedFiles): array
@@ -54,5 +53,4 @@ final class NodeDependencies
 	{
 		return $this->exportedNode;
 	}
-
 }

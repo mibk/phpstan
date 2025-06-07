@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php\Soap;
 
@@ -14,7 +14,6 @@ use PHPStan\Type\Type;
 
 final class SoapClientMethodReflection implements MethodReflection
 {
-
 	public function __construct(private ClassReflection $declaringClass, private string $name)
 	{
 	}
@@ -96,5 +95,4 @@ final class SoapClientMethodReflection implements MethodReflection
 	{
 		return TrinaryLogic::createYes();
 	}
-
 }

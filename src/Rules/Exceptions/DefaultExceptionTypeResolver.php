@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
@@ -15,7 +15,6 @@ use function count;
 #[AutowiredService(name: 'exceptionTypeResolver', as: [ExceptionTypeResolver::class, DefaultExceptionTypeResolver::class])]
 final class DefaultExceptionTypeResolver implements ExceptionTypeResolver
 {
-
 	/**
 	 * @param string[] $uncheckedExceptionRegexes
 	 * @param string[] $uncheckedExceptionClasses
@@ -95,5 +94,4 @@ final class DefaultExceptionTypeResolver implements ExceptionTypeResolver
 
 		return count($this->checkedExceptionRegexes) === 0 && count($this->checkedExceptionClasses) === 0;
 	}
-
 }

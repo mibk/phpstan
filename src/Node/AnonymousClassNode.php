@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -9,7 +9,6 @@ use PhpParser\Node\Stmt\Class_;
  */
 final class AnonymousClassNode extends Class_
 {
-
 	public static function createFromClassNode(Class_ $node): self
 	{
 		$subNodes = [];
@@ -28,5 +27,4 @@ final class AnonymousClassNode extends Class_
 	{
 		return true;
 	}
-
 }

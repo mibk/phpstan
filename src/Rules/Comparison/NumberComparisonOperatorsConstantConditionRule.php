@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -12,6 +10,8 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp;
 use function get_class;
 use function sprintf;
 
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class NumberComparisonOperatorsConstantConditionRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $treatPhpDocTypesAsCertain,
@@ -42,17 +41,17 @@ final class NumberComparisonOperatorsConstantConditionRule implements Rule
 	): array
 	{
 		if (
-			!$node instanceof BinaryOp\Greater
-			&& !$node instanceof BinaryOp\GreaterOrEqual
-			&& !$node instanceof BinaryOp\Smaller
-			&& !$node instanceof BinaryOp\SmallerOrEqual
+			! $node instanceof BinaryOp\Greater
+				&& ! $node instanceof BinaryOp\GreaterOrEqual
+				&& ! $node instanceof BinaryOp\Smaller
+				&& ! $node instanceof BinaryOp\SmallerOrEqual
 		) {
 			return [];
 		}
 
 		$exprType = $this->treatPhpDocTypesAsCertain ? $scope->getType($node) : $scope->getNativeType($node);
 		if ($exprType instanceof ConstantBooleanType) {
-			$addTip = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
+			$addTip = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
 				if (!$this->treatPhpDocTypesAsCertain) {
 					return $ruleErrorBuilder;
 				}
@@ -69,20 +68,20 @@ final class NumberComparisonOperatorsConstantConditionRule implements Rule
 			};
 
 			switch (get_class($node)) {
-				case BinaryOp\Greater::class:
-					$nodeType = 'greater';
-					break;
-				case BinaryOp\GreaterOrEqual::class:
-					$nodeType = 'greaterOrEqual';
-					break;
-				case BinaryOp\Smaller::class:
-					$nodeType = 'smaller';
-					break;
-				case BinaryOp\SmallerOrEqual::class:
-					$nodeType = 'smallerOrEqual';
-					break;
-				default:
-					throw new ShouldNotHappenException();
+			case BinaryOp\Greater::class:
+				$nodeType = 'greater';
+				break;
+			case BinaryOp\GreaterOrEqual::class:
+				$nodeType = 'greaterOrEqual';
+				break;
+			case BinaryOp\Smaller::class:
+				$nodeType = 'smaller';
+				break;
+			case BinaryOp\SmallerOrEqual::class:
+				$nodeType = 'smallerOrEqual';
+				break;
+			default:
+				throw new ShouldNotHappenException();
 			}
 
 			return [
@@ -98,5 +97,4 @@ final class NumberComparisonOperatorsConstantConditionRule implements Rule
 
 		return [];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Php;
 
@@ -11,11 +11,10 @@ use function floor;
 #[AutowiredService(factory: '@PHPStan\Php\PhpVersionFactory::create')]
 final class PhpVersion
 {
-
-	public const SOURCE_RUNTIME = 1;
-	public const SOURCE_CONFIG = 2;
+	public const SOURCE_RUNTIME               = 1;
+	public const SOURCE_CONFIG                = 2;
 	public const SOURCE_COMPOSER_PLATFORM_PHP = 3;
-	public const SOURCE_UNKNOWN = 4;
+	public const SOURCE_UNKNOWN               = 4;
 
 	/**
 	 * @param self::SOURCE_* $source
@@ -35,12 +34,12 @@ final class PhpVersion
 	public function getSourceLabel(): string
 	{
 		switch ($this->source) {
-			case self::SOURCE_RUNTIME:
-				return 'runtime';
-			case self::SOURCE_CONFIG:
-				return 'config';
-			case self::SOURCE_COMPOSER_PLATFORM_PHP:
-				return 'config.platform.php in composer.json';
+		case self::SOURCE_RUNTIME:
+			return 'runtime';
+		case self::SOURCE_CONFIG:
+			return 'config';
+		case self::SOURCE_COMPOSER_PLATFORM_PHP:
+			return 'config.platform.php in composer.json';
 		}
 
 		return 'unknown';
@@ -406,5 +405,4 @@ final class PhpVersion
 	{
 		return $this->versionId >= 80400;
 	}
-
 }

@@ -1,18 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Type\ClosureType;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\NodeAbstract;
-use PHPStan\Type\ClosureType;
 
 /**
  * @api
  */
 final class InClosureNode extends NodeAbstract implements VirtualNode
 {
-
 	private Node\Expr\Closure $originalNode;
 
 	public function __construct(private ClosureType $closureType, Closure $originalNode)
@@ -43,5 +42,4 @@ final class InClosureNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

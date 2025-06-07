@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parallel;
 
@@ -20,6 +20,7 @@ use React\Socket\ConnectionInterface;
 use React\Socket\TcpServer;
 use Symfony\Component\Console\Input\InputInterface;
 use Throwable;
+use const PHP_URL_PORT;
 use function array_map;
 use function array_pop;
 use function array_reverse;
@@ -33,12 +34,10 @@ use function memory_get_usage;
 use function parse_url;
 use function sprintf;
 use function str_contains;
-use const PHP_URL_PORT;
 
 #[AutowiredService]
 final class ParallelAnalyser
 {
-
 	private const DEFAULT_TIMEOUT = 600.0;
 
 	private float $processTimeout;
@@ -97,7 +96,7 @@ final class ParallelAnalyser
 		$deferred = new Deferred();
 
 		$server = new TcpServer('127.0.0.1:0', $loop);
-		$this->processPool = new ProcessPool($server, static function () use ($deferred, &$jobs, &$internalErrors, &$internalErrorsCount, &$reachedInternalErrorsCountLimit, &$errors, &$filteredPhpErrors, &$allPhpErrors, &$locallyIgnoredErrors, &$linesToIgnore, &$unmatchedLineIgnores, &$collectedData, &$dependencies, &$usedTraitDependencies, &$exportedNodes, &$peakMemoryUsages): void {
+		$this->processPool = new ProcessPool($server, static function() use ($deferred, &$jobs, &$internalErrors, &$internalErrorsCount, &$reachedInternalErrorsCountLimit, &$errors, &$filteredPhpErrors, &$allPhpErrors, &$locallyIgnoredErrors, &$linesToIgnore, &$unmatchedLineIgnores, &$collectedData, &$dependencies, &$usedTraitDependencies, &$exportedNodes, &$peakMemoryUsages): void {
 			if (count($jobs) > 0 && $internalErrorsCount === 0) {
 				$internalErrors[] = new InternalError(
 					'Some parallel worker jobs have not finished.',
@@ -125,13 +124,13 @@ final class ParallelAnalyser
 				array_sum($peakMemoryUsages), // not 100% correct as the peak usages of workers might not have met
 			));
 		});
-		$server->on('connection', function (ConnectionInterface $connection) use (&$jobs): void {
+		$server->on('connection', function(ConnectionInterface $connection) use (&$jobs): void {
 			// phpcs:disable SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
 			$jsonInvalidUtf8Ignore = defined('JSON_INVALID_UTF8_IGNORE') ? JSON_INVALID_UTF8_IGNORE : 0;
 			// phpcs:enable
 			$decoder = new Decoder($connection, true, options: $jsonInvalidUtf8Ignore, maxlength: $this->decoderBufferSize);
 			$encoder = new Encoder($connection, $jsonInvalidUtf8Ignore);
-			$decoder->on('data', function (array $data) use (&$jobs, $decoder, $encoder): void {
+			$decoder->on('data', function(array $data) use (&$jobs, $decoder, $encoder): void {
 				if ($data['action'] !== 'hello') {
 					return;
 				}
@@ -154,13 +153,13 @@ final class ParallelAnalyser
 		/** @var int<0, 65535> $serverPort */
 		$serverPort = parse_url($serverAddress, PHP_URL_PORT);
 
-		$handleError = function (Throwable $error) use (&$internalErrors, &$internalErrorsCount, &$reachedInternalErrorsCountLimit): void {
+		$handleError = function(Throwable $error) use (&$internalErrors, &$internalErrorsCount, &$reachedInternalErrorsCountLimit): void {
 			$internalErrors[] = new InternalError(
 				$error->getMessage(),
 				'communicating with parallel worker',
 				InternalError::prepareTrace($error),
 				$error->getTraceAsString(),
-				!$error instanceof ProcessTimedOutException,
+				! $error instanceof ProcessTimedOutException,
 			);
 			$internalErrorsCount++;
 			$reachedInternalErrorsCountLimit = true;
@@ -194,7 +193,7 @@ final class ParallelAnalyser
 				$commandOptions,
 				$input,
 			), $loop, $this->processTimeout);
-			$process->start(function (array $json) use ($process, &$internalErrors, &$errors, &$filteredPhpErrors, &$allPhpErrors, &$locallyIgnoredErrors, &$linesToIgnore, &$unmatchedLineIgnores, &$collectedData, &$dependencies, &$usedTraitDependencies, &$exportedNodes, &$peakMemoryUsages, &$jobs, $postFileCallback, &$internalErrorsCount, &$reachedInternalErrorsCountLimit, $processIdentifier, $onFileAnalysisHandler): void {
+			$process->start(function(array $json) use ($process, &$internalErrors, &$errors, &$filteredPhpErrors, &$allPhpErrors, &$locallyIgnoredErrors, &$linesToIgnore, &$unmatchedLineIgnores, &$collectedData, &$dependencies, &$usedTraitDependencies, &$exportedNodes, &$peakMemoryUsages, &$jobs, $postFileCallback, &$internalErrorsCount, &$reachedInternalErrorsCountLimit, $processIdentifier, $onFileAnalysisHandler): void {
 				$fileErrors = [];
 				foreach ($json['errors'] as $jsonError) {
 					$fileErrors[] = Error::decode($jsonError);
@@ -274,7 +273,7 @@ final class ParallelAnalyser
 					if (count($fileExportedNodes) === 0) {
 						continue;
 					}
-					$exportedNodes[$file] = array_map(static function (array $node): RootExportedNode {
+					$exportedNodes[$file] = array_map(static function(array $node): RootExportedNode {
 						$class = $node['type'];
 
 						return $class::decode($node['data']);
@@ -302,7 +301,7 @@ final class ParallelAnalyser
 
 				$job = array_pop($jobs);
 				$process->request(['action' => 'analyse', 'files' => $job]);
-			}, $handleError, function ($exitCode, string $output) use (&$someChildEnded, &$peakMemoryUsages, &$internalErrors, &$internalErrorsCount, $processIdentifier): void {
+			}, $handleError, function($exitCode, string $output) use (&$someChildEnded, &$peakMemoryUsages, &$internalErrors, &$internalErrorsCount, $processIdentifier): void {
 				if ($someChildEnded === false) {
 					$peakMemoryUsages['main'] = memory_get_usage(true);
 				}
@@ -347,5 +346,4 @@ final class ParallelAnalyser
 
 		return $deferred->promise();
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -7,7 +7,6 @@ use PHPStan\Type\Type;
 /** @api */
 interface ParameterReflection
 {
-
 	public function getName(): string;
 
 	public function isOptional(): bool;
@@ -19,5 +18,4 @@ interface ParameterReflection
 	public function isVariadic(): bool;
 
 	public function getDefaultValue(): ?Type;
-
 }

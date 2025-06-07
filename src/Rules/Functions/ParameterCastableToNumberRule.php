@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\ParameterCastableToStringCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 
@@ -18,7 +18,6 @@ use function in_array;
  */
 final class ParameterCastableToNumberRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ParameterCastableToStringCheck $parameterCastableToStringCheck,
@@ -67,7 +66,7 @@ final class ParameterCastableToNumberRule implements Rule
 			$origArgs[0],
 			$scope,
 			$errorMessage,
-			static fn (Type $t) => $t->toNumber(),
+			static fn(Type $t) => $t->toNumber(),
 			$functionName,
 			$this->parameterCastableToStringCheck->getParameterName(
 				$origArgs[0],
@@ -80,5 +79,4 @@ final class ParameterCastableToNumberRule implements Rule
 			? [$error]
 			: [];
 	}
-
 }

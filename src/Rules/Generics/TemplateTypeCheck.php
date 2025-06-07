@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -35,6 +34,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\TypeAliasResolver;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_map;
 use function array_merge;
 use function get_class;
@@ -43,7 +43,6 @@ use function sprintf;
 #[AutowiredService]
 final class TemplateTypeCheck
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ClassNameCheck $classCheck,
@@ -56,7 +55,7 @@ final class TemplateTypeCheck
 	}
 
 	/**
-	 * @param array<string, TemplateTag> $templateTags
+	 * @param  array<string, TemplateTag> $templateTags
 	 * @return list<IdentifierRuleError>
 	 */
 	public function check(
@@ -110,7 +109,7 @@ final class TemplateTypeCheck
 				))->identifier('generics.traitBound')->build();
 			}
 
-			$classNameNodePairs = array_map(static fn (string $referencedClass): ClassNameNodePair => new ClassNameNodePair($referencedClass, $node), $boundType->getReferencedClasses());
+			$classNameNodePairs = array_map(static fn(string $referencedClass): ClassNameNodePair => new ClassNameNodePair($referencedClass, $node), $boundType->getReferencedClasses());
 			$messages = array_merge($messages, $this->classCheck->checkClassNames($scope, $classNameNodePairs, ClassNameUsageLocation::from(ClassNameUsageLocation::PHPDOC_TAG_TEMPLATE_BOUND, [
 				'templateTagName' => $templateTagName,
 			]), $this->checkClassCaseSensitivity));
@@ -118,23 +117,23 @@ final class TemplateTypeCheck
 			$boundTypeClass = get_class($boundType);
 			if (
 				$boundTypeClass !== MixedType::class
-				&& $boundTypeClass !== ConstantArrayType::class
-				&& $boundTypeClass !== ArrayType::class
-				&& $boundTypeClass !== ConstantStringType::class
-				&& $boundTypeClass !== StringType::class
-				&& $boundTypeClass !== ConstantIntegerType::class
-				&& $boundTypeClass !== IntegerType::class
-				&& $boundTypeClass !== FloatType::class
-				&& $boundTypeClass !== BooleanType::class
-				&& $boundTypeClass !== ObjectWithoutClassType::class
-				&& $boundTypeClass !== ObjectType::class
-				&& $boundTypeClass !== ObjectShapeType::class
-				&& $boundTypeClass !== GenericObjectType::class
-				&& $boundTypeClass !== KeyOfType::class
-				&& $boundTypeClass !== IterableType::class
-				&& !$boundType instanceof UnionType
-				&& !$boundType instanceof IntersectionType
-				&& !$boundType instanceof TemplateType
+					&& $boundTypeClass !== ConstantArrayType::class
+					&& $boundTypeClass !== ArrayType::class
+					&& $boundTypeClass !== ConstantStringType::class
+					&& $boundTypeClass !== StringType::class
+					&& $boundTypeClass !== ConstantIntegerType::class
+					&& $boundTypeClass !== IntegerType::class
+					&& $boundTypeClass !== FloatType::class
+					&& $boundTypeClass !== BooleanType::class
+					&& $boundTypeClass !== ObjectWithoutClassType::class
+					&& $boundTypeClass !== ObjectType::class
+					&& $boundTypeClass !== ObjectShapeType::class
+					&& $boundTypeClass !== GenericObjectType::class
+					&& $boundTypeClass !== KeyOfType::class
+					&& $boundTypeClass !== IterableType::class
+					&& ! $boundType instanceof UnionType
+					&& ! $boundType instanceof IntersectionType
+					&& ! $boundType instanceof TemplateType
 			) {
 				$messages[] = RuleErrorBuilder::message(sprintf($notSupportedBoundMessage, $templateTagName, $boundType->describe(VerbosityLevel::typeOnly())))
 					->identifier('generics.notSupportedBound')
@@ -190,7 +189,7 @@ final class TemplateTypeCheck
 				))->identifier('generics.traitBound')->build();
 			}
 
-			$classNameNodePairs = array_map(static fn (string $referencedClass): ClassNameNodePair => new ClassNameNodePair($referencedClass, $node), $defaultType->getReferencedClasses());
+			$classNameNodePairs = array_map(static fn(string $referencedClass): ClassNameNodePair => new ClassNameNodePair($referencedClass, $node), $defaultType->getReferencedClasses());
 			$messages = array_merge($messages, $this->classCheck->checkClassNames($scope, $classNameNodePairs, ClassNameUsageLocation::from(ClassNameUsageLocation::PHPDOC_TAG_TEMPLATE_DEFAULT, [
 				'templateTagName' => $templateTagName,
 			]), $this->checkClassCaseSensitivity));
@@ -219,5 +218,4 @@ final class TemplateTypeCheck
 
 		return $messages;
 	}
-
 }

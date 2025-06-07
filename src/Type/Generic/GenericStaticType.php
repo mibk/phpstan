@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -22,12 +22,11 @@ use function count;
 /** @api */
 class GenericStaticType extends StaticType
 {
-
 	private ?ObjectType $staticObjectType = null;
 
 	/**
 	 * @api
-	 * @param array<int, Type> $types
+	 * @param array<int, Type>                 $types
 	 * @param array<int, TemplateTypeVariance> $variances
 	 */
 	public function __construct(
@@ -126,7 +125,7 @@ class GenericStaticType extends StaticType
 		$newClassTypes = [];
 		$newClassVariances = [];
 		foreach ($ancestorClassReflection->getActiveTemplateTypeMap()->getTypes() as $typeName => $templateType) {
-			if (!$templateType instanceof TemplateType) {
+			if (! $templateType instanceof TemplateType) {
 				continue;
 			}
 
@@ -184,12 +183,12 @@ class GenericStaticType extends StaticType
 
 	public function traverseSimultaneously(Type $right, callable $cb): Type
 	{
-		if (!$right instanceof TypeWithClassName) {
+		if (! $right instanceof TypeWithClassName) {
 			return $this;
 		}
 
 		$ancestor = $right->getAncestorWithClassName($this->getClassName());
-		if (!$ancestor instanceof self) {
+		if (! $ancestor instanceof self) {
 			return $this;
 		}
 
@@ -264,9 +263,8 @@ class GenericStaticType extends StaticType
 		$parent = parent::toPhpDocNode();
 		return new GenericTypeNode(
 			$parent,
-			array_map(static fn (Type $type) => $type->toPhpDocNode(), $this->types),
-			array_map(static fn (TemplateTypeVariance $variance) => $variance->toPhpDocNodeVariance(), $this->variances),
+			array_map(static fn(Type $type) => $type->toPhpDocNode(), $this->types),
+			array_map(static fn(TemplateTypeVariance $variance) => $variance->toPhpDocNodeVariance(), $this->variances),
 		);
 	}
-
 }

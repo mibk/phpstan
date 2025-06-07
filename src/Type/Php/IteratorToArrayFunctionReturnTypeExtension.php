@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -14,12 +13,12 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function strtolower;
 
 #[AutowiredService]
 final class IteratorToArrayFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return strtolower($functionReflection->getName()) === 'iterator_to_array';
@@ -57,5 +56,4 @@ final class IteratorToArrayFunctionReturnTypeExtension implements DynamicFunctio
 			$traversableType->getIterableValueType(),
 		);
 	}
-
 }

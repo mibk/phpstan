@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Constant;
 
-use PhpParser\Node\ArrayItem;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Array_;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Node\Expr\TypeExpr;
 use PHPStan\ShouldNotHappenException;
@@ -16,6 +13,9 @@ use PHPStan\Type\GeneralizePrecision;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\ArrayItem;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Array_;
 use function array_splice;
 use function array_values;
 use function count;
@@ -23,7 +23,6 @@ use function count;
 #[AutowiredService]
 final class OversizedArrayBuilder
 {
-
 	/**
 	 * @param callable(Expr): Type $getTypeCallback
 	 */
@@ -68,7 +67,7 @@ final class OversizedArrayBuilder
 			}
 			if ($item->key !== null) {
 				$itemKeyType = $getTypeCallback($item->key);
-				if (!$itemKeyType instanceof ConstantIntegerType) {
+				if (! $itemKeyType instanceof ConstantIntegerType) {
 					$isList = false;
 				} elseif ($itemKeyType->getValue() !== $nextAutoIndex) {
 					$isList = false;
@@ -99,5 +98,4 @@ final class OversizedArrayBuilder
 
 		return TypeCombinator::intersect($arrayType, new NonEmptyArrayType(), new OversizedArrayType());
 	}
-
 }

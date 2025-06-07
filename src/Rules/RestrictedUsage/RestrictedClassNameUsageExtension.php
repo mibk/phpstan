@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
@@ -21,16 +21,15 @@ use PHPStan\Rules\ClassNameUsageLocation;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.restrictedClassNameUsageExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.restrictedClassNameUsageExtension
  * ```
  *
  * @api
  */
 interface RestrictedClassNameUsageExtension
 {
-
 	public const CLASS_NAME_EXTENSION_TAG = 'phpstan.restrictedClassNameUsageExtension';
 
 	public function isRestrictedClassNameUsage(
@@ -38,5 +37,4 @@ interface RestrictedClassNameUsageExtension
 		Scope $scope,
 		ClassNameUsageLocation $location,
 	): ?RestrictedUsage;
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -16,7 +16,6 @@ use PHPStan\Type\Type;
 
 final class EnumCasesMethodReflection implements ExtendedMethodReflection
 {
-
 	public function __construct(private ClassReflection $declaringClass, private Type $returnType)
 	{
 	}
@@ -160,5 +159,4 @@ final class EnumCasesMethodReflection implements ExtendedMethodReflection
 	{
 		return [];
 	}
-
 }

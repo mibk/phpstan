@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -10,6 +9,7 @@ use PHPStan\Parser\LastConditionVisitor;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -18,7 +18,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class ConstantLooseComparisonRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $treatPhpDocTypesAsCertain,
@@ -37,7 +36,7 @@ final class ConstantLooseComparisonRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node instanceof Node\Expr\BinaryOp\Equal && !$node instanceof Node\Expr\BinaryOp\NotEqual) {
+		if (! $node instanceof Node\Expr\BinaryOp\Equal && ! $node instanceof Node\Expr\BinaryOp\NotEqual) {
 			return [];
 		}
 
@@ -46,7 +45,7 @@ final class ConstantLooseComparisonRule implements Rule
 			return [];
 		}
 
-		$addTip = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
+		$addTip = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
 			if (!$this->treatPhpDocTypesAsCertain) {
 				return $ruleErrorBuilder;
 			}
@@ -92,5 +91,4 @@ final class ConstantLooseComparisonRule implements Rule
 
 		return [$errorBuilder->build()];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser\ResultCache;
 
@@ -6,7 +6,6 @@ use PHPStan\Analyser\AnalyserResult;
 
 final class ResultCacheProcessResult
 {
-
 	public function __construct(private AnalyserResult $analyserResult, private bool $saved)
 	{
 	}
@@ -20,5 +19,4 @@ final class ResultCacheProcessResult
 	{
 		return $this->saved;
 	}
-
 }

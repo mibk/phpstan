@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -22,12 +20,13 @@ use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Variable;
 use function count;
 
 #[AutowiredService]
 final class ArrayCombineFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -51,7 +50,7 @@ final class ArrayCombineFunctionReturnTypeExtension implements DynamicFunctionRe
 
 		if (
 			$keysParamType instanceof ConstantArrayType
-			&& $valuesParamType instanceof ConstantArrayType
+				&& $valuesParamType instanceof ConstantArrayType
 		) {
 			$keyTypes = $keysParamType->getValueTypes();
 			$valueTypes = $valuesParamType->getValueTypes();
@@ -121,13 +120,13 @@ final class ArrayCombineFunctionReturnTypeExtension implements DynamicFunctionRe
 		$sanitizedTypes = [];
 
 		foreach ($types as $type) {
-			if ($type->isInteger()->no() && ! $type->toString() instanceof ErrorType) {
+			if ($type->isInteger()->no() && !$type->toString() instanceof ErrorType) {
 				$type = $type->toString();
 			}
 
 			if (
-				!$type instanceof ConstantIntegerType
-				&& !$type instanceof ConstantStringType
+				! $type instanceof ConstantIntegerType
+					&& ! $type instanceof ConstantStringType
 			) {
 				return null;
 			}
@@ -137,5 +136,4 @@ final class ArrayCombineFunctionReturnTypeExtension implements DynamicFunctionRe
 
 		return $sanitizedTypes;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Dummy;
 
@@ -15,7 +15,6 @@ use stdClass;
 
 final class DummyMethodReflection implements ExtendedMethodReflection
 {
-
 	public function __construct(private string $name)
 	{
 	}
@@ -148,5 +147,4 @@ final class DummyMethodReflection implements ExtendedMethodReflection
 	{
 		return [];
 	}
-
 }

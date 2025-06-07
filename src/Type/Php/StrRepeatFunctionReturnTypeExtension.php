@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use Nette\Utils\Strings;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -21,6 +20,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function str_repeat;
 use function strlen;
@@ -28,7 +28,6 @@ use function strlen;
 #[AutowiredService]
 final class StrRepeatFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'str_repeat';
@@ -58,9 +57,9 @@ final class StrRepeatFunctionReturnTypeExtension implements DynamicFunctionRetur
 		$inputType = $scope->getType($args[0]->value);
 		if (
 			$inputType instanceof ConstantStringType
-			&& $multiplierType instanceof ConstantIntegerType
-			// don't generate type too big to avoid hitting memory limit
-			&& strlen($inputType->getValue()) * $multiplierType->getValue() < 100
+				&& $multiplierType instanceof ConstantIntegerType
+				// don't generate type too big to avoid hitting memory limit
+				&& strlen($inputType->getValue()) * $multiplierType->getValue() < 100
 		) {
 			return new ConstantStringType(str_repeat($inputType->getValue(), $multiplierType->getValue()));
 		}
@@ -81,7 +80,7 @@ final class StrRepeatFunctionReturnTypeExtension implements DynamicFunctionRetur
 
 			if (
 				$inputType->isNumericString()->yes()
-				&& IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($multiplierType)->yes()
+					&& IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($multiplierType)->yes()
 			) {
 				$onlyNumbers = true;
 				foreach ($inputType->getConstantStrings() as $constantString) {
@@ -111,5 +110,4 @@ final class StrRepeatFunctionReturnTypeExtension implements DynamicFunctionRetur
 		}
 		return new StringType();
 	}
-
 }

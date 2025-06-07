@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -10,7 +10,6 @@ use PHPStan\Reflection\ReflectionProvider\ReflectionProviderProvider;
 #[AutowiredService]
 final class ConstantResolverFactory
 {
-
 	public function __construct(
 		private ReflectionProviderProvider $reflectionProviderProvider,
 		private Container $container,
@@ -29,5 +28,4 @@ final class ConstantResolverFactory
 			$composerFactory,
 		);
 	}
-
 }

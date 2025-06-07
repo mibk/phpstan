@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
@@ -13,9 +13,9 @@ use PHPStan\Reflection\ExtendedPropertyReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.properties.readWriteExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.properties.readWriteExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/always-read-written-properties
@@ -24,11 +24,9 @@ use PHPStan\Reflection\ExtendedPropertyReflection;
  */
 interface ReadWritePropertiesExtension
 {
-
 	public function isAlwaysRead(ExtendedPropertyReflection $property, string $propertyName): bool;
 
 	public function isAlwaysWritten(ExtendedPropertyReflection $property, string $propertyName): bool;
 
 	public function isInitialized(ExtendedPropertyReflection $property, string $propertyName): bool;
-
 }

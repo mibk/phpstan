@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -7,9 +7,8 @@ use function implode;
 
 final class InvalidExcludePathsException extends Exception
 {
-
 	/**
-	 * @param string[] $errors
+	 * @param string[]                                                     $errors
 	 * @param array{analyse?: list<string>, analyseAndScan?: list<string>} $suggestOptional
 	 */
 	public function __construct(private array $errors, private array $suggestOptional)
@@ -32,5 +31,4 @@ final class InvalidExcludePathsException extends Exception
 	{
 		return $this->suggestOptional;
 	}
-
 }

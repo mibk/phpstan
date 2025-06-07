@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 /** @api */
 final class TemplateObjectShapeType extends ObjectShapeType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<ObjectShapeType> */
 	use TemplateTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
@@ -39,5 +38,4 @@ final class TemplateObjectShapeType extends ObjectShapeType implements TemplateT
 	{
 		return false;
 	}
-
 }

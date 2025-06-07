@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +12,7 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class OffsetAccessAssignmentRule implements Rule
 {
-
 	public function __construct(private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -46,7 +45,7 @@ final class OffsetAccessAssignmentRule implements Rule
 			$scope,
 			NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $node->var),
 			'',
-			static function (Type $varType) use ($potentialDimType): bool {
+			static function(Type $varType) use ($potentialDimType): bool {
 				$arrayDimType = $varType->setOffsetValueType($potentialDimType, new MixedType());
 				return !($arrayDimType instanceof ErrorType);
 			},
@@ -64,7 +63,7 @@ final class OffsetAccessAssignmentRule implements Rule
 				$scope,
 				$node->dim,
 				'',
-				static function (Type $dimType) use ($varType): bool {
+				static function(Type $dimType) use ($varType): bool {
 					$arrayDimType = $varType->setOffsetValueType($dimType, new MixedType());
 					return !($arrayDimType instanceof ErrorType);
 				},
@@ -96,5 +95,4 @@ final class OffsetAccessAssignmentRule implements Rule
 			))->identifier('offsetAssign.dimType')->build(),
 		];
 	}
-
 }

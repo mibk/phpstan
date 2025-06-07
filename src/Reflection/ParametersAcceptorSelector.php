@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
 use Closure;
-use PhpParser\Node;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\Scope;
@@ -40,6 +39,10 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\UnionType;
+use PhpParser\Node;
+use const ARRAY_FILTER_USE_BOTH;
+use const ARRAY_FILTER_USE_KEY;
+use const CURLOPT_SSL_VERIFYHOST;
 use function array_key_exists;
 use function array_key_last;
 use function array_map;
@@ -51,19 +54,15 @@ use function count;
 use function defined;
 use function is_string;
 use function sprintf;
-use const ARRAY_FILTER_USE_BOTH;
-use const ARRAY_FILTER_USE_KEY;
-use const CURLOPT_SSL_VERIFYHOST;
 
 /**
  * @api
  */
 final class ParametersAcceptorSelector
 {
-
 	/**
-	 * @param Node\Arg[] $args
-	 * @param ParametersAcceptor[] $parametersAcceptors
+	 * @param Node\Arg[]                $args
+	 * @param ParametersAcceptor[]      $parametersAcceptors
 	 * @param ParametersAcceptor[]|null $namedArgumentsVariants
 	 */
 	public static function selectFromArgs(
@@ -77,7 +76,7 @@ final class ParametersAcceptorSelector
 		$unpack = false;
 		if (
 			count($args) > 0
-			&& count($parametersAcceptors) > 0
+				&& count($parametersAcceptors) > 0
 		) {
 			$arrayMapArgs = $args[0]->value->getAttribute(ArrayMapArgVisitor::ATTRIBUTE_NAME);
 			if ($arrayMapArgs !== null) {
@@ -269,8 +268,8 @@ final class ParametersAcceptorSelector
 				$closureBindToVar = $args[0]->getAttribute(ClosureBindToVarVisitor::ATTRIBUTE_NAME);
 				if (
 					$closureBindToVar !== null
-					&& $closureBindToVar instanceof Node\Expr\Variable
-					&& is_string($closureBindToVar->name)
+						&& $closureBindToVar instanceof Node\Expr\Variable
+						&& is_string($closureBindToVar->name)
 				) {
 					$varType = $scope->getType($closureBindToVar);
 					if ((new ObjectType(Closure::class))->isSuperTypeOf($varType)->yes()) {
@@ -313,8 +312,8 @@ final class ParametersAcceptorSelector
 
 				if (
 					$args[0]->getAttribute(ClosureBindArgVisitor::ATTRIBUTE_NAME) !== null
-					&& $args[0]->value instanceof Node\Expr\Variable
-					&& is_string($args[0]->value->name)
+						&& $args[0]->value instanceof Node\Expr\Variable
+						&& is_string($args[0]->value->name)
 				) {
 					$closureVarName = $args[0]->value->name;
 					$inFunction = $scope->getFunction();
@@ -423,16 +422,16 @@ final class ParametersAcceptorSelector
 		foreach ($acceptor->getParameters() as $parameter) {
 			if (
 				$parameter instanceof ExtendedParameterReflection
-				&& $parameter->getOutType() !== null
-				&& self::hasTemplateOrLateResolvableType($parameter->getOutType())
+					&& $parameter->getOutType() !== null
+					&& self::hasTemplateOrLateResolvableType($parameter->getOutType())
 			) {
 				return true;
 			}
 
 			if (
 				$parameter instanceof ExtendedParameterReflection
-				&& $parameter->getClosureThisType() !== null
-				&& self::hasTemplateOrLateResolvableType($parameter->getClosureThisType())
+					&& $parameter->getClosureThisType() !== null
+					&& self::hasTemplateOrLateResolvableType($parameter->getClosureThisType())
 			) {
 				return true;
 			}
@@ -450,7 +449,7 @@ final class ParametersAcceptorSelector
 	private static function hasTemplateOrLateResolvableType(Type $type): bool
 	{
 		$has = false;
-		TypeTraverser::map($type, static function (Type $type, callable $traverse) use (&$has): Type {
+		TypeTraverser::map($type, static function(Type $type, callable $traverse) use (&$has): Type {
 			if ($type instanceof TemplateType || $type instanceof LateResolvableType) {
 				$has = true;
 				return $type;
@@ -464,7 +463,7 @@ final class ParametersAcceptorSelector
 
 	/**
 	 * @param array<int|string, Type> $types
-	 * @param ParametersAcceptor[] $parametersAcceptors
+	 * @param ParametersAcceptor[]    $parametersAcceptors
 	 */
 	public static function selectFromTypes(
 		array $types,
@@ -507,7 +506,7 @@ final class ParametersAcceptorSelector
 
 			if (
 				!$parametersAcceptor->isVariadic()
-				&& $typesCount > $functionParametersMaxCount
+					&& $typesCount > $functionParametersMaxCount
 			) {
 				continue;
 			}
@@ -761,7 +760,7 @@ final class ParametersAcceptorSelector
 			return new ExtendedCallableFunctionVariant(
 				$acceptor->getTemplateTypeMap(),
 				$acceptor->getResolvedTemplateTypeMap(),
-				array_map(static fn (ParameterReflection $parameter): ExtendedParameterReflection => self::wrapParameter($parameter), $acceptor->getParameters()),
+				array_map(static fn(ParameterReflection $parameter): ExtendedParameterReflection => self::wrapParameter($parameter), $acceptor->getParameters()),
 				$acceptor->isVariadic(),
 				$acceptor->getReturnType(),
 				$acceptor->getReturnType(),
@@ -779,7 +778,7 @@ final class ParametersAcceptorSelector
 		return new ExtendedFunctionVariant(
 			$acceptor->getTemplateTypeMap(),
 			$acceptor->getResolvedTemplateTypeMap(),
-			array_map(static fn (ParameterReflection $parameter): ExtendedParameterReflection => self::wrapParameter($parameter), $acceptor->getParameters()),
+			array_map(static fn(ParameterReflection $parameter): ExtendedParameterReflection => self::wrapParameter($parameter), $acceptor->getParameters()),
 			$acceptor->isVariadic(),
 			$acceptor->getReturnType(),
 			$acceptor->getReturnType(),
@@ -1097,5 +1096,4 @@ final class ParametersAcceptorSelector
 		// unknown constant
 		return null;
 	}
-
 }

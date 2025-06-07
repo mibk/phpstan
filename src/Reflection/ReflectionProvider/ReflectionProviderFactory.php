@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\ReflectionProvider;
 
@@ -9,7 +9,6 @@ use PHPStan\Reflection\ReflectionProvider;
 #[AutowiredService(name: 'reflectionProviderFactory')]
 final class ReflectionProviderFactory
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '@betterReflectionProvider')]
 		private ReflectionProvider $staticReflectionProvider,
@@ -21,5 +20,4 @@ final class ReflectionProviderFactory
 	{
 		return new MemoizingReflectionProvider($this->staticReflectionProvider);
 	}
-
 }

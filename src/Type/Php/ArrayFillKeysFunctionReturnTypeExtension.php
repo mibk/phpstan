@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -11,12 +10,12 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 
 #[AutowiredService]
 final class ArrayFillKeysFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -39,5 +38,4 @@ final class ArrayFillKeysFunctionReturnTypeExtension implements DynamicFunctionR
 
 		return $keysType->fillKeysArray($scope->getType($functionCall->getArgs()[1]->value));
 	}
-
 }

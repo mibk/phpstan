@@ -1,24 +1,23 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\VarLikeIdentifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\VarLikeIdentifier;
 use function array_map;
 use function count;
 
 #[AutowiredService]
 final class PropertyReflectionFinder
 {
-
 	/**
-	 * @param Node\Expr\PropertyFetch|Node\Expr\StaticPropertyFetch $propertyFetch
+	 * @param  Node\Expr\PropertyFetch|Node\Expr\StaticPropertyFetch $propertyFetch
 	 * @return FoundPropertyReflection[]
 	 */
 	public function findPropertyReflectionsFromNode($propertyFetch, Scope $scope): array
@@ -27,7 +26,7 @@ final class PropertyReflectionFinder
 			if ($propertyFetch->name instanceof Node\Identifier) {
 				$names = [$propertyFetch->name->name];
 			} else {
-				$names = array_map(static fn (ConstantStringType $name): string => $name->getValue(), $scope->getType($propertyFetch->name)->getConstantStrings());
+				$names = array_map(static fn(ConstantStringType $name): string => $name->getValue(), $scope->getType($propertyFetch->name)->getConstantStrings());
 			}
 
 			$reflections = [];
@@ -60,7 +59,7 @@ final class PropertyReflectionFinder
 		if ($propertyFetch->name instanceof VarLikeIdentifier) {
 			$names = [$propertyFetch->name->name];
 		} else {
-			$names = array_map(static fn (ConstantStringType $name): string => $name->getValue(), $scope->getType($propertyFetch->name)->getConstantStrings());
+			$names = array_map(static fn(ConstantStringType $name): string => $name->getValue(), $scope->getType($propertyFetch->name)->getConstantStrings());
 		}
 
 		$reflections = [];
@@ -103,7 +102,7 @@ final class PropertyReflectionFinder
 			return null;
 		}
 
-		if (!$propertyFetch->name instanceof Node\Identifier) {
+		if (! $propertyFetch->name instanceof Node\Identifier) {
 			return null;
 		}
 
@@ -132,5 +131,4 @@ final class PropertyReflectionFinder
 			$originalProperty->getWritableType(),
 		);
 	}
-
 }

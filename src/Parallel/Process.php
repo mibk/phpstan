@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parallel;
 
@@ -17,7 +17,6 @@ use function tmpfile;
 
 final class Process
 {
-
 	public \React\ChildProcess\Process $process;
 
 	private ?WritableStreamInterface $in = null;
@@ -28,7 +27,7 @@ final class Process
 	/** @var resource */
 	private $stdErr;
 
-	/** @var callable(mixed[] $json) : void */
+	/** @var callable(mixed[] $json): void */
 	private $onData;
 
 	/** @var callable(Throwable $exception): void */
@@ -45,9 +44,9 @@ final class Process
 	}
 
 	/**
-	 * @param callable(mixed[] $json) : void $onData
-	 * @param callable(Throwable $exception): void $onError
-	 * @param callable(?int $exitCode, string $output) : void $onExit
+	 * @param callable(mixed[] $json): void                  $onData
+	 * @param callable(Throwable $exception): void           $onError
+	 * @param callable(?int $exitCode, string $output): void $onExit
 	 */
 	public function start(callable $onData, callable $onError, callable $onExit): void
 	{
@@ -68,7 +67,7 @@ final class Process
 		$this->process->start($this->loop);
 		$this->onData = $onData;
 		$this->onError = $onError;
-		$this->process->on('exit', function ($exitCode) use ($onExit): void {
+		$this->process->on('exit', function($exitCode) use ($onExit): void {
 			$this->cancelTimer();
 
 			$output = '';
@@ -109,7 +108,7 @@ final class Process
 			throw new ShouldNotHappenException();
 		}
 		$this->in->write($data);
-		$this->timer = $this->loop->addTimer($this->timeoutSeconds, function (): void {
+		$this->timer = $this->loop->addTimer($this->timeoutSeconds, function(): void {
 			$onError = $this->onError;
 			$onError(new ProcessTimedOutException(sprintf('Child process timed out after %.1f seconds. Try making it longer with parallel.processTimeout setting.', $this->timeoutSeconds)));
 		});
@@ -135,7 +134,7 @@ final class Process
 
 	public function bindConnection(ReadableStreamInterface $out, WritableStreamInterface $in): void
 	{
-		$out->on('data', function (array $json): void {
+		$out->on('data', function(array $json): void {
 			$this->cancelTimer();
 			if ($json['action'] !== 'result') {
 				return;
@@ -145,14 +144,13 @@ final class Process
 			$onData($json['result']);
 		});
 		$this->in = $in;
-		$out->on('error', function (Throwable $error): void {
+		$out->on('error', function(Throwable $error): void {
 			$onError = $this->onError;
 			$onError($error);
 		});
-		$in->on('error', function (Throwable $error): void {
+		$in->on('error', function(Throwable $error): void {
 			$onError = $this->onError;
 			$onError($error);
 		});
 	}
-
 }

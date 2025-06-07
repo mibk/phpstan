@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\PHPStan;
 
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClass;
 use PHPStan\Php\PhpVersion;
@@ -10,10 +9,10 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\MethodCall;
 
 final class NativeReflectionEnumReturnDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-
 	/**
 	 * @param class-string $className
 	 */
@@ -39,5 +38,4 @@ final class NativeReflectionEnumReturnDynamicReturnTypeExtension implements Dyna
 
 		return new ObjectType(ReflectionClass::class);
 	}
-
 }

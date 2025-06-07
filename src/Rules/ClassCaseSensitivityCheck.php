@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
@@ -11,7 +11,6 @@ use function strtolower;
 #[AutowiredService]
 final class ClassCaseSensitivityCheck
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		#[AutowiredParameter]
@@ -21,7 +20,7 @@ final class ClassCaseSensitivityCheck
 	}
 
 	/**
-	 * @param ClassNameNodePair[] $pairs
+	 * @param  ClassNameNodePair[] $pairs
 	 * @return list<IdentifierRuleError>
 	 */
 	public function checkClassNames(array $pairs): array
@@ -58,5 +57,4 @@ final class ClassCaseSensitivityCheck
 
 		return $errors;
 	}
-
 }

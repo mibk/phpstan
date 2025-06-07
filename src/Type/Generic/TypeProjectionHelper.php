@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -8,7 +8,6 @@ use function sprintf;
 
 final class TypeProjectionHelper
 {
-
 	public static function describe(
 		Type $type,
 		?TemplateTypeVariance $variance,
@@ -27,5 +26,4 @@ final class TypeProjectionHelper
 
 		return sprintf('%s %s', $variance->describe(), $describedType);
 	}
-
 }

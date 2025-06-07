@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -14,7 +14,6 @@ use function trait_exists;
 
 final class RewriteClassAliasSourceLocator implements SourceLocator
 {
-
 	public function __construct(private SourceLocator $originalSourceLocator)
 	{
 	}
@@ -27,8 +26,8 @@ final class RewriteClassAliasSourceLocator implements SourceLocator
 
 		if (
 			class_exists($identifier->getName(), false)
-			|| interface_exists($identifier->getName(), false)
-			|| trait_exists($identifier->getName(), false)
+				|| interface_exists($identifier->getName(), false)
+				|| trait_exists($identifier->getName(), false)
 		) {
 			$classReflection = new CoreReflectionClass($identifier->getName());
 
@@ -42,5 +41,4 @@ final class RewriteClassAliasSourceLocator implements SourceLocator
 	{
 		return $this->originalSourceLocator->locateIdentifiersByType($reflector, $identifierType);
 	}
-
 }

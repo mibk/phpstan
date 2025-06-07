@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
@@ -13,7 +13,6 @@ use PHPStan\Rules\TipRuleError;
  */
 final class RuleError121 implements RuleError, TipRuleError, IdentifierRuleError, MetadataRuleError, NonIgnorableRuleError
 {
-
 	public string $message;
 
 	public string $tip;
@@ -45,5 +44,4 @@ final class RuleError121 implements RuleError, TipRuleError, IdentifierRuleError
 	{
 		return $this->metadata;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -16,7 +16,6 @@ use function sprintf;
  */
 final class TrivialParametersAcceptor implements ExtendedParametersAcceptor, CallableParametersAcceptor
 {
-
 	/** @api */
 	public function __construct(private string $callableName = 'callable')
 	{
@@ -97,5 +96,4 @@ final class TrivialParametersAcceptor implements ExtendedParametersAcceptor, Cal
 	{
 		return TrinaryLogic::createYes();
 	}
-
 }

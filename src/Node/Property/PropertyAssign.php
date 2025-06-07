@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Property;
 
@@ -10,7 +10,6 @@ use PHPStan\Node\PropertyAssignNode;
  */
 final class PropertyAssign
 {
-
 	public function __construct(
 		private PropertyAssignNode $assign,
 		private Scope $scope,
@@ -27,5 +26,4 @@ final class PropertyAssign
 	{
 		return $this->scope;
 	}
-
 }

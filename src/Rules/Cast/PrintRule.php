@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Cast;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
@@ -11,6 +10,7 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class PrintRule implements Rule
 {
-
 	public function __construct(private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -35,7 +34,7 @@ final class PrintRule implements Rule
 			$scope,
 			$node->expr,
 			'',
-			static fn (Type $type): bool => !$type->toString() instanceof ErrorType,
+			static fn(Type $type): bool => !$type->toString() instanceof ErrorType,
 		);
 
 		if (!$typeResult->getType() instanceof ErrorType
@@ -49,5 +48,4 @@ final class PrintRule implements Rule
 
 		return [];
 	}
-
 }

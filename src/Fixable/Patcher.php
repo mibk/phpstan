@@ -1,31 +1,30 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Fixable;
 
 use Nette\Utils\Strings;
-use PhpMerge\internal\Hunk;
-use PhpMerge\internal\Line;
-use PhpMerge\MergeConflict;
-use PhpMerge\PhpMerge;
 use PHPStan\Analyser\FixedErrorDiff;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\File\FileReader;
+use PhpMerge\MergeConflict;
+use PhpMerge\PhpMerge;
+use PhpMerge\internal\Hunk;
+use PhpMerge\internal\Line;
 use ReflectionClass;
 use SebastianBergmann\Diff\Differ;
 use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
+use const PREG_SPLIT_DELIM_CAPTURE;
+use const PREG_SPLIT_NO_EMPTY;
 use function array_map;
 use function count;
 use function implode;
 use function sha1;
 use function str_starts_with;
 use function substr;
-use const PREG_SPLIT_DELIM_CAPTURE;
-use const PREG_SPLIT_NO_EMPTY;
 
 #[AutowiredService]
 final class Patcher
 {
-
 	private Differ $differ;
 
 	public function __construct()
@@ -34,7 +33,7 @@ final class Patcher
 	}
 
 	/**
-	 * @param FixedErrorDiff[] $diffs
+	 * @param  FixedErrorDiff[] $diffs
 	 * @throws FileChangedException
 	 * @throws MergeConflictException
 	 */
@@ -56,7 +55,7 @@ final class Patcher
 		}
 
 		$baseLines = Line::createArray(array_map(
-			static fn ($l) => [$l, Differ::OLD],
+			static fn($l) => [$l, Differ::OLD],
 			self::splitStringByLines($fileContents),
 		));
 
@@ -65,7 +64,7 @@ final class Patcher
 		$refMergeMethod->setAccessible(true);
 
 		$result = Line::createArray(array_map(
-			static fn ($l) => [$l, Differ::OLD],
+			static fn($l) => [$l, Differ::OLD],
 			$refMergeMethod->invokeArgs(null, [
 				$baseLines,
 				$diffHunks[0],
@@ -78,7 +77,7 @@ final class Patcher
 			$conflicts = [];
 			$merged = $refMergeMethod->invokeArgs(null, [
 				$baseLines,
-				Hunk::createArray(Line::createArray($this->differ->diffToArray($fileContents, implode('', array_map(static fn ($l) => $l->getContent(), $result))))),
+				Hunk::createArray(Line::createArray($this->differ->diffToArray($fileContents, implode('', array_map(static fn($l) => $l->getContent(), $result))))),
 				$diffHunks[$i],
 				&$conflicts,
 			]);
@@ -87,13 +86,12 @@ final class Patcher
 			}
 
 			$result = Line::createArray(array_map(
-				static fn ($l) => [$l, Differ::OLD],
+				static fn($l) => [$l, Differ::OLD],
 				$merged,
 			));
-
 		}
 
-		return implode('', array_map(static fn ($l) => $l->getContent(), $result));
+		return implode('', array_map(static fn($l) => $l->getContent(), $result));
 	}
 
 	/**
@@ -114,7 +112,7 @@ final class Patcher
 			$matches = Strings::match($line, '/^@@ -(\d+),?(\d*) \+(\d+),?(\d*) @@/');
 			if ($matches !== null) {
 				// Parse hunk header
-				$origStart = (int) $matches[1] - 1; // 0-based
+				$origStart = (int)$matches[1] - 1; // 0-based
 				$diffPos++;
 
 				// Emit kept lines before hunk
@@ -166,5 +164,4 @@ final class Patcher
 	{
 		return Strings::split($input, '/(.*\R)/', PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Arrays;
 
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -16,13 +15,13 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Expr;
 use function count;
 use function sprintf;
 
 #[AutowiredService]
 final class NonexistentOffsetInArrayDimFetchCheck
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 		#[AutowiredParameter]
@@ -49,7 +48,7 @@ final class NonexistentOffsetInArrayDimFetchCheck
 			$scope,
 			NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $var),
 			$unknownClassPattern,
-			static fn (Type $type): bool => $type->hasOffsetValueType($dimType)->yes(),
+			static fn(Type $type): bool => $type->hasOffsetValueType($dimType)->yes(),
 		);
 		$type = $typeResult->getType();
 		if ($type instanceof ErrorType) {
@@ -79,17 +78,17 @@ final class NonexistentOffsetInArrayDimFetchCheck
 			foreach ($flattenedTypes as $innerType) {
 				if (
 					$this->reportPossiblyNonexistentGeneralArrayOffset
-					&& $innerType->isArray()->yes()
-					&& !$innerType->isConstantArray()->yes()
-					&& !$innerType->hasOffsetValueType($dimType)->yes()
+						&& $innerType->isArray()->yes()
+						&& !$innerType->isConstantArray()->yes()
+						&& !$innerType->hasOffsetValueType($dimType)->yes()
 				) {
 					$report = true;
 					break;
 				}
 				if (
 					$this->reportPossiblyNonexistentConstantArrayOffset
-					&& $innerType->isConstantArray()->yes()
-					&& !$innerType->hasOffsetValueType($dimType)->yes()
+						&& $innerType->isConstantArray()->yes()
+						&& !$innerType->hasOffsetValueType($dimType)->yes()
 				) {
 					$report = true;
 					break;
@@ -120,5 +119,4 @@ final class NonexistentOffsetInArrayDimFetchCheck
 
 		return [];
 	}
-
 }

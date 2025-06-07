@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function sprintf;
 use function strtolower;
 
@@ -19,7 +19,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class CallToNonExistentFunctionRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		#[AutowiredParameter]
@@ -66,7 +65,7 @@ final class CallToNonExistentFunctionRule implements Rule
 			$calledFunctionName = $this->reflectionProvider->resolveFunctionName($node->name, $scope);
 			if (
 				strtolower($function->getName()) === strtolower($calledFunctionName)
-				&& $function->getName() !== $calledFunctionName
+					&& $function->getName() !== $calledFunctionName
 			) {
 				return [
 					RuleErrorBuilder::message(sprintf(
@@ -80,5 +79,4 @@ final class CallToNonExistentFunctionRule implements Rule
 
 		return [];
 	}
-
 }

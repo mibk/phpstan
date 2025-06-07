@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Mixin;
 
@@ -13,7 +13,6 @@ use function count;
 
 final class MixinMethodsClassReflectionExtension implements MethodsClassReflectionExtension
 {
-
 	/** @var array<string, array<string, true>> */
 	private array $inProcess = [];
 
@@ -66,7 +65,7 @@ final class MixinMethodsClassReflectionExtension implements MethodsClassReflecti
 			$static = $method->isStatic();
 			if (
 				!$static
-				&& $classReflection->hasNativeMethod('__callStatic')
+					&& $classReflection->hasNativeMethod('__callStatic')
 			) {
 				$static = true;
 			}
@@ -95,5 +94,4 @@ final class MixinMethodsClassReflectionExtension implements MethodsClassReflecti
 
 		return null;
 	}
-
 }

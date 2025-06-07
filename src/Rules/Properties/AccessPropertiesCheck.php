@@ -1,13 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -23,6 +17,12 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\StaticType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use function array_map;
 use function array_merge;
 use function count;
@@ -31,7 +31,6 @@ use function sprintf;
 #[AutowiredService]
 final class AccessPropertiesCheck
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -52,7 +51,7 @@ final class AccessPropertiesCheck
 		if ($node->name instanceof Identifier) {
 			$names = [$node->name->name];
 		} else {
-			$names = array_map(static fn (ConstantStringType $type): string => $type->getValue(), $scope->getType($node->name)->getConstantStrings());
+			$names = array_map(static fn(ConstantStringType $type): string => $type->getValue(), $scope->getType($node->name)->getConstantStrings());
 		}
 
 		$errors = [];
@@ -72,7 +71,7 @@ final class AccessPropertiesCheck
 			$scope,
 			NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $node->var),
 			sprintf('Access to property $%s on an unknown class %%s.', SprintfHelper::escapeFormatString($name)),
-			static fn (Type $type): bool => $type->canAccessProperties()->yes() && $type->hasProperty($name)->yes(),
+			static fn(Type $type): bool => $type->canAccessProperties()->yes() && $type->hasProperty($name)->yes(),
 		);
 		$type = $typeResult->getType();
 		if ($type instanceof ErrorType) {
@@ -118,7 +117,7 @@ final class AccessPropertiesCheck
 					$classReflection = $this->reflectionProvider->getClass($className);
 					if (
 						$classReflection->hasNativeMethod('__get')
-						|| $classReflection->hasNativeMethod('__set')
+							|| $classReflection->hasNativeMethod('__set')
 					) {
 						return [];
 					}
@@ -199,8 +198,8 @@ final class AccessPropertiesCheck
 
 		if (
 			!$this->phpVersion->supportsAsymmetricVisibility()
-			|| !$write
-			|| (!$propertyReflection->isPrivateSet() && !$propertyReflection->isProtectedSet())
+				|| !$write
+				|| (!$propertyReflection->isPrivateSet() && !$propertyReflection->isProtectedSet())
 		) {
 			return [
 				RuleErrorBuilder::message(sprintf(
@@ -226,5 +225,4 @@ final class AccessPropertiesCheck
 	{
 		return $scope->isUndefinedExpressionAllowed($node) && !$this->checkDynamicProperties;
 	}
-
 }

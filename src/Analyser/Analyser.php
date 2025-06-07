@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -20,7 +20,6 @@ use function memory_get_peak_usage;
 #[AutowiredService]
 final class Analyser
 {
-
 	public function __construct(
 		private FileAnalyser $fileAnalyser,
 		private RuleRegistry $ruleRegistry,
@@ -110,7 +109,7 @@ final class Analyser
 				$errors[] = (new Error($t->getMessage(), $file, canBeIgnored: $t))
 					->withIdentifier('phpstan.internal')
 					->withMetadata([
-						InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($t),
+						InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($t),
 						InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $t->getTraceAsString(),
 					]);
 				if ($internalErrorsCount >= $this->internalErrorsCountLimit) {
@@ -142,5 +141,4 @@ final class Analyser
 			memory_get_peak_usage(true),
 		);
 	}
-
 }

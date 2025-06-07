@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -8,7 +8,6 @@ use function strtolower;
 
 final class DynamicReturnTypeExtensionRegistry
 {
-
 	/** @var DynamicMethodReturnTypeExtension[][]|null */
 	private ?array $dynamicMethodReturnTypeExtensionsByClass = null;
 
@@ -16,9 +15,9 @@ final class DynamicReturnTypeExtensionRegistry
 	private ?array $dynamicStaticMethodReturnTypeExtensionsByClass = null;
 
 	/**
-	 * @param DynamicMethodReturnTypeExtension[] $dynamicMethodReturnTypeExtensions
+	 * @param DynamicMethodReturnTypeExtension[]       $dynamicMethodReturnTypeExtensions
 	 * @param DynamicStaticMethodReturnTypeExtension[] $dynamicStaticMethodReturnTypeExtensions
-	 * @param DynamicFunctionReturnTypeExtension[] $dynamicFunctionReturnTypeExtensions
+	 * @param DynamicFunctionReturnTypeExtension[]     $dynamicFunctionReturnTypeExtensions
 	 */
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
@@ -62,7 +61,7 @@ final class DynamicReturnTypeExtensionRegistry
 	}
 
 	/**
-	 * @param DynamicMethodReturnTypeExtension[][]|DynamicStaticMethodReturnTypeExtension[][] $extensions
+	 * @param  DynamicMethodReturnTypeExtension[][]|DynamicStaticMethodReturnTypeExtension[][] $extensions
 	 * @return mixed[]
 	 */
 	private function getDynamicExtensionsForType(array $extensions, string $className): array
@@ -92,5 +91,4 @@ final class DynamicReturnTypeExtensionRegistry
 	{
 		return $this->dynamicFunctionReturnTypeExtensions;
 	}
-
 }

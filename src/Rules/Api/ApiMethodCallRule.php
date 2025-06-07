@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 use function str_contains;
@@ -18,7 +18,6 @@ use function str_contains;
 #[RegisteredRule(level: 0)]
 final class ApiMethodCallRule implements Rule
 {
-
 	public function __construct(private ApiRuleHelper $apiRuleHelper)
 	{
 	}
@@ -30,7 +29,7 @@ final class ApiMethodCallRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Identifier) {
+		if (! $node->name instanceof Node\Identifier) {
 			return [];
 		}
 
@@ -80,5 +79,4 @@ final class ApiMethodCallRule implements Rule
 
 		return str_contains($methodDocComment, '@api');
 	}
-
 }

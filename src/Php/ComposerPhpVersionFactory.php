@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Php;
 
@@ -16,7 +16,6 @@ use function sprintf;
 #[AutowiredService]
 final class ComposerPhpVersionFactory
 {
-
 	private ?PhpVersion $minVersion = null;
 
 	private ?PhpVersion $maxVersion = null;
@@ -121,5 +120,4 @@ final class ComposerPhpVersionFactory
 
 		return new PhpVersion($versionId);
 	}
-
 }

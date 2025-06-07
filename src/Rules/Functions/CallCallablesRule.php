@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -19,6 +18,7 @@ use PHPStan\Type\ClosureType;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_merge;
 use function count;
 use function sprintf;
@@ -30,7 +30,6 @@ use function ucfirst;
 #[RegisteredRule(level: 2)]
 final class CallCallablesRule implements Rule
 {
-
 	public function __construct(
 		private FunctionCallParametersCheck $check,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -50,7 +49,7 @@ final class CallCallablesRule implements Rule
 		Scope $scope,
 	): array
 	{
-		if (!$node->name instanceof Node\Expr) {
+		if (! $node->name instanceof Node\Expr) {
 			return [];
 		}
 
@@ -58,7 +57,7 @@ final class CallCallablesRule implements Rule
 			$scope,
 			NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $node->name),
 			'Invoking callable on an unknown class %s.',
-			static fn (Type $type): bool => $type->isCallable()->yes(),
+			static fn(Type $type): bool => $type->isCallable()->yes(),
 		);
 		$type = $typeResult->getType();
 		if ($type instanceof ErrorType) {
@@ -91,7 +90,7 @@ final class CallCallablesRule implements Rule
 
 		if (
 			count($parametersAcceptors) === 1
-			&& $parametersAcceptors[0] instanceof InaccessibleMethod
+				&& $parametersAcceptors[0] instanceof InaccessibleMethod
 		) {
 			$method = $parametersAcceptors[0]->getMethod();
 			$messages[] = RuleErrorBuilder::message(sprintf(
@@ -142,5 +141,4 @@ final class CallCallablesRule implements Rule
 			),
 		);
 	}
-
 }

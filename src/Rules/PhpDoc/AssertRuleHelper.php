@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -25,6 +23,8 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
 use function array_key_exists;
 use function array_merge;
 use function sprintf;
@@ -33,7 +33,6 @@ use function substr;
 #[AutowiredService]
 final class AssertRuleHelper
 {
-
 	public function __construct(
 		private InitializerExprTypeResolver $initializerExprTypeResolver,
 		private ReflectionProvider $reflectionProvider,
@@ -98,8 +97,8 @@ final class AssertRuleHelper
 			$assertedType = $assert->getType();
 
 			$tagName = [
-				AssertTag::NULL => '@phpstan-assert',
-				AssertTag::IF_TRUE => '@phpstan-assert-if-true',
+				AssertTag::NULL     => '@phpstan-assert',
+				AssertTag::IF_TRUE  => '@phpstan-assert-if-true',
 				AssertTag::IF_FALSE => '@phpstan-assert-if-false',
 			][$assert->getIf()];
 
@@ -160,7 +159,7 @@ final class AssertRuleHelper
 					$this->classCheck->checkClassNames($scope, [
 						new ClassNameNodePair($class, $node),
 					], ClassNameUsageLocation::from(ClassNameUsageLocation::PHPDOC_TAG_ASSERT, [
-						'phpDocTagName' => $tagName,
+						'phpDocTagName'      => $tagName,
 						'assertedExprString' => $assertedExprString,
 					]), $this->checkClassCaseSensitivity),
 				);
@@ -216,5 +215,4 @@ final class AssertRuleHelper
 		}
 		return $errors;
 	}
-
 }

@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Expr\StaticPropertyFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\PropertyAssignNode;
@@ -15,6 +12,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\StaticPropertyFetch;
 use function array_merge;
 use function is_string;
 use function sprintf;
@@ -25,7 +25,6 @@ use function sprintf;
 #[RegisteredRule(level: 3)]
 final class TypesAssignedToPropertiesRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 		private PropertyReflectionFinder $propertyReflectionFinder,
@@ -72,13 +71,13 @@ final class TypesAssignedToPropertiesRule implements Rule
 		$inFunction = $scope->getFunction();
 		if (
 			$fetch instanceof PropertyFetch
-			&& $fetch->var instanceof Node\Expr\Variable
-			&& is_string($fetch->var->name)
-			&& $fetch->var->name === 'this'
-			&& $fetch->name instanceof Node\Identifier
-			&& $inFunction instanceof PhpMethodFromParserNodeReflection
-			&& $inFunction->isPropertyHook()
-			&& $inFunction->getHookedPropertyName() === $fetch->name->toString()
+				&& $fetch->var instanceof Node\Expr\Variable
+				&& is_string($fetch->var->name)
+				&& $fetch->var->name === 'this'
+				&& $fetch->name instanceof Node\Identifier
+				&& $inFunction instanceof PhpMethodFromParserNodeReflection
+				&& $inFunction->isPropertyHook()
+				&& $inFunction->getHookedPropertyName() === $fetch->name->toString()
 		) {
 			$propertyType = $propertyReflection->getReadableType();
 		} else {
@@ -116,5 +115,4 @@ final class TypesAssignedToPropertiesRule implements Rule
 
 		return sprintf('Static property %s::$%s', $property->getDeclaringClass()->getDisplayName(), $propertyName);
 	}
-
 }

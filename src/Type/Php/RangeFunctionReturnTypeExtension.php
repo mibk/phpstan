@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -23,6 +22,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
 use ValueError;
 use function count;
 use function is_array;
@@ -31,7 +31,6 @@ use function range;
 #[AutowiredService]
 final class RangeFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	private const RANGE_LENGTH_THRESHOLD = 50;
 
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
@@ -53,19 +52,19 @@ final class RangeFunctionReturnTypeExtension implements DynamicFunctionReturnTyp
 
 		$startConstants = $startType->getConstantScalarTypes();
 		foreach ($startConstants as $startConstant) {
-			if (!$startConstant instanceof ConstantIntegerType && !$startConstant instanceof ConstantFloatType && !$startConstant instanceof ConstantStringType) {
+			if (! $startConstant instanceof ConstantIntegerType && ! $startConstant instanceof ConstantFloatType && ! $startConstant instanceof ConstantStringType) {
 				continue;
 			}
 
 			$endConstants = $endType->getConstantScalarTypes();
 			foreach ($endConstants as $endConstant) {
-				if (!$endConstant instanceof ConstantIntegerType && !$endConstant instanceof ConstantFloatType && !$endConstant instanceof ConstantStringType) {
+				if (! $endConstant instanceof ConstantIntegerType && ! $endConstant instanceof ConstantFloatType && ! $endConstant instanceof ConstantStringType) {
 					continue;
 				}
 
 				$stepConstants = $stepType->getConstantScalarTypes();
 				foreach ($stepConstants as $stepConstant) {
-					if (!$stepConstant instanceof ConstantIntegerType && !$stepConstant instanceof ConstantFloatType) {
+					if (! $stepConstant instanceof ConstantIntegerType && ! $stepConstant instanceof ConstantFloatType) {
 						continue;
 					}
 
@@ -83,8 +82,8 @@ final class RangeFunctionReturnTypeExtension implements DynamicFunctionReturnTyp
 					if (count($rangeValues) > self::RANGE_LENGTH_THRESHOLD) {
 						if (
 							$startConstant instanceof ConstantIntegerType
-							&& $endConstant instanceof ConstantIntegerType
-							&& $stepConstant instanceof ConstantIntegerType
+								&& $endConstant instanceof ConstantIntegerType
+								&& $stepConstant instanceof ConstantIntegerType
 						) {
 							if ($startConstant->getValue() > $endConstant->getValue()) {
 								$tmp = $startConstant;
@@ -170,5 +169,4 @@ final class RangeFunctionReturnTypeExtension implements DynamicFunctionReturnTyp
 			new BenevolentUnionType([new IntegerType(), new FloatType(), new StringType()]),
 		), new AccessoryArrayListType());
 	}
-
 }

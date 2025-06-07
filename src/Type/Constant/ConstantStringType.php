@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Constant;
 
 use Nette\Utils\RegexpException;
 use Nette\Utils\Strings;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\OutOfClassScope;
 use PHPStan\Php\PhpVersion;
 use PHPStan\PhpDocParser\Ast\ConstExpr\ConstExprStringNode;
@@ -44,6 +43,7 @@ use PHPStan\Type\Traits\ConstantScalarTypeTrait;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Name;
 use function addcslashes;
 use function in_array;
 use function is_float;
@@ -59,7 +59,6 @@ use function substr_count;
 /** @api */
 class ConstantStringType extends StringType implements ConstantScalarType
 {
-
 	private const DESCRIBE_LIMIT = 20;
 
 	use ConstantScalarTypeTrait;
@@ -113,8 +112,8 @@ class ConstantStringType extends StringType implements ConstantScalarType
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			static fn (): string => 'string',
-			function (): string {
+			static fn(): string => 'string',
+			function(): string {
 				$value = $this->value;
 
 				if (!$this->isClassString) {
@@ -127,7 +126,7 @@ class ConstantStringType extends StringType implements ConstantScalarType
 
 				return self::export($value);
 			},
-			fn (): string => self::export($this->value),
+			fn(): string => self::export($this->value),
 		);
 	}
 
@@ -215,7 +214,7 @@ class ConstantStringType extends StringType implements ConstantScalarType
 				$method = $classRef->getMethod($matches[2], new OutOfClassScope());
 				if (
 					!$phpVersion->supportsCallableInstanceMethods()
-					&& !$method->isStatic()
+						&& !$method->isStatic()
 				) {
 					return TrinaryLogic::createNo();
 				}
@@ -404,7 +403,7 @@ class ConstantStringType extends StringType implements ConstantScalarType
 		}
 		if (
 			$offsetType instanceof ConstantIntegerType
-			&& $valueStringType instanceof ConstantStringType
+				&& $valueStringType instanceof ConstantStringType
 		) {
 			$value = $this->value;
 			$offsetValue = $offsetType->getValue();
@@ -492,7 +491,7 @@ class ConstantStringType extends StringType implements ConstantScalarType
 			$subtractedTypes[] = new StringType();
 		}
 
-		if (!(bool) $this->value) {
+		if (!(bool)$this->value) {
 			$subtractedTypes[] = new ConstantBooleanType(false);
 		}
 
@@ -505,7 +504,7 @@ class ConstantStringType extends StringType implements ConstantScalarType
 			IntegerRangeType::createAllGreaterThan((float) $this->value),
 		];
 
-		if (!(bool) $this->value) {
+		if (!(bool)$this->value) {
 			$subtractedTypes[] = new ConstantBooleanType(true);
 		}
 
@@ -567,5 +566,4 @@ class ConstantStringType extends StringType implements ConstantScalarType
 
 		return new ConstTypeNode(new ConstExprStringNode($this->value, ConstExprStringNode::SINGLE_QUOTED));
 	}
-
 }

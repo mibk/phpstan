@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\TypeAlias;
  */
 final class TypeAliasTag
 {
-
 	public function __construct(
 		private string $aliasName,
 		private TypeNode $typeNode,
@@ -32,5 +31,4 @@ final class TypeAliasTag
 			$this->nameScope,
 		);
 	}
-
 }

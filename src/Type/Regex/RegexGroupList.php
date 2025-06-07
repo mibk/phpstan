@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Regex;
 
@@ -15,7 +15,6 @@ use function count;
  */
 final class RegexGroupList implements Countable, IteratorAggregate
 {
-
 	/**
 	 * @param array<int, RegexCapturingGroup> $groups
 	 */
@@ -162,5 +161,4 @@ final class RegexGroupList implements Countable, IteratorAggregate
 	{
 		return new ArrayIterator($this->groups);
 	}
-
 }

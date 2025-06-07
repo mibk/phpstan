@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Internal;
 
@@ -7,9 +7,8 @@ use function count;
 
 final class ArrayHelper
 {
-
 	/**
-	 * @param mixed[] $array
+	 * @param mixed[]                $array
 	 * @param non-empty-list<string> $path
 	 */
 	public static function unsetKeyAtPath(array &$array, array $path): void
@@ -18,10 +17,8 @@ final class ArrayHelper
 
 		if (count($tail) === 0) {
 			unset($array[$head]);
-
 		} elseif (isset($array[$head])) {
 			self::unsetKeyAtPath($array[$head], $tail);
 		}
 	}
-
 }

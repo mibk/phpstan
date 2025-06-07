@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Fixable;
 
-use PhpParser\Node;
-use PhpParser\NodeVisitorAbstract;
 use PHPStan\Node\VirtualNode;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
+use PhpParser\NodeVisitorAbstract;
 
 final class ReplacingNodeVisitor extends NodeVisitorAbstract
 {
-
 	private bool $found = false;
 
 	/**
@@ -41,5 +40,4 @@ final class ReplacingNodeVisitor extends NodeVisitorAbstract
 	{
 		return $this->found;
 	}
-
 }

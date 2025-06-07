@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node;
 use PHPStan\Reflection\ClassReflection;
+use PhpParser\Node;
 
 /**
  * @api
  */
 final class InTraitNode extends Node\Stmt implements VirtualNode
 {
-
 	public function __construct(private Node\Stmt\Trait_ $originalNode, private ClassReflection $traitReflection, private ClassReflection $implementingClassReflection)
 	{
 		parent::__construct($originalNode->getAttributes());
@@ -43,5 +42,4 @@ final class InTraitNode extends Node\Stmt implements VirtualNode
 	{
 		return [];
 	}
-
 }

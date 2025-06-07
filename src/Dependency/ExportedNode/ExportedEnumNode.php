@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -12,10 +12,9 @@ use function count;
 
 final class ExportedEnumNode implements RootExportedNode, JsonSerializable
 {
-
 	/**
-	 * @param string[] $implements
-	 * @param ExportedNode[] $statements
+	 * @param string[]                $implements
+	 * @param ExportedNode[]          $statements
 	 * @param ExportedAttributeNode[] $attributes
 	 */
 	public function __construct(
@@ -31,7 +30,7 @@ final class ExportedEnumNode implements RootExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -98,9 +97,9 @@ final class ExportedEnumNode implements RootExportedNode, JsonSerializable
 		return [
 			'type' => self::class,
 			'data' => [
-				'name' => $this->name,
+				'name'       => $this->name,
 				'scalarType' => $this->scalarType,
-				'phpDoc' => $this->phpDoc,
+				'phpDoc'     => $this->phpDoc,
 				'implements' => $this->implements,
 				'statements' => $this->statements,
 				'attributes' => $this->attributes,
@@ -118,12 +117,12 @@ final class ExportedEnumNode implements RootExportedNode, JsonSerializable
 			$data['scalarType'],
 			$data['phpDoc'] !== null ? ExportedPhpDocNode::decode($data['phpDoc']['data']) : null,
 			$data['implements'],
-			array_map(static function (array $node): ExportedNode {
+			array_map(static function(array $node): ExportedNode {
 				$nodeType = $node['type'];
 
 				return $nodeType::decode($node['data']);
 			}, $data['statements']),
-			array_map(static function (array $attributeData): ExportedAttributeNode {
+			array_map(static function(array $attributeData): ExportedAttributeNode {
 				if ($attributeData['type'] !== ExportedAttributeNode::class) {
 					throw new ShouldNotHappenException();
 				}
@@ -144,5 +143,4 @@ final class ExportedEnumNode implements RootExportedNode, JsonSerializable
 	{
 		return $this->name;
 	}
-
 }

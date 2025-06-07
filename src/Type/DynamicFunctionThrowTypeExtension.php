@@ -1,10 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
+use PhpParser\Node\Expr\FuncCall;
 
 /**
  * This is the interface dynamic throw type extensions implement for functions.
@@ -14,9 +14,9 @@ use PHPStan\Reflection\FunctionReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.dynamicFunctionThrowTypeExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.dynamicFunctionThrowTypeExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/dynamic-throw-type-extensions
@@ -25,9 +25,7 @@ use PHPStan\Reflection\FunctionReflection;
  */
 interface DynamicFunctionThrowTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool;
 
 	public function getThrowTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $funcCall, Scope $scope): ?Type;
-
 }

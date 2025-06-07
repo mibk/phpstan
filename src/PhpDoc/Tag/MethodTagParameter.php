@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\Type;
  */
 final class MethodTagParameter
 {
-
 	public function __construct(
 		private Type $type,
 		private PassedByReference $passedByReference,
@@ -45,5 +44,4 @@ final class MethodTagParameter
 	{
 		return $this->defaultValue;
 	}
-
 }

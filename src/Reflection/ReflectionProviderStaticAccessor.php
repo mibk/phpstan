@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -6,7 +6,6 @@ use PHPStan\ShouldNotHappenException;
 
 final class ReflectionProviderStaticAccessor
 {
-
 	private static ?ReflectionProvider $instance = null;
 
 	private function __construct()
@@ -25,5 +24,4 @@ final class ReflectionProviderStaticAccessor
 		}
 		return self::$instance;
 	}
-
 }

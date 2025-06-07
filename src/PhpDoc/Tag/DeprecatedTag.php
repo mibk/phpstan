@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -7,7 +7,6 @@ namespace PHPStan\PhpDoc\Tag;
  */
 final class DeprecatedTag
 {
-
 	public function __construct(private ?string $message)
 	{
 	}
@@ -16,5 +15,4 @@ final class DeprecatedTag
 	{
 		return $this->message;
 	}
-
 }

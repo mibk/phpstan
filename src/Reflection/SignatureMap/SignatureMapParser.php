@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\SignatureMap;
 
@@ -17,7 +17,6 @@ use function substr;
 #[AutowiredService]
 final class SignatureMapParser
 {
-
 	private TypeStringResolver $typeStringResolver;
 
 	public function __construct(
@@ -58,7 +57,7 @@ final class SignatureMapParser
 	}
 
 	/**
-	 * @param array<string, string> $parameterMap
+	 * @param  array<string, string> $parameterMap
 	 * @return list<ParameterSignature>
 	 */
 	private function getParameters(array $parameterMap): array
@@ -115,5 +114,4 @@ final class SignatureMapParser
 
 		return [$name, $isOptional, $passedByReference, $isVariadic];
 	}
-
 }

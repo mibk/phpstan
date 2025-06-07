@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -8,16 +8,15 @@ use PHPStan\Command\Output;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\File\RelativePathHelper;
+use const ENT_COMPAT;
+use const ENT_XML1;
 use function count;
 use function htmlspecialchars;
 use function sprintf;
-use const ENT_COMPAT;
-use const ENT_XML1;
 
 #[AutowiredService(name: 'errorFormatter.checkstyle')]
 final class CheckstyleErrorFormatter implements ErrorFormatter
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '@simpleRelativePathHelper')]
 		private RelativePathHelper $relativePathHelper,
@@ -123,5 +122,4 @@ final class CheckstyleErrorFormatter implements ErrorFormatter
 
 		return $files;
 	}
-
 }

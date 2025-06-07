@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
 use Composer\Autoload\ClassLoader;
-use PhpParser\Parser;
 use PHPStan\BetterReflection\SourceLocator\Ast\Locator;
 use PHPStan\BetterReflection\SourceLocator\SourceStubber\PhpStormStubsSourceStubber;
 use PHPStan\BetterReflection\SourceLocator\SourceStubber\ReflectionSourceStubber;
@@ -17,6 +16,7 @@ use PHPStan\Reflection\BetterReflection\SourceLocator\AutoloadSourceLocator;
 use PHPStan\Reflection\BetterReflection\SourceLocator\ComposerJsonAndInstalledJsonSourceLocatorMaker;
 use PHPStan\Reflection\BetterReflection\SourceLocator\FileNodesFetcher;
 use PHPStan\Reflection\BetterReflection\SourceLocator\PhpVersionBlacklistSourceLocator;
+use PhpParser\Parser;
 use ReflectionClass;
 use function dirname;
 use function is_file;
@@ -25,12 +25,11 @@ use function sha1;
 
 final class TestCaseSourceLocatorFactory
 {
-
 	/** @var array<string, list<SourceLocator>> */
 	private static array $composerSourceLocatorsCache = [];
 
 	/**
-	 * @param string[] $fileExtensions
+	 * @param string[]                                                                      $fileExtensions
 	 * @param array{analyse?: array<int, string>, analyseAndScan?: array<int, string>}|null $excludePaths
 	 */
 	public function __construct(
@@ -56,7 +55,7 @@ final class TestCaseSourceLocatorFactory
 			$this->fileExtensions,
 			$this->excludePaths,
 		]));
-		if ($classLoaderReflection->hasProperty('vendorDir') && ! isset(self::$composerSourceLocatorsCache[$cacheKey])) {
+		if ($classLoaderReflection->hasProperty('vendorDir') && !isset(self::$composerSourceLocatorsCache[$cacheKey])) {
 			$composerLocators = [];
 			$vendorDirProperty = $classLoaderReflection->getProperty('vendorDir');
 			$vendorDirProperty->setAccessible(true);
@@ -87,5 +86,4 @@ final class TestCaseSourceLocatorFactory
 
 		return new MemoizingSourceLocator(new AggregateSourceLocator($locators));
 	}
-
 }

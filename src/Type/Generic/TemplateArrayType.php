@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 /** @api */
 final class TemplateArrayType extends ArrayType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<ArrayType> */
 	use TemplateTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
@@ -39,5 +38,4 @@ final class TemplateArrayType extends ArrayType implements TemplateType
 	{
 		return false;
 	}
-
 }

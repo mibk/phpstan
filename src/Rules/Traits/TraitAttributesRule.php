@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Traits;
 
 use Attribute;
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InTraitNode;
 use PHPStan\Rules\AttributesCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 
 /**
@@ -18,7 +18,6 @@ use function count;
 #[RegisteredRule(level: 0)]
 final class TraitAttributesRule implements Rule
 {
-
 	public function __construct(
 		private AttributesCheck $attributesCheck,
 	)
@@ -49,5 +48,4 @@ final class TraitAttributesRule implements Rule
 
 		return $errors;
 	}
-
 }

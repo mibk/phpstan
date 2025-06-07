@@ -1,13 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node\Expr;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr;
 
 final class NullsafeOperatorHelper
 {
-
 	public static function getNullsafeShortcircuitedExprRespectingScope(Scope $scope, Expr $expr): Expr
 	{
 		if (!TypeCombinator::containsNull($scope->getType($expr))) {
@@ -79,5 +78,4 @@ final class NullsafeOperatorHelper
 
 		return $expr;
 	}
-
 }

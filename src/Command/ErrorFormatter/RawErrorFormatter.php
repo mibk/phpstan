@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -10,7 +10,6 @@ use function sprintf;
 #[AutowiredService(name: 'errorFormatter.raw')]
 final class RawErrorFormatter implements ErrorFormatter
 {
-
 	public function formatErrors(
 		AnalysisResult $analysisResult,
 		Output $output,
@@ -47,5 +46,4 @@ final class RawErrorFormatter implements ErrorFormatter
 
 		return $analysisResult->hasErrors() ? 1 : 0;
 	}
-
 }

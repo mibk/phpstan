@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
 final class IgnoredRegexValidatorResult
 {
-
 	/**
 	 * @param array<string, string> $ignoredTypes
 	 */
@@ -45,5 +44,4 @@ final class IgnoredRegexValidatorResult
 	{
 		return $this->escapedWrongSequence;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
@@ -18,21 +18,19 @@ use PHPStan\Reflection\ExtendedPropertyReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.restrictedPropertyUsageExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.restrictedPropertyUsageExtension
  * ```
  *
  * @api
  */
 interface RestrictedPropertyUsageExtension
 {
-
 	public const PROPERTY_EXTENSION_TAG = 'phpstan.restrictedPropertyUsageExtension';
 
 	public function isRestrictedPropertyUsage(
 		ExtendedPropertyReflection $propertyReflection,
 		Scope $scope,
 	): ?RestrictedUsage;
-
 }

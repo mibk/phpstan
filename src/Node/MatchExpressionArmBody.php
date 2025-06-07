@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node\Expr;
 
 /**
  * @api
  */
 final class MatchExpressionArmBody
 {
-
 	public function __construct(private Scope $scope, private Expr $body)
 	{
 	}
@@ -24,5 +23,4 @@ final class MatchExpressionArmBody
 	{
 		return $this->body;
 	}
-
 }

@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 use function str_starts_with;
 
 #[AutowiredService]
 final class DeclarePositionVisitor extends NodeVisitorAbstract
 {
-
 	private bool $isFirstStatement = true;
 
 	public const ATTRIBUTE_NAME = 'isFirstStatement';
@@ -26,8 +25,8 @@ final class DeclarePositionVisitor extends NodeVisitorAbstract
 		// ignore shebang
 		if (
 			$this->isFirstStatement
-			&& $node instanceof Node\Stmt\InlineHTML
-			&& str_starts_with($node->value, '#!')
+				&& $node instanceof Node\Stmt\InlineHTML
+				&& str_starts_with($node->value, '#!')
 		) {
 			return null;
 		}
@@ -42,5 +41,4 @@ final class DeclarePositionVisitor extends NodeVisitorAbstract
 
 		return null;
 	}
-
 }

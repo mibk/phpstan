@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -13,7 +13,6 @@ use function is_string;
 
 final class ClearResultCacheCommand extends Command
 {
-
 	private const NAME = 'clear-result-cache';
 
 	/**
@@ -62,8 +61,8 @@ final class ClearResultCacheCommand extends Command
 		if (
 			(!is_string($autoloadFile) && $autoloadFile !== null)
 			|| (!is_string($configuration) && $configuration !== null)
-			|| (!is_string($memoryLimit) && $memoryLimit !== null)
-			|| (!is_bool($allowXdebug))
+				|| (!is_string($memoryLimit) && $memoryLimit !== null)
+				|| (!is_bool($allowXdebug))
 		) {
 			throw new ShouldNotHappenException();
 		}
@@ -99,5 +98,4 @@ final class ClearResultCacheCommand extends Command
 
 		return 0;
 	}
-
 }

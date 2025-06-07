@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 /** @api */
 interface PropertyReflection extends ClassMemberReflection
 {
-
 	public function getReadableType(): Type;
 
 	public function getWritableType(): Type;
@@ -24,5 +23,4 @@ interface PropertyReflection extends ClassMemberReflection
 	public function getDeprecatedDescription(): ?string;
 
 	public function isInternal(): TrinaryLogic;
-
 }

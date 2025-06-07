@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -19,6 +18,7 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function array_keys;
 use function count;
 use function in_array;
@@ -26,7 +26,6 @@ use function in_array;
 #[AutowiredService]
 final class ArrayMergeFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'array_merge';
@@ -70,7 +69,7 @@ final class ArrayMergeFunctionDynamicReturnTypeExtension implements DynamicFunct
 
 		$allConstant = TrinaryLogic::createYes()->lazyAnd(
 			$argTypes,
-			static fn (Type $argType) => $argType->isConstantArray(),
+			static fn(Type $argType) => $argType->isConstantArray(),
 		);
 
 		if ($allConstant->yes()) {
@@ -135,5 +134,4 @@ final class ArrayMergeFunctionDynamicReturnTypeExtension implements DynamicFunct
 
 		return $arrayType;
 	}
-
 }

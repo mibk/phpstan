@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -45,7 +45,6 @@ use function substr;
  */
 final class ResolvedPhpDocBlock
 {
-
 	public const EMPTY_DOC_STRING = '/** */';
 
 	private PhpDocNode $phpDocNode;
@@ -238,7 +237,7 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<int, self> $parents
+	 * @param array<int, self>        $parents
 	 * @param array<int, PhpDocBlock> $parentPhpDocBlocks
 	 */
 	public function merge(array $parents, array $parentPhpDocBlocks): self
@@ -310,7 +309,7 @@ final class ResolvedPhpDocBlock
 			return $this;
 		}
 
-		$mapParameterCb = static function (Type $type, callable $traverse) use ($parameterNameMapping): Type {
+		$mapParameterCb = static function(Type $type, callable $traverse) use ($parameterNameMapping): Type {
 			if ($type instanceof ConditionalTypeForParameter) {
 				$parameterName = substr($type->getParameterName(), 1);
 				if (array_key_exists($parameterName, $parameterNameMapping)) {
@@ -368,7 +367,7 @@ final class ResolvedPhpDocBlock
 
 		$assertTags = $this->getAssertTags();
 		if (count($assertTags) > 0) {
-			$assertTags = array_map(static function (AssertTag $tag) use ($parameterNameMapping): AssertTag {
+			$assertTags = array_map(static function(AssertTag $tag) use ($parameterNameMapping): AssertTag {
 				$parameterName = substr($tag->getParameter()->getParameterName(), 1);
 				if (array_key_exists($parameterName, $parameterNameMapping)) {
 					$tag = $tag->withParameter($tag->getParameter()->changeParameterName('$' . $parameterNameMapping[$parameterName]));
@@ -856,9 +855,9 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string|int, VarTag> $varTags
-	 * @param array<int, self> $parents
-	 * @param array<int, PhpDocBlock> $parentPhpDocBlocks
+	 * @param  array<string|int, VarTag> $varTags
+	 * @param  array<int, self>          $parents
+	 * @param  array<int, PhpDocBlock>   $parentPhpDocBlocks
 	 * @return array<string|int, VarTag>
 	 */
 	private static function mergeVarTags(array $varTags, array $parents, array $parentPhpDocBlocks): array
@@ -893,9 +892,9 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string, ParamTag> $paramTags
-	 * @param array<int, self> $parents
-	 * @param array<int, PhpDocBlock> $parentPhpDocBlocks
+	 * @param  array<string, ParamTag> $paramTags
+	 * @param  array<int, self>        $parents
+	 * @param  array<int, PhpDocBlock> $parentPhpDocBlocks
 	 * @return array<string, ParamTag>
 	 */
 	private static function mergeParamTags(array $paramTags, array $parents, array $parentPhpDocBlocks): array
@@ -908,7 +907,7 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string, ParamTag> $paramTags
+	 * @param  array<string, ParamTag> $paramTags
 	 * @return array<string, ParamTag>
 	 */
 	private static function mergeOneParentParamTags(array $paramTags, self $parent, PhpDocBlock $phpDocBlock): array
@@ -931,8 +930,8 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<int, self> $parents
-	 * @param array<int, PhpDocBlock> $parentPhpDocBlocks
+	 * @param  array<int, self>        $parents
+	 * @param  array<int, PhpDocBlock> $parentPhpDocBlocks
 	 * @return ReturnTag|Null
 	 */
 	private static function mergeReturnTags(?ReturnTag $returnTag, ?ClassReflection $classReflection, array $parents, array $parentPhpDocBlocks): ?ReturnTag
@@ -965,7 +964,7 @@ final class ResolvedPhpDocBlock
 		if ($classReflection !== null) {
 			$parentType = TypeTraverser::map(
 				$parentType,
-				static function (Type $type, callable $traverse) use ($classReflection): Type {
+				static function(Type $type, callable $traverse) use ($classReflection): Type {
 					if ($type instanceof StaticType) {
 						return $type->changeBaseClass($classReflection);
 					}
@@ -993,9 +992,9 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<AssertTag> $assertTags
-	 * @param array<int, self> $parents
-	 * @param array<int, PhpDocBlock> $parentPhpDocBlocks
+	 * @param  array<AssertTag>        $assertTags
+	 * @param  array<int, self>        $parents
+	 * @param  array<int, PhpDocBlock> $parentPhpDocBlocks
 	 * @return array<AssertTag>
 	 */
 	private static function mergeAssertTags(array $assertTags, array $parents, array $parentPhpDocBlocks): array
@@ -1012,7 +1011,7 @@ final class ResolvedPhpDocBlock
 			$phpDocBlock = $parentPhpDocBlocks[$i];
 
 			return array_map(
-				static fn (AssertTag $assertTag) => self::resolveTemplateTypeInTag(
+				static fn(AssertTag $assertTag) => self::resolveTemplateTypeInTag(
 					$assertTag->withParameter(
 						$phpDocBlock->transformAssertTagParameterWithParameterNameMapping($assertTag->getParameter()),
 					)->toImplicit(),
@@ -1090,9 +1089,9 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string, ParamOutTag> $paramOutTags
-	 * @param array<int, self> $parents
-	 * @param array<int, PhpDocBlock> $parentPhpDocBlocks
+	 * @param  array<string, ParamOutTag> $paramOutTags
+	 * @param  array<int, self>           $parents
+	 * @param  array<int, PhpDocBlock>    $parentPhpDocBlocks
 	 * @return array<string, ParamOutTag>
 	 */
 	private static function mergeParamOutTags(array $paramOutTags, array $parents, array $parentPhpDocBlocks): array
@@ -1105,7 +1104,7 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string, ParamOutTag> $paramOutTags
+	 * @param  array<string, ParamOutTag> $paramOutTags
 	 * @return array<string, ParamOutTag>
 	 */
 	private static function mergeOneParentParamOutTags(array $paramOutTags, self $parent, PhpDocBlock $phpDocBlock): array
@@ -1128,9 +1127,9 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string, bool> $paramsImmediatelyInvokedCallable
-	 * @param array<int, self> $parents
-	 * @param array<int, PhpDocBlock> $parentPhpDocBlocks
+	 * @param  array<string, bool>     $paramsImmediatelyInvokedCallable
+	 * @param  array<int, self>        $parents
+	 * @param  array<int, PhpDocBlock> $parentPhpDocBlocks
 	 * @return array<string, bool>
 	 */
 	private static function mergeParamsImmediatelyInvokedCallable(array $paramsImmediatelyInvokedCallable, array $parents, array $parentPhpDocBlocks): array
@@ -1143,7 +1142,7 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string, bool> $paramsImmediatelyInvokedCallable
+	 * @param  array<string, bool> $paramsImmediatelyInvokedCallable
 	 * @return array<string, bool>
 	 */
 	private static function mergeOneParentParamImmediatelyInvokedCallable(array $paramsImmediatelyInvokedCallable, self $parent, PhpDocBlock $phpDocBlock): array
@@ -1162,9 +1161,9 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string, ParamClosureThisTag> $paramsClosureThisTags
-	 * @param array<int, self> $parents
-	 * @param array<int, PhpDocBlock> $parentPhpDocBlocks
+	 * @param  array<string, ParamClosureThisTag> $paramsClosureThisTags
+	 * @param  array<int, self>                   $parents
+	 * @param  array<int, PhpDocBlock>            $parentPhpDocBlocks
 	 * @return array<string, ParamClosureThisTag>
 	 */
 	private static function mergeParamClosureThisTags(array $paramsClosureThisTags, array $parents, array $parentPhpDocBlocks): array
@@ -1177,7 +1176,7 @@ final class ResolvedPhpDocBlock
 	}
 
 	/**
-	 * @param array<string, ParamClosureThisTag> $paramsClosureThisTags
+	 * @param  array<string, ParamClosureThisTag> $paramsClosureThisTags
 	 * @return array<string, ParamClosureThisTag>
 	 */
 	private static function mergeOneParentParamClosureThisTag(array $paramsClosureThisTags, self $parent, PhpDocBlock $phpDocBlock): array
@@ -1224,8 +1223,8 @@ final class ResolvedPhpDocBlock
 
 	/**
 	 * @template T of TypedTag
-	 * @param T $tag
-	 * @return T
+	 * @param    T $tag
+	 * @return   T
 	 */
 	private static function resolveTemplateTypeInTag(
 		TypedTag $tag,
@@ -1241,5 +1240,4 @@ final class ResolvedPhpDocBlock
 		);
 		return $tag->withType($type);
 	}
-
 }

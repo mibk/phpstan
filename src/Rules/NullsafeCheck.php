@@ -1,19 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node\Expr;
 use PHPStan\DependencyInjection\AutowiredService;
+use PhpParser\Node\Expr;
 
 #[AutowiredService]
 final class NullsafeCheck
 {
-
 	public function containsNullSafe(Expr $expr): bool
 	{
 		if (
 			$expr instanceof Expr\NullsafePropertyFetch
-			|| $expr instanceof Expr\NullsafeMethodCall
+				|| $expr instanceof Expr\NullsafeMethodCall
 		) {
 			return true;
 		}
@@ -56,5 +55,4 @@ final class NullsafeCheck
 
 		return false;
 	}
-
 }

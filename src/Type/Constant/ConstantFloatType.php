@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Constant;
 
@@ -22,7 +22,6 @@ use function str_contains;
 /** @api */
 class ConstantFloatType extends FloatType implements ConstantScalarType
 {
-
 	use ConstantScalarTypeTrait;
 	use ConstantScalarToBooleanTrait;
 	use ConstantNumericComparisonTypeTrait;
@@ -62,8 +61,8 @@ class ConstantFloatType extends FloatType implements ConstantScalarType
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			static fn (): string => 'float',
-			fn (): string => $this->castFloatToString($this->value),
+			static fn(): string => 'float',
+			fn(): string        => $this->castFloatToString($this->value),
 		);
 	}
 
@@ -99,5 +98,4 @@ class ConstantFloatType extends FloatType implements ConstantScalarType
 	{
 		return new ConstTypeNode(new ConstExprFloatNode($this->castFloatToString($this->value)));
 	}
-
 }

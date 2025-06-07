@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Function_;
 
 /**
  * @implements Rule<Node\Stmt\Function_>
@@ -15,7 +15,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class InnerFunctionRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Function_::class;
@@ -33,5 +32,4 @@ final class InnerFunctionRule implements Rule
 			)->identifier('function.inner')->build(),
 		];
 	}
-
 }

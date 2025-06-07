@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -10,9 +10,9 @@ namespace PHPStan\Reflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyMethodsClassReflectionExtension
- *		tags:
- *			- phpstan.broker.methodsClassReflectionExtension
+ * *		class: App\PHPStan\MyMethodsClassReflectionExtension
+ * *		tags:
+ * *			- phpstan.broker.methodsClassReflectionExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/class-reflection-extensions
@@ -21,9 +21,7 @@ namespace PHPStan\Reflection;
  */
 interface MethodsClassReflectionExtension
 {
-
 	public function hasMethod(ClassReflection $classReflection, string $methodName): bool;
 
 	public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection;
-
 }

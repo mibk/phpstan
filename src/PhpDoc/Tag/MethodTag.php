@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -9,10 +9,9 @@ use PHPStan\Type\Type;
  */
 final class MethodTag
 {
-
 	/**
 	 * @param array<string, MethodTagParameter> $parameters
-	 * @param array<string, TemplateTag> $templateTags
+	 * @param array<string, TemplateTag>        $templateTags
 	 */
 	public function __construct(
 		private Type $returnType,
@@ -48,5 +47,4 @@ final class MethodTag
 	{
 		return $this->templateTags;
 	}
-
 }

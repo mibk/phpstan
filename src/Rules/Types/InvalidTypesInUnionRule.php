@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Types;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassPropertyNode;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function array_merge;
 use function in_array;
 use function sprintf;
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class InvalidTypesInUnionRule implements Rule
 {
-
 	private const ONLY_STANDALONE_TYPES = [
 		'mixed',
 		'never',
@@ -33,7 +32,7 @@ final class InvalidTypesInUnionRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node instanceof Node\FunctionLike && !$node instanceof ClassPropertyNode) {
+		if (! $node instanceof Node\FunctionLike && ! $node instanceof ClassPropertyNode) {
 			return [];
 		}
 
@@ -52,7 +51,7 @@ final class InvalidTypesInUnionRule implements Rule
 		$errors = [];
 
 		foreach ($functionLike->getParams() as $param) {
-			if (!$param->type instanceof Node\ComplexType) {
+			if (! $param->type instanceof Node\ComplexType) {
 				continue;
 			}
 
@@ -83,13 +82,13 @@ final class InvalidTypesInUnionRule implements Rule
 	 */
 	private function processComplexType(Node\ComplexType $complexType): array
 	{
-		if (!$complexType instanceof Node\UnionType && !$complexType instanceof Node\NullableType) {
+		if (! $complexType instanceof Node\UnionType && ! $complexType instanceof Node\NullableType) {
 			return [];
 		}
 
 		if ($complexType instanceof Node\UnionType) {
 			foreach ($complexType->types as $type) {
-				if (!$type instanceof Node\Identifier) {
+				if (! $type instanceof Node\Identifier) {
 					continue;
 				}
 
@@ -123,5 +122,4 @@ final class InvalidTypesInUnionRule implements Rule
 
 		return [];
 	}
-
 }

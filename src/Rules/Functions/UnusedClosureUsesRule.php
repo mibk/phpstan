@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\UnusedFunctionParametersCheck;
+use PhpParser\Node;
 use function array_map;
 use function count;
 
@@ -16,7 +16,6 @@ use function count;
 #[RegisteredRule(level: 1)]
 final class UnusedClosureUsesRule implements Rule
 {
-
 	public function __construct(private UnusedFunctionParametersCheck $check)
 	{
 	}
@@ -34,11 +33,10 @@ final class UnusedClosureUsesRule implements Rule
 
 		return $this->check->getUnusedParameters(
 			$scope,
-			array_map(static fn (Node\ClosureUse $use): Node\Expr\Variable => $use->var, $node->uses),
+			array_map(static fn(Node\ClosureUse $use): Node\Expr\Variable => $use->var, $node->uses),
 			$node->stmts,
 			'Anonymous function has an unused use $%s.',
 			'closure.unusedUse',
 		);
 	}
-
 }

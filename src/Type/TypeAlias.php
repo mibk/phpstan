@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -9,7 +9,6 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 
 final class TypeAlias
 {
-
 	private ?Type $resolvedType = null;
 
 	public function __construct(
@@ -37,5 +36,4 @@ final class TypeAlias
 
 		return $this->resolvedType;
 	}
-
 }

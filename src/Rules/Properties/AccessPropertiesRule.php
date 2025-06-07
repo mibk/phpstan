@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\PropertyFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
+use PhpParser\Node\Expr\PropertyFetch;
 
 /**
  * @implements Rule<Node\Expr\PropertyFetch>
@@ -14,7 +14,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 0)]
 final class AccessPropertiesRule implements Rule
 {
-
 	public function __construct(private AccessPropertiesCheck $check)
 	{
 	}
@@ -28,5 +27,4 @@ final class AccessPropertiesRule implements Rule
 	{
 		return $this->check->check($node, $scope, false);
 	}
-
 }

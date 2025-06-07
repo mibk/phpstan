@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
 use DateTime;
-use PhpParser\Node;
-use PhpParser\Node\Expr\New_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
+use PhpParser\Node;
+use PhpParser\Node\Expr\New_;
 use Throwable;
 use function count;
 use function in_array;
@@ -19,7 +19,6 @@ use function strtolower;
 #[RegisteredRule(level: 5)]
 final class DateTimeInstantiationRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return New_::class;
@@ -30,14 +29,14 @@ final class DateTimeInstantiationRule implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->class instanceof Node\Name) {
+		if (! $node->class instanceof Node\Name) {
 			return [];
 		}
 
 		$lowerClassName = strtolower((string) $node->class);
 		if (
 			count($node->getArgs()) === 0
-			|| !in_array($lowerClassName, ['datetime', 'datetimeimmutable'], true)
+				|| !in_array($lowerClassName, ['datetime', 'datetimeimmutable'], true)
 		) {
 			return [];
 		}
@@ -69,5 +68,4 @@ final class DateTimeInstantiationRule implements Rule
 
 		return $errors;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -10,7 +10,6 @@ use PhpParser\Node\Identifier;
  */
 final class MethodCallableNode extends Expr implements VirtualNode
 {
-
 	public function __construct(
 		private Expr $var,
 		private Identifier|Expr $name,
@@ -50,5 +49,4 @@ final class MethodCallableNode extends Expr implements VirtualNode
 	{
 		return [];
 	}
-
 }

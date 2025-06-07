@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -9,7 +9,6 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use Nette\Utils\Json;
-use Phar;
 use PHPStan\Analyser\Ignore\IgnoredErrorHelper;
 use PHPStan\Analyser\InternalError;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -27,6 +26,7 @@ use PHPStan\Process\ProcessCrashedException;
 use PHPStan\Process\ProcessHelper;
 use PHPStan\Process\ProcessPromise;
 use PHPStan\ShouldNotHappenException;
+use Phar;
 use Psr\Http\Message\ResponseInterface;
 use React\ChildProcess\Process;
 use React\Dns\Config\Config;
@@ -44,6 +44,11 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+use const JSON_INVALID_UTF8_IGNORE;
+use const PHP_BINARY;
+use const PHP_URL_PORT;
+use const PHP_VERSION_ID;
+use function React\Async\await;
 use function array_merge;
 use function count;
 use function defined;
@@ -57,30 +62,24 @@ use function http_build_query;
 use function ini_get;
 use function is_file;
 use function parse_url;
-use function React\Async\await;
 use function sprintf;
 use function strlen;
 use function unlink;
-use const JSON_INVALID_UTF8_IGNORE;
-use const PHP_BINARY;
-use const PHP_URL_PORT;
-use const PHP_VERSION_ID;
 
 #[AutowiredService]
 final class FixerApplication
 {
-
-	/** @var PromiseInterface<string>|null  */
+	/** @var PromiseInterface<string>|null */
 	private PromiseInterface|null $processInProgress = null;
 
 	private bool $fileMonitorActive = true;
 
 	/**
-	 * @param string[] $analysedPaths
+	 * @param string[]     $analysedPaths
 	 * @param list<string> $dnsServers
-	 * @param string[] $composerAutoloaderProjectPaths
-	 * @param string[] $allConfigFiles
-	 * @param string[] $bootstrapFiles
+	 * @param string[]     $composerAutoloaderProjectPaths
+	 * @param string[]     $allConfigFiles
+	 * @param string[]     $bootstrapFiles
 	 */
 	public function __construct(
 		private FileMonitor $fileMonitor,
@@ -126,7 +125,7 @@ final class FixerApplication
 		/** @var int<0, 65535> $serverPort */
 		$serverPort = parse_url($serverAddress, PHP_URL_PORT);
 
-		$server->on('connection', function (ConnectionInterface $connection) use ($loop, $projectConfigFile, $input, $output, $mainScript, $filesCount): void {
+		$server->on('connection', function(ConnectionInterface $connection) use ($loop, $projectConfigFile, $input, $output, $mainScript, $filesCount): void {
 			// phpcs:disable SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
 			$jsonInvalidUtf8Ignore = defined('JSON_INVALID_UTF8_IGNORE') ? JSON_INVALID_UTF8_IGNORE : 0;
 			// phpcs:enable
@@ -134,14 +133,14 @@ final class FixerApplication
 			$encoder = new Encoder($connection, $jsonInvalidUtf8Ignore);
 			$encoder->write(['action' => 'initialData', 'data' => [
 				'currentWorkingDirectory' => $this->currentWorkingDirectory,
-				'analysedPaths' => $this->analysedPaths,
-				'projectConfigFile' => $projectConfigFile,
-				'filesCount' => $filesCount,
-				'phpstanVersion' => ComposerHelper::getPhpStanVersion(),
-				'editorUrl' => $this->editorUrl,
-				'ruleLevel' => $this->usedLevel,
+				'analysedPaths'           => $this->analysedPaths,
+				'projectConfigFile'       => $projectConfigFile,
+				'filesCount'              => $filesCount,
+				'phpstanVersion'          => ComposerHelper::getPhpStanVersion(),
+				'editorUrl'               => $this->editorUrl,
+				'ruleLevel'               => $this->usedLevel,
 			]]);
-			$decoder->on('data', function (array $data) use (
+			$decoder->on('data', function(array $data) use (
 				$output,
 			): void {
 				if ($data['action'] === 'webPort') {
@@ -176,7 +175,7 @@ final class FixerApplication
 				$encoder,
 			);
 
-			$this->monitorFileChanges($loop, function (FileMonitorResult $changes) use ($loop, $mainScript, $projectConfigFile, $input, $encoder, $output): void {
+			$this->monitorFileChanges($loop, function(FileMonitorResult $changes) use ($loop, $mainScript, $projectConfigFile, $input, $encoder, $output): void {
 				if ($this->processInProgress !== null) {
 					$this->processInProgress->cancel();
 					$this->processInProgress = null;
@@ -206,7 +205,7 @@ final class FixerApplication
 		}
 
 		$fixerProcess->start($loop);
-		$fixerProcess->on('exit', function ($exitCode) use ($output, $loop): void {
+		$fixerProcess->on('exit', function($exitCode) use ($output, $loop): void {
 			$loop->stop();
 			if ($exitCode === null) {
 				return;
@@ -327,7 +326,7 @@ final class FixerApplication
 			}
 			if (
 				$currentBranch === $branch
-				&& (new DateTimeImmutable('', new DateTimeZone('UTC'))) <= $currentDate->modify('+24 hours')
+					&& (new DateTimeImmutable('', new DateTimeZone('UTC'))) <= $currentDate->modify('+24 hours')
 			) {
 				return;
 			}
@@ -342,7 +341,7 @@ final class FixerApplication
 			new Connector(
 				[
 					'timeout' => 5,
-					'tls' => [
+					'tls'     => [
 						'cafile' => CaBundle::getBundledCaBundlePath(),
 					],
 					'dns' => $dnsConfig,
@@ -367,9 +366,9 @@ final class FixerApplication
 			throw new ShouldNotHappenException(sprintf('Could not open file %s for writing.', $pharPath));
 		}
 		$progressBar = new ProgressBar($output);
-		$client->requestStreaming('GET', $latestInfo['url'])->then(static function (ResponseInterface $response) use ($progressBar, $pharPathResource): void {
+		$client->requestStreaming('GET', $latestInfo['url'])->then(static function(ResponseInterface $response) use ($progressBar, $pharPathResource): void {
 			$body = $response->getBody();
-			if (!$body instanceof ReadableStreamInterface) {
+			if (! $body instanceof ReadableStreamInterface) {
 				throw new ShouldNotHappenException();
 			}
 
@@ -379,12 +378,12 @@ final class FixerApplication
 			$progressBar->start($totalSize);
 
 			$bytes = 0;
-			$body->on('data', static function ($chunk) use ($pharPathResource, $progressBar, &$bytes): void {
+			$body->on('data', static function($chunk) use ($pharPathResource, $progressBar, &$bytes): void {
 				$bytes += strlen($chunk);
 				fwrite($pharPathResource, $chunk);
 				$progressBar->setProgress($bytes);
 			});
-		}, function (Throwable $e) use ($output): void {
+		}, function(Throwable $e) use ($output): void {
 			$this->printDownloadError($output, $e);
 		});
 
@@ -416,8 +415,8 @@ final class FixerApplication
 	{
 		FileWriter::write($infoPath, Json::encode([
 			'version' => $version,
-			'branch' => $branch,
-			'date' => (new DateTimeImmutable('', new DateTimeZone('UTC')))->format(DateTime::ATOM),
+			'branch'  => $branch,
+			'date'    => (new DateTimeImmutable('', new DateTimeZone('UTC')))->format(DateTime::ATOM),
 		]));
 	}
 
@@ -426,7 +425,7 @@ final class FixerApplication
 	 */
 	private function monitorFileChanges(LoopInterface $loop, callable $hasChangesCallback): void
 	{
-		$callback = function () use (&$callback, $loop, $hasChangesCallback): void {
+		$callback = function() use (&$callback, $loop, $hasChangesCallback): void {
 			if (!$this->fileMonitorActive) {
 				$loop->addTimer(1.0, $callback);
 				return;
@@ -467,12 +466,12 @@ final class FixerApplication
 		/** @var int<0, 65535> $serverPort */
 		$serverPort = parse_url($serverAddress, PHP_URL_PORT);
 
-		$server->on('connection', static function (ConnectionInterface $connection) use ($phpstanFixerEncoder): void {
+		$server->on('connection', static function(ConnectionInterface $connection) use ($phpstanFixerEncoder): void {
 			// phpcs:disable SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
 			$jsonInvalidUtf8Ignore = defined('JSON_INVALID_UTF8_IGNORE') ? JSON_INVALID_UTF8_IGNORE : 0;
 			// phpcs:enable
 			$decoder = new Decoder($connection, true, options: $jsonInvalidUtf8Ignore, maxlength: 128 * 1024 * 1024);
-			$decoder->on('data', static function (array $data) use ($phpstanFixerEncoder): void {
+			$decoder->on('data', static function(array $data) use ($phpstanFixerEncoder): void {
 				$phpstanFixerEncoder->write($data);
 			});
 		});
@@ -489,10 +488,10 @@ final class FixerApplication
 		));
 		$this->processInProgress = $process->run();
 
-		$this->processInProgress->then(function () use ($server): void {
+		$this->processInProgress->then(function() use ($server): void {
 			$this->processInProgress = null;
 			$server->close();
-		}, function (Throwable $e) use ($server, $phpstanFixerEncoder): void {
+		}, function(Throwable $e) use ($server, $phpstanFixerEncoder): void {
 			$this->processInProgress = null;
 			$server->close();
 
@@ -596,5 +595,4 @@ final class FixerApplication
 
 		return $stubFiles;
 	}
-
 }

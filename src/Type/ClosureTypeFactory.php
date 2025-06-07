@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 use Closure;
-use PhpParser\Parser;
 use PHPStan\BetterReflection\Identifier\IdentifierType;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionParameter;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionType;
@@ -20,6 +19,7 @@ use PHPStan\Reflection\InitializerExprTypeResolver;
 use PHPStan\Reflection\ParameterReflection;
 use PHPStan\Reflection\PassedByReference;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Parser;
 use ReflectionFunction;
 use function array_map;
 use function count;
@@ -31,7 +31,6 @@ use function str_replace;
 #[AutowiredService]
 final class ClosureTypeFactory
 {
-
 	public function __construct(
 		private InitializerExprTypeResolver $initializerExprTypeResolver,
 		private ReflectionSourceStubber $reflectionSourceStubber,
@@ -68,56 +67,53 @@ final class ClosureTypeFactory
 
 		$betterReflectionFunction = $reflections[0];
 
-		$parameters = array_map(fn (BetterReflectionParameter $parameter) => new class($parameter, $this->initializerExprTypeResolver) implements ParameterReflection {
+		$parameters = array_map(fn(BetterReflectionParameter $parameter) => new class($parameter, $this->initializerExprTypeResolver) implements ParameterReflection {
+			public function __construct(private BetterReflectionParameter $reflection, private InitializerExprTypeResolver $initializerExprTypeResolver)
+			{
+			}
 
-				public function __construct(private BetterReflectionParameter $reflection, private InitializerExprTypeResolver $initializerExprTypeResolver)
-				{
+			public function getName(): string
+			{
+				return $this->reflection->getName();
+			}
+
+			public function isOptional(): bool
+			{
+				return $this->reflection->isOptional();
+			}
+
+			public function getType(): Type
+			{
+				return TypehintHelper::decideTypeFromReflection(ReflectionType::fromTypeOrNull($this->reflection->getType()), isVariadic: $this->reflection->isVariadic());
+			}
+
+			public function passedByReference(): PassedByReference
+			{
+				return $this->reflection->isPassedByReference()
+					? PassedByReference::createCreatesNewVariable()
+					: PassedByReference::createNo();
+			}
+
+			public function isVariadic(): bool
+			{
+				return $this->reflection->isVariadic();
+			}
+
+			public function getDefaultValue(): ?Type
+			{
+				if (!$this->reflection->isDefaultValueAvailable()) {
+					return null;
 				}
 
-				public function getName(): string
-				{
-					return $this->reflection->getName();
+				$defaultExpr = $this->reflection->getDefaultValueExpression();
+				if ($defaultExpr === null) {
+					return null;
 				}
 
-				public function isOptional(): bool
-				{
-					return $this->reflection->isOptional();
-				}
-
-				public function getType(): Type
-				{
-					return TypehintHelper::decideTypeFromReflection(ReflectionType::fromTypeOrNull($this->reflection->getType()), isVariadic: $this->reflection->isVariadic());
-				}
-
-				public function passedByReference(): PassedByReference
-				{
-					return $this->reflection->isPassedByReference()
-						? PassedByReference::createCreatesNewVariable()
-						: PassedByReference::createNo();
-				}
-
-				public function isVariadic(): bool
-				{
-					return $this->reflection->isVariadic();
-				}
-
-				public function getDefaultValue(): ?Type
-				{
-					if (! $this->reflection->isDefaultValueAvailable()) {
-						return null;
-					}
-
-					$defaultExpr = $this->reflection->getDefaultValueExpression();
-					if ($defaultExpr === null) {
-						return null;
-					}
-
-					return $this->initializerExprTypeResolver->getType($defaultExpr, InitializerExprContext::fromReflectionParameter(new ReflectionParameter($this->reflection)));
-				}
-
+				return $this->initializerExprTypeResolver->getType($defaultExpr, InitializerExprContext::fromReflectionParameter(new ReflectionParameter($this->reflection)));
+			}
 		}, $betterReflectionFunction->getParameters());
 
 		return new ClosureType($parameters, TypehintHelper::decideTypeFromReflection(ReflectionType::fromTypeOrNull($betterReflectionFunction->getReturnType())), $betterReflectionFunction->isVariadic());
 	}
-
 }

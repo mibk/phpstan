@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Type;
 
@@ -20,7 +20,6 @@ use function count;
 
 final class CalledOnTypeUnresolvedMethodPrototypeReflection implements UnresolvedMethodPrototypeReflection
 {
-
 	private ?ExtendedMethodReflection $transformedMethod = null;
 
 	private ?self $cachedDoNotResolveTemplateTypeMapToBounds = null;
@@ -81,7 +80,7 @@ final class CalledOnTypeUnresolvedMethodPrototypeReflection implements Unresolve
 	private function transformMethodWithStaticType(ClassReflection $declaringClass, ExtendedMethodReflection $method): ExtendedMethodReflection
 	{
 		$selfOutType = $method->getSelfOutType() !== null ? $this->transformStaticType($method->getSelfOutType()) : null;
-		$variantFn = function (ExtendedParametersAcceptor $acceptor) use ($selfOutType): ExtendedParametersAcceptor {
+		$variantFn = function(ExtendedParametersAcceptor $acceptor) use ($selfOutType): ExtendedParametersAcceptor {
 			$originalReturnType = $acceptor->getReturnType();
 			if ($originalReturnType instanceof ThisType && $selfOutType !== null) {
 				$returnType = $selfOutType;
@@ -92,7 +91,7 @@ final class CalledOnTypeUnresolvedMethodPrototypeReflection implements Unresolve
 				$acceptor->getTemplateTypeMap(),
 				$acceptor->getResolvedTemplateTypeMap(),
 				array_map(
-					fn (ExtendedParameterReflection $parameter): ExtendedParameterReflection => new ExtendedDummyParameter(
+					fn(ExtendedParameterReflection $parameter): ExtendedParameterReflection => new ExtendedDummyParameter(
 						$parameter->getName(),
 						$this->transformStaticType($parameter->getType()),
 						$parameter->isOptional(),
@@ -132,7 +131,7 @@ final class CalledOnTypeUnresolvedMethodPrototypeReflection implements Unresolve
 
 	private function transformStaticType(Type $type): Type
 	{
-		return TypeTraverser::map($type, function (Type $type, callable $traverse): Type {
+		return TypeTraverser::map($type, function(Type $type, callable $traverse): Type {
 			if ($type instanceof GenericStaticType) {
 				$calledOnTypeReflections = $this->calledOnType->getObjectClassReflections();
 				if (count($calledOnTypeReflections) === 1) {
@@ -150,5 +149,4 @@ final class CalledOnTypeUnresolvedMethodPrototypeReflection implements Unresolve
 			return $traverse($type);
 		});
 	}
-
 }

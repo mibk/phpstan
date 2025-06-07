@@ -1,10 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PhpParser\Node\Expr\StaticCall;
 
 /**
  * This is the interface dynamic return type extensions implement for static methods.
@@ -14,9 +14,9 @@ use PHPStan\Reflection\MethodReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.broker.dynamicStaticMethodReturnTypeExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.broker.dynamicStaticMethodReturnTypeExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/dynamic-return-type-extensions
@@ -25,12 +25,10 @@ use PHPStan\Reflection\MethodReflection;
  */
 interface DynamicStaticMethodReturnTypeExtension
 {
-
 	/** @return class-string */
 	public function getClass(): string;
 
 	public function isStaticMethodSupported(MethodReflection $methodReflection): bool;
 
 	public function getTypeFromStaticMethodCall(MethodReflection $methodReflection, StaticCall $methodCall, Scope $scope): ?Type;
-
 }

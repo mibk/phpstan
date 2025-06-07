@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency;
 
 interface ExportedNode
 {
-
 	public function equals(self $node): bool;
 
 	/**
@@ -16,5 +15,4 @@ interface ExportedNode
 	 * @param mixed[] $data
 	 */
 	public static function decode(array $data): self;
-
 }

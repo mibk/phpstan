@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -13,6 +11,8 @@ use PHPStan\Rules\Properties\PropertyReflectionFinder;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
 use function is_string;
 use function sprintf;
 use function str_starts_with;
@@ -23,7 +23,6 @@ use function str_starts_with;
 #[AutowiredService]
 final class IssetCheck
 {
-
 	public function __construct(
 		private PropertyDescriptor $propertyDescriptor,
 		private PropertyReflectionFinder $propertyReflectionFinder,
@@ -55,7 +54,7 @@ final class IssetCheck
 					}
 
 					$type = $this->treatPhpDocTypesAsCertain ? $scope->getType($expr) : $scope->getNativeType($expr);
-					if (!$type instanceof NeverType) {
+					if (! $type instanceof NeverType) {
 						return $this->generateError(
 							$type,
 							sprintf('Variable $%s %s always exists and', $expr->name, $operatorDescription),
@@ -120,9 +119,7 @@ final class IssetCheck
 
 			// Has offset, it is nullable
 			return null;
-
 		} elseif ($expr instanceof Node\Expr\PropertyFetch || $expr instanceof Node\Expr\StaticPropertyFetch) {
-
 			$propertyReflection = $this->propertyReflectionFinder->findPropertyReflectionFromNode($expr, $scope);
 
 			if ($propertyReflection === null) {
@@ -152,10 +149,10 @@ final class IssetCheck
 			if ($propertyReflection->hasNativeType() && !$propertyReflection->isVirtual()->yes()) {
 				if (
 					$expr instanceof Node\Expr\PropertyFetch
-					&& $expr->name instanceof Node\Identifier
-					&& $expr->var instanceof Expr\Variable
-					&& $expr->var->name === 'this'
-					&& $scope->hasExpressionType(new PropertyInitializationExpr($propertyReflection->getName()))->yes()
+						&& $expr->name instanceof Node\Identifier
+						&& $expr->var instanceof Expr\Variable
+						&& $expr->var->name === 'this'
+						&& $scope->hasExpressionType(new PropertyInitializationExpr($propertyReflection->getName()))->yes()
 				) {
 					return $this->generateError(
 						$propertyReflection->getNativeType(),
@@ -164,7 +161,8 @@ final class IssetCheck
 							$this->propertyDescriptor->describeProperty($propertyReflection, $scope, $expr),
 							$operatorDescription,
 						),
-						static function (Type $type) use ($typeMessageCallback): ?string {
+						static function(Type $type) use ($typeMessageCallback): ?string
+						{
 							$originalMessage = $typeMessageCallback($type);
 							if ($originalMessage === null) {
 								return null;
@@ -331,5 +329,4 @@ final class IssetCheck
 			sprintf('%s %s.', $message, $typeMessage),
 		)->identifier(sprintf('%s.%s', $identifier, $identifierSecondPart))->build();
 	}
-
 }

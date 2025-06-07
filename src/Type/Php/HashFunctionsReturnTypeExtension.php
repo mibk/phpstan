@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -18,6 +17,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node\Expr\FuncCall;
 use function array_map;
 use function count;
 use function hash_algos;
@@ -28,37 +28,36 @@ use function strtolower;
 #[AutowiredService]
 final class HashFunctionsReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	private const SUPPORTED_FUNCTIONS = [
 		'hash' => [
 			'cryptographic' => false,
 			'possiblyFalse' => false,
-			'binary' => 2,
+			'binary'        => 2,
 		],
 		'hash_file' => [
 			'cryptographic' => false,
 			'possiblyFalse' => true,
-			'binary' => 2,
+			'binary'        => 2,
 		],
 		'hash_hkdf' => [
 			'cryptographic' => true,
 			'possiblyFalse' => false,
-			'binary' => true,
+			'binary'        => true,
 		],
 		'hash_hmac' => [
 			'cryptographic' => true,
 			'possiblyFalse' => false,
-			'binary' => 3,
+			'binary'        => 3,
 		],
 		'hash_hmac_file' => [
 			'cryptographic' => true,
 			'possiblyFalse' => true,
-			'binary' => 3,
+			'binary'        => 3,
 		],
 		'hash_pbkdf2' => [
 			'cryptographic' => true,
 			'possiblyFalse' => false,
-			'binary' => 5,
+			'binary'        => 5,
 		],
 	];
 
@@ -134,7 +133,7 @@ final class HashFunctionsReturnTypeExtension implements DynamicFunctionReturnTyp
 		$invalidAlgorithmType = $this->phpVersion->throwsValueErrorForInternalFunctions() ? $neverType : $falseType;
 
 		$returnTypes = array_map(
-			function (ConstantStringType $type) use ($functionData, $stringReturnType, $invalidAlgorithmType) {
+			function(ConstantStringType $type) use ($functionData, $stringReturnType, $invalidAlgorithmType) {
 				$algorithm = strtolower($type->getValue());
 				if (!in_array($algorithm, $this->hashAlgorithms, true)) {
 					return $invalidAlgorithmType;
@@ -155,5 +154,4 @@ final class HashFunctionsReturnTypeExtension implements DynamicFunctionReturnTyp
 
 		return $returnType;
 	}
-
 }

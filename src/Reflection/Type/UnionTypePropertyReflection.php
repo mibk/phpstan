@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Type;
 
@@ -15,7 +15,6 @@ use function implode;
 
 final class UnionTypePropertyReflection implements ExtendedPropertyReflection
 {
-
 	/**
 	 * @param ExtendedPropertyReflection[] $properties
 	 */
@@ -35,22 +34,22 @@ final class UnionTypePropertyReflection implements ExtendedPropertyReflection
 
 	public function isStatic(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->isStatic());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->isStatic());
 	}
 
 	public function isPrivate(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->isPrivate());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->isPrivate());
 	}
 
 	public function isPublic(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->isPublic());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->isPublic());
 	}
 
 	public function isDeprecated(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn (ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isDeprecated());
+		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn(ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isDeprecated());
 	}
 
 	public function getDeprecatedDescription(): ?string
@@ -77,7 +76,7 @@ final class UnionTypePropertyReflection implements ExtendedPropertyReflection
 
 	public function isInternal(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn (ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isInternal());
+		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn(ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isInternal());
 	}
 
 	public function getDocComment(): ?string
@@ -87,47 +86,47 @@ final class UnionTypePropertyReflection implements ExtendedPropertyReflection
 
 	public function hasPhpDocType(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->hasPhpDocType());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->hasPhpDocType());
 	}
 
 	public function getPhpDocType(): Type
 	{
-		return TypeCombinator::union(...array_map(static fn (ExtendedPropertyReflection $property): Type => $property->getPhpDocType(), $this->properties));
+		return TypeCombinator::union(...array_map(static fn(ExtendedPropertyReflection $property): Type => $property->getPhpDocType(), $this->properties));
 	}
 
 	public function hasNativeType(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->hasNativeType());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->hasNativeType());
 	}
 
 	public function getNativeType(): Type
 	{
-		return TypeCombinator::union(...array_map(static fn (ExtendedPropertyReflection $property): Type => $property->getNativeType(), $this->properties));
+		return TypeCombinator::union(...array_map(static fn(ExtendedPropertyReflection $property): Type => $property->getNativeType(), $this->properties));
 	}
 
 	public function getReadableType(): Type
 	{
-		return TypeCombinator::union(...array_map(static fn (ExtendedPropertyReflection $property): Type => $property->getReadableType(), $this->properties));
+		return TypeCombinator::union(...array_map(static fn(ExtendedPropertyReflection $property): Type => $property->getReadableType(), $this->properties));
 	}
 
 	public function getWritableType(): Type
 	{
-		return TypeCombinator::union(...array_map(static fn (ExtendedPropertyReflection $property): Type => $property->getWritableType(), $this->properties));
+		return TypeCombinator::union(...array_map(static fn(ExtendedPropertyReflection $property): Type => $property->getWritableType(), $this->properties));
 	}
 
 	public function canChangeTypeAfterAssignment(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->canChangeTypeAfterAssignment());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->canChangeTypeAfterAssignment());
 	}
 
 	public function isReadable(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->isReadable());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->isReadable());
 	}
 
 	public function isWritable(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->isWritable());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->isWritable());
 	}
 
 	/**
@@ -145,27 +144,27 @@ final class UnionTypePropertyReflection implements ExtendedPropertyReflection
 
 	public function isAbstract(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn (ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isAbstract());
+		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn(ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isAbstract());
 	}
 
 	public function isFinalByKeyword(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn (ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isFinalByKeyword());
+		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn(ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isFinalByKeyword());
 	}
 
 	public function isFinal(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn (ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isFinal());
+		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn(ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isFinal());
 	}
 
 	public function isVirtual(): TrinaryLogic
 	{
-		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn (ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isVirtual());
+		return TrinaryLogic::lazyExtremeIdentity($this->properties, static fn(ExtendedPropertyReflection $propertyReflection): TrinaryLogic => $propertyReflection->isVirtual());
 	}
 
 	public function hasHook(string $hookType): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->hasHook($hookType));
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->hasHook($hookType));
 	}
 
 	public function getHook(string $hookType): ExtendedMethodReflection
@@ -192,17 +191,16 @@ final class UnionTypePropertyReflection implements ExtendedPropertyReflection
 
 	public function isProtectedSet(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->isProtectedSet());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->isProtectedSet());
 	}
 
 	public function isPrivateSet(): bool
 	{
-		return $this->computeResult(static fn (ExtendedPropertyReflection $property) => $property->isPrivateSet());
+		return $this->computeResult(static fn(ExtendedPropertyReflection $property) => $property->isPrivateSet());
 	}
 
 	public function getAttributes(): array
 	{
 		return $this->properties[0]->getAttributes();
 	}
-
 }

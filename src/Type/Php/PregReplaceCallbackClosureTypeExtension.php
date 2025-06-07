@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -13,11 +12,11 @@ use PHPStan\Type\ClosureType;
 use PHPStan\Type\FunctionParameterClosureTypeExtension;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 
 #[AutowiredService]
 final class PregReplaceCallbackClosureTypeExtension implements FunctionParameterClosureTypeExtension
 {
-
 	public function __construct(
 		private RegexArrayShapeMatcher $regexShapeMatcher,
 	)
@@ -58,5 +57,4 @@ final class PregReplaceCallbackClosureTypeExtension implements FunctionParameter
 			new StringType(),
 		);
 	}
-
 }

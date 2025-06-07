@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassNode;
@@ -11,6 +10,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use Serializable;
 use function array_key_exists;
 use function count;
@@ -24,11 +24,10 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class EnumSanityRule implements Rule
 {
-
 	private const ALLOWED_MAGIC_METHODS = [
-		'__call' => true,
+		'__call'       => true,
 		'__callstatic' => true,
-		'__invoke' => true,
+		'__invoke'     => true,
 	];
 
 	public function getNodeType(): string
@@ -115,7 +114,7 @@ final class EnumSanityRule implements Rule
 
 		if (
 			$enumNode->scalarType !== null
-			&& !in_array($enumNode->scalarType->name, ['int', 'string'], true)
+				&& !in_array($enumNode->scalarType->name, ['int', 'string'], true)
 		) {
 			$errors[] = RuleErrorBuilder::message(sprintf(
 				'Backed enum %s can have only "int" or "string" type.',
@@ -140,7 +139,7 @@ final class EnumSanityRule implements Rule
 
 		$enumCases = [];
 		foreach ($enumNode->stmts as $stmt) {
-			if (!$stmt instanceof Node\Stmt\EnumCase) {
+			if (! $stmt instanceof Node\Stmt\EnumCase) {
 				continue;
 			}
 			$caseName = $stmt->name->name;
@@ -224,5 +223,4 @@ final class EnumSanityRule implements Rule
 
 		return $errors;
 	}
-
 }

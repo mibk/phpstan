@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -19,6 +18,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node\Expr\FuncCall;
 use function array_key_exists;
 use function count;
 use function in_array;
@@ -26,23 +26,22 @@ use function in_array;
 #[AutowiredService]
 final class ReplaceFunctionsDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	private const FUNCTIONS_SUBJECT_POSITION = [
-		'preg_replace' => 2,
-		'preg_replace_callback' => 2,
+		'preg_replace'                => 2,
+		'preg_replace_callback'       => 2,
 		'preg_replace_callback_array' => 1,
-		'str_replace' => 2,
-		'str_ireplace' => 2,
-		'substr_replace' => 0,
-		'strtr' => 0,
+		'str_replace'                 => 2,
+		'str_ireplace'                => 2,
+		'substr_replace'              => 0,
+		'strtr'                       => 0,
 	];
 
 	private const FUNCTIONS_REPLACE_POSITION = [
-		'preg_replace' => 1,
-		'str_replace' => 1,
-		'str_ireplace' => 1,
+		'preg_replace'   => 1,
+		'str_replace'    => 1,
+		'str_ireplace'   => 1,
 		'substr_replace' => 1,
-		'strtr' => 2,
+		'strtr'          => 2,
 	];
 
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
@@ -131,7 +130,7 @@ final class ReplaceFunctionsDynamicReturnTypeExtension implements DynamicFunctio
 
 					if (
 						$constantArrays !== []
-						&& in_array($functionReflection->getName(), ['preg_replace', 'preg_replace_callback', 'preg_replace_callback_array'], true)
+							&& in_array($functionReflection->getName(), ['preg_replace', 'preg_replace_callback', 'preg_replace_callback_array'], true)
 					) {
 						foreach ($constantArrays as $constantArray) {
 							$generalizedArray = $constantArray->generalizeValues();
@@ -179,13 +178,13 @@ final class ReplaceFunctionsDynamicReturnTypeExtension implements DynamicFunctio
 	{
 		if (
 			in_array($functionReflection->getName(), ['preg_replace', 'preg_replace_callback', 'preg_replace_callback_array'], true)
-			&& count($functionCall->getArgs()) > 0
+				&& count($functionCall->getArgs()) > 0
 		) {
 			$subjectArgumentType = $this->getSubjectType($functionReflection, $functionCall, $scope);
 
 			if (
 				$subjectArgumentType !== null
-				&& $subjectArgumentType->isArray()->yes()
+					&& $subjectArgumentType->isArray()->yes()
 			) {
 				return false;
 			}
@@ -202,5 +201,4 @@ final class ReplaceFunctionsDynamicReturnTypeExtension implements DynamicFunctio
 
 		return TypeCombinator::containsNull($possibleTypes);
 	}
-
 }

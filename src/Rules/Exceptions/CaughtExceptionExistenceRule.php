@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Catch_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +11,8 @@ use PHPStan\Rules\ClassNameNodePair;
 use PHPStan\Rules\ClassNameUsageLocation;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Catch_;
 use Throwable;
 use function array_merge;
 use function sprintf;
@@ -23,7 +23,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class CaughtExceptionExistenceRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ClassNameCheck $classCheck,
@@ -83,5 +82,4 @@ final class CaughtExceptionExistenceRule implements Rule
 
 		return $errors;
 	}
-
 }

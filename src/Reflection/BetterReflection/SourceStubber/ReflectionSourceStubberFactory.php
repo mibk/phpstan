@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceStubber;
 
@@ -10,7 +10,6 @@ use PHPStan\Php\PhpVersion;
 #[AutowiredService]
 final class ReflectionSourceStubberFactory
 {
-
 	public function __construct(private Printer $printer, private PhpVersion $phpVersion)
 	{
 	}
@@ -19,5 +18,4 @@ final class ReflectionSourceStubberFactory
 	{
 		return new ReflectionSourceStubber($this->printer, $this->phpVersion->getVersionId());
 	}
-
 }

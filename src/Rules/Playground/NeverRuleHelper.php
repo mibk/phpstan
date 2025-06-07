@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Playground;
 
-use PhpParser\Node;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Node\ReturnStatementsNode;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 
 #[AutowiredService]
 final class NeverRuleHelper
 {
-
 	/**
 	 * @return list<Node>|false
 	 */
@@ -29,7 +28,7 @@ final class NeverRuleHelper
 		foreach ($node->getExecutionEnds() as $executionEnd) {
 			if ($executionEnd->getStatementResult()->isAlwaysTerminating()) {
 				$executionEndNode = $executionEnd->getNode();
-				if (!$executionEndNode instanceof Node\Stmt\Expression) {
+				if (! $executionEndNode instanceof Node\Stmt\Expression) {
 					$other[] = $executionEnd->getNode();
 					continue;
 				}
@@ -47,5 +46,4 @@ final class NeverRuleHelper
 
 		return $other;
 	}
-
 }

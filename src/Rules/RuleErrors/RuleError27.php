@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
@@ -12,7 +12,6 @@ use PHPStan\Rules\TipRuleError;
  */
 final class RuleError27 implements RuleError, LineRuleError, TipRuleError, IdentifierRuleError
 {
-
 	public string $message;
 
 	public int $line;
@@ -40,5 +39,4 @@ final class RuleError27 implements RuleError, LineRuleError, TipRuleError, Ident
 	{
 		return $this->identifier;
 	}
-
 }

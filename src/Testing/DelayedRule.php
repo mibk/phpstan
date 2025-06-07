@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\DirectRegistry;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 use function get_class;
 
 /**
@@ -15,7 +15,6 @@ use function get_class;
  */
 final class DelayedRule implements Rule
 {
-
 	private Registry $registry;
 
 	/** @var list<IdentifierRuleError> */
@@ -53,5 +52,4 @@ final class DelayedRule implements Rule
 
 		return [];
 	}
-
 }

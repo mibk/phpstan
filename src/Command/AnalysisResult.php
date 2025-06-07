@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -13,16 +13,15 @@ use function usort;
  */
 final class AnalysisResult
 {
-
 	/** @var list<Error> sorted by their file name, line number and message */
 	private array $fileSpecificErrors;
 
 	/**
-	 * @param list<Error> $fileSpecificErrors
-	 * @param list<string> $notFileSpecificErrors
-	 * @param list<InternalError> $internalErrors
-	 * @param list<string> $warnings
-	 * @param list<CollectedData> $collectedData
+	 * @param list<Error>           $fileSpecificErrors
+	 * @param list<string>          $notFileSpecificErrors
+	 * @param list<InternalError>   $internalErrors
+	 * @param list<string>          $warnings
+	 * @param list<CollectedData>   $collectedData
 	 * @param array<string, string> $changedProjectExtensionFilesOutsideOfAnalysedPaths
 	 */
 	public function __construct(
@@ -41,7 +40,7 @@ final class AnalysisResult
 	{
 		usort(
 			$fileSpecificErrors,
-			static fn (Error $a, Error $b): int => [
+			static fn(Error $a, Error $b): int => [
 				$a->getFile(),
 				$a->getLine(),
 				$a->getMessage(),
@@ -147,5 +146,4 @@ final class AnalysisResult
 	{
 		return $this->changedProjectExtensionFilesOutsideOfAnalysedPaths;
 	}
-
 }

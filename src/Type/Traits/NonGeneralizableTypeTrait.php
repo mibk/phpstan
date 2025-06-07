@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Traits;
 
@@ -7,10 +7,8 @@ use PHPStan\Type\Type;
 
 trait NonGeneralizableTypeTrait
 {
-
 	public function generalize(GeneralizePrecision $precision): Type
 	{
-		return $this->traverse(static fn (Type $type) => $type->generalize($precision));
+		return $this->traverse(static fn(Type $type) => $type->generalize($precision));
 	}
-
 }

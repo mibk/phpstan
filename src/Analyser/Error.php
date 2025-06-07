@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
 use Exception;
 use JsonSerializable;
 use Nette\Utils\Strings;
-use PhpParser\Node;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 use ReturnTypeWillChange;
 use Throwable;
 use function is_bool;
@@ -17,14 +17,13 @@ use function sprintf;
  */
 final class Error implements JsonSerializable
 {
-
 	public const PATTERN_IDENTIFIER = '[a-zA-Z0-9](?:[a-zA-Z0-9\\.]*[a-zA-Z0-9])?';
 
 	/**
 	 * Error constructor.
 	 *
 	 * @param class-string<Node>|null $nodeType
-	 * @param mixed[] $metadata
+	 * @param mixed[]                 $metadata
 	 */
 	public function __construct(
 		private string $message,
@@ -274,17 +273,17 @@ final class Error implements JsonSerializable
 		}
 
 		return [
-			'message' => $this->message,
-			'file' => $this->file,
-			'line' => $this->line,
-			'canBeIgnored' => is_bool($this->canBeIgnored) ? $this->canBeIgnored : 'exception',
-			'filePath' => $this->filePath,
-			'traitFilePath' => $this->traitFilePath,
-			'tip' => $this->tip,
-			'nodeLine' => $this->nodeLine,
-			'nodeType' => $this->nodeType,
-			'identifier' => $this->identifier,
-			'metadata' => $this->metadata,
+			'message'            => $this->message,
+			'file'               => $this->file,
+			'line'               => $this->line,
+			'canBeIgnored'       => is_bool($this->canBeIgnored) ? $this->canBeIgnored : 'exception',
+			'filePath'           => $this->filePath,
+			'traitFilePath'      => $this->traitFilePath,
+			'tip'                => $this->tip,
+			'nodeLine'           => $this->nodeLine,
+			'nodeType'           => $this->nodeType,
+			'identifier'         => $this->identifier,
+			'metadata'           => $this->metadata,
 			'fixedErrorDiffHash' => $fixedErrorDiffHash,
 			'fixedErrorDiffDiff' => $fixedErrorDiffDiff,
 		];
@@ -341,5 +340,4 @@ final class Error implements JsonSerializable
 	{
 		return Strings::match($identifier, '~^' . self::PATTERN_IDENTIFIER . '$~') !== null;
 	}
-
 }

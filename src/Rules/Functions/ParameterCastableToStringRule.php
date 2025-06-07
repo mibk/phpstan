@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -12,6 +10,8 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\ParameterCastableToStringCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function array_key_exists;
 use function in_array;
 
@@ -21,7 +21,6 @@ use function in_array;
 #[RegisteredRule(level: 5)]
 final class ParameterCastableToStringRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ParameterCastableToStringCheck $parameterCastableToStringCheck,
@@ -57,7 +56,7 @@ final class ParameterCastableToStringRule implements Rule
 
 		if (
 			!in_array($functionName, $checkAllArgsFunctions, true)
-			&& !in_array($functionName, $checkFirstArgFunctions, true)
+				&& !in_array($functionName, $checkFirstArgFunctions, true)
 		) {
 			return [];
 		}
@@ -98,7 +97,7 @@ final class ParameterCastableToStringRule implements Rule
 				$arg,
 				$scope,
 				$errorMessage,
-				static fn (Type $t) => $t->toString(),
+				static fn(Type $t) => $t->toString(),
 				$functionName,
 				$this->parameterCastableToStringCheck->getParameterName(
 					$arg,
@@ -116,5 +115,4 @@ final class ParameterCastableToStringRule implements Rule
 
 		return $errors;
 	}
-
 }

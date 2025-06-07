@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
-use PhpParser\Node\Name;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\ReflectionProvider;
@@ -16,6 +14,8 @@ use PHPStan\Type\Generic\TemplateTypeVariance;
 use PHPStan\Type\Generic\TypeProjectionHelper;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Name;
 use function array_fill_keys;
 use function array_filter;
 use function array_keys;
@@ -29,7 +29,6 @@ use function sprintf;
 #[AutowiredService]
 final class GenericAncestorsCheck
 {
-
 	/**
 	 * @param string[] $skipCheckGenericClasses
 	 */
@@ -47,8 +46,8 @@ final class GenericAncestorsCheck
 	}
 
 	/**
-	 * @param array<Node\Name> $nameNodes
-	 * @param array<Type> $ancestorTypes
+	 * @param  array<Node\Name> $nameNodes
+	 * @param  array<Type>      $ancestorTypes
 	 * @return list<IdentifierRuleError>
 	 */
 	public function check(
@@ -68,13 +67,13 @@ final class GenericAncestorsCheck
 		string $invalidVarianceMessage,
 	): array
 	{
-		$names = array_fill_keys(array_map(static fn (Name $nameNode): string => $nameNode->toString(), $nameNodes), true);
+		$names = array_fill_keys(array_map(static fn(Name $nameNode): string => $nameNode->toString(), $nameNodes), true);
 
 		$unusedNames = $names;
 
 		$messages = [];
 		foreach ($ancestorTypes as $ancestorType) {
-			if (!$ancestorType instanceof GenericObjectType) {
+			if (! $ancestorType instanceof GenericObjectType) {
 				$messages[] = RuleErrorBuilder::message(sprintf($incompatibleTypeMessage, $ancestorType->describe(VerbosityLevel::typeOnly())))
 					->identifier('generics.notCompatible')
 					->build();
@@ -175,7 +174,7 @@ final class GenericAncestorsCheck
 
 				$templateTypes = $unusedNameClassReflection->getTemplateTypeMap()->getTypes();
 				$templateTypesCount = count($templateTypes);
-				$requiredTemplateTypesCount = count(array_filter($templateTypes, static fn (Type $type) => $type instanceof TemplateType && $type->getDefault() === null));
+				$requiredTemplateTypesCount = count(array_filter($templateTypes, static fn(Type $type) => $type instanceof TemplateType && $type->getDefault() === null));
 				if ($requiredTemplateTypesCount === 0) {
 					continue;
 				}
@@ -197,5 +196,4 @@ final class GenericAncestorsCheck
 
 		return $messages;
 	}
-
 }

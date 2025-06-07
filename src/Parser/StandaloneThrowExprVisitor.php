@@ -1,24 +1,23 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 
 #[AutowiredService]
 final class StandaloneThrowExprVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'standaloneThrowExpr';
 
 	public function enterNode(Node $node): ?Node\Stmt\Expression
 	{
-		if (!$node instanceof Node\Stmt\Expression) {
+		if (! $node instanceof Node\Stmt\Expression) {
 			return null;
 		}
 
-		if (!$node->expr instanceof Node\Expr\Throw_) {
+		if (! $node->expr instanceof Node\Expr\Throw_) {
 			return null;
 		}
 
@@ -26,5 +25,4 @@ final class StandaloneThrowExprVisitor extends NodeVisitorAbstract
 
 		return $node;
 	}
-
 }

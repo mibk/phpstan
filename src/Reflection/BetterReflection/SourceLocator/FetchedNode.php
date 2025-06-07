@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
-use PhpParser\Node;
 use PHPStan\BetterReflection\SourceLocator\Located\LocatedSource;
+use PhpParser\Node;
 
 /**
  * @template-covariant T of Node
  */
 final class FetchedNode
 {
-
 	/**
 	 * @param T $node
 	 */
@@ -39,5 +38,4 @@ final class FetchedNode
 	{
 		return $this->locatedSource;
 	}
-
 }

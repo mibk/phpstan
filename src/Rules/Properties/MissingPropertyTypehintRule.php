@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassPropertyNode;
@@ -11,6 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 6)]
 final class MissingPropertyTypehintRule implements Rule
 {
-
 	public function __construct(private MissingTypehintCheck $missingTypehintCheck)
 	{
 	}
@@ -86,5 +85,4 @@ final class MissingPropertyTypehintRule implements Rule
 
 		return $messages;
 	}
-
 }

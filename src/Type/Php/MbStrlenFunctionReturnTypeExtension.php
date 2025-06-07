@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -19,6 +18,7 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function array_map;
 use function array_merge;
 use function array_unique;
@@ -36,7 +36,6 @@ use function var_export;
 #[AutowiredService]
 final class MbStrlenFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	private const UNSUPPORTED_ENCODING = 'unsupported';
 
 	use MbFunctionsReturnTypeExtensionTrait;
@@ -68,7 +67,7 @@ final class MbStrlenFunctionReturnTypeExtension implements DynamicFunctionReturn
 			$encodings = [mb_internal_encoding()];
 		} elseif (count($functionCall->getArgs()) === 2) { // custom encoding is specified
 			$encodings = array_map(
-				static fn (ConstantStringType $t) => $t->getValue(),
+				static fn(ConstantStringType $t) => $t->getValue(),
 				$scope->getType($functionCall->getArgs()[1]->value)->getConstantStrings(),
 			);
 		}
@@ -121,14 +120,14 @@ final class MbStrlenFunctionReturnTypeExtension implements DynamicFunctionReturn
 			if ($lengths === range(min($lengths), max($lengths))) {
 				$range = IntegerRangeType::fromInterval(min($lengths), max($lengths));
 			} else {
-				$range = TypeCombinator::union(...array_map(static fn ($l) => new ConstantIntegerType($l), $lengths));
+				$range = TypeCombinator::union(...array_map(static fn($l) => new ConstantIntegerType($l), $lengths));
 			}
 		} elseif ($argType->isBoolean()->yes()) {
 			$range = IntegerRangeType::fromInterval(0, 1);
 		} elseif (
 			$isNonEmpty->yes()
-			|| $numeric->isSuperTypeOf($argType)->yes()
-			|| TypeCombinator::remove($argType, $numeric)->isNonEmptyString()->yes()
+				|| $numeric->isSuperTypeOf($argType)->yes()
+				|| TypeCombinator::remove($argType, $numeric)->isNonEmptyString()->yes()
 		) {
 			$range = IntegerRangeType::fromInterval(1, null);
 		} elseif ($argType->isString()->yes() && $isNonEmpty->no()) {
@@ -149,5 +148,4 @@ final class MbStrlenFunctionReturnTypeExtension implements DynamicFunctionReturn
 		}
 		return $range;
 	}
-
 }

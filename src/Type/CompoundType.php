@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -8,7 +8,6 @@ use PHPStan\TrinaryLogic;
 /** @api */
 interface CompoundType extends Type
 {
-
 	public function isAcceptedBy(Type $acceptingType, bool $strictTypes): AcceptsResult;
 
 	public function isSubTypeOf(Type $otherType): IsSuperTypeOfResult;
@@ -16,5 +15,4 @@ interface CompoundType extends Type
 	public function isGreaterThan(Type $otherType, PhpVersion $phpVersion): TrinaryLogic;
 
 	public function isGreaterThanOrEqual(Type $otherType, PhpVersion $phpVersion): TrinaryLogic;
-
 }

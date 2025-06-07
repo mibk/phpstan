@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -28,7 +28,6 @@ use function sprintf;
 /** @api */
 class GenericClassStringType extends ClassStringType
 {
-
 	/** @api */
 	public function __construct(private Type $type)
 	{
@@ -180,7 +179,7 @@ class GenericClassStringType extends ClassStringType
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -221,5 +220,4 @@ class GenericClassStringType extends ClassStringType
 
 		return parent::tryRemove($typeToRemove);
 	}
-
 }

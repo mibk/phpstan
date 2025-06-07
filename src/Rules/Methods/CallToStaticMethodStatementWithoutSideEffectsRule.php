@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -15,6 +14,7 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 use function sprintf;
 use function strtolower;
 
@@ -24,7 +24,6 @@ use function strtolower;
 #[RegisteredRule(level: 4)]
 final class CallToStaticMethodStatementWithoutSideEffectsRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 		private ReflectionProvider $reflectionProvider,
@@ -40,11 +39,11 @@ final class CallToStaticMethodStatementWithoutSideEffectsRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		$staticCall = $node->getOriginalExpr();
-		if (!$staticCall instanceof Node\Expr\StaticCall) {
+		if (! $staticCall instanceof Node\Expr\StaticCall) {
 			return [];
 		}
 
-		if (!$staticCall->name instanceof Node\Identifier) {
+		if (! $staticCall->name instanceof Node\Identifier) {
 			return [];
 		}
 
@@ -61,7 +60,7 @@ final class CallToStaticMethodStatementWithoutSideEffectsRule implements Rule
 				$scope,
 				NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $staticCall->class),
 				'',
-				static fn (Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
+				static fn(Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
 			);
 			$calledOnType = $typeResult->getType();
 			if ($calledOnType instanceof ErrorType) {
@@ -81,7 +80,7 @@ final class CallToStaticMethodStatementWithoutSideEffectsRule implements Rule
 		if (
 			(
 				strtolower($method->getName()) === '__construct'
-				|| strtolower($method->getName()) === strtolower($method->getDeclaringClass()->getName())
+					|| strtolower($method->getName()) === strtolower($method->getDeclaringClass()->getName())
 			)
 		) {
 			return [];
@@ -101,5 +100,4 @@ final class CallToStaticMethodStatementWithoutSideEffectsRule implements Rule
 			))->identifier('staticMethod.resultUnused')->build(),
 		];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Constant;
 
@@ -20,8 +20,8 @@ use PHPStan\Type\VerbosityLevel;
 /** @api */
 class ConstantBooleanType extends BooleanType implements ConstantScalarType
 {
-
-	use ConstantScalarTypeTrait {
+	use ConstantScalarTypeTrait
+	{
 		looseCompare as private scalarLooseCompare;
 	}
 
@@ -145,5 +145,4 @@ class ConstantBooleanType extends BooleanType implements ConstantScalarType
 
 		return $this->scalarLooseCompare($type, $phpVersion);
 	}
-
 }

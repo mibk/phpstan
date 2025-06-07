@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Cast;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\Printer\ExprPrinter;
@@ -12,6 +11,7 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -20,7 +20,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class InvalidPartOfEncapsedStringRule implements Rule
 {
-
 	public function __construct(
 		private ExprPrinter $exprPrinter,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -45,7 +44,7 @@ final class InvalidPartOfEncapsedStringRule implements Rule
 				$scope,
 				$part,
 				'',
-				static fn (Type $type): bool => !$type->toString() instanceof ErrorType,
+				static fn(Type $type): bool => !$type->toString() instanceof ErrorType,
 			);
 			$partType = $typeResult->getType();
 			if ($partType instanceof ErrorType) {
@@ -53,7 +52,7 @@ final class InvalidPartOfEncapsedStringRule implements Rule
 			}
 
 			$stringPartType = $partType->toString();
-			if (!$stringPartType instanceof ErrorType) {
+			if (! $stringPartType instanceof ErrorType) {
 				continue;
 			}
 			$messages[] = RuleErrorBuilder::message(sprintf(
@@ -65,5 +64,4 @@ final class InvalidPartOfEncapsedStringRule implements Rule
 
 		return $messages;
 	}
-
 }

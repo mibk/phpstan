@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Native;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\TypeCombinator;
 
 final class NativeParameterReflection implements ParameterReflection
 {
-
 	public function __construct(
 		private string $name,
 		private bool $optional,
@@ -62,5 +61,4 @@ final class NativeParameterReflection implements ParameterReflection
 			$this->optional && $other->optional ? $this->defaultValue : null,
 		);
 	}
-
 }

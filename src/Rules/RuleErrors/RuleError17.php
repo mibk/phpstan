@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
@@ -10,7 +10,6 @@ use PHPStan\Rules\RuleError;
  */
 final class RuleError17 implements RuleError, IdentifierRuleError
 {
-
 	public string $message;
 
 	public string $identifier;
@@ -24,5 +23,4 @@ final class RuleError17 implements RuleError, IdentifierRuleError
 	{
 		return $this->identifier;
 	}
-
 }

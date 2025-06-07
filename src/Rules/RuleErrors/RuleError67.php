@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
@@ -11,7 +11,6 @@ use PHPStan\Rules\RuleError;
  */
 final class RuleError67 implements RuleError, LineRuleError, NonIgnorableRuleError
 {
-
 	public string $message;
 
 	public int $line;
@@ -25,5 +24,4 @@ final class RuleError67 implements RuleError, LineRuleError, NonIgnorableRuleErr
 	{
 		return $this->line;
 	}
-
 }

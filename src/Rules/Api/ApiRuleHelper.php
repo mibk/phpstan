@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\File\ParentDirectoryRelativePathHelper;
+use const PATHINFO_BASENAME;
 use function dirname;
 use function pathinfo;
 use function str_starts_with;
 use function stripos;
 use function strtolower;
-use const PATHINFO_BASENAME;
 
 #[AutowiredService]
 final class ApiRuleHelper
 {
-
 	public function isPhpStanCode(Scope $scope, string $namespace, ?string $declaringFile): bool
 	{
 		$scopeNamespace = $scope->getNamespace();
@@ -48,7 +47,7 @@ final class ApiRuleHelper
 	}
 
 	/**
-	 * @param string[] $parts
+	 * @param  string[] $parts
 	 * @return string[]
 	 */
 	private function createAbsoluteDirectories(string $currentDirectory, array $parts): array
@@ -84,5 +83,4 @@ final class ApiRuleHelper
 
 		return stripos($namespace, 'PHPStan\\') === 0;
 	}
-
 }

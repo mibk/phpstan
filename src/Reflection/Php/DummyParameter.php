@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 
 class DummyParameter implements ParameterReflection
 {
-
 	private PassedByReference $passedByReference;
 
 	public function __construct(private string $name, private Type $type, private bool $optional, ?PassedByReference $passedByReference, private bool $variadic, private ?Type $defaultValue)
@@ -45,5 +44,4 @@ class DummyParameter implements ParameterReflection
 	{
 		return $this->defaultValue;
 	}
-
 }

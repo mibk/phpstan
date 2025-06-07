@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use DateInterval;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -11,15 +10,15 @@ use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicStaticMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\StaticCall;
 use Throwable;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class DateIntervalDynamicReturnTypeExtension
-implements DynamicStaticMethodReturnTypeExtension
+	implements DynamicStaticMethodReturnTypeExtension
 {
-
 	public function getClass(): string
 	{
 		return DateInterval::class;
@@ -66,5 +65,4 @@ implements DynamicStaticMethodReturnTypeExtension
 
 		return new ObjectType(DateInterval::class);
 	}
-
 }

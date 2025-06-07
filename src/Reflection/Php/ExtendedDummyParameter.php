@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
 
 final class ExtendedDummyParameter extends DummyParameter implements ExtendedParameterReflection
 {
-
 	/**
 	 * @param list<AttributeReflection> $attributes
 	 */
@@ -40,7 +39,7 @@ final class ExtendedDummyParameter extends DummyParameter implements ExtendedPar
 
 	public function hasNativeType(): bool
 	{
-		return !$this->nativeType instanceof MixedType || $this->nativeType->isExplicitMixed();
+		return ! $this->nativeType instanceof MixedType || $this->nativeType->isExplicitMixed();
 	}
 
 	public function getNativeType(): Type
@@ -67,5 +66,4 @@ final class ExtendedDummyParameter extends DummyParameter implements ExtendedPar
 	{
 		return $this->attributes;
 	}
-
 }

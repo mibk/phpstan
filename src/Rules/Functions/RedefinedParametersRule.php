@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function is_string;
 use function sprintf;
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class RedefinedParametersRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\FunctionLike::class;
@@ -35,7 +34,7 @@ final class RedefinedParametersRule implements Rule
 		$errors = [];
 
 		foreach ($params as $param) {
-			if (!$param->var instanceof Node\Expr\Variable) {
+			if (! $param->var instanceof Node\Expr\Variable) {
 				continue;
 			}
 
@@ -58,5 +57,4 @@ final class RedefinedParametersRule implements Rule
 
 		return $errors;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -7,13 +7,13 @@ use PHPStan\Command\Output;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\File\RelativePathHelper;
+use const PHP_EOL;
 use function array_keys;
 use function array_values;
 use function count;
 use function is_string;
 use function preg_replace;
 use function sprintf;
-use const PHP_EOL;
 
 /**
  * @see https://www.jetbrains.com/help/teamcity/build-script-interaction-with-teamcity.html#Reporting+Inspections
@@ -21,7 +21,6 @@ use const PHP_EOL;
 #[AutowiredService(name: 'errorFormatter.teamcity')]
 final class TeamcityErrorFormatter implements ErrorFormatter
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '@simpleRelativePathHelper')]
 		private RelativePathHelper $relativePathHelper,
@@ -41,9 +40,9 @@ final class TeamcityErrorFormatter implements ErrorFormatter
 		}
 
 		$result .= $this->createTeamcityLine('inspectionType', [
-			'id' => 'phpstan',
-			'name' => 'phpstan',
-			'category' => 'phpstan',
+			'id'          => 'phpstan',
+			'name'        => 'phpstan',
+			'category'    => 'phpstan',
 			'description' => 'phpstan Inspection',
 		]);
 
@@ -55,33 +54,33 @@ final class TeamcityErrorFormatter implements ErrorFormatter
 			}
 
 			$result .= $this->createTeamcityLine('inspection', [
-				'typeId' => 'phpstan',
+				'typeId'  => 'phpstan',
 				'message' => $message,
-				'file' => $this->relativePathHelper->getRelativePath($fileSpecificError->getFile()),
-				'line' => $fileSpecificError->getLine(),
+				'file'    => $this->relativePathHelper->getRelativePath($fileSpecificError->getFile()),
+				'line'    => $fileSpecificError->getLine(),
 				// additional attributes
-				'SEVERITY' => 'ERROR',
+				'SEVERITY'  => 'ERROR',
 				'ignorable' => $fileSpecificError->canBeIgnored(),
-				'tip' => $fileSpecificError->getTip(),
+				'tip'       => $fileSpecificError->getTip(),
 			]);
 		}
 
 		foreach ($notFileSpecificErrors as $notFileSpecificError) {
 			$result .= $this->createTeamcityLine('inspection', [
-				'typeId' => 'phpstan',
+				'typeId'  => 'phpstan',
 				'message' => $notFileSpecificError,
 				// the file is required
-				'file' => $analysisResult->getProjectConfigFile() !== null ? $this->relativePathHelper->getRelativePath($analysisResult->getProjectConfigFile()) : '.',
+				'file'     => $analysisResult->getProjectConfigFile() !== null ? $this->relativePathHelper->getRelativePath($analysisResult->getProjectConfigFile()) : '.',
 				'SEVERITY' => 'ERROR',
 			]);
 		}
 
 		foreach ($warnings as $warning) {
 			$result .= $this->createTeamcityLine('inspection', [
-				'typeId' => 'phpstan',
+				'typeId'  => 'phpstan',
 				'message' => $warning,
 				// the file is required
-				'file' => $analysisResult->getProjectConfigFile() !== null ? $this->relativePathHelper->getRelativePath($analysisResult->getProjectConfigFile()) : '.',
+				'file'     => $analysisResult->getProjectConfigFile() !== null ? $this->relativePathHelper->getRelativePath($analysisResult->getProjectConfigFile()) : '.',
 				'SEVERITY' => 'WARNING',
 			]);
 		}
@@ -94,9 +93,9 @@ final class TeamcityErrorFormatter implements ErrorFormatter
 	/**
 	 * Creates a Teamcity report line
 	 *
-	 * @param string $messageName The message name
-	 * @param mixed[] $keyValuePairs The key=>value pairs
-	 * @return string The Teamcity report line
+	 * @param  string  $messageName   The message name
+	 * @param  mixed[] $keyValuePairs The key=>value pairs
+	 * @return string  The Teamcity report line
 	 */
 	private function createTeamcityLine(string $messageName, array $keyValuePairs): string
 	{
@@ -113,17 +112,16 @@ final class TeamcityErrorFormatter implements ErrorFormatter
 	/**
 	 * Escapes the given string for Teamcity output
 	 *
-	 * @param string $string The string to escape
+	 * @param  string $string The string to escape
 	 * @return string The escaped string
 	 */
 	private function escape(string $string): string
 	{
 		$replacements = [
-			'~\n~' => '|n',
-			'~\r~' => '|r',
+			'~\n~'           => '|n',
+			'~\r~'           => '|r',
 			'~([\'\|\[\]])~' => '|$1',
 		];
 		return (string) preg_replace(array_keys($replacements), array_values($replacements), $string);
 	}
-
 }

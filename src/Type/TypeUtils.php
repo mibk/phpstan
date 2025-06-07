@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -16,7 +16,6 @@ use function array_merge;
  */
 final class TypeUtils
 {
-
 	/**
 	 * @return list<ConstantIntegerType>
 	 */
@@ -71,7 +70,7 @@ final class TypeUtils
 		if ($inspectIntersections && $type instanceof IntersectionType) {
 			$matchingTypes = [];
 			foreach ($type->getTypes() as $innerType) {
-				if (!$innerType instanceof $typeClass) {
+				if (! $innerType instanceof $typeClass) {
 					if ($stopOnUnmatched) {
 						return [];
 					}
@@ -202,7 +201,7 @@ final class TypeUtils
 	public static function containsTemplateType(Type $type): bool
 	{
 		$containsTemplateType = false;
-		TypeTraverser::map($type, static function (Type $type, callable $traverse) use (&$containsTemplateType): Type {
+		TypeTraverser::map($type, static function(Type $type, callable $traverse) use (&$containsTemplateType): Type {
 			if ($type instanceof TemplateType) {
 				$containsTemplateType = true;
 			}
@@ -218,7 +217,7 @@ final class TypeUtils
 		/** @var int $ignoreResolveUnresolvableTypesLevel */
 		$ignoreResolveUnresolvableTypesLevel = 0;
 
-		return TypeTraverser::map($type, static function (Type $type, callable $traverse) use ($resolveUnresolvableTypes, &$ignoreResolveUnresolvableTypesLevel): Type {
+		return TypeTraverser::map($type, static function(Type $type, callable $traverse) use ($resolveUnresolvableTypes, &$ignoreResolveUnresolvableTypesLevel): Type {
 			while ($type instanceof LateResolvableType && (($resolveUnresolvableTypes && $ignoreResolveUnresolvableTypesLevel === 0) || $type->isResolvable())) {
 				$type = $type->resolve();
 			}
@@ -234,5 +233,4 @@ final class TypeUtils
 			return $traverse($type);
 		});
 	}
-
 }

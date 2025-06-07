@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -15,7 +15,6 @@ use function sprintf;
 
 final class ConditionalTagsExtension extends CompilerExtension
 {
-
 	public function getConfigSchema(): Nette\Schema\Schema
 	{
 		$tags = array_values(ValidateServiceTagsExtension::INTERFACE_TAG_MAPPING);
@@ -39,7 +38,7 @@ final class ConditionalTagsExtension extends CompilerExtension
 			foreach ($services as $service) {
 				foreach ($tags as $tag => $parameter) {
 					if (is_array($parameter)) {
-						$parameter = array_reduce($parameter, static fn ($carry, $item) => $carry && (bool) $item, true);
+						$parameter = array_reduce($parameter, static fn($carry, $item) => $carry && (bool) $item, true);
 					}
 					if ((bool) $parameter) {
 						$service->addTag($tag);
@@ -49,5 +48,4 @@ final class ConditionalTagsExtension extends CompilerExtension
 			}
 		}
 	}
-
 }

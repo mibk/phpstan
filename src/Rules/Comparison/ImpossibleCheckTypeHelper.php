@@ -1,13 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\TypeSpecifier;
@@ -32,6 +26,12 @@ use PHPStan\Type\TypeUtils;
 use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 use function array_map;
 use function array_pop;
 use function count;
@@ -44,7 +44,6 @@ use function strtolower;
 #[AutowiredService]
 final class ImpossibleCheckTypeHelper
 {
-
 	/**
 	 * @param string[] $universalObjectCratesClasses
 	 */
@@ -75,7 +74,7 @@ final class ImpossibleCheckTypeHelper
 					$arg = $node->getArgs()[0]->value;
 					$assertValue = ($this->treatPhpDocTypesAsCertain ? $scope->getType($arg) : $scope->getNativeType($arg))->toBoolean();
 					$assertValueIsTrue = $assertValue->isTrue()->yes();
-					if (! $assertValueIsTrue && ! $assertValue->isFalse()->yes()) {
+					if (!$assertValueIsTrue && !$assertValue->isFalse()->yes()) {
 						return null;
 					}
 
@@ -143,7 +142,7 @@ final class ImpossibleCheckTypeHelper
 						}
 					}
 
-					if (!$haystackType instanceof ConstantArrayType || count($haystackType->getValueTypes()) > 0) {
+					if (! $haystackType instanceof ConstantArrayType || count($haystackType->getValueTypes()) > 0) {
 						$haystackArrayTypes = $haystackType->getArrays();
 						if (count($haystackArrayTypes) === 1 && $haystackArrayTypes[0]->getIterableValueType() instanceof NeverType) {
 							return null;
@@ -214,7 +213,7 @@ final class ImpossibleCheckTypeHelper
 							}
 						}
 
-						$genericType = TypeTraverser::map($objectType, static function (Type $type, callable $traverse): Type {
+						$genericType = TypeTraverser::map($objectType, static function(Type $type, callable $traverse): Type {
 							if ($type instanceof UnionType || $type instanceof IntersectionType) {
 								return $traverse($type);
 							}
@@ -232,8 +231,9 @@ final class ImpossibleCheckTypeHelper
 							$classReflection = $genericType->getClassReflection();
 							if (
 								$classReflection !== null
-								&& $classReflection->isFinal()
-								&& $genericType->hasMethod($methodType->getValue())->no()) {
+									&& $classReflection->isFinal()
+									&& $genericType->hasMethod($methodType->getValue())->no()
+							) {
 								return false;
 							}
 						}
@@ -242,7 +242,7 @@ final class ImpossibleCheckTypeHelper
 			}
 		}
 
-		if (!$scope instanceof MutatingScope) {
+		if (! $scope instanceof MutatingScope) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -337,8 +337,8 @@ final class ImpossibleCheckTypeHelper
 
 		return (
 			$node instanceof FuncCall
-			|| $node instanceof MethodCall
-			|| $node instanceof Expr\StaticCall
+				|| $node instanceof MethodCall
+				|| $node instanceof Expr\StaticCall
 		) && $scope->hasExpressionType($expr)->yes();
 	}
 
@@ -354,7 +354,7 @@ final class ImpossibleCheckTypeHelper
 			return '';
 		}
 
-		$descriptions = array_map(fn (Arg $arg): string => ($this->treatPhpDocTypesAsCertain ? $scope->getType($arg->value) : $scope->getNativeType($arg->value))->describe(VerbosityLevel::value()), $args);
+		$descriptions = array_map(fn(Arg $arg): string => ($this->treatPhpDocTypesAsCertain ? $scope->getType($arg->value) : $scope->getNativeType($arg->value))->describe(VerbosityLevel::value()), $args);
 
 		if (count($descriptions) < 3) {
 			return sprintf(' with %s', implode(' and ', $descriptions));
@@ -424,5 +424,4 @@ final class ImpossibleCheckTypeHelper
 
 		return TypeSpecifierContext::createTruthy();
 	}
-
 }

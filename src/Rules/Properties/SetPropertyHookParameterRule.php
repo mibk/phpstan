@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -12,6 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class SetPropertyHookParameterRule implements Rule
 {
-
 	public function __construct(
 		private MissingTypehintCheck $missingTypehintCheck,
 		#[AutowiredParameter]
@@ -158,5 +157,4 @@ final class SetPropertyHookParameterRule implements Rule
 
 		return $errors;
 	}
-
 }

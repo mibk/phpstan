@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -23,17 +22,17 @@ use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
+use const CASE_LOWER;
+use const CASE_UPPER;
 use function array_map;
 use function count;
 use function strtolower;
 use function strtoupper;
-use const CASE_LOWER;
-use const CASE_UPPER;
 
 #[AutowiredService]
 final class ArrayChangeKeyCaseFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'array_change_key_case';
@@ -71,7 +70,7 @@ final class ArrayChangeKeyCaseFunctionReturnTypeExtension implements DynamicFunc
 					if (count($constantStrings) > 0) {
 						$keyType = TypeCombinator::union(
 							...array_map(
-								fn (ConstantStringType $type): Type => $this->mapConstantString($type, $case),
+								fn(ConstantStringType $type): Type => $this->mapConstantString($type, $case),
 								$constantStrings,
 							),
 						);
@@ -94,7 +93,7 @@ final class ArrayChangeKeyCaseFunctionReturnTypeExtension implements DynamicFunc
 		} else {
 			$keysType = $arrayType->getIterableKeyType();
 
-			$keysType = TypeTraverser::map($keysType, function (Type $type, callable $traverse) use ($case): Type {
+			$keysType = TypeTraverser::map($keysType, function(Type $type, callable $traverse) use ($case): Type {
 				if ($type instanceof UnionType) {
 					return $traverse($type);
 				}
@@ -103,7 +102,7 @@ final class ArrayChangeKeyCaseFunctionReturnTypeExtension implements DynamicFunc
 				if (count($constantStrings) > 0) {
 					return TypeCombinator::union(
 						...array_map(
-							fn (ConstantStringType $type): Type => $this->mapConstantString($type, $case),
+							fn(ConstantStringType $type): Type => $this->mapConstantString($type, $case),
 							$constantStrings,
 						),
 					);
@@ -157,5 +156,4 @@ final class ArrayChangeKeyCaseFunctionReturnTypeExtension implements DynamicFunc
 			new ConstantStringType(strtoupper($type->getValue())),
 		);
 	}
-
 }

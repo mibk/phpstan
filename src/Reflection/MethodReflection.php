@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 /** @api */
 interface MethodReflection extends ClassMemberReflection
 {
-
 	public function getName(): string;
 
 	public function getPrototype(): ClassMemberReflection;
@@ -29,5 +28,4 @@ interface MethodReflection extends ClassMemberReflection
 	public function getThrowType(): ?Type;
 
 	public function hasSideEffects(): TrinaryLogic;
-
 }

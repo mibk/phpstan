@@ -1,14 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 interface SubtractableType extends Type
 {
-
 	public function getTypeWithoutSubtractedType(): Type;
 
 	public function changeSubtractedType(?Type $subtractedType): Type;
 
 	public function getSubtractedType(): ?Type;
-
 }

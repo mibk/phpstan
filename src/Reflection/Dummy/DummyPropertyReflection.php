@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Dummy;
 
@@ -14,7 +14,6 @@ use stdClass;
 
 final class DummyPropertyReflection implements ExtendedPropertyReflection
 {
-
 	public function __construct(private string $name)
 	{
 	}
@@ -155,5 +154,4 @@ final class DummyPropertyReflection implements ExtendedPropertyReflection
 	{
 		return [];
 	}
-
 }

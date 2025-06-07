@@ -1,20 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node;
-use PhpParser\Node\ComplexType;
-use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\FunctionLike;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\IntersectionType;
-use PhpParser\Node\Name;
-use PhpParser\Node\NullableType;
-use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
-use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -36,6 +23,19 @@ use PHPStan\Type\ParserNodeTypeToPHPStanType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\ComplexType;
+use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
+use PhpParser\Node\Name;
+use PhpParser\Node\NullableType;
+use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
+use PhpParser\Node\UnionType;
 use function array_filter;
 use function array_keys;
 use function array_map;
@@ -49,7 +49,6 @@ use function strtolower;
 #[AutowiredService]
 final class FunctionDefinitionCheck
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ClassNameCheck $classCheck,
@@ -92,8 +91,8 @@ final class FunctionDefinitionCheck
 	}
 
 	/**
-	 * @param Node\Param[] $parameters
-	 * @param Node\Identifier|Node\Name|Node\ComplexType|null $returnTypeNode
+	 * @param  Node\Param[]                                    $parameters
+	 * @param  Node\Identifier|Node\Name|Node\ComplexType|null $returnTypeNode
 	 * @return list<IdentifierRuleError>
 	 */
 	public function checkAnonymousFunction(
@@ -115,8 +114,8 @@ final class FunctionDefinitionCheck
 			}
 			if (
 				!$unionTypeReported
-				&& $param->type instanceof UnionType
-				&& !$this->phpVersion->supportsNativeUnionTypes()
+					&& $param->type instanceof UnionType
+					&& !$this->phpVersion->supportsNativeUnionTypes()
 			) {
 				$errors[] = RuleErrorBuilder::message($unionTypesMessage)
 					->line($param->getStartLine())
@@ -126,7 +125,7 @@ final class FunctionDefinitionCheck
 				$unionTypeReported = true;
 			}
 
-			if (!$param->var instanceof Variable || !is_string($param->var->name)) {
+			if (! $param->var instanceof Variable || !is_string($param->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 
@@ -151,7 +150,7 @@ final class FunctionDefinitionCheck
 			}
 			if (
 				$this->phpVersion->supportsPureIntersectionTypes()
-				&& $this->unresolvableTypeHelper->containsUnresolvableType($type)
+					&& $this->unresolvableTypeHelper->containsUnresolvableType($type)
 			) {
 				$errors[] = RuleErrorBuilder::message(sprintf($unresolvableParameterTypeMessage, $param->var->name))
 					->line($param->type->getStartLine())
@@ -163,9 +162,9 @@ final class FunctionDefinitionCheck
 			foreach ($type->getReferencedClasses() as $class) {
 				if (!$this->reflectionProvider->hasClass($class)) {
 					$errors[] = RuleErrorBuilder::message(sprintf($parameterMessage, $param->var->name, $class))
-					->line($param->type->getStartLine())
-					->identifier('class.notFound')
-					->build();
+						->line($param->type->getStartLine())
+						->identifier('class.notFound')
+						->build();
 					continue;
 				}
 
@@ -183,7 +182,7 @@ final class FunctionDefinitionCheck
 					$this->classCheck->checkClassNames($scope, [
 						new ClassNameNodePair($class, $param->type),
 					], ClassNameUsageLocation::from(ClassNameUsageLocation::PARAMETER_TYPE, [
-						'parameterName' => $param->var->name,
+						'parameterName'         => $param->var->name,
 						'isInAnonymousFunction' => true,
 					]), $this->checkClassCaseSensitivity),
 				);
@@ -200,8 +199,8 @@ final class FunctionDefinitionCheck
 
 		if (
 			!$unionTypeReported
-			&& $returnTypeNode instanceof UnionType
-			&& !$this->phpVersion->supportsNativeUnionTypes()
+				&& $returnTypeNode instanceof UnionType
+				&& !$this->phpVersion->supportsNativeUnionTypes()
 		) {
 			$errors[] = RuleErrorBuilder::message($unionTypesMessage)
 				->line($returnTypeNode->getStartLine())
@@ -213,7 +212,7 @@ final class FunctionDefinitionCheck
 		$returnType = $scope->getFunctionType($returnTypeNode, false, false);
 		if (
 			$this->phpVersion->supportsPureIntersectionTypes()
-			&& $this->unresolvableTypeHelper->containsUnresolvableType($returnType)
+				&& $this->unresolvableTypeHelper->containsUnresolvableType($returnType)
 		) {
 			$errors[] = RuleErrorBuilder::message($unresolvableReturnTypeMessage)
 				->line($returnTypeNode->getStartLine())
@@ -306,7 +305,7 @@ final class FunctionDefinitionCheck
 				$errors,
 				$this->classCheck->checkClassNames(
 					$scope,
-					array_map(static fn (string $class): ClassNameNodePair => new ClassNameNodePair($class, $methodNode), $selfOutTypeReferencedClasses),
+					array_map(static fn(string $class): ClassNameNodePair => new ClassNameNodePair($class, $methodNode), $selfOutTypeReferencedClasses),
 					ClassNameUsageLocation::from(ClassNameUsageLocation::PHPDOC_TAG_SELF_OUT),
 					$this->checkClassCaseSensitivity,
 				),
@@ -336,7 +335,7 @@ final class FunctionDefinitionCheck
 		if (!$this->phpVersion->supportsNativeUnionTypes()) {
 			$unionTypeReported = false;
 			foreach ($parameterNodes as $parameterNode) {
-				if (!$parameterNode->type instanceof UnionType) {
+				if (! $parameterNode->type instanceof UnionType) {
 					continue;
 				}
 
@@ -359,7 +358,7 @@ final class FunctionDefinitionCheck
 		}
 
 		foreach ($parameterNodes as $i => $parameterNode) {
-			if (!$parameterNode->var instanceof Variable || !is_string($parameterNode->var->name)) {
+			if (! $parameterNode->var instanceof Variable || !is_string($parameterNode->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$implicitlyNullableTypeError = $this->checkImplicitlyNullableType($parameterNode->type, $parameterNode->default, $i + 1, $parameterNode->getStartLine(), $parameterNode->var->name);
@@ -378,7 +377,7 @@ final class FunctionDefinitionCheck
 		foreach ($parametersAcceptor->getParameters() as $parameter) {
 			$referencedClasses = $this->getParameterReferencedClasses($parameter);
 			$parameterNode = null;
-			$parameterNodeCallback = function () use ($parameter, $parameterNodes, &$parameterNode): Param {
+			$parameterNodeCallback = function() use ($parameter, $parameterNodes, &$parameterNode): Param {
 				if ($parameterNode === null) {
 					$parameterNode = $this->getParameterNode($parameter->getName(), $parameterNodes);
 				}
@@ -386,7 +385,7 @@ final class FunctionDefinitionCheck
 				return $parameterNode;
 			};
 			$parameterVar = $parameterNodeCallback()->var;
-			if (!$parameterVar instanceof Variable || !is_string($parameterVar->name)) {
+			if (! $parameterVar instanceof Variable || !is_string($parameterVar->name)) {
 				throw new ShouldNotHappenException();
 			}
 			if ($parameter->getNativeType()->isVoid()->yes()) {
@@ -398,7 +397,7 @@ final class FunctionDefinitionCheck
 			}
 			if (
 				$this->phpVersion->supportsPureIntersectionTypes()
-				&& $this->unresolvableTypeHelper->containsUnresolvableType($parameter->getNativeType())
+					&& $this->unresolvableTypeHelper->containsUnresolvableType($parameter->getNativeType())
 			) {
 				$errors[] = RuleErrorBuilder::message(sprintf($unresolvableParameterTypeMessage, $parameterVar->name))
 					->line($parameterNodeCallback()->getStartLine())
@@ -448,7 +447,7 @@ final class FunctionDefinitionCheck
 				$errors,
 				$this->classCheck->checkClassNames(
 					$scope,
-					array_map(static fn (string $class): ClassNameNodePair => new ClassNameNodePair($class, $parameterNodeCallback()), $referencedClasses),
+					array_map(static fn(string $class): ClassNameNodePair => new ClassNameNodePair($class, $parameterNodeCallback()), $referencedClasses),
 					ClassNameUsageLocation::from(ClassNameUsageLocation::PARAMETER_TYPE, $locationData),
 					$this->checkClassCaseSensitivity,
 				),
@@ -508,7 +507,7 @@ final class FunctionDefinitionCheck
 			$errors,
 			$this->classCheck->checkClassNames(
 				$scope,
-				array_map(static fn (string $class): ClassNameNodePair => new ClassNameNodePair($class, $returnTypeNode), $returnTypeReferencedClasses),
+				array_map(static fn(string $class): ClassNameNodePair => new ClassNameNodePair($class, $returnTypeNode), $returnTypeReferencedClasses),
 				ClassNameUsageLocation::from(ClassNameUsageLocation::RETURN_TYPE, $locationData),
 				$this->checkClassCaseSensitivity,
 			),
@@ -524,7 +523,7 @@ final class FunctionDefinitionCheck
 		$templateTypes = $templateTypeMap->getTypes();
 		if (count($templateTypes) > 0) {
 			foreach ($parametersAcceptor->getParameters() as $parameter) {
-				TypeTraverser::map($parameter->getType(), static function (Type $type, callable $traverse) use (&$templateTypes): Type {
+				TypeTraverser::map($parameter->getType(), static function(Type $type, callable $traverse) use (&$templateTypes): Type {
 					if ($type instanceof TemplateType) {
 						unset($templateTypes[$type->getName()]);
 						return $traverse($type);
@@ -536,7 +535,7 @@ final class FunctionDefinitionCheck
 
 			$returnType = $parametersAcceptor->getReturnType();
 			if ($returnType instanceof ConditionalTypeForParameter && !$returnType->isNegated()) {
-				TypeTraverser::map($returnType, static function (Type $type, callable $traverse) use (&$templateTypes): Type {
+				TypeTraverser::map($returnType, static function(Type $type, callable $traverse) use (&$templateTypes): Type {
 					if ($type instanceof TemplateType) {
 						unset($templateTypes[$type->getName()]);
 						return $traverse($type);
@@ -557,7 +556,7 @@ final class FunctionDefinitionCheck
 	}
 
 	/**
-	 * @param Param[] $parameterNodes
+	 * @param  Param[] $parameterNodes
 	 * @return list<IdentifierRuleError>
 	 */
 	private function checkRequiredParameterAfterOptional(array $parameterNodes): array
@@ -567,7 +566,7 @@ final class FunctionDefinitionCheck
 		$errors = [];
 		$targetPhpVersion = null;
 		foreach ($parameterNodes as $parameterNode) {
-			if (!$parameterNode->var instanceof Variable) {
+			if (! $parameterNode->var instanceof Variable) {
 				throw new ShouldNotHappenException();
 			}
 			if (!is_string($parameterNode->var->name)) {
@@ -597,7 +596,7 @@ final class FunctionDefinitionCheck
 			}
 
 			$defaultValue = $parameterNode->default;
-			if (!$defaultValue instanceof ConstFetch) {
+			if (! $defaultValue instanceof ConstFetch) {
 				$optionalParameter = $parameterName;
 				continue;
 			}
@@ -623,7 +622,7 @@ final class FunctionDefinitionCheck
 						$types = [$parameterNodeType];
 					}
 
-					$nullOrMixed = array_filter($types, static fn (Identifier|Name|IntersectionType $type): bool => $type instanceof Identifier && (in_array($type->name, ['null', 'mixed'], true)));
+					$nullOrMixed = array_filter($types, static fn(Identifier | Name | IntersectionType $type): bool => $type instanceof Identifier && (in_array($type->name, ['null', 'mixed'], true)));
 
 					if (0 < count($nullOrMixed)) {
 						$targetPhpVersion = '8.3';
@@ -671,7 +670,7 @@ final class FunctionDefinitionCheck
 	 */
 	private function getParameterReferencedClasses(ParameterReflection $parameter): array
 	{
-		if (!$parameter instanceof ExtendedParameterReflection) {
+		if (! $parameter instanceof ExtendedParameterReflection) {
 			return $parameter->getType()->getReferencedClasses();
 		}
 
@@ -699,7 +698,7 @@ final class FunctionDefinitionCheck
 	 */
 	private function getReturnTypeReferencedClasses(ParametersAcceptor $parametersAcceptor): array
 	{
-		if (!$parametersAcceptor instanceof ExtendedParametersAcceptor) {
+		if (! $parametersAcceptor instanceof ExtendedParametersAcceptor) {
 			return $parametersAcceptor->getReturnType()->getReferencedClasses();
 		}
 
@@ -721,7 +720,7 @@ final class FunctionDefinitionCheck
 		string $name,
 	): ?IdentifierRuleError
 	{
-		if (!$default instanceof ConstFetch) {
+		if (! $default instanceof ConstFetch) {
 			return null;
 		}
 
@@ -769,5 +768,4 @@ final class FunctionDefinitionCheck
 			->identifier('parameter.implicitlyNullable')
 			->build();
 	}
-
 }

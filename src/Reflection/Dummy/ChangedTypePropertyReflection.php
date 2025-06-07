@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Dummy;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
 
 final class ChangedTypePropertyReflection implements WrapperPropertyReflection
 {
-
 	public function __construct(private ClassReflection $declaringClass, private ExtendedPropertyReflection $reflection, private Type $readableType, private Type $writableType, private Type $phpDocType, private Type $nativeType)
 	{
 	}
@@ -155,5 +154,4 @@ final class ChangedTypePropertyReflection implements WrapperPropertyReflection
 	{
 		return $this->reflection->getAttributes();
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Deprecation;
 
@@ -12,18 +12,16 @@ use PHPStan\BetterReflection\Reflection\ReflectionConstant;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyProvider
- *		tags:
- *			- phpstan.constantDeprecationExtension
+ * *		class: App\PHPStan\MyProvider
+ * *		tags:
+ * *			- phpstan.constantDeprecationExtension
  * ```
  *
  * @api
  */
 interface ConstantDeprecationExtension
 {
-
 	public const CONSTANT_EXTENSION_TAG = 'phpstan.constantDeprecationExtension';
 
 	public function getConstantDeprecation(ReflectionConstant $reflection): ?Deprecation;
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Namespaces;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +12,7 @@ use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 use function array_map;
 use function sprintf;
 use function strtolower;
@@ -23,7 +23,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class ExistingNamesInUseRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ClassNameCheck $classCheck,
@@ -64,7 +63,7 @@ final class ExistingNamesInUseRule implements Rule
 	}
 
 	/**
-	 * @param Node\UseItem[] $uses
+	 * @param  Node\UseItem[] $uses
 	 * @return list<IdentifierRuleError>
 	 */
 	private function checkConstants(array $uses): array
@@ -90,7 +89,7 @@ final class ExistingNamesInUseRule implements Rule
 	}
 
 	/**
-	 * @param Node\UseItem[] $uses
+	 * @param  Node\UseItem[] $uses
 	 * @return list<IdentifierRuleError>
 	 */
 	private function checkFunctions(array $uses): array
@@ -113,7 +112,7 @@ final class ExistingNamesInUseRule implements Rule
 				$usedName = (string) $use->name;
 				if (
 					strtolower($realName) === strtolower($usedName)
-					&& $realName !== $usedName
+						&& $realName !== $usedName
 				) {
 					$errors[] = RuleErrorBuilder::message(sprintf(
 						'Function %s used with incorrect case: %s.',
@@ -131,16 +130,15 @@ final class ExistingNamesInUseRule implements Rule
 	}
 
 	/**
-	 * @param Node\UseItem[] $uses
+	 * @param  Node\UseItem[] $uses
 	 * @return list<IdentifierRuleError>
 	 */
 	private function checkClasses(Scope $scope, array $uses): array
 	{
 		return $this->classCheck->checkClassNames(
 			$scope,
-			array_map(static fn (Node\UseItem $use): ClassNameNodePair => new ClassNameNodePair((string) $use->name, $use->name), $uses),
+			array_map(static fn(Node\UseItem $use): ClassNameNodePair => new ClassNameNodePair((string) $use->name, $use->name), $uses),
 			null,
 		);
 	}
-
 }

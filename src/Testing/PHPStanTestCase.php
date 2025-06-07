@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
@@ -35,6 +35,8 @@ use PHPStan\Type\TypeAliasResolver;
 use PHPStan\Type\UsefulTypeAliasResolver;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
+use const DIRECTORY_SEPARATOR;
+use const PHP_VERSION_ID;
 use function array_merge;
 use function count;
 use function implode;
@@ -42,13 +44,10 @@ use function rtrim;
 use function sha1;
 use function sprintf;
 use function sys_get_temp_dir;
-use const DIRECTORY_SEPARATOR;
-use const PHP_VERSION_ID;
 
 /** @api */
 abstract class PHPStanTestCase extends TestCase
 {
-
 	/** @var array<string, Container> */
 	private static array $containers = [];
 
@@ -77,7 +76,7 @@ abstract class PHPStanTestCase extends TestCase
 			self::$containers[$cacheKey] = $container;
 
 			foreach ($container->getParameter('bootstrapFiles') as $bootstrapFile) {
-				(static function (string $file) use ($container): void {
+				(static function(string $file) use ($container): void {
 					require_once $file;
 				})($bootstrapFile);
 			}
@@ -246,5 +245,4 @@ abstract class PHPStanTestCase extends TestCase
 
 		self::markTestSkipped();
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -28,7 +28,6 @@ use function substr;
 
 final class NeonAdapter implements Adapter
 {
-
 	public const CACHE_KEY = 'v31-expand-relative-paths';
 
 	private const PREVENT_MERGING_SUFFIX = '!';
@@ -57,7 +56,7 @@ final class NeonAdapter implements Adapter
 	}
 
 	/**
-	 * @param mixed[] $arr
+	 * @param  mixed[] $arr
 	 * @return mixed[]
 	 */
 	public function process(array $arr, string $fileKey, string $file): array
@@ -86,7 +85,6 @@ final class NeonAdapter implements Adapter
 					$fileKeyToPass = $fileKey . '[]';
 				}
 				$val = $this->process($val, $fileKeyToPass, $file);
-
 			} elseif ($val instanceof Entity) {
 				if (!is_int($key)) {
 					$fileKeyToPass = $fileKey . '(' . $key . ')';
@@ -109,11 +107,11 @@ final class NeonAdapter implements Adapter
 							'[parameters][excludePaths][analyse][]',
 							'[parameters][excludePaths][analyseAndScan][]',
 						], true)
-						&& count($val->attributes) === 1
-						&& $val->attributes[0] === '?'
-						&& is_string($val->value)
-						&& !str_contains($val->value, '%')
-						&& !str_starts_with($val->value, '*')
+							&& count($val->attributes) === 1
+							&& $val->attributes[0] === '?'
+							&& is_string($val->value)
+							&& !str_contains($val->value, '%')
+							&& !str_starts_with($val->value, '*')
 					) {
 						$fileHelper = $this->createFileHelperByFile($file);
 						$val = new OptionalPath($fileHelper->normalizePath($fileHelper->absolutizePath($val->value)));
@@ -131,8 +129,8 @@ final class NeonAdapter implements Adapter
 
 			if (
 				$keyToResolve === '[parameters][excludePaths]'
-				&& $val !== null
-				&& array_values($val) === $val
+					&& $val !== null
+					&& array_values($val) === $val
 			) {
 				$val = ['analyseAndScan' => $val, 'analyse' => []];
 			}
@@ -151,5 +149,4 @@ final class NeonAdapter implements Adapter
 
 		return $this->fileHelpers[$dir];
 	}
-
 }

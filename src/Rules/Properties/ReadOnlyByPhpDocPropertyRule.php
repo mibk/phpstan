@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassPropertyNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<ClassPropertyNode>
@@ -15,7 +15,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class ReadOnlyByPhpDocPropertyRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return ClassPropertyNode::class;
@@ -29,12 +28,11 @@ final class ReadOnlyByPhpDocPropertyRule implements Rule
 
 		$errors = [];
 		if ($node->getDefault() !== null) {
-			 $errors[] = RuleErrorBuilder::message('@readonly property cannot have a default value.')
-				 ->identifier('property.readOnlyByPhpDocDefaultValue')
-				 ->build();
+			$errors[] = RuleErrorBuilder::message('@readonly property cannot have a default value.')
+				->identifier('property.readOnlyByPhpDocDefaultValue')
+				->build();
 		}
 
 		return $errors;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -13,12 +13,11 @@ use PHPStan\Type\Type;
 
 final class ResolvedFunctionVariantWithCallable implements ResolvedFunctionVariant, CallableParametersAcceptor
 {
-
 	/**
-	 * @param SimpleThrowPoint[] $throwPoints
-	 * @param SimpleImpurePoint[] $impurePoints
+	 * @param SimpleThrowPoint[]   $throwPoints
+	 * @param SimpleImpurePoint[]  $impurePoints
 	 * @param InvalidateExprNode[] $invalidateExpressions
-	 * @param string[] $usedVariables
+	 * @param string[]             $usedVariables
 	 */
 	public function __construct(
 		private ResolvedFunctionVariant $parametersAcceptor,
@@ -111,5 +110,4 @@ final class ResolvedFunctionVariantWithCallable implements ResolvedFunctionVaria
 	{
 		return $this->acceptsNamedArguments;
 	}
-
 }

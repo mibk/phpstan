@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node\Expr;
 
 /**
  * @api
  */
 final class MatchExpressionArmCondition
 {
-
 	public function __construct(private Expr $condition, private Scope $scope, private int $line)
 	{
 	}
@@ -29,5 +28,4 @@ final class MatchExpressionArmCondition
 	{
 		return $this->line;
 	}
-
 }

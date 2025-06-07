@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -34,7 +34,6 @@ use function sprintf;
 
 class HasOffsetType implements CompoundType, AccessoryType
 {
-
 	use MaybeArrayTypeTrait;
 	use MaybeCallableTypeTrait;
 	use MaybeIterableTypeTrait;
@@ -204,7 +203,7 @@ class HasOffsetType implements CompoundType, AccessoryType
 	{
 		if (
 			$this->offsetType->isSuperTypeOf($offsetType)->yes()
-			&& ($lengthType->isNull()->yes() || IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($lengthType)->yes())
+				&& ($lengthType->isNull()->yes() || IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($lengthType)->yes())
 		) {
 			return $preserveKeys->yes()
 				? TypeCombinator::intersect($this, new NonEmptyArrayType())
@@ -422,5 +421,4 @@ class HasOffsetType implements CompoundType, AccessoryType
 	{
 		return new IdentifierTypeNode(''); // no PHPDoc representation
 	}
-
 }

@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
 /** @api */
 interface Output
 {
-
 	public function writeFormatted(string $message): void;
 
 	public function writeLineFormatted(string $message): void;
@@ -21,5 +20,4 @@ interface Output
 	public function isDebug(): bool;
 
 	public function isDecorated(): bool;
-
 }

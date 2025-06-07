@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -14,6 +13,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\MethodCall;
 use Throwable;
 use function count;
 use function in_array;
@@ -22,7 +22,6 @@ use function strtolower;
 #[AutowiredService]
 final class ThrowableReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-
 	public function getClass(): string
 	{
 		return Throwable::class;
@@ -75,5 +74,4 @@ final class ThrowableReturnTypeExtension implements DynamicMethodReturnTypeExten
 
 		return TypeCombinator::union(...$types);
 	}
-
 }

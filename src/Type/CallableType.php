@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -45,7 +45,6 @@ use function count;
 /** @api */
 class CallableType implements CompoundType, CallableParametersAcceptor
 {
-
 	use MaybeArrayTypeTrait;
 	use MaybeIterableTypeTrait;
 	use MaybeObjectTypeTrait;
@@ -70,7 +69,7 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 
 	/**
 	 * @api
-	 * @param list<ParameterReflection>|null $parameters
+	 * @param list<ParameterReflection>|null       $parameters
 	 * @param array<non-empty-string, TemplateTag> $templateTags
 	 */
 	public function __construct(
@@ -131,7 +130,7 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 
 	public function accepts(Type $type, bool $strictTypes): AcceptsResult
 	{
-		if ($type instanceof CompoundType && !$type instanceof self) {
+		if ($type instanceof CompoundType && ! $type instanceof self) {
 			return $type->isAcceptedBy($this, $strictTypes);
 		}
 
@@ -140,7 +139,7 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 
 	public function isSuperTypeOf(Type $type): IsSuperTypeOfResult
 	{
-		if ($type instanceof CompoundType && !$type instanceof self) {
+		if ($type instanceof CompoundType && ! $type instanceof self) {
 			return $type->isSubTypeOf($this);
 		}
 
@@ -172,12 +171,12 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 			return $isCallable;
 		}
 
-		$parameterTypes = array_map(static fn ($parameter) => $parameter->getType(), $this->getParameters());
+		$parameterTypes = array_map(static fn($parameter) => $parameter->getType(), $this->getParameters());
 
 		$variantsResult = null;
 		foreach ($type->getCallableParametersAcceptors($scope) as $variant) {
 			$variant = ParametersAcceptorSelector::selectFromTypes($parameterTypes, [$variant], false);
-			if (!$variant instanceof CallableParametersAcceptor) {
+			if (! $variant instanceof CallableParametersAcceptor) {
 				return IsSuperTypeOfResult::createNo([]);
 			}
 			$isSuperType = CallableTypeHelper::isParametersAcceptorSuperTypeOf($this, $variant, $treatMixedAsAny);
@@ -212,7 +211,7 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -222,11 +221,11 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			static fn (): string => 'callable',
-			function (): string {
+			static fn(): string => 'callable',
+			function(): string {
 				$printer = new Printer();
 				$selfWithoutParameterNames = new self(
-					array_map(static fn (ParameterReflection $p): ParameterReflection => new DummyParameter(
+					array_map(static fn(ParameterReflection $p): ParameterReflection => new DummyParameter(
 						'',
 						$p->getType(),
 						$p->isOptional() && !$p->isVariadic(),
@@ -384,7 +383,7 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 			return $receivedType->inferTemplateTypesOn($this);
 		}
 
-		if (! $receivedType->isCallable()->yes()) {
+		if (!$receivedType->isCallable()->yes()) {
 			return TemplateTypeMap::createEmpty();
 		}
 
@@ -401,7 +400,7 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 
 	private function inferTemplateTypesOnParametersAcceptor(ParametersAcceptor $parametersAcceptor): TemplateTypeMap
 	{
-		$parameterTypes = array_map(static fn ($parameter) => $parameter->getType(), $this->getParameters());
+		$parameterTypes = array_map(static fn($parameter) => $parameter->getType(), $this->getParameters());
 		$parametersAcceptor = ParametersAcceptorSelector::selectFromTypes($parameterTypes, [$parametersAcceptor], false);
 		$args = $parametersAcceptor->getParameters();
 		$returnType = $parametersAcceptor->getReturnType();
@@ -446,7 +445,7 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 			return $this;
 		}
 
-		$parameters = array_map(static function (ParameterReflection $param) use ($cb): NativeParameterReflection {
+		$parameters = array_map(static function(ParameterReflection $param) use ($cb): NativeParameterReflection {
 			$defaultValue = $param->getDefaultValue();
 			return new NativeParameterReflection(
 				$param->getName(),
@@ -692,5 +691,4 @@ class CallableType implements CompoundType, CallableParametersAcceptor
 			$templateTags,
 		);
 	}
-
 }

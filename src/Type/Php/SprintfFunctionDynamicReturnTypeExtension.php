@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Internal\CombinationsHelper;
@@ -22,6 +20,8 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\FuncCall;
 use Throwable;
 use function array_fill;
 use function array_key_exists;
@@ -40,7 +40,6 @@ use function vsprintf;
 #[AutowiredService]
 final class SprintfFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return in_array($functionReflection->getName(), ['sprintf', 'vsprintf'], true);
@@ -69,7 +68,7 @@ final class SprintfFunctionDynamicReturnTypeExtension implements DynamicFunction
 			$functionReflection,
 			$scope,
 			$args,
-			static fn (Type $type): bool => $type->toString()->isLowercaseString()->yes()
+			static fn(Type $type): bool => $type->toString()->isLowercaseString()->yes(),
 		);
 
 		$singlePlaceholderEarlyReturn = [];
@@ -98,8 +97,8 @@ final class SprintfFunctionDynamicReturnTypeExtension implements DynamicFunction
 
 			if (
 				is_array($singlePlaceholderEarlyReturn)
-				// The printf format is %[argnum$][flags][width][.precision]specifier.
-				&& preg_match('/^%(?P<argnum>[0-9]*\$)?(?P<width>[0-9]*)\.?[0-9]*(?P<specifier>[sbdeEfFgGhHouxX])$/', $constantString->getValue(), $matches) === 1
+					// The printf format is %[argnum$][flags][width][.precision]specifier.
+					&& preg_match('/^%(?P<argnum>[0-9]*\$)?(?P<width>[0-9]*)\.?[0-9]*(?P<specifier>[sbdeEfFgGhHouxX])$/', $constantString->getValue(), $matches) === 1
 			) {
 				if ($matches['argnum'] !== '') {
 					// invalid positional argument
@@ -120,7 +119,7 @@ final class SprintfFunctionDynamicReturnTypeExtension implements DynamicFunction
 				// of stringy type, then the return value will be of the same type
 				if (
 					$matches['specifier'] === 's'
-					&& ($checkArgType->isString()->yes() || $checkArgType->isInteger()->yes())
+						&& ($checkArgType->isString()->yes() || $checkArgType->isInteger()->yes())
 				) {
 					if ($checkArgType instanceof IntegerRangeType) {
 						$constArgTypes = $checkArgType->getFiniteTypes();
@@ -169,7 +168,7 @@ final class SprintfFunctionDynamicReturnTypeExtension implements DynamicFunction
 				$functionReflection,
 				$scope,
 				$args,
-				static fn (Type $type): bool => $type->toString()->isNonEmptyString()->yes()
+				static fn(Type $type): bool => $type->toString()->isNonEmptyString()->yes(),
 			);
 		}
 
@@ -181,7 +180,7 @@ final class SprintfFunctionDynamicReturnTypeExtension implements DynamicFunction
 	}
 
 	/**
-	 * @param array<Arg> $args
+	 * @param array<Arg>           $args
 	 * @param callable(Type): bool $cb
 	 */
 	private function allValuesSatisfies(FunctionReflection $functionReflection, Scope $scope, array $args, callable $cb): bool
@@ -264,7 +263,7 @@ final class SprintfFunctionDynamicReturnTypeExtension implements DynamicFunction
 			$valuesCount = count($args) - 1;
 		} elseif (
 			$functionReflection->getName() === 'vsprintf'
-			&& count($args) >= 2
+				&& count($args) >= 2
 		) {
 			$arraySize = $scope->getType($args[1]->value)->getArraySize();
 			if (!($arraySize instanceof ConstantIntegerType)) {
@@ -371,5 +370,4 @@ final class SprintfFunctionDynamicReturnTypeExtension implements DynamicFunction
 
 		return new IntersectionType($accessoryTypes);
 	}
-
 }

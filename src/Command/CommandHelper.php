@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -38,6 +38,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+use const DIRECTORY_SEPARATOR;
+use const E_ERROR;
+use const PHP_VERSION_ID;
 use function array_filter;
 use function array_key_exists;
 use function array_map;
@@ -63,13 +66,9 @@ use function sprintf;
 use function str_contains;
 use function str_repeat;
 use function sys_get_temp_dir;
-use const DIRECTORY_SEPARATOR;
-use const E_ERROR;
-use const PHP_VERSION_ID;
 
 final class CommandHelper
 {
-
 	public const DEFAULT_LEVEL = '0';
 
 	private static ?string $reservedMemory = null;
@@ -99,7 +98,7 @@ final class CommandHelper
 	{
 		$stdOutput = new SymfonyOutput($output, new SymfonyStyle(new ErrorsConsoleStyle($input, $output)));
 
-		$errorOutput = (static function () use ($input, $output): Output {
+		$errorOutput = (static function() use ($input, $output): Output {
 			$symfonyErrorOutput = $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
 			return new SymfonyOutput($symfonyErrorOutput, new SymfonyStyle(new ErrorsConsoleStyle($input, $symfonyErrorOutput)));
 		})();
@@ -124,8 +123,8 @@ final class CommandHelper
 			if ($v !== '') {
 				$errorOutput->getStyle()->note(
 					"The Xdebug PHP extension is active, but \"--xdebug\" is not used.\n" .
-					"The process was restarted and it will not halt at breakpoints.\n" .
-					'Use "--xdebug" if you want to halt at breakpoints.',
+						"The process was restarted and it will not halt at breakpoints.\n" .
+						'Use "--xdebug" if you want to halt at breakpoints.',
 				);
 			}
 		}
@@ -142,7 +141,7 @@ final class CommandHelper
 		}
 
 		self::$reservedMemory = str_repeat('PHPStan', 1463); // reserve 10 kB of space
-		register_shutdown_function(static function () use ($errorOutput): void {
+		register_shutdown_function(static function() use ($errorOutput): void {
 			self::$reservedMemory = null;
 			$error = error_get_last();
 			if ($error === null) {
@@ -178,7 +177,7 @@ final class CommandHelper
 				throw new InceptionNotSuccessfulException();
 			}
 
-			(static function (string $file): void {
+			(static function(string $file): void {
 				require_once $file;
 			})($autoloadFile);
 		}
@@ -239,7 +238,7 @@ final class CommandHelper
 			$defaultLevelUsed = true;
 		}
 
-		$paths = array_map(static fn (string $path): string => $currentWorkingDirectoryFileHelper->normalizePath($currentWorkingDirectoryFileHelper->absolutizePath($path)), $paths);
+		$paths = array_map(static fn(string $path): string => $currentWorkingDirectoryFileHelper->normalizePath($currentWorkingDirectoryFileHelper->absolutizePath($path)), $paths);
 
 		$analysedPathsFromConfig = [];
 		$containerFactory = new ContainerFactory($currentWorkingDirectory);
@@ -271,9 +270,9 @@ final class CommandHelper
 				throw new InceptionNotSuccessfulException();
 			}
 			$defaultParameters = [
-				'rootDir' => $containerFactory->getRootDirectory(),
+				'rootDir'                 => $containerFactory->getRootDirectory(),
 				'currentWorkingDirectory' => $containerFactory->getCurrentWorkingDirectory(),
-				'env' => getenv(),
+				'env'                     => getenv(),
 			];
 
 			if (isset($projectConfig['parameters']['tmpDir'])) {
@@ -331,15 +330,15 @@ final class CommandHelper
 
 			if (
 				count($additionalConfigFiles) > 0
-				&& $generatedConfigReflection->hasConstant('PHPSTAN_VERSION_CONSTRAINT')
+					&& $generatedConfigReflection->hasConstant('PHPSTAN_VERSION_CONSTRAINT')
 			) {
 				$generatedConfigPhpStanVersionConstraint = $generatedConfigReflection->getConstant('PHPSTAN_VERSION_CONSTRAINT');
 				if ($generatedConfigPhpStanVersionConstraint !== null) {
 					$phpstanSemverVersion = ComposerHelper::getPhpStanVersion();
 					if (
 						$phpstanSemverVersion !== ComposerHelper::UNKNOWN_VERSION
-						&& !str_contains($phpstanSemverVersion, '@')
-						&& !Semver::satisfies($phpstanSemverVersion, $generatedConfigPhpStanVersionConstraint)
+							&& !str_contains($phpstanSemverVersion, '@')
+							&& !Semver::satisfies($phpstanSemverVersion, $generatedConfigPhpStanVersionConstraint)
 					) {
 						$errorOutput->writeLineFormatted('<error>Running PHPStan with incompatible extensions</error>');
 						$errorOutput->writeLineFormatted('You\'re running PHPStan from a different Composer project');
@@ -369,12 +368,12 @@ final class CommandHelper
 
 		if (
 			$projectConfigFile !== null
-			&& $currentWorkingDirectoryFileHelper->normalizePath($projectConfigFile, '/') !== $currentWorkingDirectoryFileHelper->normalizePath(__DIR__ . '/../../conf/config.stubFiles.neon', '/')
+				&& $currentWorkingDirectoryFileHelper->normalizePath($projectConfigFile, '/') !== $currentWorkingDirectoryFileHelper->normalizePath(__DIR__ . '/../../conf/config.stubFiles.neon', '/')
 		) {
 			$additionalConfigFiles[] = $projectConfigFile;
 		}
 
-		$createDir = static function (string $path) use ($errorOutput): void {
+		$createDir = static function(string $path) use ($errorOutput): void {
 			try {
 				DirectoryCreator::ensureDirectoryExists($path, 0777);
 			} catch (DirectoryCreatorException $e) {
@@ -598,7 +597,7 @@ final class CommandHelper
 
 		$stubFilesProvider = $container->getByType(StubFilesProvider::class);
 
-		$filesCallback = static function () use ($currentWorkingDirectoryFileHelper, $stubFilesProvider, $fileFinder, $pathRoutingParser, $paths, $errorOutput): array {
+		$filesCallback = static function() use ($currentWorkingDirectoryFileHelper, $stubFilesProvider, $fileFinder, $pathRoutingParser, $paths, $errorOutput): array {
 			if (count($paths) === 0) {
 				$errorOutput->writeLineFormatted('At least one path must be specified to analyse.');
 				throw new InceptionNotSuccessfulException();
@@ -610,7 +609,7 @@ final class CommandHelper
 
 			$stubFilesExcluder = new FileExcluder($currentWorkingDirectoryFileHelper, $stubFilesProvider->getProjectStubFiles());
 
-			$files = array_values(array_filter($files, static fn (string $file) => !$stubFilesExcluder->isExcludedFromAnalysing($file)));
+			$files = array_values(array_filter($files, static fn(string $file) => !$stubFilesExcluder->isExcludedFromAnalysing($file)));
 
 			return [$files, $fileFinderResult->isOnlyFiles()];
 		};
@@ -644,7 +643,7 @@ final class CommandHelper
 			throw new InceptionNotSuccessfulException();
 		}
 		try {
-			(static function (string $file) use ($container): void {
+			(static function(string $file) use ($container): void {
 				require_once $file;
 			})($file);
 		} catch (Throwable $e) {
@@ -657,5 +656,4 @@ final class CommandHelper
 			throw new InceptionNotSuccessfulException();
 		}
 	}
-
 }

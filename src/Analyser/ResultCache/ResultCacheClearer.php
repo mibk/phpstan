@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser\ResultCache;
 
@@ -11,7 +11,6 @@ use function unlink;
 #[AutowiredService]
 final class ResultCacheClearer
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '%resultCachePath%')]
 		private string $cacheFilePath,
@@ -30,5 +29,4 @@ final class ResultCacheClearer
 
 		return $dir;
 	}
-
 }

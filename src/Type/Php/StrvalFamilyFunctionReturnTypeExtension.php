@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -13,13 +12,13 @@ use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class StrvalFamilyFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	private const FUNCTIONS = [
 		'strval',
 		'intval',
@@ -46,20 +45,19 @@ final class StrvalFamilyFunctionReturnTypeExtension implements DynamicFunctionRe
 		$argType = $scope->getType($functionCall->getArgs()[0]->value);
 
 		switch ($functionReflection->getName()) {
-			case 'strval':
-				return $argType->toString();
-			case 'intval':
-				$type = $argType->toInteger();
-				return $type instanceof ErrorType ? new IntegerType() : $type;
-			case 'boolval':
-				return $argType->toBoolean();
-			case 'floatval':
-			case 'doubleval':
-				$type = $argType->toFloat();
-				return $type instanceof ErrorType ? new FloatType() : $type;
-			default:
-				throw new ShouldNotHappenException();
+		case 'strval':
+			return $argType->toString();
+		case 'intval':
+			$type = $argType->toInteger();
+			return $type instanceof ErrorType ? new IntegerType() : $type;
+		case 'boolval':
+			return $argType->toBoolean();
+		case 'floatval':
+		case 'doubleval':
+			$type = $argType->toFloat();
+			return $type instanceof ErrorType ? new FloatType() : $type;
+		default:
+			throw new ShouldNotHappenException();
 		}
 	}
-
 }

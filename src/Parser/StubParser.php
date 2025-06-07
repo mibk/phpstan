@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\File\FileReader;
+use PHPStan\ShouldNotHappenException;
 use PhpParser\ErrorHandler\Collecting;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
-use PHPStan\File\FileReader;
-use PHPStan\ShouldNotHappenException;
 
 final class StubParser implements Parser
 {
-
 	public function __construct(
 		private \PhpParser\Parser $parser,
 		private NameResolver $nameResolver,
@@ -20,7 +19,7 @@ final class StubParser implements Parser
 	}
 
 	/**
-	 * @param string $file path to a file to parse
+	 * @param  string $file path to a file to parse
 	 * @return Node\Stmt[]
 	 */
 	public function parseFile(string $file): array
@@ -52,5 +51,4 @@ final class StubParser implements Parser
 		/** @var array<Node\Stmt> */
 		return $nodeTraverser->traverse($nodes);
 	}
-
 }

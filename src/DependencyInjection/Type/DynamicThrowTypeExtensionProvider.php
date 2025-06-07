@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Type;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\DynamicStaticMethodThrowTypeExtension;
 
 interface DynamicThrowTypeExtensionProvider
 {
-
 	/** @return DynamicFunctionThrowTypeExtension[] */
 	public function getDynamicFunctionThrowTypeExtensions(): array;
 
@@ -17,5 +16,4 @@ interface DynamicThrowTypeExtensionProvider
 
 	/** @return DynamicStaticMethodThrowTypeExtension[] */
 	public function getDynamicStaticMethodThrowTypeExtensions(): array;
-
 }

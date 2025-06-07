@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -17,7 +17,6 @@ use function sha1_file;
 #[AutowiredService]
 final class FileMonitor
 {
-
 	/** @var array<string, string>|null */
 	private ?array $fileHashes = null;
 
@@ -116,7 +115,7 @@ final class FileMonitor
 	}
 
 	/**
-	 * @param string[] $allAnalysedFiles
+	 * @param  string[] $allAnalysedFiles
 	 * @return array<string>
 	 */
 	private function getScannedFiles(array $allAnalysedFiles): array
@@ -142,5 +141,4 @@ final class FileMonitor
 
 		return array_diff($scannedFiles, $allAnalysedFiles);
 	}
-
 }

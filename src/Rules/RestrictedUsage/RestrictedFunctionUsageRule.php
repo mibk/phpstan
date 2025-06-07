@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
-use PhpParser\Node;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Name;
 
 /**
  * @implements Rule<Node\Expr\FuncCall>
@@ -17,7 +17,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[AutowiredService]
 final class RestrictedFunctionUsageRule implements Rule
 {
-
 	public function __construct(
 		private Container $container,
 		private ReflectionProvider $reflectionProvider,
@@ -62,5 +61,4 @@ final class RestrictedFunctionUsageRule implements Rule
 
 		return $errors;
 	}
-
 }

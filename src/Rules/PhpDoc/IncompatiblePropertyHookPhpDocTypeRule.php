@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InPropertyHookNode;
@@ -10,6 +9,7 @@ use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 
 /**
  * @implements Rule<InPropertyHookNode>
@@ -17,7 +17,6 @@ use PHPStan\Type\Type;
 #[RegisteredRule(level: 2)]
 final class IncompatiblePropertyHookPhpDocTypeRule implements Rule
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 		private IncompatiblePhpDocTypeCheck $check,
@@ -83,5 +82,4 @@ final class IncompatiblePropertyHookPhpDocTypeRule implements Rule
 
 		return $parameters;
 	}
-
 }

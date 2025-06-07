@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Keywords;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Include_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -12,13 +10,15 @@ use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Include_;
+use const PATH_SEPARATOR;
 use function array_merge;
 use function dirname;
 use function explode;
 use function get_include_path;
 use function is_file;
 use function sprintf;
-use const PATH_SEPARATOR;
 
 /**
  * @implements Rule<Include_>
@@ -26,7 +26,6 @@ use const PATH_SEPARATOR;
 #[RegisteredRule(level: 0)]
 final class RequireFileExistsRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private string $currentWorkingDirectory,
@@ -93,24 +92,24 @@ final class RequireFileExistsRule implements Rule
 		$message = 'Path in %s() "%s" is not a file or it does not exist.';
 
 		switch ($node->type) {
-			case Include_::TYPE_REQUIRE:
-				$type = 'require';
-				$identifierType = 'require';
-				break;
-			case Include_::TYPE_REQUIRE_ONCE:
-				$type = 'require_once';
-				$identifierType = 'requireOnce';
-				break;
-			case Include_::TYPE_INCLUDE:
-				$type = 'include';
-				$identifierType = 'include';
-				break;
-			case Include_::TYPE_INCLUDE_ONCE:
-				$type = 'include_once';
-				$identifierType = 'includeOnce';
-				break;
-			default:
-				throw new ShouldNotHappenException('Rule should have already validated the node type.');
+		case Include_::TYPE_REQUIRE:
+			$type = 'require';
+			$identifierType = 'require';
+			break;
+		case Include_::TYPE_REQUIRE_ONCE:
+			$type = 'require_once';
+			$identifierType = 'requireOnce';
+			break;
+		case Include_::TYPE_INCLUDE:
+			$type = 'include';
+			$identifierType = 'include';
+			break;
+		case Include_::TYPE_INCLUDE_ONCE:
+			$type = 'include_once';
+			$identifierType = 'includeOnce';
+			break;
+		default:
+			throw new ShouldNotHappenException('Rule should have already validated the node type.');
 		}
 
 		$identifier = sprintf('%s.fileNotFound', $identifierType);
@@ -139,5 +138,4 @@ final class RequireFileExistsRule implements Rule
 
 		return $paths;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
 /** @api */
 interface TemplateType extends CompoundType
 {
-
 	/** @return non-empty-string */
 	public function getName(): string;
 
@@ -28,5 +27,4 @@ interface TemplateType extends CompoundType
 	public function getVariance(): TemplateTypeVariance;
 
 	public function getStrategy(): TemplateTypeStrategy;
-
 }

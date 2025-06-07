@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -6,7 +6,6 @@ use PHPStan\Type\Type;
 
 final class ExpressionContext
 {
-
 	private function __construct(
 		private bool $isDeep,
 		private ?string $inAssignRightSideVariableName,
@@ -59,5 +58,4 @@ final class ExpressionContext
 	{
 		return $this->inAssignRightSideNativeType;
 	}
-
 }

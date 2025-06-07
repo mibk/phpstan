@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 /** @api */
 interface ConstantReflection
 {
-
 	public function getName(): string;
 
 	public function getValueType(): Type;
@@ -20,5 +19,4 @@ interface ConstantReflection
 	public function isInternal(): TrinaryLogic;
 
 	public function getFileName(): ?string;
-
 }

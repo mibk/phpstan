@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -14,7 +14,6 @@ use function sprintf;
  */
 final class TemplateTypeArgumentStrategy implements TemplateTypeStrategy
 {
-
 	public function accepts(TemplateType $left, Type $right, bool $strictTypes): AcceptsResult
 	{
 		if ($right instanceof CompoundType) {
@@ -42,5 +41,4 @@ final class TemplateTypeArgumentStrategy implements TemplateTypeStrategy
 	{
 		return true;
 	}
-
 }

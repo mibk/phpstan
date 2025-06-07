@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Dummy;
 
-use PhpParser\Node\Expr;
 use PHPStan\Node\Expr\TypeExpr;
 use PHPStan\Reflection\ClassConstantReflection;
 use PHPStan\Reflection\ClassReflection;
@@ -10,11 +9,11 @@ use PHPStan\Reflection\ReflectionProviderStaticAccessor;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr;
 use stdClass;
 
 final class DummyClassConstantReflection implements ClassConstantReflection
 {
-
 	public function __construct(private string $name)
 	{
 	}
@@ -110,5 +109,4 @@ final class DummyClassConstantReflection implements ClassConstantReflection
 	{
 		return [];
 	}
-
 }

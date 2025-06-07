@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -12,6 +10,8 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\ParameterCastableToStringCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function array_key_exists;
 use function count;
 use function in_array;
@@ -23,7 +23,6 @@ use function sprintf;
 #[RegisteredRule(level: 5)]
 final class ImplodeParameterCastableToStringRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ParameterCastableToStringCheck $parameterCastableToStringCheck,
@@ -101,7 +100,7 @@ final class ImplodeParameterCastableToStringRule implements Rule
 				$arg,
 				$scope,
 				$errorMessage,
-				static fn (Type $t) => $t->toString(),
+				static fn(Type $t) => $t->toString(),
 				$functionName,
 				$argName,
 			);
@@ -115,5 +114,4 @@ final class ImplodeParameterCastableToStringRule implements Rule
 
 		return $errors;
 	}
-
 }

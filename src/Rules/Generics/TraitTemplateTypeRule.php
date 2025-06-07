@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -10,6 +9,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\Generic\TemplateTypeScope;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -18,7 +18,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class TraitTemplateTypeRule implements Rule
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 		private TemplateTypeCheck $templateTypeCheck,
@@ -67,5 +66,4 @@ final class TraitTemplateTypeRule implements Rule
 			sprintf('PHPDoc tag @template %%s for trait %s does not have a default type but follows an optional @template %%s.', $escapedTraitName),
 		);
 	}
-
 }

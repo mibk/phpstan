@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Instanceof_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Parser\TypeTraverserInstanceofVisitor;
@@ -45,6 +43,8 @@ use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\VoidType;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Instanceof_;
 use function array_key_exists;
 use function sprintf;
 use function strtolower;
@@ -55,45 +55,44 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class ApiInstanceofTypeRule implements Rule
 {
-
 	private const MAP = [
-		TypeWithClassName::class => 'Type::getObjectClassNames() or Type::getObjectClassReflections()',
-		EnumCaseObjectType::class => 'Type::getEnumCases()',
-		ConstantArrayType::class => 'Type::getConstantArrays()',
-		ArrayType::class => 'Type::isArray() or Type::getArrays()',
-		ConstantStringType::class => 'Type::getConstantStrings()',
-		StringType::class => 'Type::isString()',
-		ClassStringType::class => 'Type::isClassStringType()',
-		IntegerType::class => 'Type::isInteger()',
-		FloatType::class => 'Type::isFloat()',
-		NullType::class => 'Type::isNull()',
-		VoidType::class => 'Type::isVoid()',
-		BooleanType::class => 'Type::isBoolean()',
-		ConstantBooleanType::class => 'Type::isTrue() or Type::isFalse()',
-		CallableType::class => 'Type::isCallable() and Type::getCallableParametersAcceptors()',
-		IterableType::class => 'Type::isIterable()',
+		TypeWithClassName::class      => 'Type::getObjectClassNames() or Type::getObjectClassReflections()',
+		EnumCaseObjectType::class     => 'Type::getEnumCases()',
+		ConstantArrayType::class      => 'Type::getConstantArrays()',
+		ArrayType::class              => 'Type::isArray() or Type::getArrays()',
+		ConstantStringType::class     => 'Type::getConstantStrings()',
+		StringType::class             => 'Type::isString()',
+		ClassStringType::class        => 'Type::isClassStringType()',
+		IntegerType::class            => 'Type::isInteger()',
+		FloatType::class              => 'Type::isFloat()',
+		NullType::class               => 'Type::isNull()',
+		VoidType::class               => 'Type::isVoid()',
+		BooleanType::class            => 'Type::isBoolean()',
+		ConstantBooleanType::class    => 'Type::isTrue() or Type::isFalse()',
+		CallableType::class           => 'Type::isCallable() and Type::getCallableParametersAcceptors()',
+		IterableType::class           => 'Type::isIterable()',
 		ObjectWithoutClassType::class => 'Type::isObject()',
-		ObjectType::class => 'Type::isObject() or Type::getObjectClassNames()',
+		ObjectType::class             => 'Type::isObject() or Type::getObjectClassNames()',
 		GenericClassStringType::class => 'Type::isClassStringType() and Type::getClassStringObjectType()',
-		GenericObjectType::class => null,
-		IntersectionType::class => null,
-		ConstantScalarType::class => 'Type::isConstantScalarValue() or Type::getConstantScalarTypes() or Type::getConstantScalarValues()',
-		ObjectShapeType::class => 'Type::isObject() and Type::hasProperty()',
+		GenericObjectType::class      => null,
+		IntersectionType::class       => null,
+		ConstantScalarType::class     => 'Type::isConstantScalarValue() or Type::getConstantScalarTypes() or Type::getConstantScalarValues()',
+		ObjectShapeType::class        => 'Type::isObject() and Type::hasProperty()',
 
 		// accessory types
-		NonEmptyArrayType::class => 'Type::isIterableAtLeastOnce()',
-		OversizedArrayType::class => 'Type::isOversizedArray()',
-		AccessoryArrayListType::class => 'Type::isList()',
-		AccessoryNumericStringType::class => 'Type::isNumericString()',
-		AccessoryLiteralStringType::class => 'Type::isLiteralString()',
+		NonEmptyArrayType::class            => 'Type::isIterableAtLeastOnce()',
+		OversizedArrayType::class           => 'Type::isOversizedArray()',
+		AccessoryArrayListType::class       => 'Type::isList()',
+		AccessoryNumericStringType::class   => 'Type::isNumericString()',
+		AccessoryLiteralStringType::class   => 'Type::isLiteralString()',
 		AccessoryLowercaseStringType::class => 'Type::isLowercaseString()',
 		AccessoryUppercaseStringType::class => 'Type::isUppercaseString()',
-		AccessoryNonEmptyStringType::class => 'Type::isNonEmptyString()',
-		AccessoryNonFalsyStringType::class => 'Type::isNonFalsyString()',
-		HasMethodType::class => 'Type::hasMethod()',
-		HasPropertyType::class => 'Type::hasProperty()',
-		HasOffsetType::class => 'Type::hasOffsetValueType()',
-		AccessoryType::class => 'methods on PHPStan\\Type\\Type',
+		AccessoryNonEmptyStringType::class  => 'Type::isNonEmptyString()',
+		AccessoryNonFalsyStringType::class  => 'Type::isNonFalsyString()',
+		HasMethodType::class                => 'Type::hasMethod()',
+		HasPropertyType::class              => 'Type::hasProperty()',
+		HasOffsetType::class                => 'Type::hasOffsetValueType()',
+		AccessoryType::class                => 'methods on PHPStan\\Type\\Type',
 	];
 
 	public function __construct(
@@ -109,7 +108,7 @@ final class ApiInstanceofTypeRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->class instanceof Node\Name) {
+		if (! $node->class instanceof Node\Name) {
 			return [];
 		}
 
@@ -155,5 +154,4 @@ final class ApiInstanceofTypeRule implements Rule
 			))->identifier('phpstanApi.instanceofType')->tip($tip)->build(),
 		];
 	}
-
 }

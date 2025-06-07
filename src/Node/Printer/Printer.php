@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Printer;
 
-use PhpParser\PrettyPrinter\Standard;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Node\Expr\AlwaysRememberedExpr;
 use PHPStan\Node\Expr\ExistingArrayDimFetch;
@@ -18,6 +17,7 @@ use PHPStan\Node\Expr\TypeExpr;
 use PHPStan\Node\Expr\UnsetOffsetExpr;
 use PHPStan\Node\IssetExpr;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\PrettyPrinter\Standard;
 use function sprintf;
 
 /**
@@ -26,7 +26,6 @@ use function sprintf;
 #[AutowiredService(as: Printer::class)]
 final class Printer extends Standard
 {
-
 	protected function pPHPStan_Node_TypeExpr(TypeExpr $expr): string // phpcs:ignore
 	{
 		return sprintf('__phpstanType(%s)', $expr->getExprType()->describe(VerbosityLevel::precise()));
@@ -91,5 +90,4 @@ final class Printer extends Standard
 	{
 		return sprintf('__phpstanIssetExpr(%s)', $this->p($expr->getExpr()));
 	}
-
 }

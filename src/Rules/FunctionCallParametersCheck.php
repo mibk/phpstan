@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -27,6 +25,8 @@ use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
 use function array_fill;
 use function array_key_exists;
 use function count;
@@ -40,7 +40,6 @@ use function sprintf;
 #[AutowiredService]
 final class FunctionCallParametersCheck
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 		private NullsafeCheck $nullsafeCheck,
@@ -59,7 +58,7 @@ final class FunctionCallParametersCheck
 	}
 
 	/**
-	 * @param 'attribute'|'callable'|'method'|'staticMethod'|'function'|'new' $nodeType
+	 * @param  'attribute'|'callable'|'method'|'staticMethod'|'function'|'new' $nodeType
 	 * @return list<IdentifierRuleError>
 	 */
 	public function check(
@@ -209,7 +208,7 @@ final class FunctionCallParametersCheck
 			];
 		}
 
-		if ($hasNamedArguments && !$scope->getPhpVersion()->supportsNamedArguments()->yes() && !(bool) $funcCall->getAttribute('isAttribute', false)) {
+		if ($hasNamedArguments && !$scope->getPhpVersion()->supportsNamedArguments()->yes() && !(bool)$funcCall->getAttribute('isAttribute', false)) {
 			$errors[] = RuleErrorBuilder::message('Named arguments are supported only on PHP 8.0 and later.')
 				->identifier('argument.namedNotSupported')
 				->line($funcCall->getStartLine())
@@ -228,7 +227,7 @@ final class FunctionCallParametersCheck
 
 			if (
 				$invokedParametersCount < $functionParametersMinCount
-				|| ($this->checkExtraArguments && $invokedParametersCount > $functionParametersMaxCount)
+					|| ($this->checkExtraArguments && $invokedParametersCount > $functionParametersMaxCount)
 			) {
 				if ($functionParametersMinCount === $functionParametersMaxCount) {
 					$errors[] = RuleErrorBuilder::message(sprintf(
@@ -263,9 +262,9 @@ final class FunctionCallParametersCheck
 		}
 
 		if (
-			!$funcCall instanceof Node\Expr\New_
-			&& !$scope->isInFirstLevelStatement()
-			&& $scope->getKeepVoidType($funcCall)->isVoid()->yes()
+			! $funcCall instanceof Node\Expr\New_
+				&& !$scope->isInFirstLevelStatement()
+				&& $scope->getKeepVoidType($funcCall)->isVoid()->yes()
 		) {
 			$errors[] = RuleErrorBuilder::message($voidReturnTypeUsed)
 				->identifier(sprintf('%s.void', $nodeType))
@@ -288,12 +287,12 @@ final class FunctionCallParametersCheck
 					$scope,
 					$argumentValue,
 					'',
-					static fn (Type $type): bool => $type->isIterable()->yes(),
+					static fn(Type $type): bool => $type->isIterable()->yes(),
 				);
 				$iterableTypeResultType = $iterableTypeResult->getType();
 				if (
-					!$iterableTypeResultType instanceof ErrorType
-					&& !$iterableTypeResultType->isIterable()->yes()
+					! $iterableTypeResultType instanceof ErrorType
+						&& !$iterableTypeResultType->isIterable()->yes()
 				) {
 					$errors[] = RuleErrorBuilder::message(sprintf(
 						'Only iterables can be unpacked, %s given in argument #%d.',
@@ -341,7 +340,7 @@ final class FunctionCallParametersCheck
 
 				if (
 					!$parameter->passedByReference()->createsNewVariable()
-					|| (!$isBuiltin && !$argumentValueType instanceof ErrorType)
+						|| (!$isBuiltin && ! $argumentValueType instanceof ErrorType)
 				) {
 					$accepts = $this->ruleLevelHelper->accepts($parameterType, $argumentValueType, $scope->isDeclareStrictTypes());
 
@@ -349,7 +348,7 @@ final class FunctionCallParametersCheck
 						$verbosityLevel = VerbosityLevel::getRecommendedLevelByType($parameterType, $argumentValueType);
 						$errors[] = RuleErrorBuilder::message(sprintf(
 							$wrongArgumentTypeMessage,
-							$this->describeParameter($parameter, $argumentName ?? $i + 1),
+							$this->describeParameter($parameter, $argumentName ?? $i+1),
 							$parameterType->describe($verbosityLevel),
 							$argumentValueType->describe($verbosityLevel),
 						))
@@ -362,8 +361,8 @@ final class FunctionCallParametersCheck
 
 				if (
 					$originalParameter !== null
-					&& !$this->unresolvableTypeHelper->containsUnresolvableType($originalParameter->getType())
-					&& $this->unresolvableTypeHelper->containsUnresolvableType($parameterType)
+						&& !$this->unresolvableTypeHelper->containsUnresolvableType($originalParameter->getType())
+						&& $this->unresolvableTypeHelper->containsUnresolvableType($parameterType)
 				) {
 					$errors[] = RuleErrorBuilder::message(sprintf(
 						$unresolvableParameterTypeMessage,
@@ -373,9 +372,9 @@ final class FunctionCallParametersCheck
 
 				if (
 					$parameter instanceof ExtendedParameterReflection
-					&& $parameter->getClosureThisType() !== null
-					&& ($argumentValue instanceof Expr\Closure || $argumentValue instanceof Expr\ArrowFunction)
-					&& $argumentValue->static
+						&& $parameter->getClosureThisType() !== null
+						&& ($argumentValue instanceof Expr\Closure || $argumentValue instanceof Expr\ArrowFunction)
+						&& $argumentValue->static
 				) {
 					$errors[] = RuleErrorBuilder::message(sprintf(
 						$wrongArgumentTypeMessage,
@@ -391,7 +390,7 @@ final class FunctionCallParametersCheck
 
 			if (
 				!$this->checkArgumentsPassedByReference
-				|| !$parameter->passedByReference()->yes()
+					|| !$parameter->passedByReference()->yes()
 			) {
 				continue;
 			}
@@ -409,7 +408,8 @@ final class FunctionCallParametersCheck
 
 			if (
 				$argumentValue instanceof Node\Expr\PropertyFetch
-				|| $argumentValue instanceof Node\Expr\StaticPropertyFetch) {
+					|| $argumentValue instanceof Node\Expr\StaticPropertyFetch
+			) {
 				$propertyReflections = $this->propertyReflectionFinder->findPropertyReflectionsFromNode($argumentValue, $scope);
 				foreach ($propertyReflections as $propertyReflection) {
 					$nativePropertyReflection = $propertyReflection->getNativeReflection();
@@ -463,7 +463,7 @@ final class FunctionCallParametersCheck
 				$returnTemplateTypes = [];
 				TypeTraverser::map(
 					$parametersAcceptor->getReturnTypeWithUnresolvableTemplateTypes(),
-					static function (Type $type, callable $traverse) use (&$returnTemplateTypes): Type {
+					static function(Type $type, callable $traverse) use (&$returnTemplateTypes): Type {
 						while ($type instanceof ConditionalType && $type->isResolvable()) {
 							$type = $type->resolve();
 						}
@@ -479,7 +479,7 @@ final class FunctionCallParametersCheck
 
 				$parameterTemplateTypes = [];
 				foreach ($originalParametersAcceptor->getParameters() as $parameter) {
-					TypeTraverser::map($parameter->getType(), static function (Type $type, callable $traverse) use (&$parameterTemplateTypes): Type {
+					TypeTraverser::map($parameter->getType(), static function(Type $type, callable $traverse) use (&$parameterTemplateTypes): Type {
 						if ($type instanceof TemplateType && $type->getDefault() === null) {
 							$parameterTemplateTypes[$type->getName()] = true;
 							return $type;
@@ -492,10 +492,10 @@ final class FunctionCallParametersCheck
 				foreach ($resolvedTypes as $name => $type) {
 					if (
 						!($type instanceof ErrorType)
-						&& (
-							!$type instanceof NeverType
-							|| $type->isExplicit()
-						)
+							&& (
+								! $type instanceof NeverType
+									|| $type->isExplicit()
+							)
 					) {
 						continue;
 					}
@@ -518,7 +518,7 @@ final class FunctionCallParametersCheck
 
 			if (
 				!$this->unresolvableTypeHelper->containsUnresolvableType($originalParametersAcceptor->getReturnType())
-				&& $this->unresolvableTypeHelper->containsUnresolvableType($parametersAcceptor->getReturnType())
+					&& $this->unresolvableTypeHelper->containsUnresolvableType($parametersAcceptor->getReturnType())
 			) {
 				$errors[] = RuleErrorBuilder::message($unresolvableReturnTypeMessage)
 					->identifier(sprintf('%s.unresolvableReturnType', $nodeType))
@@ -531,7 +531,7 @@ final class FunctionCallParametersCheck
 	}
 
 	/**
-	 * @param array<int, array{Expr, Type|null, bool, string|null, int}> $arguments
+	 * @param  array<int, array{Expr, Type|null, bool, string|null, int}> $arguments
 	 * @return array{list<IdentifierRuleError>, array<int, array{Expr, Type|null, bool, (string|null), int, (ParameterReflection|null), (ParameterReflection|null)}>}
 	 */
 	private function processArguments(
@@ -594,8 +594,8 @@ final class FunctionCallParametersCheck
 				$parametersCount = count($parameters);
 				if (
 					!$parametersAcceptor->isVariadic()
-					|| $parametersCount <= 0
-					|| $isBuiltin
+						|| $parametersCount <= 0
+						|| $isBuiltin
 				) {
 					$errors[] = RuleErrorBuilder::message(sprintf($unknownParameterMessage, $argumentName))
 						->identifier('argument.unknown')
@@ -623,8 +623,8 @@ final class FunctionCallParametersCheck
 
 			if (
 				$hasNamedArguments
-				&& !$parameter->isVariadic()
-				&& !array_key_exists($parameter->getName(), $unusedParametersByName)
+					&& !$parameter->isVariadic()
+					&& !array_key_exists($parameter->getName(), $unusedParametersByName)
 			) {
 				$errors[] = RuleErrorBuilder::message(sprintf('Argument for parameter $%s has already been passed.', $parameter->getName()))
 					->identifier('argument.duplicate')
@@ -670,5 +670,4 @@ final class FunctionCallParametersCheck
 
 		return implode(' ', $parts);
 	}
-
 }

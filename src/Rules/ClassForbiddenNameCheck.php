@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
@@ -16,13 +16,12 @@ use function substr;
 #[AutowiredService]
 final class ClassForbiddenNameCheck
 {
-
 	private const INTERNAL_CLASS_PREFIXES = [
-		'PHPStan' => '_PHPStan_',
-		'Rector' => 'RectorPrefix',
+		'PHPStan'    => '_PHPStan_',
+		'Rector'     => 'RectorPrefix',
 		'PHP-Scoper' => '_PhpScoper',
-		'PHPUnit' => 'PHPUnitPHAR',
-		'Box' => '_HumbugBox',
+		'PHPUnit'    => 'PHPUnitPHAR',
+		'Box'        => '_HumbugBox',
 	];
 
 	public function __construct(private Container $container)
@@ -30,7 +29,7 @@ final class ClassForbiddenNameCheck
 	}
 
 	/**
-	 * @param ClassNameNodePair[] $pairs
+	 * @param  ClassNameNodePair[] $pairs
 	 * @return list<IdentifierRuleError>
 	 */
 	public function checkClassNames(array $pairs): array
@@ -40,7 +39,7 @@ final class ClassForbiddenNameCheck
 		$classPrefixes = array_merge(
 			self::INTERNAL_CLASS_PREFIXES,
 			...array_map(
-				static fn (ForbiddenClassNameExtension $extension): array => $extension->getClassPrefixes(),
+				static fn(ForbiddenClassNameExtension $extension): array => $extension->getClassPrefixes(),
 				$extensions,
 			),
 		);
@@ -91,5 +90,4 @@ final class ClassForbiddenNameCheck
 
 		return $errors;
 	}
-
 }

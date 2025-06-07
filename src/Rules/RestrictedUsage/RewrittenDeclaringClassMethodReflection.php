@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
@@ -12,7 +12,6 @@ use PHPStan\Type\Type;
 
 final class RewrittenDeclaringClassMethodReflection implements ExtendedMethodReflection
 {
-
 	public function __construct(
 		private ClassReflection $declaringClass,
 		private ExtendedMethodReflection $methodReflection,
@@ -144,5 +143,4 @@ final class RewrittenDeclaringClassMethodReflection implements ExtendedMethodRef
 	{
 		return $this->methodReflection->hasSideEffects();
 	}
-
 }

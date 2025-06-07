@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\NullsafeCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Expr\ArrowFunction>
@@ -15,7 +15,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class ArrowFunctionReturnNullsafeByRefRule implements Rule
 {
-
 	public function __construct(private NullsafeCheck $nullsafeCheck)
 	{
 	}
@@ -42,5 +41,4 @@ final class ArrowFunctionReturnNullsafeByRefRule implements Rule
 				->build(),
 		];
 	}
-
 }

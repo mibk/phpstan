@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -16,7 +16,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class NullsafePropertyFetchRule implements Rule
 {
-
 	public function __construct()
 	{
 	}
@@ -43,5 +42,4 @@ final class NullsafePropertyFetchRule implements Rule
 				->build(),
 		];
 	}
-
 }

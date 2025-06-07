@@ -1,16 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassConst;
-use PhpParser\Node\Stmt\EnumCase;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Stmt\EnumCase;
 use function array_key_exists;
 use function is_string;
 use function sprintf;
@@ -22,7 +22,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class DuplicateDeclarationRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InClassNode::class;
@@ -95,7 +94,7 @@ final class DuplicateDeclarationRule implements Rule
 						continue;
 					}
 
-					if (!$param->var instanceof Node\Expr\Variable || !is_string($param->var->name)) {
+					if (! $param->var instanceof Node\Expr\Variable || !is_string($param->var->name)) {
 						throw new ShouldNotHappenException();
 					}
 
@@ -131,5 +130,4 @@ final class DuplicateDeclarationRule implements Rule
 
 		return $errors;
 	}
-
 }

@@ -1,16 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Regex;
 
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\InitializerExprTypeResolver;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Name;
 use function array_key_exists;
 use function ltrim;
 use function strrpos;
@@ -19,7 +19,6 @@ use function substr;
 #[AutowiredService]
 final class RegexExpressionHelper
 {
-
 	public function __construct(
 		private InitializerExprTypeResolver $initializerExprTypeResolver,
 	)
@@ -36,7 +35,6 @@ final class RegexExpressionHelper
 	public function resolvePatternConcat(Concat $concat, Scope $scope): Type
 	{
 		$resolver = new class($scope) {
-
 			public function __construct(private Scope $scope)
 			{
 			}
@@ -49,8 +47,8 @@ final class RegexExpressionHelper
 				// this allows us to turn string concatenations with preg_quote() into static analyzable strings.
 				if (
 					$expr instanceof Expr\FuncCall
-					&& $expr->name instanceof Name
-					&& $expr->name->toLowerString() === 'preg_quote'
+						&& $expr->name instanceof Name
+						&& $expr->name->toLowerString() === 'preg_quote'
 				) {
 					return new ConstantStringType('(?:.*)');
 				}
@@ -71,10 +69,9 @@ final class RegexExpressionHelper
 
 				return $this->scope->getType($expr);
 			}
-
 		};
 
-		return $this->initializerExprTypeResolver->getConcatType($concat->left, $concat->right, static fn (Expr $expr): Type => $resolver->resolve($expr));
+		return $this->initializerExprTypeResolver->getConcatType($concat->left, $concat->right, static fn(Expr $expr): Type => $resolver->resolve($expr));
 	}
 
 	public function getPatternModifiers(string $pattern): ?string
@@ -160,5 +157,4 @@ final class RegexExpressionHelper
 
 		return substr($regex, 0, 1);
 	}
-
 }

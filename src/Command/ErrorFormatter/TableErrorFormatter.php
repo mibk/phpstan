@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -26,7 +26,6 @@ use function str_replace;
 #[AutowiredService(name: 'errorFormatter.table')]
 final class TableErrorFormatter implements ErrorFormatter
 {
-
 	public function __construct(
 		private RelativePathHelper $relativePathHelper,
 		#[AutowiredParameter(ref: '@simpleRelativePathHelper')]
@@ -135,7 +134,7 @@ final class TableErrorFormatter implements ErrorFormatter
 
 				if (
 					$error->getIdentifier() !== null
-					&& in_array($error->getIdentifier(), ['phpstan.type', 'phpstan.nativeType', 'phpstan.variable', 'phpstan.dumpType', 'phpstan.unknownExpectation'], true)
+						&& in_array($error->getIdentifier(), ['phpstan.type', 'phpstan.nativeType', 'phpstan.variable', 'phpstan.dumpType', 'phpstan.unknownExpectation'], true)
 				) {
 					$message = '<fg=red>' . $message . '</>';
 				}
@@ -150,12 +149,12 @@ final class TableErrorFormatter implements ErrorFormatter
 		}
 
 		if (count($analysisResult->getNotFileSpecificErrors()) > 0) {
-			$style->table(['', 'Error'], array_map(static fn (string $error): array => ['', OutputFormatter::escape($error)], $analysisResult->getNotFileSpecificErrors()));
+			$style->table(['', 'Error'], array_map(static fn(string $error): array => ['', OutputFormatter::escape($error)], $analysisResult->getNotFileSpecificErrors()));
 		}
 
 		$warningsCount = count($analysisResult->getWarnings());
 		if ($warningsCount > 0) {
-			$style->table(['', 'Warning'], array_map(static fn (string $warning): array => ['', OutputFormatter::escape($warning)], $analysisResult->getWarnings()));
+			$style->table(['', 'Warning'], array_map(static fn(string $warning): array => ['', OutputFormatter::escape($warning)], $analysisResult->getWarnings()));
 		}
 
 		$finalMessage = sprintf($analysisResult->getTotalErrorsCount() === 1 ? 'Found %d error' : 'Found %d errors', $analysisResult->getTotalErrorsCount());
@@ -190,5 +189,4 @@ final class TableErrorFormatter implements ErrorFormatter
 
 		return (string) $lineNumber;
 	}
-
 }

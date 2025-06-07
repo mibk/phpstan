@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Closure;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\FunctionDefinitionCheck;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Closure;
 
 /**
  * @implements Rule<Node\Expr\Closure>
@@ -15,7 +15,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 0)]
 final class ExistingClassesInClosureTypehintsRule implements Rule
 {
-
 	public function __construct(private FunctionDefinitionCheck $check)
 	{
 	}
@@ -38,5 +37,4 @@ final class ExistingClassesInClosureTypehintsRule implements Rule
 			'Anonymous function has unresolvable native return type.',
 		);
 	}
-
 }

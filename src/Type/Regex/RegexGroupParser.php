@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Regex;
 
@@ -37,7 +37,6 @@ use function trim;
 #[AutowiredService]
 final class RegexGroupParser
 {
-
 	private const NOT_SUPPORTED_MODIFIERS = [
 		'J', // rare modifier too complicated to support
 	];
@@ -276,7 +275,7 @@ final class RegexGroupParser
 
 		if (
 			$group instanceof RegexCapturingGroup &&
-			(!$captureOnlyNamed || $group->isNamed())
+				(!$captureOnlyNamed || $group->isNamed())
 		) {
 			$astWalkResult = $astWalkResult->addCapturingGroup($group);
 
@@ -404,7 +403,6 @@ final class RegexGroupParser
 			$result = [];
 			foreach ($walkResult->getOnlyLiterals() as $literal) {
 				$result[] = new ConstantStringType($literal);
-
 			}
 			return TypeCombinator::union(...$result);
 		}
@@ -436,8 +434,8 @@ final class RegexGroupParser
 	{
 		if (
 			$group->getId() === '#capturing'
-			&& count($group->getChildren()) === 1
-			&& $group->getChild(0)->getId() === '#alternation'
+				&& count($group->getChildren()) === 1
+				&& $group->getChild(0)->getId() === '#alternation'
 		) {
 			return $group->getChild(0);
 		}
@@ -445,8 +443,8 @@ final class RegexGroupParser
 		// 1st token within a named capturing group is a token holding the group-name
 		if (
 			$group->getId() === '#namedcapturing'
-			&& count($group->getChildren()) === 2
-			&& $group->getChild(1)->getId() === '#alternation'
+				&& count($group->getChildren()) === 2
+				&& $group->getChild(1)->getId() === '#alternation'
 		) {
 			return $group->getChild(1);
 		}
@@ -466,8 +464,8 @@ final class RegexGroupParser
 
 		if (
 			$ast->getId() === '#concatenation'
-			&& count($children) > 0
-			&& !$walkResult->isInOptionalQuantification()
+				&& count($children) > 0
+				&& !$walkResult->isInOptionalQuantification()
 		) {
 			$meaningfulTokens = 0;
 			foreach ($children as $child) {
@@ -657,11 +655,11 @@ final class RegexGroupParser
 
 			if (
 				$appendLiterals
-				&& $onlyLiterals !== null
+					&& $onlyLiterals !== null
 			) {
 				if (
 					in_array($value, ['.'], true)
-					&& !($isEscaped || $inCharacterClass)
+						&& !($isEscaped || $inCharacterClass)
 				) {
 					$onlyLiterals = null;
 				} else {
@@ -719,5 +717,4 @@ final class RegexGroupParser
 
 		return null;
 	}
-
 }

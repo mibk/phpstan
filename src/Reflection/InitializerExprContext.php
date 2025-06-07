@@ -1,16 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
-use PhpParser\Node\PropertyHook;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionFunction;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionParameter;
 use PHPStan\BetterReflection\Reflection\ReflectionConstant;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node\PropertyHook;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
 use function array_slice;
 use function count;
 use function explode;
@@ -22,7 +22,6 @@ use function sprintf;
  */
 final class InitializerExprContext implements NamespaceAnswerer
 {
-
 	/**
 	 * @param non-empty-string|null $namespace
 	 */
@@ -246,5 +245,4 @@ final class InitializerExprContext implements NamespaceAnswerer
 	{
 		return $this->property;
 	}
-
 }

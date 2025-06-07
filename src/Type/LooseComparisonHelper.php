@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -7,7 +7,6 @@ use PHPStan\Type\Constant\ConstantBooleanType;
 
 final class LooseComparisonHelper
 {
-
 	public static function compareConstantScalars(ConstantScalarType $leftType, ConstantScalarType $rightType, PhpVersion $phpVersion): BooleanType
 	{
 		if ($phpVersion->castsNumbersToStringsOnLooseComparison()) {
@@ -46,5 +45,4 @@ final class LooseComparisonHelper
 		// @phpstan-ignore equal.notAllowed
 		return new ConstantBooleanType($leftType->getValue() == $rightType->getValue()); // phpcs:ignore
 	}
-
 }

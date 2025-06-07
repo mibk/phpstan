@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -22,7 +22,6 @@ use function strtolower;
 #[AutowiredService]
 final class OptimizedDirectorySourceLocatorFactory
 {
-
 	private PhpFileCleaner $cleaner;
 
 	private string $extraTypes;
@@ -113,7 +112,7 @@ final class OptimizedDirectorySourceLocatorFactory
 	}
 
 	/**
-	 * @param array<string, array{string, string[], string[], string[]}> $symbols
+	 * @param  array<string, array{string, string[], string[], string[]}> $symbols
 	 * @return array{array<string, string>, array<string, array<int, string>>, array<string, string>}
 	 */
 	private function changeStructure(array $symbols): array
@@ -216,5 +215,4 @@ final class OptimizedDirectorySourceLocatorFactory
 			$constants,
 		];
 	}
-
 }

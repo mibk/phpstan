@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -10,14 +10,13 @@ use PHPStan\Reflection\Php\PhpFunctionFromParserNodeReflection;
 
 interface InternalScopeFactory
 {
-
 	/**
-	 * @param array<string, ExpressionTypeHolder> $expressionTypes
-	 * @param array<string, ExpressionTypeHolder> $nativeExpressionTypes
-	 * @param array<string, ConditionalExpressionHolder[]> $conditionalExpressions
-	 * @param list<string> $inClosureBindScopeClasses
-	 * @param array<string, true> $currentlyAssignedExpressions
-	 * @param array<string, true> $currentlyAllowedUndefinedExpressions
+	 * @param array<string, ExpressionTypeHolder>                                             $expressionTypes
+	 * @param array<string, ExpressionTypeHolder>                                             $nativeExpressionTypes
+	 * @param array<string, ConditionalExpressionHolder[]>                                    $conditionalExpressions
+	 * @param list<string>                                                                    $inClosureBindScopeClasses
+	 * @param array<string, true>                                                             $currentlyAssignedExpressions
+	 * @param array<string, true>                                                             $currentlyAllowedUndefinedExpressions
 	 * @param list<array{FunctionReflection|MethodReflection|null, ParameterReflection|null}> $inFunctionCallsStack
 	 */
 	public function create(
@@ -38,5 +37,4 @@ interface InternalScopeFactory
 		?Scope $parentScope = null,
 		bool $nativeTypesPromoted = false,
 	): MutatingScope;
-
 }

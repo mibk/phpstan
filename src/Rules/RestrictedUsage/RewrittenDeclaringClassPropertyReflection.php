@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\Type;
 
 final class RewrittenDeclaringClassPropertyReflection implements ExtendedPropertyReflection
 {
-
 	public function __construct(
 		private ClassReflection $declaringClass,
 		private ExtendedPropertyReflection $propertyReflection,
@@ -152,5 +151,4 @@ final class RewrittenDeclaringClassPropertyReflection implements ExtendedPropert
 	{
 		return $this->propertyReflection->isInternal();
 	}
-
 }

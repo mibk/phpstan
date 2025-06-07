@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -11,7 +11,6 @@ use function count;
 
 final class ExportedClassConstantNode implements ExportedNode, JsonSerializable
 {
-
 	/**
 	 * @param ExportedAttributeNode[] $attributes
 	 */
@@ -25,7 +24,7 @@ final class ExportedClassConstantNode implements ExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -63,7 +62,7 @@ final class ExportedClassConstantNode implements ExportedNode, JsonSerializable
 		return new self(
 			$data['name'],
 			$data['value'],
-			array_map(static function (array $attributeData): ExportedAttributeNode {
+			array_map(static function(array $attributeData): ExportedAttributeNode {
 				if ($attributeData['type'] !== ExportedAttributeNode::class) {
 					throw new ShouldNotHappenException();
 				}
@@ -81,11 +80,10 @@ final class ExportedClassConstantNode implements ExportedNode, JsonSerializable
 		return [
 			'type' => self::class,
 			'data' => [
-				'name' => $this->name,
-				'value' => $this->value,
+				'name'       => $this->name,
+				'value'      => $this->value,
 				'attributes' => $this->attributes,
 			],
 		];
 	}
-
 }

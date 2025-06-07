@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
 /** @api */
 interface OutputStyle
 {
-
 	public function title(string $message): void;
 
 	public function section(string $message): void;
@@ -38,5 +37,4 @@ interface OutputStyle
 	public function progressAdvance(int $step = 1): void;
 
 	public function progressFinish(): void;
-
 }

@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
 final class DirectTypeNodeResolverExtensionRegistryProvider implements TypeNodeResolverExtensionRegistryProvider
 {
-
 	public function __construct(private TypeNodeResolverExtensionRegistry $registry)
 	{
 	}
@@ -13,5 +12,4 @@ final class DirectTypeNodeResolverExtensionRegistryProvider implements TypeNodeR
 	{
 		return $this->registry;
 	}
-
 }

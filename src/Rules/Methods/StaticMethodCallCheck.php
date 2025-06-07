@@ -1,10 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
 use DOMDocument;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -30,6 +28,8 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Name;
 use function array_merge;
 use function in_array;
 use function sprintf;
@@ -38,7 +38,6 @@ use function strtolower;
 #[AutowiredService]
 final class StaticMethodCallCheck
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -54,7 +53,7 @@ final class StaticMethodCallCheck
 	}
 
 	/**
-	 * @param Name|Expr $class
+	 * @param  Name|Expr $class
 	 * @return array{list<IdentifierRuleError>, ExtendedMethodReflection|null}
 	 */
 	public function check(
@@ -176,7 +175,7 @@ final class StaticMethodCallCheck
 				$scope,
 				NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $class),
 				sprintf('Call to static method %s() on an unknown class %%s.', SprintfHelper::escapeFormatString($methodName)),
-				static fn (Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
+				static fn(Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
 			);
 			$classType = $classTypeResult->getType();
 			if ($classType instanceof ErrorType) {
@@ -244,15 +243,15 @@ final class StaticMethodCallCheck
 
 			$scopeIsInMethodClassOrSubClass = TrinaryLogic::createFromBoolean($scope->isInClass())->lazyAnd(
 				$classType->getObjectClassNames(),
-				static fn (string $objectClassName) => TrinaryLogic::createFromBoolean(
+				static fn(string $objectClassName) => TrinaryLogic::createFromBoolean(
 					$scope->isInClass()
-					&& $scope->getClassReflection()->is($objectClassName),
+						&& $scope->getClassReflection()->is($objectClassName),
 				),
 			);
 			if (
-				!$function instanceof MethodReflection
-				|| $function->isStatic()
-				|| $scopeIsInMethodClassOrSubClass->no()
+				! $function instanceof MethodReflection
+					|| $function->isStatic()
+					|| $scopeIsInMethodClassOrSubClass->no()
 			) {
 				// per php-src docs, this method can be called statically, even if declared non-static
 				if (strtolower($method->getName()) === 'loadhtml' && $method->getDeclaringClass()->getName() === DOMDocument::class) {
@@ -311,7 +310,7 @@ final class StaticMethodCallCheck
 
 		if (
 			$this->checkFunctionNameCase
-			&& $method->getName() !== $methodName
+				&& $method->getName() !== $methodName
 		) {
 			$errors[] = RuleErrorBuilder::message(sprintf(
 				'Call to %s with incorrect case: %s',
@@ -322,5 +321,4 @@ final class StaticMethodCallCheck
 
 		return [$errors, $method];
 	}
-
 }

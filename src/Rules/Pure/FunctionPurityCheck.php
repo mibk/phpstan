@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Pure;
 
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt;
 use PHPStan\Analyser\ImpurePoint;
 use PHPStan\Analyser\ThrowPoint;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -15,6 +12,9 @@ use PHPStan\Rules\Functions\CallToFunctionStatementWithoutSideEffectsRule;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt;
 use function array_filter;
 use function count;
 use function in_array;
@@ -24,13 +24,12 @@ use function sprintf;
 #[AutowiredService]
 final class FunctionPurityCheck
 {
-
 	/**
-	 * @param 'Function'|'Method' $identifier
-	 * @param ExtendedParameterReflection[] $parameters
-	 * @param ImpurePoint[] $impurePoints
-	 * @param ThrowPoint[] $throwPoints
-	 * @param Stmt[] $statements
+	 * @param  'Function'|'Method'           $identifier
+	 * @param  ExtendedParameterReflection[] $parameters
+	 * @param  ImpurePoint[]                 $impurePoints
+	 * @param  ThrowPoint[]                  $throwPoints
+	 * @param  Stmt[]                        $statements
 	 * @return list<IdentifierRuleError>
 	 */
 	public function check(
@@ -64,9 +63,9 @@ final class FunctionPurityCheck
 			$throwType = $functionReflection->getThrowType();
 			if (
 				$returnType->isVoid()->yes()
-				&& !$isConstructor
-				&& ($throwType === null || $throwType->isVoid()->yes())
-				&& $functionReflection->getAsserts()->getAll() === []
+					&& !$isConstructor
+					&& ($throwType === null || $throwType->isVoid()->yes())
+					&& $functionReflection->getAsserts()->getAll() === []
 			) {
 				$errors[] = RuleErrorBuilder::message(sprintf(
 					'%s is marked as pure but returns void.',
@@ -92,13 +91,13 @@ final class FunctionPurityCheck
 		} elseif ($isPure->no()) {
 			if (
 				count($throwPoints) === 0
-				&& count($impurePoints) === 0
-				&& count($functionReflection->getAsserts()->getAll()) === 0
-				&& (
-					!$functionReflection instanceof ExtendedMethodReflection
-					|| $functionReflection->isFinal()->yes()
-					|| $functionReflection->getDeclaringClass()->isFinal()
-				)
+					&& count($impurePoints) === 0
+					&& count($functionReflection->getAsserts()->getAll()) === 0
+					&& (
+						! $functionReflection instanceof ExtendedMethodReflection
+							|| $functionReflection->isFinal()->yes()
+							|| $functionReflection->getDeclaringClass()->isFinal()
+					)
 			) {
 				$errors[] = RuleErrorBuilder::message(sprintf(
 					'%s is marked as impure but does not have any side effects.',
@@ -108,10 +107,10 @@ final class FunctionPurityCheck
 		} elseif ($returnType->isVoid()->yes()) {
 			if (
 				count($throwPoints) === 0
-				&& count($impurePoints) === 0
-				&& !$isConstructor
-				&& (!$functionReflection instanceof ExtendedMethodReflection || $functionReflection->isPrivate())
-				&& count($functionReflection->getAsserts()->getAll()) === 0
+					&& count($impurePoints) === 0
+					&& !$isConstructor
+					&& (! $functionReflection instanceof ExtendedMethodReflection || $functionReflection->isPrivate())
+					&& count($functionReflection->getAsserts()->getAll()) === 0
 			) {
 				$hasByRef = false;
 				foreach ($parameters as $parameter) {
@@ -123,18 +122,18 @@ final class FunctionPurityCheck
 					break;
 				}
 
-				$statements = array_filter($statements, static function (Stmt $stmt): bool {
+				$statements = array_filter($statements, static function(Stmt $stmt): bool {
 					if ($stmt instanceof Stmt\Nop) {
 						return false;
 					}
 
-					if (!$stmt instanceof Stmt\Expression) {
+					if (! $stmt instanceof Stmt\Expression) {
 						return true;
 					}
-					if (!$stmt->expr instanceof FuncCall) {
+					if (! $stmt->expr instanceof FuncCall) {
 						return true;
 					}
-					if (!$stmt->expr->name instanceof Name) {
+					if (! $stmt->expr->name instanceof Name) {
 						return true;
 					}
 
@@ -152,5 +151,4 @@ final class FunctionPurityCheck
 
 		return $errors;
 	}
-
 }

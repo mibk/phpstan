@@ -1,20 +1,19 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Namespace_;
-use PhpParser\NodeVisitor;
-use PhpParser\NodeVisitorAbstract;
 use PHPStan\BetterReflection\Reflection\Exception\InvalidConstantNode;
 use PHPStan\BetterReflection\SourceLocator\Located\LocatedSource;
 use PHPStan\BetterReflection\Util\ConstantNodeChecker;
 use PHPStan\Reflection\ConstantNameHelper;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Namespace_;
+use PhpParser\NodeVisitor;
+use PhpParser\NodeVisitorAbstract;
 use function strtolower;
 
 final class CachingVisitor extends NodeVisitorAbstract
 {
-
 	private string $fileName;
 
 	private string $contents;
@@ -112,7 +111,7 @@ final class CachingVisitor extends NodeVisitorAbstract
 	 */
 	public function leaveNode(Node $node)
 	{
-		if (!$node instanceof Namespace_) {
+		if (! $node instanceof Namespace_) {
 			return null;
 		}
 
@@ -152,5 +151,4 @@ final class CachingVisitor extends NodeVisitorAbstract
 		$this->fileName = $fileName;
 		$this->contents = $contents;
 	}
-
 }

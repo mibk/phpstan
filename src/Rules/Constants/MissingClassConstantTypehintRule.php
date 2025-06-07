@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Constants;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ClassReflection;
@@ -12,6 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_merge;
 use function sprintf;
 
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 6)]
 final class MissingClassConstantTypehintRule implements Rule
 {
-
 	public function __construct(private MissingTypehintCheck $missingTypehintCheck)
 	{
 	}
@@ -94,5 +93,4 @@ final class MissingClassConstantTypehintRule implements Rule
 
 		return $errors;
 	}
-
 }

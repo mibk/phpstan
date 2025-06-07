@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -12,13 +12,12 @@ use function count;
 
 final class ExportedClassNode implements RootExportedNode, JsonSerializable
 {
-
 	/**
-	 * @param string[] $implements
-	 * @param string[] $usedTraits
+	 * @param string[]                     $implements
+	 * @param string[]                     $usedTraits
 	 * @param ExportedTraitUseAdaptation[] $traitUseAdaptations
-	 * @param ExportedNode[] $statements
-	 * @param ExportedAttributeNode[] $attributes
+	 * @param ExportedNode[]               $statements
+	 * @param ExportedAttributeNode[]      $attributes
 	 */
 	public function __construct(
 		private string $name,
@@ -37,7 +36,7 @@ final class ExportedClassNode implements RootExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -122,16 +121,16 @@ final class ExportedClassNode implements RootExportedNode, JsonSerializable
 		return [
 			'type' => self::class,
 			'data' => [
-				'name' => $this->name,
-				'phpDoc' => $this->phpDoc,
-				'abstract' => $this->abstract,
-				'final' => $this->final,
-				'extends' => $this->extends,
-				'implements' => $this->implements,
-				'usedTraits' => $this->usedTraits,
+				'name'                => $this->name,
+				'phpDoc'              => $this->phpDoc,
+				'abstract'            => $this->abstract,
+				'final'               => $this->final,
+				'extends'             => $this->extends,
+				'implements'          => $this->implements,
+				'usedTraits'          => $this->usedTraits,
 				'traitUseAdaptations' => $this->traitUseAdaptations,
-				'statements' => $this->statements,
-				'attributes' => $this->attributes,
+				'statements'          => $this->statements,
+				'attributes'          => $this->attributes,
 			],
 		];
 	}
@@ -149,18 +148,18 @@ final class ExportedClassNode implements RootExportedNode, JsonSerializable
 			$data['extends'],
 			$data['implements'],
 			$data['usedTraits'],
-			array_map(static function (array $traitUseAdaptationData): ExportedTraitUseAdaptation {
+			array_map(static function(array $traitUseAdaptationData): ExportedTraitUseAdaptation {
 				if ($traitUseAdaptationData['type'] !== ExportedTraitUseAdaptation::class) {
 					throw new ShouldNotHappenException();
 				}
 				return ExportedTraitUseAdaptation::decode($traitUseAdaptationData['data']);
 			}, $data['traitUseAdaptations']),
-			array_map(static function (array $node): ExportedNode {
+			array_map(static function(array $node): ExportedNode {
 				$nodeType = $node['type'];
 
 				return $nodeType::decode($node['data']);
 			}, $data['statements']),
-			array_map(static function (array $attributeData): ExportedAttributeNode {
+			array_map(static function(array $attributeData): ExportedAttributeNode {
 				if ($attributeData['type'] !== ExportedAttributeNode::class) {
 					throw new ShouldNotHappenException();
 				}
@@ -181,5 +180,4 @@ final class ExportedClassNode implements RootExportedNode, JsonSerializable
 	{
 		return $this->name;
 	}
-
 }

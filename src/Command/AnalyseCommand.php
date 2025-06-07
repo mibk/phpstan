@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -34,6 +34,8 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Throwable;
+use const PATHINFO_BASENAME;
+use const PATHINFO_EXTENSION;
 use function array_intersect;
 use function array_key_exists;
 use function array_keys;
@@ -59,15 +61,12 @@ use function str_contains;
 use function stream_get_contents;
 use function strlen;
 use function substr;
-use const PATHINFO_BASENAME;
-use const PATHINFO_EXTENSION;
 
 /**
  * @phpstan-import-type Trace from InternalError as InternalErrorTrace
  */
 final class AnalyseCommand extends Command
 {
-
 	private const NAME = 'analyse';
 
 	public const OPTION_LEVEL = 'level';
@@ -158,13 +157,13 @@ final class AnalyseCommand extends Command
 
 		if (
 			!is_array($paths)
-			|| (!is_string($memoryLimit) && $memoryLimit !== null)
-			|| (!is_string($autoloadFile) && $autoloadFile !== null)
-			|| (!is_string($configuration) && $configuration !== null)
-			|| (!is_string($level) && $level !== null)
-			|| (!is_string($tmpFile) && $tmpFile !== null)
-			|| (!is_string($insteadOfFile) && $insteadOfFile !== null)
-			|| (!is_bool($allowXdebug))
+				|| (!is_string($memoryLimit) && $memoryLimit !== null)
+				|| (!is_string($autoloadFile) && $autoloadFile !== null)
+				|| (!is_string($configuration) && $configuration !== null)
+				|| (!is_string($level) && $level !== null)
+				|| (!is_string($tmpFile) && $tmpFile !== null)
+				|| (!is_string($insteadOfFile) && $insteadOfFile !== null)
+				|| (!is_bool($allowXdebug))
 		) {
 			throw new ShouldNotHappenException();
 		}
@@ -240,7 +239,7 @@ final class AnalyseCommand extends Command
 			$errorOutput->writeLineFormatted(sprintf(
 				'Error formatter "%s" not found. Available error formatters are: %s',
 				$errorFormat,
-				implode(', ', array_map(static fn (string $name): string => substr($name, strlen('errorFormatter.')), $container->findServiceNamesByType(ErrorFormatter::class))),
+				implode(', ', array_map(static fn(string $name): string => substr($name, strlen('errorFormatter.')), $container->findServiceNamesByType(ErrorFormatter::class))),
 			));
 			return 1;
 		}
@@ -409,7 +408,7 @@ final class AnalyseCommand extends Command
 			$hasStackTrace = false;
 			if (
 				$fileSpecificError->getIdentifier() === 'phpstan.internal'
-				&& array_key_exists(InternalError::STACK_TRACE_AS_STRING_METADATA_KEY, $metadata)
+					&& array_key_exists(InternalError::STACK_TRACE_AS_STRING_METADATA_KEY, $metadata)
 			) {
 				$message = sprintf('Internal error: %s', $message);
 				$hasStackTrace = true;
@@ -477,7 +476,7 @@ final class AnalyseCommand extends Command
 		if (count($internalErrorsTuples) > 0) {
 			$analysisResult = new AnalysisResult(
 				array_values($internalFileSpecificErrors),
-				array_map(static fn (InternalError $internalError) => $internalError->getMessage(), $internalErrors),
+				array_map(static fn(InternalError $internalError) => $internalError->getMessage(), $internalErrors),
 				[],
 				[],
 				[],
@@ -582,9 +581,9 @@ final class AnalyseCommand extends Command
 
 		if (
 			$analysisResult->isResultCacheUsed()
-			&& $analysisResult->isResultCacheSaved()
-			&& !$onlyFiles
-			&& $inceptionResult->getProjectConfigArray() !== null
+				&& $analysisResult->isResultCacheSaved()
+				&& !$onlyFiles
+				&& $inceptionResult->getProjectConfigArray() !== null
 		) {
 			$projectServicesNotInAnalysedPaths = array_values(array_unique($analysisResult->getChangedProjectExtensionFilesOutsideOfAnalysedPaths()));
 			$projectServiceFileNamesNotInAnalysedPaths = array_keys($analysisResult->getChangedProjectExtensionFilesOutsideOfAnalysedPaths());
@@ -782,7 +781,7 @@ final class AnalyseCommand extends Command
 
 		if (
 			$unignorableCount === 0
-			&& count($analysisResult->getNotFileSpecificErrors()) === 0
+				&& count($analysisResult->getNotFileSpecificErrors()) === 0
 		) {
 			$inceptionResult->getStdOutput()->getStyle()->success($message);
 		} else {
@@ -842,5 +841,4 @@ final class AnalyseCommand extends Command
 			$extension->print($errorOutput);
 		}
 	}
-
 }

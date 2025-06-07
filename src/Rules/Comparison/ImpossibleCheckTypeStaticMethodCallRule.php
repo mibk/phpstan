@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -12,6 +10,8 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
 use function sprintf;
 
 /**
@@ -20,7 +20,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class ImpossibleCheckTypeStaticMethodCallRule implements Rule
 {
-
 	public function __construct(
 		private ImpossibleCheckTypeHelper $impossibleCheckTypeHelper,
 		#[AutowiredParameter]
@@ -40,7 +39,7 @@ final class ImpossibleCheckTypeStaticMethodCallRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Identifier) {
+		if (! $node->name instanceof Node\Identifier) {
 			return [];
 		}
 
@@ -49,7 +48,7 @@ final class ImpossibleCheckTypeStaticMethodCallRule implements Rule
 			return [];
 		}
 
-		$addTip = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
+		$addTip = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
 			if (!$this->treatPhpDocTypesAsCertain) {
 				return $ruleErrorBuilder;
 			}
@@ -100,7 +99,7 @@ final class ImpossibleCheckTypeStaticMethodCallRule implements Rule
 	}
 
 	/**
-	 * @param Node\Name|Expr $class
+	 * @param  Node\Name|Expr $class
 	 * @throws ShouldNotHappenException
 	 */
 	private function getMethod(
@@ -122,5 +121,4 @@ final class ImpossibleCheckTypeStaticMethodCallRule implements Rule
 
 		return $method;
 	}
-
 }

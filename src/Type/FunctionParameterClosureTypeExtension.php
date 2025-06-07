@@ -1,11 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\ParameterReflection;
+use PhpParser\Node\Expr\FuncCall;
 
 /**
  * This is the interface for parameter closure type extensions for functions.
@@ -15,18 +15,16 @@ use PHPStan\Reflection\ParameterReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.functionParameterClosureTypeExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.functionParameterClosureTypeExtension
  * ```
  *
  * @api
  */
 interface FunctionParameterClosureTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection, ParameterReflection $parameter): bool;
 
 	public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, ParameterReflection $parameter, Scope $scope): ?Type;
-
 }

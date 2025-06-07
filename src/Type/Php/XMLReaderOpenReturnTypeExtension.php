@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -14,11 +12,12 @@ use PHPStan\Type\DynamicStaticMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 
 #[AutowiredService]
 final class XMLReaderOpenReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicStaticMethodReturnTypeExtension
 {
-
 	private const XML_READER_CLASS = 'XMLReader';
 
 	public function getClass(): string
@@ -45,5 +44,4 @@ final class XMLReaderOpenReturnTypeExtension implements DynamicMethodReturnTypeE
 	{
 		return new UnionType([new ObjectType(self::XML_READER_CLASS), new ConstantBooleanType(false)]);
 	}
-
 }

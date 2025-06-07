@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +12,7 @@ use PHPStan\Rules\ClassNameUsageLocation;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_column;
 use function array_map;
 use function array_merge;
@@ -26,7 +26,6 @@ use function strtolower;
 #[RegisteredRule(level: 2)]
 final class RequireImplementsDefinitionTraitRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ClassNameCheck $classCheck,
@@ -47,7 +46,7 @@ final class RequireImplementsDefinitionTraitRule implements Rule
 	{
 		if (
 			$node->namespacedName === null
-			|| !$this->reflectionProvider->hasClass($node->namespacedName->toString())
+				|| !$this->reflectionProvider->hasClass($node->namespacedName->toString())
 		) {
 			return [];
 		}
@@ -66,13 +65,13 @@ final class RequireImplementsDefinitionTraitRule implements Rule
 				continue;
 			}
 
-			$referencedClassReflections = array_map(static fn ($reflection) => [$reflection, $reflection->getName()], $type->getObjectClassReflections());
+			$referencedClassReflections = array_map(static fn($reflection) => [$reflection, $reflection->getName()], $type->getObjectClassReflections());
 			$referencedClassReflectionsMap = array_column($referencedClassReflections, 0, 1);
 			foreach ($classNames as $class) {
 				$referencedClassReflection = $referencedClassReflectionsMap[$class] ?? null;
 				if ($referencedClassReflection === null) {
 					$errorBuilder = RuleErrorBuilder::message(sprintf('PHPDoc tag @phpstan-require-implements contains unknown class %s.', $class))
-					->identifier('class.notFound');
+						->identifier('class.notFound');
 
 					if ($this->discoveringSymbolsTip) {
 						$errorBuilder->discoveringSymbolsTip();
@@ -99,5 +98,4 @@ final class RequireImplementsDefinitionTraitRule implements Rule
 
 		return $errors;
 	}
-
 }

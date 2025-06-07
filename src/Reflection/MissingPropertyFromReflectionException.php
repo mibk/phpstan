@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -7,7 +7,6 @@ use function sprintf;
 
 final class MissingPropertyFromReflectionException extends Exception
 {
-
 	public function __construct(
 		string $className,
 		string $propertyName,
@@ -21,5 +20,4 @@ final class MissingPropertyFromReflectionException extends Exception
 			),
 		);
 	}
-
 }

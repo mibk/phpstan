@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -13,6 +12,7 @@ use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function array_map;
 use function array_unique;
 use function count;
@@ -25,7 +25,6 @@ use function strlen;
 #[AutowiredService]
 final class StrlenFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'strlen';
@@ -61,14 +60,14 @@ final class StrlenFunctionReturnTypeExtension implements DynamicFunctionReturnTy
 			if ($lengths === range(min($lengths), max($lengths))) {
 				$range = IntegerRangeType::fromInterval(min($lengths), max($lengths));
 			} else {
-				$range = TypeCombinator::union(...array_map(static fn ($l) => new ConstantIntegerType($l), $lengths));
+				$range = TypeCombinator::union(...array_map(static fn($l) => new ConstantIntegerType($l), $lengths));
 			}
 		} elseif ($argType->isBoolean()->yes()) {
 			$range = IntegerRangeType::fromInterval(0, 1);
 		} elseif (
 			$isNonEmpty->yes()
-			|| $numeric->isSuperTypeOf($argType)->yes()
-			|| TypeCombinator::remove($argType, $numeric)->isNonEmptyString()->yes()
+				|| $numeric->isSuperTypeOf($argType)->yes()
+				|| TypeCombinator::remove($argType, $numeric)->isNonEmptyString()->yes()
 		) {
 			$range = IntegerRangeType::fromInterval(1, null);
 		} elseif ($argType->isString()->yes() && $isNonEmpty->no()) {
@@ -77,5 +76,4 @@ final class StrlenFunctionReturnTypeExtension implements DynamicFunctionReturnTy
 
 		return $range;
 	}
-
 }

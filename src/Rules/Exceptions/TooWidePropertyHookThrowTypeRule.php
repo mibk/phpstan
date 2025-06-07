@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\PropertyHookReturnStatementsNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FileTypeMapper;
+use PhpParser\Node;
 use function sprintf;
 use function ucfirst;
 
@@ -17,7 +17,6 @@ use function ucfirst;
  */
 final class TooWidePropertyHookThrowTypeRule implements Rule
 {
-
 	public function __construct(private FileTypeMapper $fileTypeMapper, private TooWideThrowTypeCheck $check)
 	{
 	}
@@ -70,5 +69,4 @@ final class TooWidePropertyHookThrowTypeRule implements Rule
 
 		return $errors;
 	}
-
 }

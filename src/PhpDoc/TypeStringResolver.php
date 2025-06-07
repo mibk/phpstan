@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -12,7 +12,6 @@ use PHPStan\Type\Type;
 #[AutowiredService]
 final class TypeStringResolver
 {
-
 	public function __construct(private Lexer $typeLexer, private TypeParser $typeParser, private TypeNodeResolver $typeNodeResolver)
 	{
 	}
@@ -26,5 +25,4 @@ final class TypeStringResolver
 
 		return $this->typeNodeResolver->resolve($typeNode, $nameScope ?? new NameScope(null, []));
 	}
-
 }

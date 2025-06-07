@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -14,9 +14,8 @@ use function is_array;
 #[AutowiredService]
 final class LocalIgnoresProcessor
 {
-
 	/**
-	 * @param list<Error> $temporaryFileErrors
+	 * @param list<Error>   $temporaryFileErrors
 	 * @param LinesToIgnore $linesToIgnore
 	 * @param LinesToIgnore $unmatchedLineIgnores
 	 */
@@ -32,9 +31,9 @@ final class LocalIgnoresProcessor
 			$line = $tmpFileError->getLine();
 			if (
 				$line !== null
-				&& $tmpFileError->canBeIgnored()
-				&& array_key_exists($tmpFileError->getFile(), $linesToIgnore)
-				&& array_key_exists($line, $linesToIgnore[$tmpFileError->getFile()])
+					&& $tmpFileError->canBeIgnored()
+					&& array_key_exists($tmpFileError->getFile(), $linesToIgnore)
+					&& array_key_exists($line, $linesToIgnore[$tmpFileError->getFile()])
 			) {
 				$identifiers = $linesToIgnore[$tmpFileError->getFile()][$line];
 				if ($identifiers === null) {
@@ -63,7 +62,7 @@ final class LocalIgnoresProcessor
 
 					if (
 						array_key_exists($tmpFileError->getFile(), $unmatchedLineIgnores)
-						&& array_key_exists($line, $unmatchedLineIgnores[$tmpFileError->getFile()])
+							&& array_key_exists($line, $unmatchedLineIgnores[$tmpFileError->getFile()])
 					) {
 						$unmatchedIgnoredIdentifiers = $unmatchedLineIgnores[$tmpFileError->getFile()][$line];
 						if (is_array($unmatchedIgnoredIdentifiers)) {
@@ -99,5 +98,4 @@ final class LocalIgnoresProcessor
 			$unmatchedLineIgnores,
 		);
 	}
-
 }

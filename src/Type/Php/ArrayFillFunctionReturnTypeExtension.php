@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -19,12 +18,12 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 
 #[AutowiredService]
 final class ArrayFillFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	private const MAX_SIZE_USE_CONSTANT_ARRAY = 100;
 
 	public function __construct(private PhpVersion $phpVersion)
@@ -58,8 +57,8 @@ final class ArrayFillFunctionReturnTypeExtension implements DynamicFunctionRetur
 
 		if (
 			$startIndexType instanceof ConstantIntegerType
-			&& $numberType instanceof ConstantIntegerType
-			&& $numberType->getValue() <= self::MAX_SIZE_USE_CONSTANT_ARRAY
+				&& $numberType instanceof ConstantIntegerType
+				&& $numberType->getValue() <= self::MAX_SIZE_USE_CONSTANT_ARRAY
 		) {
 			$arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
 			$nextIndex = $startIndexType->getValue();
@@ -92,5 +91,4 @@ final class ArrayFillFunctionReturnTypeExtension implements DynamicFunctionRetur
 
 		return $resultType;
 	}
-
 }

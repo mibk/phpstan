@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\Symfony;
 
@@ -10,7 +10,6 @@ use Symfony\Component\Console\Style\StyleInterface;
  */
 final class SymfonyStyle implements OutputStyle
 {
-
 	public function __construct(private StyleInterface $symfonyStyle)
 	{
 	}
@@ -79,5 +78,4 @@ final class SymfonyStyle implements OutputStyle
 	{
 		$this->symfonyStyle->progressFinish();
 	}
-
 }

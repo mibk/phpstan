@@ -1,11 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node;
-use PhpParser\NodeAbstract;
 use PHPStan\Collectors\CollectedData;
 use PHPStan\Collectors\Collector;
+use PhpParser\Node;
+use PhpParser\NodeAbstract;
 
 /**
  * @api
@@ -13,7 +13,6 @@ use PHPStan\Collectors\Collector;
  */
 final class CollectedDataNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
 	 * @param CollectorData $collectedData
 	 */
@@ -66,5 +65,4 @@ final class CollectedDataNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Variables;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -10,6 +9,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 use function array_merge;
 use function count;
 use function sprintf;
@@ -21,7 +21,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class CompactVariablesRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $checkMaybeUndefinedVariables,
@@ -91,5 +90,4 @@ final class CompactVariablesRule implements Rule
 
 		return $result;
 	}
-
 }

@@ -1,13 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Expr;
 
-use PhpParser\Node\Expr;
 use PHPStan\Node\VirtualNode;
+use PhpParser\Node\Expr;
 
 final class GetOffsetValueTypeExpr extends Expr implements VirtualNode
 {
-
 	public function __construct(private Expr $var, private Expr $dim)
 	{
 		parent::__construct([]);
@@ -35,5 +34,4 @@ final class GetOffsetValueTypeExpr extends Expr implements VirtualNode
 	{
 		return [];
 	}
-
 }

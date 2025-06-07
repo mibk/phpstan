@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
 /** @api */
 interface ClassMemberAccessAnswerer
 {
-
 	/**
 	 * @phpstan-assert-if-true !null $this->getClassReflection()
 	 */
@@ -25,5 +24,4 @@ interface ClassMemberAccessAnswerer
 	public function canCallMethod(MethodReflection $methodReflection): bool;
 
 	public function canAccessConstant(ClassConstantReflection $constantReflection): bool;
-
 }

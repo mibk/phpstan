@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Annotations;
 
@@ -16,7 +16,6 @@ use PHPStan\Type\Type;
 
 final class AnnotationMethodReflection implements ExtendedMethodReflection
 {
-
 	/** @var list<ExtendedFunctionVariant>|null */
 	private ?array $variants = null;
 
@@ -185,5 +184,4 @@ final class AnnotationMethodReflection implements ExtendedMethodReflection
 	{
 		return [];
 	}
-
 }

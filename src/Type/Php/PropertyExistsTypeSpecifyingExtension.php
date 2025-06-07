@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -20,12 +16,15 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FunctionTypeSpecifyingExtension;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\ObjectWithoutClassType;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use function count;
 
 #[AutowiredService]
 final class PropertyExistsTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function __construct(private PropertyReflectionFinder $propertyReflectionFinder)
@@ -56,7 +55,7 @@ final class PropertyExistsTypeSpecifyingExtension implements FunctionTypeSpecify
 	): SpecifiedTypes
 	{
 		$propertyNameType = $scope->getType($node->getArgs()[1]->value);
-		if (!$propertyNameType instanceof ConstantStringType) {
+		if (! $propertyNameType instanceof ConstantStringType) {
 			return $this->typeSpecifier->create(
 				new FuncCall(new FullyQualified('property_exists'), $node->getRawArgs()),
 				new ConstantBooleanType(true),
@@ -98,5 +97,4 @@ final class PropertyExistsTypeSpecifyingExtension implements FunctionTypeSpecify
 			$scope,
 		);
 	}
-
 }

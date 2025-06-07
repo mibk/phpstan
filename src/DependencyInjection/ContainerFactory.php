@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -16,8 +16,6 @@ use Nette\Schema\Processor;
 use Nette\Schema\Schema;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
-use Phar;
-use PhpParser\Parser;
 use PHPStan\BetterReflection\BetterReflection;
 use PHPStan\BetterReflection\Reflector\Reflector;
 use PHPStan\BetterReflection\SourceLocator\SourceStubber\PhpStormStubsSourceStubber;
@@ -31,6 +29,8 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Reflection\ReflectionProviderStaticAccessor;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
+use Phar;
+use PhpParser\Parser;
 use function array_diff_key;
 use function array_key_exists;
 use function array_map;
@@ -54,7 +54,6 @@ use function substr;
  */
 final class ContainerFactory
 {
-
 	private FileHelper $fileHelper;
 
 	private string $rootDirectory;
@@ -109,9 +108,9 @@ final class ContainerFactory
 		[$allConfigFiles, $projectConfig] = $this->detectDuplicateIncludedFiles(
 			array_merge([__DIR__ . '/../../conf/parametersSchema.neon'], $additionalConfigFiles),
 			[
-				'rootDir' => $this->rootDirectory,
+				'rootDir'                 => $this->rootDirectory,
 				'currentWorkingDirectory' => $this->currentWorkingDirectory,
-				'env' => getenv(),
+				'env'                     => getenv(),
 			],
 		);
 
@@ -123,29 +122,29 @@ final class ContainerFactory
 			$projectConfig['expandRelativePaths'],
 		), $this->journalContainer);
 		$configurator->defaultExtensions = [
-			'php' => PhpExtension::class,
+			'php'        => PhpExtension::class,
 			'extensions' => ExtensionsExtension::class,
 		];
 		$configurator->setDebugMode(true);
 		$configurator->setTempDirectory($tempDirectory);
 		$configurator->addParameters([
-			'rootDir' => $this->rootDirectory,
-			'currentWorkingDirectory' => $this->currentWorkingDirectory,
+			'rootDir'                         => $this->rootDirectory,
+			'currentWorkingDirectory'         => $this->currentWorkingDirectory,
 			'cliArgumentsVariablesRegistered' => ini_get('register_argc_argv') === '1',
-			'tmpDir' => $tempDirectory,
-			'additionalConfigFiles' => $additionalConfigFiles,
-			'allConfigFiles' => $allConfigFiles,
-			'composerAutoloaderProjectPaths' => $composerAutoloaderProjectPaths,
-			'generateBaselineFile' => $generateBaselineFile,
-			'usedLevel' => $usedLevel,
-			'cliAutoloadFile' => $cliAutoloadFile,
-			'env' => getenv(),
+			'tmpDir'                          => $tempDirectory,
+			'additionalConfigFiles'           => $additionalConfigFiles,
+			'allConfigFiles'                  => $allConfigFiles,
+			'composerAutoloaderProjectPaths'  => $composerAutoloaderProjectPaths,
+			'generateBaselineFile'            => $generateBaselineFile,
+			'usedLevel'                       => $usedLevel,
+			'cliAutoloadFile'                 => $cliAutoloadFile,
+			'env'                             => getenv(),
 		]);
 		$configurator->addDynamicParameters([
-			'singleReflectionFile' => $singleReflectionFile,
+			'singleReflectionFile'          => $singleReflectionFile,
 			'singleReflectionInsteadOfFile' => $singleReflectionInsteadOfFile,
-			'analysedPaths' => $analysedPaths,
-			'analysedPathsFromConfig' => $analysedPathsFromConfig,
+			'analysedPaths'                 => $analysedPaths,
+			'analysedPathsFromConfig'       => $analysedPathsFromConfig,
 		]);
 		$configurator->addConfig($this->configDirectory . '/config.neon');
 		foreach ($additionalConfigFiles as $additionalConfigFile) {
@@ -213,8 +212,8 @@ final class ContainerFactory
 	}
 
 	/**
-	 * @param string[] $configFiles
-	 * @param array<string, mixed> $loaderParameters
+	 * @param  string[]             $configFiles
+	 * @param  array<string, mixed> $loaderParameters
 	 * @return array{list<string>, array<mixed>}
 	 * @throws DuplicateIncludedFilesException
 	 */
@@ -235,7 +234,7 @@ final class ContainerFactory
 			$configArray = \Nette\Schema\Helpers::merge($tmpConfigArray, $configArray);
 		}
 
-		$normalized = array_map(fn (string $file): string => $this->fileHelper->normalizePath($file), $allConfigFiles);
+		$normalized = array_map(fn(string $file): string => $this->fileHelper->normalizePath($file), $allConfigFiles);
 
 		$deduplicated = array_unique($normalized);
 		if (count($normalized) <= count($deduplicated)) {
@@ -248,7 +247,7 @@ final class ContainerFactory
 	}
 
 	/**
-	 * @param array<string, string> $loaderParameters
+	 * @param  array<string, string> $loaderParameters
 	 * @return array{list<string>, array<mixed>}
 	 */
 	private static function getConfigFiles(
@@ -302,7 +301,7 @@ final class ContainerFactory
 	 */
 	private function validateParameters(array $parameters, array $parametersSchema): void
 	{
-		if (!(bool) $parameters['__validate']) {
+		if (!(bool)$parameters['__validate']) {
 			return;
 		}
 
@@ -312,14 +311,15 @@ final class ContainerFactory
 			]),
 		);
 		$processor = new Processor();
-		$processor->onNewContext[] = static function (SchemaContext $context): void {
+		$processor->onNewContext[] = static function(SchemaContext $context): void {
 			$context->path = ['parameters'];
 		};
 		$processor->process($schema, $parameters);
 
 		if (
 			!array_key_exists('phpVersion', $parameters)
-			|| !is_array($parameters['phpVersion'])) {
+				|| !is_array($parameters['phpVersion'])
+		) {
 			return;
 		}
 
@@ -341,7 +341,7 @@ final class ContainerFactory
 
 		$parameterSchema = null;
 		foreach ($statements as $statement) {
-			$processedArguments = array_map(fn ($argument) => $this->processArgument($argument), $statement->arguments);
+			$processedArguments = array_map(fn($argument) => $this->processArgument($argument), $statement->arguments);
 			if ($parameterSchema === null) {
 				/** @var Type|AnyOf|Structure $parameterSchema */
 				$parameterSchema = Expect::{$statement->getEntity()}(...$processedArguments);
@@ -358,7 +358,7 @@ final class ContainerFactory
 	}
 
 	/**
-	 * @param mixed $argument
+	 * @param  mixed $argument
 	 * @return mixed
 	 */
 	private function processArgument($argument, bool $required = true)
@@ -367,7 +367,7 @@ final class ContainerFactory
 			if ($argument->entity === 'schema') {
 				$arguments = [];
 				foreach ($argument->arguments as $schemaArgument) {
-					if (!$schemaArgument instanceof Statement) {
+					if (! $schemaArgument instanceof Statement) {
 						throw new ShouldNotHappenException('schema() should contain another statement().');
 					}
 
@@ -395,5 +395,4 @@ final class ContainerFactory
 
 		return $argument;
 	}
-
 }

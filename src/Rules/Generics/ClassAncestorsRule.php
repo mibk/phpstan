@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -11,6 +10,7 @@ use PHPStan\PhpDoc\Tag\ExtendsTag;
 use PHPStan\PhpDoc\Tag\ImplementsTag;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 use function array_map;
 use function array_merge;
 use function sprintf;
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class ClassAncestorsRule implements Rule
 {
-
 	public function __construct(
 		private GenericAncestorsCheck $genericAncestorsCheck,
 		private CrossCheckInterfacesHelper $crossCheckInterfacesHelper,
@@ -37,7 +36,7 @@ final class ClassAncestorsRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		$originalNode = $node->getOriginalNode();
-		if (!$originalNode instanceof Node\Stmt\Class_) {
+		if (! $originalNode instanceof Node\Stmt\Class_) {
 			return [];
 		}
 		$classReflection = $node->getClassReflection();
@@ -49,7 +48,7 @@ final class ClassAncestorsRule implements Rule
 
 		$extendsErrors = $this->genericAncestorsCheck->check(
 			$originalNode->extends !== null ? [$originalNode->extends] : [],
-			array_map(static fn (ExtendsTag $tag): Type => $tag->getType(), $classReflection->getExtendsTags()),
+			array_map(static fn(ExtendsTag $tag): Type => $tag->getType(), $classReflection->getExtendsTags()),
 			sprintf('Class %s @extends tag contains incompatible type %%s.', $escapedClassName),
 			sprintf('Class %s @extends tag contains unresolvable type.', $className),
 			sprintf('Class %s has @extends tag, but does not extend any class.', $escapedClassName),
@@ -66,7 +65,7 @@ final class ClassAncestorsRule implements Rule
 
 		$implementsErrors = $this->genericAncestorsCheck->check(
 			$originalNode->implements,
-			array_map(static fn (ImplementsTag $tag): Type => $tag->getType(), $classReflection->getImplementsTags()),
+			array_map(static fn(ImplementsTag $tag): Type => $tag->getType(), $classReflection->getImplementsTags()),
 			sprintf('Class %s @implements tag contains incompatible type %%s.', $escapedClassName),
 			sprintf('Class %s @implements tag contains unresolvable type.', $className),
 			sprintf('Class %s has @implements tag, but does not implement any interface.', $escapedClassName),
@@ -87,5 +86,4 @@ final class ClassAncestorsRule implements Rule
 
 		return array_merge($extendsErrors, $implementsErrors);
 	}
-
 }

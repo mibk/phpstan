@@ -1,16 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 
 /**
  * @implements Rule<MethodCall>
@@ -18,7 +18,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[AutowiredService]
 final class RestrictedMethodUsageRule implements Rule
 {
-
 	public function __construct(
 		private Container $container,
 		private ReflectionProvider $reflectionProvider,
@@ -36,7 +35,7 @@ final class RestrictedMethodUsageRule implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Identifier) {
+		if (! $node->name instanceof Identifier) {
 			return [];
 		}
 
@@ -77,5 +76,4 @@ final class RestrictedMethodUsageRule implements Rule
 
 		return $errors;
 	}
-
 }

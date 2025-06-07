@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -9,15 +9,14 @@ use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\Output;
 use PHPStan\File\RelativePathHelper;
 use PHPStan\ShouldNotHappenException;
+use const SORT_STRING;
 use function count;
 use function ksort;
 use function preg_quote;
 use function substr;
-use const SORT_STRING;
 
 final class BaselineNeonErrorFormatter
 {
-
 	public function __construct(private RelativePathHelper $relativePathHelper)
 	{
 	}
@@ -76,17 +75,17 @@ final class BaselineNeonErrorFormatter
 				if (count($identifiers) > 0) {
 					foreach ($identifiers as $identifier => $identifierCount) {
 						$errorsToOutput[] = [
-							'message' => Helpers::escape('#^' . preg_quote($message, '#') . '$#'),
+							'message'    => Helpers::escape('#^' . preg_quote($message, '#') . '$#'),
 							'identifier' => $identifier,
-							'count' => $identifierCount,
-							'path' => Helpers::escape($file),
+							'count'      => $identifierCount,
+							'path'       => Helpers::escape($file),
 						];
 					}
 				} else {
 					$errorsToOutput[] = [
 						'message' => Helpers::escape('#^' . preg_quote($message, '#') . '$#'),
-						'count' => $totalCount,
-						'path' => Helpers::escape($file),
+						'count'   => $totalCount,
+						'path'    => Helpers::escape($file),
 					];
 				}
 			}
@@ -123,5 +122,4 @@ final class BaselineNeonErrorFormatter
 
 		return substr($neon, 0, -2) . $existingBaselineContentEndOfFileNewlines;
 	}
-
 }

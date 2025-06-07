@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -11,7 +11,6 @@ use PHPStan\PhpDocParser\Parser\TokenIterator;
 #[AutowiredService]
 final class PhpDocStringResolver
 {
-
 	public function __construct(private Lexer $phpDocLexer, private PhpDocParser $phpDocParser)
 	{
 	}
@@ -24,5 +23,4 @@ final class PhpDocStringResolver
 
 		return $phpDocNode;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -7,7 +7,6 @@ use PHPStan\File\FileHelper;
 
 final class NeonLoader extends Loader
 {
-
 	public function __construct(
 		private FileHelper $fileHelper,
 		private ?string $generateBaselineFile,
@@ -31,5 +30,4 @@ final class NeonLoader extends Loader
 
 		return parent::load($file, $merge);
 	}
-
 }

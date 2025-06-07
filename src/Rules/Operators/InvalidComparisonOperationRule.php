@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Operators;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
@@ -18,6 +17,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function get_class;
 use function sprintf;
 
@@ -27,7 +27,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class InvalidComparisonOperationRule implements Rule
 {
-
 	public function __construct(private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -40,13 +39,13 @@ final class InvalidComparisonOperationRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if (
-			!$node instanceof Node\Expr\BinaryOp\Equal
-			&& !$node instanceof Node\Expr\BinaryOp\NotEqual
-			&& !$node instanceof Node\Expr\BinaryOp\Smaller
-			&& !$node instanceof Node\Expr\BinaryOp\SmallerOrEqual
-			&& !$node instanceof Node\Expr\BinaryOp\Greater
-			&& !$node instanceof Node\Expr\BinaryOp\GreaterOrEqual
-			&& !$node instanceof Node\Expr\BinaryOp\Spaceship
+			! $node instanceof Node\Expr\BinaryOp\Equal
+				&& ! $node instanceof Node\Expr\BinaryOp\NotEqual
+				&& ! $node instanceof Node\Expr\BinaryOp\Smaller
+				&& ! $node instanceof Node\Expr\BinaryOp\SmallerOrEqual
+				&& ! $node instanceof Node\Expr\BinaryOp\Greater
+				&& ! $node instanceof Node\Expr\BinaryOp\GreaterOrEqual
+				&& ! $node instanceof Node\Expr\BinaryOp\Spaceship
 		) {
 			return [];
 		}
@@ -64,29 +63,29 @@ final class InvalidComparisonOperationRule implements Rule
 			))
 		) {
 			switch (get_class($node)) {
-				case Node\Expr\BinaryOp\Equal::class:
-					$nodeType = 'equal';
-					break;
-				case Node\Expr\BinaryOp\NotEqual::class:
-					$nodeType = 'notEqual';
-					break;
-				case Node\Expr\BinaryOp\Greater::class:
-					$nodeType = 'greater';
-					break;
-				case Node\Expr\BinaryOp\GreaterOrEqual::class:
-					$nodeType = 'greaterOrEqual';
-					break;
-				case Node\Expr\BinaryOp\Smaller::class:
-					$nodeType = 'smaller';
-					break;
-				case Node\Expr\BinaryOp\SmallerOrEqual::class:
-					$nodeType = 'smallerOrEqual';
-					break;
-				case Node\Expr\BinaryOp\Spaceship::class:
-					$nodeType = 'spaceship';
-					break;
-				default:
-					throw new ShouldNotHappenException();
+			case Node\Expr\BinaryOp\Equal::class:
+				$nodeType = 'equal';
+				break;
+			case Node\Expr\BinaryOp\NotEqual::class:
+				$nodeType = 'notEqual';
+				break;
+			case Node\Expr\BinaryOp\Greater::class:
+				$nodeType = 'greater';
+				break;
+			case Node\Expr\BinaryOp\GreaterOrEqual::class:
+				$nodeType = 'greaterOrEqual';
+				break;
+			case Node\Expr\BinaryOp\Smaller::class:
+				$nodeType = 'smaller';
+				break;
+			case Node\Expr\BinaryOp\SmallerOrEqual::class:
+				$nodeType = 'smallerOrEqual';
+				break;
+			case Node\Expr\BinaryOp\Spaceship::class:
+				$nodeType = 'spaceship';
+				break;
+			default:
+				throw new ShouldNotHappenException();
 			}
 
 			return [
@@ -108,13 +107,13 @@ final class InvalidComparisonOperationRule implements Rule
 	private function isNumberType(Scope $scope, Node\Expr $expr): bool
 	{
 		$acceptedType = new UnionType([new IntegerType(), new FloatType()]);
-		$onlyNumber = static fn (Type $type): bool => $acceptedType->isSuperTypeOf($type)->yes();
+		$onlyNumber = static fn(Type $type): bool => $acceptedType->isSuperTypeOf($type)->yes();
 
 		$type = $this->ruleLevelHelper->findTypeToCheck($scope, $expr, '', $onlyNumber)->getType();
 
 		if (
 			$type instanceof ErrorType
-			|| !$type->equals($scope->getType($expr))
+				|| !$type->equals($scope->getType($expr))
 		) {
 			return false;
 		}
@@ -131,7 +130,7 @@ final class InvalidComparisonOperationRule implements Rule
 			$scope,
 			$expr,
 			'',
-			static fn (Type $type): bool => $acceptedType->isSuperTypeOf($type)->yes(),
+			static fn(Type $type): bool => $acceptedType->isSuperTypeOf($type)->yes(),
 		)->getType();
 
 		if ($type instanceof ErrorType) {
@@ -156,7 +155,7 @@ final class InvalidComparisonOperationRule implements Rule
 			$scope,
 			$expr,
 			'',
-			static fn (Type $type): bool => $type->isArray()->yes(),
+			static fn(Type $type): bool => $type->isArray()->yes(),
 		)->getType();
 
 		if (TypeCombinator::containsNull($type) && !$type->isNull()->yes()) {
@@ -165,5 +164,4 @@ final class InvalidComparisonOperationRule implements Rule
 
 		return !($type instanceof ErrorType) && $type->isArray()->yes();
 	}
-
 }

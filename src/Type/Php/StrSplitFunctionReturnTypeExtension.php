@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -21,6 +20,7 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function array_is_list;
 use function array_map;
 use function array_unique;
@@ -33,7 +33,6 @@ use function str_split;
 #[AutowiredService]
 final class StrSplitFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	use MbFunctionsReturnTypeExtensionTrait;
 
 	public function __construct(private PhpVersion $phpVersion)
@@ -67,7 +66,7 @@ final class StrSplitFunctionReturnTypeExtension implements DynamicFunctionReturn
 		if ($functionReflection->getName() === 'mb_str_split') {
 			if (count($functionCall->getArgs()) >= 3) {
 				$strings = $scope->getType($functionCall->getArgs()[2]->value)->getConstantStrings();
-				$values = array_unique(array_map(static fn (ConstantStringType $encoding): string => $encoding->getValue(), $strings));
+				$values = array_unique(array_map(static fn(ConstantStringType $encoding): string => $encoding->getValue(), $strings));
 
 				if (count($values) !== 1) {
 					return null;
@@ -124,7 +123,7 @@ final class StrSplitFunctionReturnTypeExtension implements DynamicFunctionReturn
 
 		foreach ($constantArray as $key => $value) {
 			$keyType = $scope->getTypeFromValue($key);
-			if (!$keyType instanceof ConstantIntegerType) {
+			if (! $keyType instanceof ConstantIntegerType) {
 				throw new ShouldNotHappenException();
 			}
 			$keyTypes[] = $keyType;
@@ -137,5 +136,4 @@ final class StrSplitFunctionReturnTypeExtension implements DynamicFunctionReturn
 
 		return new ConstantArrayType($keyTypes, $valueTypes, $isList ? [$i] : [0], isList: TrinaryLogic::createFromBoolean(array_is_list($constantArray)));
 	}
-
 }

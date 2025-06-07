@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -23,7 +23,6 @@ use function memory_get_peak_usage;
 #[AutowiredService]
 final class AnalyserRunner
 {
-
 	public function __construct(
 		private Scheduler $scheduler,
 		private Analyser $analyser,
@@ -65,15 +64,15 @@ final class AnalyserRunner
 
 		if (
 			!$debug
-			&& $allowParallel
-			&& function_exists('proc_open')
-			&& $mainScript !== null
-			&& $schedule->getNumberOfProcesses() > 0
+				&& $allowParallel
+				&& function_exists('proc_open')
+				&& $mainScript !== null
+				&& $schedule->getNumberOfProcesses() > 0
 		) {
 			$loop = new StreamSelectLoop();
 			$result = null;
 			$promise = $this->parallelAnalyser->analyse($loop, $schedule, $mainScript, $postFileCallback, $projectConfigFile, $tmpFile, $insteadOfFile, $input, null);
-			$promise->then(static function (AnalyserResult $tmp) use (&$result): void {
+			$promise->then(static function(AnalyserResult $tmp) use (&$result): void {
 				$result = $tmp;
 			});
 			$loop->run();
@@ -105,7 +104,7 @@ final class AnalyserRunner
 		if ($insteadOfFile === null) {
 			return $analysedFiles;
 		}
-		$analysedFiles = array_values(array_filter($analysedFiles, static fn (string $file): bool => $file !== $insteadOfFile));
+		$analysedFiles = array_values(array_filter($analysedFiles, static fn(string $file): bool => $file !== $insteadOfFile));
 
 		if ($tmpFile !== null) {
 			array_unshift($analysedFiles, $tmpFile);
@@ -113,5 +112,4 @@ final class AnalyserRunner
 
 		return $analysedFiles;
 	}
-
 }

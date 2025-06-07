@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
@@ -13,7 +13,6 @@ use PHPStan\Type\Type;
 
 final class FoundPropertyReflection implements ExtendedPropertyReflection
 {
-
 	public function __construct(
 		private ExtendedPropertyReflection $originalPropertyReflection,
 		private Scope $scope,
@@ -131,7 +130,7 @@ final class FoundPropertyReflection implements ExtendedPropertyReflection
 			$reflection = $reflection->getOriginalReflection();
 		}
 
-		if (!$reflection instanceof PhpPropertyReflection) {
+		if (! $reflection instanceof PhpPropertyReflection) {
 			return null;
 		}
 
@@ -182,5 +181,4 @@ final class FoundPropertyReflection implements ExtendedPropertyReflection
 	{
 		return $this->originalPropertyReflection->getAttributes();
 	}
-
 }

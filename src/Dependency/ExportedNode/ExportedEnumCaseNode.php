@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -8,14 +8,13 @@ use ReturnTypeWillChange;
 
 final class ExportedEnumCaseNode implements ExportedNode, JsonSerializable
 {
-
 	public function __construct(private string $name, private ?string $value, private ?ExportedPhpDocNode $phpDoc)
 	{
 	}
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -68,11 +67,10 @@ final class ExportedEnumCaseNode implements ExportedNode, JsonSerializable
 		return [
 			'type' => self::class,
 			'data' => [
-				'name' => $this->name,
-				'value' => $this->value,
+				'name'   => $this->name,
+				'value'  => $this->value,
 				'phpDoc' => $this->phpDoc,
 			],
 		];
 	}
-
 }

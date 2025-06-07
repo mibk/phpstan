@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -7,10 +7,9 @@ namespace PHPStan\Analyser;
  */
 final class LocalIgnoresProcessorResult
 {
-
 	/**
-	 * @param list<Error> $fileErrors
-	 * @param list<Error> $locallyIgnoredErrors
+	 * @param list<Error>   $fileErrors
+	 * @param list<Error>   $locallyIgnoredErrors
 	 * @param LinesToIgnore $linesToIgnore
 	 * @param LinesToIgnore $unmatchedLineIgnores
 	 */
@@ -54,5 +53,4 @@ final class LocalIgnoresProcessorResult
 	{
 		return $this->unmatchedLineIgnores;
 	}
-
 }

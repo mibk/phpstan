@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClosureNode;
@@ -11,6 +10,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Generic\TemplateTypeHelper;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function is_string;
 use function sprintf;
 
@@ -20,7 +20,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class IncompatibleClosureDefaultParameterTypeRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InClosureNode::class;
@@ -37,7 +36,7 @@ final class IncompatibleClosureDefaultParameterTypeRule implements Rule
 			}
 			if (
 				$param->var instanceof Node\Expr\Error
-				|| !is_string($param->var->name)
+					|| !is_string($param->var->name)
 			) {
 				throw new ShouldNotHappenException();
 			}
@@ -68,5 +67,4 @@ final class IncompatibleClosureDefaultParameterTypeRule implements Rule
 
 		return $errors;
 	}
-
 }

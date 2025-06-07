@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -13,6 +12,7 @@ use PHPStan\Rules\ClassNameUsageLocation;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_column;
 use function array_map;
 use function array_merge;
@@ -24,7 +24,6 @@ use function strtolower;
 #[AutowiredService]
 final class RequireExtendsCheck
 {
-
 	public function __construct(
 		private ClassNameCheck $classCheck,
 		#[AutowiredParameter]
@@ -60,7 +59,7 @@ final class RequireExtendsCheck
 			}
 
 			sort($classNames);
-			$referencedClassReflections = array_map(static fn ($reflection) => [$reflection, $reflection->getName()], $type->getObjectClassReflections());
+			$referencedClassReflections = array_map(static fn($reflection) => [$reflection, $reflection->getName()], $type->getObjectClassReflections());
 			$referencedClassReflectionsMap = array_column($referencedClassReflections, 0, 1);
 			foreach ($classNames as $class) {
 				$referencedClassReflection = $referencedClassReflectionsMap[$class] ?? null;
@@ -102,5 +101,4 @@ final class RequireExtendsCheck
 
 		return $errors;
 	}
-
 }

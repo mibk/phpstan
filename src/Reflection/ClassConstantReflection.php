@@ -1,14 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
-use PhpParser\Node\Expr;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr;
 
 /** @api */
 interface ClassConstantReflection extends ClassMemberReflection, ConstantReflection
 {
-
 	public function getValueExpr(): Expr;
 
 	public function isFinal(): bool;
@@ -25,5 +24,4 @@ interface ClassConstantReflection extends ClassMemberReflection, ConstantReflect
 	 * @return list<AttributeReflection>
 	 */
 	public function getAttributes(): array;
-
 }

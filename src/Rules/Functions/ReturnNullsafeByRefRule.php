@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ReturnStatementsNode;
 use PHPStan\Rules\NullsafeCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<ReturnStatementsNode>
@@ -16,7 +16,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class ReturnNullsafeByRefRule implements Rule
 {
-
 	public function __construct(private NullsafeCheck $nullsafeCheck)
 	{
 	}
@@ -52,5 +51,4 @@ final class ReturnNullsafeByRefRule implements Rule
 
 		return $errors;
 	}
-
 }

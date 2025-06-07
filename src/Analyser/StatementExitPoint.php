@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -9,7 +9,6 @@ use PhpParser\Node\Stmt;
  */
 final class StatementExitPoint
 {
-
 	public function __construct(private Stmt $statement, private MutatingScope $scope)
 	{
 	}
@@ -23,5 +22,4 @@ final class StatementExitPoint
 	{
 		return $this->scope;
 	}
-
 }

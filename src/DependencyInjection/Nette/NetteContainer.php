@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Nette;
 
@@ -16,7 +16,6 @@ use function array_map;
 #[AutowiredService(as: NetteContainer::class)]
 final class NetteContainer implements Container
 {
-
 	public function __construct(private \Nette\DI\Container $container)
 	{
 	}
@@ -40,8 +39,8 @@ final class NetteContainer implements Container
 
 	/**
 	 * @template T of object
-	 * @param class-string<T> $className
-	 * @return T
+	 * @param    class-string<T> $className
+	 * @return   T
 	 */
 	public function getByType(string $className)
 	{
@@ -53,7 +52,7 @@ final class NetteContainer implements Container
 	}
 
 	/**
-	 * @param class-string $className
+	 * @param  class-string $className
 	 * @return string[]
 	 */
 	public function findServiceNamesByType(string $className): array
@@ -95,12 +94,11 @@ final class NetteContainer implements Container
 	}
 
 	/**
-	 * @param mixed[] $tags
+	 * @param  mixed[] $tags
 	 * @return mixed[]
 	 */
 	private function tagsToServices(array $tags): array
 	{
-		return array_map(fn (string $serviceName) => $this->getService($serviceName), array_keys($tags));
+		return array_map(fn(string $serviceName) => $this->getService($serviceName), array_keys($tags));
 	}
-
 }

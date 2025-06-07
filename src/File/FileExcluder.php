@@ -1,8 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
 use PHPStan\DependencyInjection\GenerateFactory;
+use const DIRECTORY_SEPARATOR;
+use const FNM_CASEFOLD;
+use const FNM_NOESCAPE;
 use function fnmatch;
 use function in_array;
 use function is_dir;
@@ -11,14 +14,10 @@ use function preg_match;
 use function str_starts_with;
 use function strlen;
 use function substr;
-use const DIRECTORY_SEPARATOR;
-use const FNM_CASEFOLD;
-use const FNM_NOESCAPE;
 
 #[GenerateFactory(interface: FileExcluderRawFactory::class)]
 final class FileExcluder
 {
-
 	/**
 	 * Paths to exclude from analysing
 	 *
@@ -134,5 +133,4 @@ final class FileExcluder
 	{
 		return preg_match('~[*?[\]]~', $path) > 0;
 	}
-
 }

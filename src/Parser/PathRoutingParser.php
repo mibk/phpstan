@@ -1,8 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
 use PHPStan\File\FileHelper;
+use const DIRECTORY_SEPARATOR;
 use function array_fill_keys;
 use function array_slice;
 use function count;
@@ -11,11 +12,9 @@ use function implode;
 use function is_link;
 use function realpath;
 use function str_contains;
-use const DIRECTORY_SEPARATOR;
 
 final class PathRoutingParser implements Parser
 {
-
 	private ?string $singleReflectionFile;
 
 	/** @var bool[] filePath(string) => bool(true) */
@@ -80,5 +79,4 @@ final class PathRoutingParser implements Parser
 	{
 		return $this->currentPhpVersionSimpleParser->parseString($sourceCode);
 	}
-
 }

@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Stmt\Trait_>
@@ -14,7 +14,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 2)]
 final class PropertyTagTraitRule implements Rule
 {
-
 	public function __construct(private PropertyTagCheck $check, private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -37,5 +36,4 @@ final class PropertyTagTraitRule implements Rule
 
 		return $this->check->checkInTraitDefinitionContext($this->reflectionProvider->getClass($traitName->toString()));
 	}
-
 }

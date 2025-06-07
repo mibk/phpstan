@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -19,6 +17,8 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function array_map;
 use function array_reduce;
 use function array_slice;
@@ -27,7 +27,6 @@ use function count;
 #[AutowiredService]
 final class ArrayMapFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'array_map';
@@ -50,7 +49,7 @@ final class ArrayMapFunctionReturnTypeExtension implements DynamicFunctionReturn
 			$callableParametersAcceptors = $callableType->getCallableParametersAcceptors($scope);
 			$valueType = ParametersAcceptorSelector::selectFromTypes(
 				array_map(
-					static fn (Node\Arg $arg) => $scope->getType($arg->value)->getIterableValueType(),
+					static fn(Node\Arg $arg) => $scope->getType($arg->value)->getIterableValueType(),
 					array_slice($functionCall->getArgs(), 1),
 				),
 				$callableParametersAcceptors,
@@ -93,7 +92,7 @@ final class ArrayMapFunctionReturnTypeExtension implements DynamicFunctionReturn
 
 				$and = array_reduce(
 					$identities,
-					static fn (Node\Expr $a, Node\Expr $b) => new Node\Expr\BinaryOp\BooleanAnd($a, $b),
+					static fn(Node\Expr $a, Node\Expr $b) => new Node\Expr\BinaryOp\BooleanAnd($a, $b),
 					new Node\Expr\ConstFetch(new Node\Name('true')),
 				);
 				$areAllSameSize = $scope->getType($and)->isTrue()->yes();
@@ -182,5 +181,4 @@ final class ArrayMapFunctionReturnTypeExtension implements DynamicFunctionReturn
 
 		return $mappedArrayType;
 	}
-
 }

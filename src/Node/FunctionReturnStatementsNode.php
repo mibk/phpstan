@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node\Expr\Yield_;
-use PhpParser\Node\Expr\YieldFrom;
-use PhpParser\Node\Stmt;
-use PhpParser\Node\Stmt\Function_;
-use PhpParser\NodeAbstract;
 use PHPStan\Analyser\ImpurePoint;
 use PHPStan\Analyser\StatementResult;
 use PHPStan\Reflection\Php\PhpFunctionFromParserNodeReflection;
+use PhpParser\Node\Expr\YieldFrom;
+use PhpParser\Node\Expr\Yield_;
+use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\Function_;
+use PhpParser\NodeAbstract;
 use function count;
 
 /**
@@ -17,12 +17,11 @@ use function count;
  */
 final class FunctionReturnStatementsNode extends NodeAbstract implements ReturnStatementsNode
 {
-
 	/**
-	 * @param list<ReturnStatement> $returnStatements
+	 * @param list<ReturnStatement>  $returnStatements
 	 * @param list<Yield_|YieldFrom> $yieldStatements
 	 * @param list<ExecutionEndNode> $executionEnds
-	 * @param ImpurePoint[] $impurePoints
+	 * @param ImpurePoint[]          $impurePoints
 	 */
 	public function __construct(
 		private Function_ $function,
@@ -102,5 +101,4 @@ final class FunctionReturnStatementsNode extends NodeAbstract implements ReturnS
 	{
 		return $this->function->getStmts();
 	}
-
 }

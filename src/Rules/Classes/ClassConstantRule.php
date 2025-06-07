@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -25,6 +21,10 @@ use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Scalar\String_;
 use function array_merge;
 use function in_array;
 use function sprintf;
@@ -36,7 +36,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class ClassConstantRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -178,7 +177,7 @@ final class ClassConstantRule implements Rule
 				$scope,
 				NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $class),
 				sprintf('Access to constant %s on an unknown class %%s.', SprintfHelper::escapeFormatString($constantName)),
-				static fn (Type $type): bool => $type->canAccessConstants()->yes() && $type->hasConstant($constantName)->yes(),
+				static fn(Type $type): bool => $type->canAccessConstants()->yes() && $type->hasConstant($constantName)->yes(),
 			);
 			$classType = $classTypeResult->getType();
 			if ($classType instanceof ErrorType) {
@@ -195,7 +194,7 @@ final class ClassConstantRule implements Rule
 					];
 				}
 
-				if (!$class instanceof Node\Scalar\String_ && $classType->isString()->yes()) {
+				if (! $class instanceof Node\Scalar\String_ && $classType->isString()->yes()) {
 					return [
 						RuleErrorBuilder::message('Accessing ::class constant on a dynamic string is not supported in PHP.')
 							->identifier('classConstant.dynamicString')
@@ -257,5 +256,4 @@ final class ClassConstantRule implements Rule
 
 		return $messages;
 	}
-
 }

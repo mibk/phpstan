@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -11,7 +11,6 @@ use function array_map;
 
 final class WrappedExtendedMethodReflection implements ExtendedMethodReflection
 {
-
 	public function __construct(private MethodReflection $method)
 	{
 	}
@@ -63,7 +62,7 @@ final class WrappedExtendedMethodReflection implements ExtendedMethodReflection
 			$variants[] = new ExtendedFunctionVariant(
 				$variant->getTemplateTypeMap(),
 				$variant->getResolvedTemplateTypeMap(),
-				array_map(static fn (ParameterReflection $parameter): ExtendedParameterReflection => $parameter instanceof ExtendedParameterReflection ? $parameter : new ExtendedDummyParameter(
+				array_map(static fn(ParameterReflection $parameter): ExtendedParameterReflection => $parameter instanceof ExtendedParameterReflection ? $parameter : new ExtendedDummyParameter(
 					$parameter->getName(),
 					$parameter->getType(),
 					$parameter->isOptional(),
@@ -172,5 +171,4 @@ final class WrappedExtendedMethodReflection implements ExtendedMethodReflection
 	{
 		return [];
 	}
-
 }

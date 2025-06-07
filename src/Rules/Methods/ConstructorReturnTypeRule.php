@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -16,7 +16,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class ConstructorReturnTypeRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InClassMethodNode::class;
@@ -30,7 +29,7 @@ final class ConstructorReturnTypeRule implements Rule
 			$originalMethodName = $methodNode->getAttribute('originalTraitMethodName');
 			if (
 				$originalMethodName === '__construct'
-				&& $methodNode->returnType !== null
+					&& $methodNode->returnType !== null
 			) {
 				return [
 					RuleErrorBuilder::message(sprintf('Original constructor of trait %s has a return type.', $scope->getTraitReflection()->getDisplayName()))
@@ -61,5 +60,4 @@ final class ConstructorReturnTypeRule implements Rule
 				->build(),
 		];
 	}
-
 }

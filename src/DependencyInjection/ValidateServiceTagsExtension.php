@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
 use Nette\DI\CompilerExtension;
-use PhpParser\NodeVisitor;
 use PHPStan\Analyser\ResultCache\ResultCacheMetaExtension;
 use PHPStan\Analyser\TypeSpecifierFactory;
 use PHPStan\Broker\BrokerFactory;
@@ -56,6 +55,7 @@ use PHPStan\Type\OperatorTypeSpecifyingExtension;
 use PHPStan\Type\StaticMethodParameterClosureTypeExtension;
 use PHPStan\Type\StaticMethodParameterOutTypeExtension;
 use PHPStan\Type\StaticMethodTypeSpecifyingExtension;
+use PhpParser\NodeVisitor;
 use ReflectionClass;
 use function array_flip;
 use function array_key_exists;
@@ -63,49 +63,48 @@ use function count;
 
 final class ValidateServiceTagsExtension extends CompilerExtension
 {
-
 	public const INTERFACE_TAG_MAPPING = [
-		PropertiesClassReflectionExtension::class => BrokerFactory::PROPERTIES_CLASS_REFLECTION_EXTENSION_TAG,
-		MethodsClassReflectionExtension::class => BrokerFactory::METHODS_CLASS_REFLECTION_EXTENSION_TAG,
-		AllowedSubTypesClassReflectionExtension::class => BrokerFactory::ALLOWED_SUB_TYPES_CLASS_REFLECTION_EXTENSION_TAG,
-		DynamicMethodReturnTypeExtension::class => BrokerFactory::DYNAMIC_METHOD_RETURN_TYPE_EXTENSION_TAG,
-		DynamicStaticMethodReturnTypeExtension::class => BrokerFactory::DYNAMIC_STATIC_METHOD_RETURN_TYPE_EXTENSION_TAG,
-		DynamicFunctionReturnTypeExtension::class => BrokerFactory::DYNAMIC_FUNCTION_RETURN_TYPE_EXTENSION_TAG,
-		OperatorTypeSpecifyingExtension::class => BrokerFactory::OPERATOR_TYPE_SPECIFYING_EXTENSION_TAG,
-		ExpressionTypeResolverExtension::class => BrokerFactory::EXPRESSION_TYPE_RESOLVER_EXTENSION_TAG,
-		TypeNodeResolverExtension::class => TypeNodeResolverExtension::EXTENSION_TAG,
-		Rule::class => LazyRegistry::RULE_TAG,
-		StubFilesExtension::class => StubFilesExtension::EXTENSION_TAG,
-		AlwaysUsedClassConstantsExtension::class => AlwaysUsedClassConstantsExtensionProvider::EXTENSION_TAG,
-		AlwaysUsedMethodExtension::class => AlwaysUsedMethodExtensionProvider::EXTENSION_TAG,
-		ReadWritePropertiesExtension::class => ReadWritePropertiesExtensionProvider::EXTENSION_TAG,
-		FunctionTypeSpecifyingExtension::class => TypeSpecifierFactory::FUNCTION_TYPE_SPECIFYING_EXTENSION_TAG,
-		MethodTypeSpecifyingExtension::class => TypeSpecifierFactory::METHOD_TYPE_SPECIFYING_EXTENSION_TAG,
-		StaticMethodTypeSpecifyingExtension::class => TypeSpecifierFactory::STATIC_METHOD_TYPE_SPECIFYING_EXTENSION_TAG,
-		DynamicFunctionThrowTypeExtension::class => LazyDynamicThrowTypeExtensionProvider::FUNCTION_TAG,
-		DynamicMethodThrowTypeExtension::class => LazyDynamicThrowTypeExtensionProvider::METHOD_TAG,
-		DynamicStaticMethodThrowTypeExtension::class => LazyDynamicThrowTypeExtensionProvider::STATIC_METHOD_TAG,
-		FunctionParameterClosureTypeExtension::class => LazyParameterClosureTypeExtensionProvider::FUNCTION_TAG,
-		MethodParameterClosureTypeExtension::class => LazyParameterClosureTypeExtensionProvider::METHOD_TAG,
+		PropertiesClassReflectionExtension::class        => BrokerFactory::PROPERTIES_CLASS_REFLECTION_EXTENSION_TAG,
+		MethodsClassReflectionExtension::class           => BrokerFactory::METHODS_CLASS_REFLECTION_EXTENSION_TAG,
+		AllowedSubTypesClassReflectionExtension::class   => BrokerFactory::ALLOWED_SUB_TYPES_CLASS_REFLECTION_EXTENSION_TAG,
+		DynamicMethodReturnTypeExtension::class          => BrokerFactory::DYNAMIC_METHOD_RETURN_TYPE_EXTENSION_TAG,
+		DynamicStaticMethodReturnTypeExtension::class    => BrokerFactory::DYNAMIC_STATIC_METHOD_RETURN_TYPE_EXTENSION_TAG,
+		DynamicFunctionReturnTypeExtension::class        => BrokerFactory::DYNAMIC_FUNCTION_RETURN_TYPE_EXTENSION_TAG,
+		OperatorTypeSpecifyingExtension::class           => BrokerFactory::OPERATOR_TYPE_SPECIFYING_EXTENSION_TAG,
+		ExpressionTypeResolverExtension::class           => BrokerFactory::EXPRESSION_TYPE_RESOLVER_EXTENSION_TAG,
+		TypeNodeResolverExtension::class                 => TypeNodeResolverExtension::EXTENSION_TAG,
+		Rule::class                                      => LazyRegistry::RULE_TAG,
+		StubFilesExtension::class                        => StubFilesExtension::EXTENSION_TAG,
+		AlwaysUsedClassConstantsExtension::class         => AlwaysUsedClassConstantsExtensionProvider::EXTENSION_TAG,
+		AlwaysUsedMethodExtension::class                 => AlwaysUsedMethodExtensionProvider::EXTENSION_TAG,
+		ReadWritePropertiesExtension::class              => ReadWritePropertiesExtensionProvider::EXTENSION_TAG,
+		FunctionTypeSpecifyingExtension::class           => TypeSpecifierFactory::FUNCTION_TYPE_SPECIFYING_EXTENSION_TAG,
+		MethodTypeSpecifyingExtension::class             => TypeSpecifierFactory::METHOD_TYPE_SPECIFYING_EXTENSION_TAG,
+		StaticMethodTypeSpecifyingExtension::class       => TypeSpecifierFactory::STATIC_METHOD_TYPE_SPECIFYING_EXTENSION_TAG,
+		DynamicFunctionThrowTypeExtension::class         => LazyDynamicThrowTypeExtensionProvider::FUNCTION_TAG,
+		DynamicMethodThrowTypeExtension::class           => LazyDynamicThrowTypeExtensionProvider::METHOD_TAG,
+		DynamicStaticMethodThrowTypeExtension::class     => LazyDynamicThrowTypeExtensionProvider::STATIC_METHOD_TAG,
+		FunctionParameterClosureTypeExtension::class     => LazyParameterClosureTypeExtensionProvider::FUNCTION_TAG,
+		MethodParameterClosureTypeExtension::class       => LazyParameterClosureTypeExtensionProvider::METHOD_TAG,
 		StaticMethodParameterClosureTypeExtension::class => LazyParameterClosureTypeExtensionProvider::STATIC_METHOD_TAG,
-		FunctionParameterOutTypeExtension::class => LazyParameterOutTypeExtensionProvider::FUNCTION_TAG,
-		MethodParameterOutTypeExtension::class => LazyParameterOutTypeExtensionProvider::METHOD_TAG,
-		StaticMethodParameterOutTypeExtension::class => LazyParameterOutTypeExtensionProvider::STATIC_METHOD_TAG,
-		ResultCacheMetaExtension::class => ResultCacheMetaExtension::EXTENSION_TAG,
-		ClassConstantDeprecationExtension::class => ClassConstantDeprecationExtension::CLASS_CONSTANT_EXTENSION_TAG,
-		ClassDeprecationExtension::class => ClassDeprecationExtension::CLASS_EXTENSION_TAG,
-		EnumCaseDeprecationExtension::class => EnumCaseDeprecationExtension::ENUM_CASE_EXTENSION_TAG,
-		FunctionDeprecationExtension::class => FunctionDeprecationExtension::FUNCTION_EXTENSION_TAG,
-		MethodDeprecationExtension::class => MethodDeprecationExtension::METHOD_EXTENSION_TAG,
-		PropertyDeprecationExtension::class => PropertyDeprecationExtension::PROPERTY_EXTENSION_TAG,
-		RestrictedMethodUsageExtension::class => RestrictedMethodUsageExtension::METHOD_EXTENSION_TAG,
-		RestrictedClassNameUsageExtension::class => RestrictedClassNameUsageExtension::CLASS_NAME_EXTENSION_TAG,
-		RestrictedFunctionUsageExtension::class => RestrictedFunctionUsageExtension::FUNCTION_EXTENSION_TAG,
-		RestrictedPropertyUsageExtension::class => RestrictedPropertyUsageExtension::PROPERTY_EXTENSION_TAG,
-		RestrictedClassConstantUsageExtension::class => RestrictedClassConstantUsageExtension::CLASS_CONSTANT_EXTENSION_TAG,
-		NodeVisitor::class => RichParser::VISITOR_SERVICE_TAG,
-		Collector::class => CollectorRegistryFactory::COLLECTOR_TAG,
-		DiagnoseExtension::class => DiagnoseExtension::EXTENSION_TAG,
+		FunctionParameterOutTypeExtension::class         => LazyParameterOutTypeExtensionProvider::FUNCTION_TAG,
+		MethodParameterOutTypeExtension::class           => LazyParameterOutTypeExtensionProvider::METHOD_TAG,
+		StaticMethodParameterOutTypeExtension::class     => LazyParameterOutTypeExtensionProvider::STATIC_METHOD_TAG,
+		ResultCacheMetaExtension::class                  => ResultCacheMetaExtension::EXTENSION_TAG,
+		ClassConstantDeprecationExtension::class         => ClassConstantDeprecationExtension::CLASS_CONSTANT_EXTENSION_TAG,
+		ClassDeprecationExtension::class                 => ClassDeprecationExtension::CLASS_EXTENSION_TAG,
+		EnumCaseDeprecationExtension::class              => EnumCaseDeprecationExtension::ENUM_CASE_EXTENSION_TAG,
+		FunctionDeprecationExtension::class              => FunctionDeprecationExtension::FUNCTION_EXTENSION_TAG,
+		MethodDeprecationExtension::class                => MethodDeprecationExtension::METHOD_EXTENSION_TAG,
+		PropertyDeprecationExtension::class              => PropertyDeprecationExtension::PROPERTY_EXTENSION_TAG,
+		RestrictedMethodUsageExtension::class            => RestrictedMethodUsageExtension::METHOD_EXTENSION_TAG,
+		RestrictedClassNameUsageExtension::class         => RestrictedClassNameUsageExtension::CLASS_NAME_EXTENSION_TAG,
+		RestrictedFunctionUsageExtension::class          => RestrictedFunctionUsageExtension::FUNCTION_EXTENSION_TAG,
+		RestrictedPropertyUsageExtension::class          => RestrictedPropertyUsageExtension::PROPERTY_EXTENSION_TAG,
+		RestrictedClassConstantUsageExtension::class     => RestrictedClassConstantUsageExtension::CLASS_CONSTANT_EXTENSION_TAG,
+		NodeVisitor::class                               => RichParser::VISITOR_SERVICE_TAG,
+		Collector::class                                 => CollectorRegistryFactory::COLLECTOR_TAG,
+		DiagnoseExtension::class                         => DiagnoseExtension::EXTENSION_TAG,
 	];
 
 	/**
@@ -141,5 +140,4 @@ final class ValidateServiceTagsExtension extends CompilerExtension
 			}
 		}
 	}
-
 }

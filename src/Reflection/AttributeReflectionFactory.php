@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
-use PhpParser\Node\AttributeGroup;
-use PhpParser\Node\Expr;
 use PHPStan\BetterReflection\Reflection\Adapter\FakeReflectionAttribute;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionAttribute;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\ReflectionProvider\ReflectionProviderProvider;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Expr;
 use function array_key_exists;
 use function count;
 use function is_int;
@@ -16,7 +16,6 @@ use function is_int;
 #[AutowiredService]
 final class AttributeReflectionFactory
 {
-
 	public function __construct(
 		private InitializerExprTypeResolver $initializerExprTypeResolver,
 		private ReflectionProviderProvider $reflectionProviderProvider,
@@ -25,7 +24,7 @@ final class AttributeReflectionFactory
 	}
 
 	/**
-	 * @param list<ReflectionAttribute|FakeReflectionAttribute> $reflections
+	 * @param  list<ReflectionAttribute|FakeReflectionAttribute> $reflections
 	 * @return list<AttributeReflection>
 	 */
 	public function fromNativeReflection(array $reflections, InitializerExprContext $context): array
@@ -44,7 +43,7 @@ final class AttributeReflectionFactory
 	}
 
 	/**
-	 * @param AttributeGroup[] $attrGroups
+	 * @param  AttributeGroup[] $attrGroups
 	 * @return list<AttributeReflection>
 	 */
 	public function fromAttrGroups(array $attrGroups, InitializerExprContext $context): array
@@ -132,5 +131,4 @@ final class AttributeReflectionFactory
 
 		return new AttributeReflection($classReflection->getName(), $namedArgTypes);
 	}
-
 }

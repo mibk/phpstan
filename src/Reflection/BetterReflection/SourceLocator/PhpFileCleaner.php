@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -12,11 +12,10 @@ use function substr;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
- * @see https://github.com/composer/composer/pull/10107
+ * @see    https://github.com/composer/composer/pull/10107
  */
 final class PhpFileCleaner
 {
-
 	/** @var array<array{name: string, length: int, pattern: string}> */
 	private array $typeConfig = [];
 
@@ -32,8 +31,8 @@ final class PhpFileCleaner
 	{
 		foreach (['class', 'interface', 'trait', 'enum'] as $type) {
 			$this->typeConfig[$type[0]] = [
-				'name' => $type,
-				'length' => strlen($type),
+				'name'    => $type,
+				'length'  => strlen($type),
 				'pattern' => '{.\b(?<![\$:>])' . $type . '\s++[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff\-]*+}Ais',
 			];
 		}
@@ -121,8 +120,8 @@ final class PhpFileCleaner
 
 				if (
 					$inType
-					&& $char === 'c'
-					&& $this->match('~.\b(?<![\$:>])const(\s++[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff\-]*+)~Ais', $match, $this->index - 1)
+						&& $char === 'c'
+						&& $this->match('~.\b(?<![\$:>])const(\s++[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff\-]*+)~Ais', $match, $this->index - 1)
 				) {
 					// It's invalid PHP but it does not matter
 					$clean .= 'class_const' . $match[1];
@@ -249,19 +248,19 @@ final class PhpFileCleaner
 		while ($this->index < $this->len) {
 			// check if we find the delimiter after some spaces/tabs
 			switch ($this->contents[$this->index]) {
-				case "\t":
-				case ' ':
-					$this->index += 1;
-					continue 2;
-				case $firstDelimiterChar:
-					if (
-						substr($this->contents, $this->index, $delimiterLength) === $delimiter
+			case "\t":
+			case ' ':
+				$this->index += 1;
+				continue 2;
+			case $firstDelimiterChar:
+				if (
+					substr($this->contents, $this->index, $delimiterLength) === $delimiter
 						&& $this->match($delimiterPattern)
-					) {
-						$this->index += $delimiterLength;
-						return;
-					}
-					break;
+				) {
+					$this->index += $delimiterLength;
+					return;
+				}
+				break;
 			}
 
 			// skip the rest of the line
@@ -284,12 +283,11 @@ final class PhpFileCleaner
 	}
 
 	/**
-	 * @param string[]|null $match
+	 * @param     string[]|null $match
 	 * @param-out string[] $match
 	 */
 	private function match(string $regex, ?array &$match = null, ?int $offset = null): bool
 	{
 		return preg_match($regex, $this->contents, $match, offset: $offset ?? $this->index) === 1;
 	}
-
 }

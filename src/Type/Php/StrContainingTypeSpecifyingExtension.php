@@ -1,13 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\BinaryOp\BooleanAnd;
-use PhpParser\Node\Expr\BinaryOp\NotIdentical;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -22,6 +16,12 @@ use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\FunctionTypeSpecifyingExtension;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\BinaryOp\BooleanAnd;
+use PhpParser\Node\Expr\BinaryOp\NotIdentical;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\String_;
 use function array_key_exists;
 use function count;
 use function strtolower;
@@ -29,22 +29,21 @@ use function strtolower;
 #[AutowiredService]
 final class StrContainingTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private const STR_CONTAINING_FUNCTIONS = [
-		'fnmatch' => [1, 0],
-		'str_contains' => [0, 1],
+		'fnmatch'         => [1, 0],
+		'str_contains'    => [0, 1],
 		'str_starts_with' => [0, 1],
-		'str_ends_with' => [0, 1],
-		'strpos' => [0, 1],
-		'strrpos' => [0, 1],
-		'stripos' => [0, 1],
-		'strripos' => [0, 1],
-		'strstr' => [0, 1],
-		'mb_strpos' => [0, 1],
-		'mb_strrpos' => [0, 1],
-		'mb_stripos' => [0, 1],
-		'mb_strripos' => [0, 1],
-		'mb_strstr' => [0, 1],
+		'str_ends_with'   => [0, 1],
+		'strpos'          => [0, 1],
+		'strrpos'         => [0, 1],
+		'stripos'         => [0, 1],
+		'strripos'        => [0, 1],
+		'strstr'          => [0, 1],
+		'mb_strpos'       => [0, 1],
+		'mb_strrpos'      => [0, 1],
+		'mb_stripos'      => [0, 1],
+		'mb_strripos'     => [0, 1],
+		'mb_strstr'       => [0, 1],
 	];
 
 	private TypeSpecifier $typeSpecifier;
@@ -107,5 +106,4 @@ final class StrContainingTypeSpecifyingExtension implements FunctionTypeSpecifyi
 
 		return new SpecifiedTypes();
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +12,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 use function ucfirst;
 
@@ -22,7 +22,6 @@ use function ucfirst;
 #[RegisteredRule(level: 3)]
 final class ThrowsVoidPropertyHookWithExplicitThrowPointRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '@exceptionTypeResolver')]
 		private ExceptionTypeResolver $exceptionTypeResolver,
@@ -59,7 +58,7 @@ final class ThrowsVoidPropertyHookWithExplicitThrowPointRule implements Rule
 			foreach (TypeUtils::flattenTypes($throwPoint->getType()) as $throwPointType) {
 				$isCheckedException = TrinaryLogic::createFromBoolean($this->missingCheckedExceptionInThrows)->lazyAnd(
 					$throwPointType->getObjectClassNames(),
-					fn (string $objectClassName) => TrinaryLogic::createFromBoolean($this->exceptionTypeResolver->isCheckedException($objectClassName, $throwPoint->getScope())),
+					fn(string $objectClassName) => TrinaryLogic::createFromBoolean($this->exceptionTypeResolver->isCheckedException($objectClassName, $throwPoint->getScope())),
 				);
 				if ($isCheckedException->yes()) {
 					continue;
@@ -80,5 +79,4 @@ final class ThrowsVoidPropertyHookWithExplicitThrowPointRule implements Rule
 
 		return $errors;
 	}
-
 }

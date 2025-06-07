@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\UnreachableStatementNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<UnreachableStatementNode>
@@ -15,7 +15,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 4)]
 final class UnreachableStatementRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return UnreachableStatementNode::class;
@@ -29,5 +28,4 @@ final class UnreachableStatementRule implements Rule
 				->build(),
 		];
 	}
-
 }

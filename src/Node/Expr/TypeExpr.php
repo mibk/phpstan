@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node\Expr;
 
-use PhpParser\Node\Expr;
 use PHPStan\Node\VirtualNode;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr;
 
 /**
  * @api
  */
 final class TypeExpr extends Expr implements VirtualNode
 {
-
 	/** @api */
 	public function __construct(private Type $exprType)
 	{
@@ -35,5 +34,4 @@ final class TypeExpr extends Expr implements VirtualNode
 	{
 		return [];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Type;
 
@@ -8,9 +8,8 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService(as: DynamicThrowTypeExtensionProvider::class)]
 final class LazyDynamicThrowTypeExtensionProvider implements DynamicThrowTypeExtensionProvider
 {
-
-	public const FUNCTION_TAG = 'phpstan.dynamicFunctionThrowTypeExtension';
-	public const METHOD_TAG = 'phpstan.dynamicMethodThrowTypeExtension';
+	public const FUNCTION_TAG      = 'phpstan.dynamicFunctionThrowTypeExtension';
+	public const METHOD_TAG        = 'phpstan.dynamicMethodThrowTypeExtension';
 	public const STATIC_METHOD_TAG = 'phpstan.dynamicStaticMethodThrowTypeExtension';
 
 	public function __construct(private Container $container)
@@ -31,5 +30,4 @@ final class LazyDynamicThrowTypeExtensionProvider implements DynamicThrowTypeExt
 	{
 		return $this->container->getServicesByTag(self::STATIC_METHOD_TAG);
 	}
-
 }

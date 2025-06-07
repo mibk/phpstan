@@ -1,8 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
 use PHPStan\ShouldNotHappenException;
+use const SEEK_CUR;
+use const SEEK_END;
+use const SEEK_SET;
+use const STREAM_URL_STAT_QUIET;
 use function is_dir;
 use function is_file;
 use function stat;
@@ -10,10 +14,6 @@ use function stream_resolve_include_path;
 use function stream_wrapper_register;
 use function stream_wrapper_restore;
 use function stream_wrapper_unregister;
-use const SEEK_CUR;
-use const SEEK_END;
-use const SEEK_SET;
-use const STREAM_URL_STAT_QUIET;
 
 /**
  * This class will operate as a stream wrapper, intercepting any access to a file while
@@ -28,7 +28,6 @@ use const STREAM_URL_STAT_QUIET;
  */
 final class FileReadTrapStreamWrapper
 {
-
 	private const DEFAULT_STREAM_WRAPPER_PROTOCOLS = [
 		'file',
 		'phar',
@@ -50,8 +49,8 @@ final class FileReadTrapStreamWrapper
 	 * @return mixed
 	 *
 	 * @psalm-template ExecutedMethodReturnType of mixed
-	 * @psalm-param callable() : ExecutedMethodReturnType $executeMeWithinStreamWrapperOverride
-	 * @psalm-return ExecutedMethodReturnType
+	 * @psalm-param    callable() : ExecutedMethodReturnType $executeMeWithinStreamWrapperOverride
+	 * @psalm-return   ExecutedMethodReturnType
 	 */
 	public static function withStreamWrapperOverride(
 		callable $executeMeWithinStreamWrapperOverride,
@@ -170,7 +169,7 @@ final class FileReadTrapStreamWrapper
 	 */
 	public function url_stat($path, $flags)
 	{
-		return $this->invokeWithRealFileStreamWrapper(static function ($path, $flags) {
+		return $this->invokeWithRealFileStreamWrapper(static function($path, $flags) {
 			if (($flags & STREAM_URL_STAT_QUIET) !== 0) {
 				return @stat($path);
 			}
@@ -180,7 +179,7 @@ final class FileReadTrapStreamWrapper
 	}
 
 	/**
-	 * @param mixed[] $args
+	 * @param  mixed[] $args
 	 * @return mixed
 	 */
 	private function invokeWithRealFileStreamWrapper(callable $cb, array $args)
@@ -223,37 +222,37 @@ final class FileReadTrapStreamWrapper
 	}
 
 	/**
-	 * @param   int  $offset
-	 * @param   int  $whence
+	 * @param int $offset
+	 * @param int $whence
 	 */
 	public function stream_seek($offset, $whence): bool
 	{
 		switch ($whence) {
-			// Behavior is the same for a zero-length file
-			case SEEK_SET:
-			case SEEK_END:
-				if ($offset < 0) {
-					return false;
-				}
-				$this->seekPosition = $offset;
-				return true;
-
-			case SEEK_CUR:
-				if ($offset < 0) {
-					return false;
-				}
-				$this->seekPosition += $offset;
-				return true;
-
-			default:
+		// Behavior is the same for a zero-length file
+		case SEEK_SET:
+		case SEEK_END:
+			if ($offset < 0) {
 				return false;
+			}
+			$this->seekPosition = $offset;
+			return true;
+
+		case SEEK_CUR:
+			if ($offset < 0) {
+				return false;
+			}
+			$this->seekPosition += $offset;
+			return true;
+
+		default:
+			return false;
 		}
 	}
 
 	/**
-	 * @param int  $option
-	 * @param int  $arg1
-	 * @param int  $arg2
+	 * @param int $option
+	 * @param int $arg1
+	 * @param int $arg2
 	 */
 	public function stream_set_option($option, $arg1, $arg2): bool
 	{
@@ -269,5 +268,4 @@ final class FileReadTrapStreamWrapper
 	{
 		return '';
 	}
-
 }

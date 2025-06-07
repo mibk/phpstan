@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -26,7 +26,6 @@ use function sprintf;
 /** @api */
 class StaticType implements TypeWithClassName, SubtractableType
 {
-
 	use NonGenericTypeTrait;
 	use UndecidedComparisonTypeTrait;
 	use NonGeneralizableTypeTrait;
@@ -82,7 +81,7 @@ class StaticType implements TypeWithClassName, SubtractableType
 	{
 		if ($this->staticObjectType === null) {
 			if ($this->classReflection->isGeneric()) {
-				$typeMap = $this->classReflection->getActiveTemplateTypeMap()->map(static fn (string $name, Type $type): Type => TemplateTypeHelper::toArgument($type));
+				$typeMap = $this->classReflection->getActiveTemplateTypeMap()->map(static fn(string $name, Type $type): Type => TemplateTypeHelper::toArgument($type));
 				$varianceMap = $this->classReflection->getCallSiteVarianceMap();
 				return $this->staticObjectType = new GenericObjectType(
 					$this->classReflection->getName(),
@@ -134,7 +133,7 @@ class StaticType implements TypeWithClassName, SubtractableType
 			return $type->isAcceptedBy($this, $strictTypes);
 		}
 
-		if (!$type instanceof static) {
+		if (! $type instanceof static) {
 			return AcceptsResult::createNo();
 		}
 
@@ -232,7 +231,7 @@ class StaticType implements TypeWithClassName, SubtractableType
 			$nakedProperty,
 			$classReflection,
 			false,
-			fn (Type $type): Type => $this->transformStaticType($type, $scope),
+			fn(Type $type): Type => $this->transformStaticType($type, $scope),
 		);
 	}
 
@@ -269,13 +268,13 @@ class StaticType implements TypeWithClassName, SubtractableType
 			$nakedMethod,
 			$classReflection,
 			false,
-			fn (Type $type): Type => $this->transformStaticType($type, $scope),
+			fn(Type $type): Type => $this->transformStaticType($type, $scope),
 		);
 	}
 
 	private function transformStaticType(Type $type, ClassMemberAccessAnswerer $scope): Type
 	{
-		return TypeTraverser::map($type, function (Type $type, callable $traverse) use ($scope): Type {
+		return TypeTraverser::map($type, function(Type $type, callable $traverse) use ($scope): Type {
 			if ($type instanceof StaticType) {
 				$classReflection = $this->classReflection;
 				$isFinal = false;
@@ -741,5 +740,4 @@ class StaticType implements TypeWithClassName, SubtractableType
 	{
 		return new IdentifierTypeNode('static');
 	}
-
 }

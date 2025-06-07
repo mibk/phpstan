@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Node;
 use function is_string;
 use function sprintf;
 
@@ -18,7 +18,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class InvalidPromotedPropertiesRule implements Rule
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -59,10 +58,11 @@ final class InvalidPromotedPropertiesRule implements Rule
 		}
 
 		if (
-			!$node instanceof Node\Stmt\ClassMethod
-			|| (
-				$node->name->toLowerString() !== '__construct'
-				&& $node->getAttribute('originalTraitMethodName') !== '__construct')
+			! $node instanceof Node\Stmt\ClassMethod
+				|| (
+					$node->name->toLowerString() !== '__construct'
+						&& $node->getAttribute('originalTraitMethodName') !== '__construct'
+				)
 		) {
 			return [
 				RuleErrorBuilder::message(
@@ -85,7 +85,7 @@ final class InvalidPromotedPropertiesRule implements Rule
 				continue;
 			}
 
-			if (!$param->var instanceof Node\Expr\Variable || !is_string($param->var->name)) {
+			if (! $param->var instanceof Node\Expr\Variable || !is_string($param->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 
@@ -101,5 +101,4 @@ final class InvalidPromotedPropertiesRule implements Rule
 
 		return $errors;
 	}
-
 }

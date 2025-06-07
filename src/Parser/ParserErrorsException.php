@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
@@ -10,7 +10,6 @@ use function implode;
 
 final class ParserErrorsException extends Exception
 {
-
 	/** @var mixed[] */
 	private array $attributes;
 
@@ -22,7 +21,7 @@ final class ParserErrorsException extends Exception
 		private ?string $parsedFile,
 	)
 	{
-		parent::__construct(implode(', ', array_map(static fn (Error $error): string => $error->getRawMessage(), $errors)));
+		parent::__construct(implode(', ', array_map(static fn(Error $error): string => $error->getRawMessage(), $errors)));
 		if (count($errors) > 0) {
 			$this->attributes = $errors[0]->getAttributes();
 		} else {
@@ -50,5 +49,4 @@ final class ParserErrorsException extends Exception
 	{
 		return $this->attributes;
 	}
-
 }

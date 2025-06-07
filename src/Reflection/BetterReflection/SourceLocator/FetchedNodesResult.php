@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -6,10 +6,9 @@ use PhpParser\Node;
 
 final class FetchedNodesResult
 {
-
 	/**
-	 * @param array<string, array<FetchedNode<Node\Stmt\ClassLike>>> $classNodes
-	 * @param array<string, array<FetchedNode<Node\Stmt\Function_>>> $functionNodes
+	 * @param array<string, array<FetchedNode<Node\Stmt\ClassLike>>>                 $classNodes
+	 * @param array<string, array<FetchedNode<Node\Stmt\Function_>>>                 $functionNodes
 	 * @param array<string, array<FetchedNode<Node\Stmt\Const_|Node\Expr\FuncCall>>> $constantNodes
 	 */
 	public function __construct(
@@ -43,5 +42,4 @@ final class FetchedNodesResult
 	{
 		return $this->constantNodes;
 	}
-
 }

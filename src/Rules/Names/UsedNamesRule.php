@@ -1,7 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Names;
 
+use PHPStan\Analyser\Scope;
+use PHPStan\DependencyInjection\RegisteredRule;
+use PHPStan\Node\FileNode;
+use PHPStan\Rules\IdentifierRuleError;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Enum_;
@@ -10,12 +16,6 @@ use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\Node\Stmt\Use_;
-use PHPStan\Analyser\Scope;
-use PHPStan\DependencyInjection\RegisteredRule;
-use PHPStan\Node\FileNode;
-use PHPStan\Rules\IdentifierRuleError;
-use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleErrorBuilder;
 use function in_array;
 use function sprintf;
 use function strtolower;
@@ -26,7 +26,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class UsedNamesRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return FileNode::class;
@@ -59,7 +58,7 @@ final class UsedNamesRule implements Rule
 	}
 
 	/**
-	 * @param array<string, string[]> $usedNames
+	 * @param  array<string, string[]> $usedNames
 	 * @return list<IdentifierRuleError>
 	 */
 	private function findErrorsForNode(Node $node, string $namespace, array &$usedNames): array
@@ -114,8 +113,8 @@ final class UsedNamesRule implements Rule
 	}
 
 	/**
-	 * @param Node\UseItem[] $uses
-	 * @param array<string, string[]> $usedNames
+	 * @param  Node\UseItem[]          $uses
+	 * @param  array<string, string[]> $usedNames
 	 * @return list<IdentifierRuleError>
 	 */
 	private function findErrorsInUses(array $uses, string $useGroupPrefix, string $lowerNamespace, array &$usedNames): array
@@ -147,5 +146,4 @@ final class UsedNamesRule implements Rule
 	{
 		return in_array($use->type, [Use_::TYPE_FUNCTION, Use_::TYPE_CONSTANT], true);
 	}
-
 }

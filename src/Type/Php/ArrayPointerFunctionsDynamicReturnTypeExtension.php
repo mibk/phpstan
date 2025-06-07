@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -10,13 +9,13 @@ use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class ArrayPointerFunctionsDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	/** @var string[] */
 	private array $functions = [
 		'reset',
@@ -53,5 +52,4 @@ final class ArrayPointerFunctionsDynamicReturnTypeExtension implements DynamicFu
 
 		return TypeCombinator::union($itemType, new ConstantBooleanType(false));
 	}
-
 }

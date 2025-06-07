@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -10,9 +10,9 @@ namespace PHPStan\Reflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyPropertiesClassReflectionExtension
- *		tags:
- *			- phpstan.broker.propertiesClassReflectionExtension
+ * *		class: App\PHPStan\MyPropertiesClassReflectionExtension
+ * *		tags:
+ * *			- phpstan.broker.propertiesClassReflectionExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/class-reflection-extensions
@@ -21,9 +21,7 @@ namespace PHPStan\Reflection;
  */
 interface PropertiesClassReflectionExtension
 {
-
 	public function hasProperty(ClassReflection $classReflection, string $propertyName): bool;
 
 	public function getProperty(ClassReflection $classReflection, string $propertyName): PropertyReflection;
-
 }

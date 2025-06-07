@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -19,7 +19,6 @@ use PhpParser\Node\Stmt;
  */
 final class PropertyHookStatementNode extends Stmt implements VirtualNode
 {
-
 	public function __construct(PropertyHook $propertyHook)
 	{
 		parent::__construct($propertyHook->getAttributes());
@@ -42,5 +41,4 @@ final class PropertyHookStatementNode extends Stmt implements VirtualNode
 	{
 		return [];
 	}
-
 }

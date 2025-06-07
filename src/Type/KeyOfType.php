@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -13,7 +13,6 @@ use function sprintf;
 /** @api */
 class KeyOfType implements CompoundType, LateResolvableType
 {
-
 	use LateResolvableTypeTrait;
 	use NonGeneralizableTypeTrait;
 
@@ -73,7 +72,7 @@ class KeyOfType implements CompoundType, LateResolvableType
 
 	public function traverseSimultaneously(Type $right, callable $cb): Type
 	{
-		if (!$right instanceof self) {
+		if (! $right instanceof self) {
 			return $this;
 		}
 
@@ -90,5 +89,4 @@ class KeyOfType implements CompoundType, LateResolvableType
 	{
 		return new GenericTypeNode(new IdentifierTypeNode('key-of'), [$this->type->toPhpDocNode()]);
 	}
-
 }

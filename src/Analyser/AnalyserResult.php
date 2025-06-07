@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -12,21 +12,20 @@ use function usort;
  */
 final class AnalyserResult
 {
-
 	/** @var list<Error>|null */
 	private ?array $errors = null;
 
 	/**
-	 * @param list<Error> $unorderedErrors
-	 * @param list<Error> $filteredPhpErrors
-	 * @param list<Error> $allPhpErrors
-	 * @param list<Error> $locallyIgnoredErrors
-	 * @param array<string, LinesToIgnore> $linesToIgnore
-	 * @param array<string, LinesToIgnore> $unmatchedLineIgnores
-	 * @param CollectorData $collectedData
-	 * @param list<InternalError> $internalErrors
-	 * @param array<string, array<string>>|null $dependencies
-	 * @param array<string, array<string>>|null $usedTraitDependencies
+	 * @param list<Error>                            $unorderedErrors
+	 * @param list<Error>                            $filteredPhpErrors
+	 * @param list<Error>                            $allPhpErrors
+	 * @param list<Error>                            $locallyIgnoredErrors
+	 * @param array<string, LinesToIgnore>           $linesToIgnore
+	 * @param array<string, LinesToIgnore>           $unmatchedLineIgnores
+	 * @param CollectorData                          $collectedData
+	 * @param list<InternalError>                    $internalErrors
+	 * @param array<string, array<string>>|null      $dependencies
+	 * @param array<string, array<string>>|null      $usedTraitDependencies
 	 * @param array<string, array<RootExportedNode>> $exportedNodes
 	 */
 	public function __construct(
@@ -64,7 +63,7 @@ final class AnalyserResult
 			$this->errors = $this->unorderedErrors;
 			usort(
 				$this->errors,
-				static fn (Error $a, Error $b): int => [
+				static fn(Error $a, Error $b): int => [
 					$a->getFile(),
 					$a->getLine(),
 					$a->getMessage(),
@@ -168,5 +167,4 @@ final class AnalyserResult
 	{
 		return $this->peakMemoryUsageBytes;
 	}
-
 }

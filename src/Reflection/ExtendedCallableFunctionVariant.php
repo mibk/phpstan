@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -13,13 +13,12 @@ use PHPStan\Type\Type;
 
 final class ExtendedCallableFunctionVariant extends ExtendedFunctionVariant implements CallableParametersAcceptor
 {
-
 	/**
 	 * @param list<ExtendedParameterReflection> $parameters
-	 * @param SimpleThrowPoint[] $throwPoints
-	 * @param SimpleImpurePoint[] $impurePoints
-	 * @param InvalidateExprNode[] $invalidateExpressions
-	 * @param string[] $usedVariables
+	 * @param SimpleThrowPoint[]                $throwPoints
+	 * @param SimpleImpurePoint[]               $impurePoints
+	 * @param InvalidateExprNode[]              $invalidateExpressions
+	 * @param string[]                          $usedVariables
 	 */
 	public function __construct(
 		TemplateTypeMap $templateTypeMap,
@@ -79,5 +78,4 @@ final class ExtendedCallableFunctionVariant extends ExtendedFunctionVariant impl
 	{
 		return $this->acceptsNamedArguments;
 	}
-
 }

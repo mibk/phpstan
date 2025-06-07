@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -8,7 +8,6 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService(as: TypeNodeResolverExtensionRegistryProvider::class)]
 final class LazyTypeNodeResolverExtensionRegistryProvider implements TypeNodeResolverExtensionRegistryProvider
 {
-
 	private ?TypeNodeResolverExtensionRegistry $registry = null;
 
 	public function __construct(private Container $container)
@@ -26,5 +25,4 @@ final class LazyTypeNodeResolverExtensionRegistryProvider implements TypeNodeRes
 
 		return $this->registry;
 	}
-
 }

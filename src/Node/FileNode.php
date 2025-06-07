@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -10,7 +10,6 @@ use PhpParser\NodeAbstract;
  */
 final class FileNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
 	 * @param Node[] $nodes
 	 */
@@ -40,5 +39,4 @@ final class FileNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

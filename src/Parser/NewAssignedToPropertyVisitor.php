@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 
 #[AutowiredService]
 final class NewAssignedToPropertyVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'assignedToProperty';
 
 	public function enterNode(Node $node): ?Node
@@ -24,5 +23,4 @@ final class NewAssignedToPropertyVisitor extends NodeVisitorAbstract
 		}
 		return null;
 	}
-
 }

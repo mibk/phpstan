@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
-use PhpParser\Node;
 use PHPStan\Reflection\Php\PhpFunctionFromParserNodeReflection;
+use PhpParser\Node;
 
 /**
  * @api
  */
 final class InFunctionNode extends Node\Stmt implements VirtualNode
 {
-
 	public function __construct(
 		private PhpFunctionFromParserNodeReflection $functionReflection,
 		private Node\Stmt\Function_ $originalNode,
@@ -41,5 +40,4 @@ final class InFunctionNode extends Node\Stmt implements VirtualNode
 	{
 		return [];
 	}
-
 }

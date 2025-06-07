@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -11,19 +11,17 @@ namespace PHPStan\PhpDoc;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.stubFilesExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.stubFilesExtension
  * ```
  *
  * @api
  */
 interface StubFilesExtension
 {
-
 	public const EXTENSION_TAG = 'phpstan.stubFilesExtension';
 
 	/** @return string[] */
 	public function getFiles(): array;
-
 }

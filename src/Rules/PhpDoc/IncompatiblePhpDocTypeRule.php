@@ -1,15 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
 use function is_string;
 use function trim;
 
@@ -19,7 +19,6 @@ use function trim;
 #[RegisteredRule(level: 2)]
 final class IncompatiblePhpDocTypeRule implements Rule
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 		private IncompatiblePhpDocTypeCheck $check,
@@ -74,7 +73,7 @@ final class IncompatiblePhpDocTypeRule implements Rule
 		$nativeParameterTypes = [];
 		foreach ($node->getParams() as $parameter) {
 			$isNullable = $scope->isParameterValueNullable($parameter);
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$nativeParameterTypes[$parameter->var->name] = $scope->getFunctionType(
@@ -94,7 +93,7 @@ final class IncompatiblePhpDocTypeRule implements Rule
 	{
 		$nativeParameterTypes = [];
 		foreach ($node->getParams() as $parameter) {
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$nativeParameterTypes[$parameter->var->name] = $parameter->byRef;
@@ -107,5 +106,4 @@ final class IncompatiblePhpDocTypeRule implements Rule
 	{
 		return $scope->getFunctionType($node->getReturnType(), false, false);
 	}
-
 }

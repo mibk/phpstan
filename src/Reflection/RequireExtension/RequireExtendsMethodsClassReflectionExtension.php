@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\RequireExtension;
 
@@ -10,7 +10,6 @@ use PHPStan\ShouldNotHappenException;
 
 final class RequireExtendsMethodsClassReflectionExtension implements MethodsClassReflectionExtension
 {
-
 	public function hasMethod(ClassReflection $classReflection, string $methodName): bool
 	{
 		return $this->findMethod($classReflection, $methodName) !== null;
@@ -53,5 +52,4 @@ final class RequireExtendsMethodsClassReflectionExtension implements MethodsClas
 
 		return null;
 	}
-
 }

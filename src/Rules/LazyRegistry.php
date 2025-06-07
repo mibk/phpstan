@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
-use PhpParser\Node;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\DependencyInjection\Container;
+use PhpParser\Node;
 use function class_implements;
 use function class_parents;
 
 #[AutowiredService(name: 'registry', as: Registry::class)]
 final class LazyRegistry implements Registry
 {
-
 	public const RULE_TAG = 'phpstan.rules.rule';
 
 	/** @var Rule[][]|null */
@@ -26,8 +25,8 @@ final class LazyRegistry implements Registry
 
 	/**
 	 * @template TNodeType of Node
-	 * @param class-string<TNodeType> $nodeType
-	 * @return array<Rule<TNodeType>>
+	 * @param    class-string<TNodeType> $nodeType
+	 * @return   array<Rule<TNodeType>>
 	 */
 	public function getRules(string $nodeType): array
 	{
@@ -69,5 +68,4 @@ final class LazyRegistry implements Registry
 
 		return $this->rules = $rules;
 	}
-
 }

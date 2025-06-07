@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 
 /**
  * @implements Rule<InClassNode>
@@ -14,7 +14,6 @@ use PHPStan\Rules\Rule;
 #[RegisteredRule(level: 2)]
 final class MethodTagRule implements Rule
 {
-
 	public function __construct(private MethodTagCheck $check)
 	{
 	}
@@ -32,5 +31,4 @@ final class MethodTagRule implements Rule
 			$node->getOriginalNode(),
 		);
 	}
-
 }

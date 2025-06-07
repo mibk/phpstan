@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -36,7 +36,6 @@ use function sprintf;
 
 class HasOffsetValueType implements CompoundType, AccessoryType
 {
-
 	use MaybeArrayTypeTrait;
 	use MaybeCallableTypeTrait;
 	use MaybeIterableTypeTrait;
@@ -175,7 +174,7 @@ class HasOffsetValueType implements CompoundType, AccessoryType
 			return $this;
 		}
 
-		if (!$offsetType instanceof ConstantIntegerType && !$offsetType instanceof ConstantStringType) {
+		if (! $offsetType instanceof ConstantIntegerType && ! $offsetType instanceof ConstantStringType) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -247,7 +246,7 @@ class HasOffsetValueType implements CompoundType, AccessoryType
 	{
 		if (
 			$needleType instanceof ConstantScalarType && $this->valueType instanceof ConstantScalarType
-			&& $needleType->getValue() === $this->valueType->getValue()
+				&& $needleType->getValue() === $this->valueType->getValue()
 		) {
 			return $this->offsetType;
 		}
@@ -264,7 +263,7 @@ class HasOffsetValueType implements CompoundType, AccessoryType
 	{
 		if (
 			$this->offsetType->isSuperTypeOf($offsetType)->yes()
-			&& ($lengthType->isNull()->yes() || IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($lengthType)->yes())
+				&& ($lengthType->isNull()->yes() || IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($lengthType)->yes())
 		) {
 			return $preserveKeys->yes()
 				? TypeCombinator::intersect($this, new NonEmptyArrayType())
@@ -482,5 +481,4 @@ class HasOffsetValueType implements CompoundType, AccessoryType
 	{
 		return new IdentifierTypeNode(''); // no PHPDoc representation
 	}
-
 }

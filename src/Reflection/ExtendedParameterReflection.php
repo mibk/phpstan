@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 /** @api */
 interface ExtendedParameterReflection extends ParameterReflection
 {
-
 	public function getPhpDocType(): Type;
 
 	public function hasNativeType(): bool;
@@ -25,5 +24,4 @@ interface ExtendedParameterReflection extends ParameterReflection
 	 * @return list<AttributeReflection>
 	 */
 	public function getAttributes(): array;
-
 }

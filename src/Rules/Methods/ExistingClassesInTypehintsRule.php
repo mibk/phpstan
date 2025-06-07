@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
 use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\FunctionDefinitionCheck;
 use PHPStan\Rules\Rule;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class ExistingClassesInTypehintsRule implements Rule
 {
-
 	public function __construct(private FunctionDefinitionCheck $check)
 	{
 	}
@@ -66,5 +65,4 @@ final class ExistingClassesInTypehintsRule implements Rule
 			),
 		);
 	}
-
 }

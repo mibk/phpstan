@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Annotations;
 
@@ -17,7 +17,6 @@ use function count;
 
 final class AnnotationsMethodsClassReflectionExtension implements MethodsClassReflectionExtension
 {
-
 	/** @var ExtendedMethodReflection[][] */
 	private array $methods = [];
 
@@ -62,7 +61,7 @@ final class AnnotationsMethodsClassReflectionExtension implements MethodsClassRe
 			$templateTypeScope = TemplateTypeScope::createWithClass($classReflection->getName());
 
 			$templateTypeMap = new TemplateTypeMap(array_map(
-				static fn (TemplateTag $tag): Type => TemplateTypeFactory::fromTemplateTag($templateTypeScope, $tag),
+				static fn(TemplateTag $tag): Type => TemplateTypeFactory::fromTemplateTag($templateTypeScope, $tag),
 				$methodTags[$methodName]->getTemplateTags(),
 			));
 
@@ -133,5 +132,4 @@ final class AnnotationsMethodsClassReflectionExtension implements MethodsClassRe
 
 		return $possibleVariadicParameter->isVariadic();
 	}
-
 }

@@ -1,14 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\PhpDoc\Tag\VarTag;
 use PhpParser\Node\Expr;
 use PhpParser\NodeAbstract;
-use PHPStan\PhpDoc\Tag\VarTag;
 
 final class VarTagChangedExpressionTypeNode extends NodeAbstract implements VirtualNode
 {
-
 	public function __construct(private VarTag $varTag, private Expr $expr)
 	{
 		parent::__construct($expr->getAttributes());
@@ -36,5 +35,4 @@ final class VarTagChangedExpressionTypeNode extends NodeAbstract implements Virt
 	{
 		return [];
 	}
-
 }

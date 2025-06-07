@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
@@ -14,7 +14,6 @@ use PHPStan\Type\ObjectType;
 #[AutowiredService]
 final class SimpleXMLElementClassPropertyReflectionExtension implements PropertiesClassReflectionExtension
 {
-
 	public function hasProperty(ClassReflection $classReflection, string $propertyName): bool
 	{
 		return $classReflection->is('SimpleXMLElement');
@@ -24,5 +23,4 @@ final class SimpleXMLElementClassPropertyReflectionExtension implements Properti
 	{
 		return new SimpleXMLElementProperty($propertyName, $classReflection, new BenevolentUnionType([new ObjectType($classReflection->getName()), new NullType()]));
 	}
-
 }

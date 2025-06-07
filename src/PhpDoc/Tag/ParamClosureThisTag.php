@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -9,7 +9,6 @@ use PHPStan\Type\Type;
  */
 final class ParamClosureThisTag implements TypedTag
 {
-
 	public function __construct(
 		private Type $type,
 	)
@@ -25,5 +24,4 @@ final class ParamClosureThisTag implements TypedTag
 	{
 		return new self($type);
 	}
-
 }

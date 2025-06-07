@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Analyser\StatementResult;
 use PhpParser\Node;
 use PhpParser\NodeAbstract;
-use PHPStan\Analyser\StatementResult;
 
 /**
  * @api
  */
 final class ExecutionEndNode extends NodeAbstract implements VirtualNode
 {
-
 	public function __construct(
 		private Node\Stmt $node,
 		private StatementResult $statementResult,
@@ -48,5 +47,4 @@ final class ExecutionEndNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

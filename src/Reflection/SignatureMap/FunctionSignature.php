@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\SignatureMap;
 
@@ -6,7 +6,6 @@ use PHPStan\Type\Type;
 
 final class FunctionSignature
 {
-
 	/**
 	 * @param list<ParameterSignature> $parameters
 	 */
@@ -41,5 +40,4 @@ final class FunctionSignature
 	{
 		return $this->variadic;
 	}
-
 }

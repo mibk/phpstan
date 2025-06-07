@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -9,7 +9,6 @@ use PhpParser\Node\Expr;
  */
 final class IssetExpr extends Expr implements VirtualNode
 {
-
 	/**
 	 * @api
 	 */
@@ -37,5 +36,4 @@ final class IssetExpr extends Expr implements VirtualNode
 	{
 		return [];
 	}
-
 }

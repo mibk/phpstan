@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -8,9 +8,8 @@ use PHPStan\Type\Type;
 /** @api */
 final class AssertTag implements TypedTag
 {
-
-	public const NULL = '';
-	public const IF_TRUE = 'true';
+	public const NULL     = '';
+	public const IF_TRUE  = 'true';
 	public const IF_FALSE = 'false';
 
 	private ?Type $originalType = null;
@@ -92,5 +91,4 @@ final class AssertTag implements TypedTag
 	{
 		return new self($this->if, $this->type, $this->parameter, $this->negated, $this->equality, false);
 	}
-
 }

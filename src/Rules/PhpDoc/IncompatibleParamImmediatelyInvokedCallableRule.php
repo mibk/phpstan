@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\PhpDoc;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\FunctionLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
@@ -12,6 +9,9 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\FunctionLike;
 use function is_string;
 use function sprintf;
 use function trim;
@@ -22,7 +22,6 @@ use function trim;
 #[RegisteredRule(level: 2)]
 final class IncompatibleParamImmediatelyInvokedCallableRule implements Rule
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 	)
@@ -58,7 +57,7 @@ final class IncompatibleParamImmediatelyInvokedCallableRule implements Rule
 		);
 		$nativeParameterTypes = [];
 		foreach ($node->getParams() as $parameter) {
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$nativeParameterTypes[$parameter->var->name] = $scope->getFunctionType(
@@ -92,5 +91,4 @@ final class IncompatibleParamImmediatelyInvokedCallableRule implements Rule
 
 		return $errors;
 	}
-
 }

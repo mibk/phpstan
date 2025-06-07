@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
@@ -20,7 +20,6 @@ use function array_values;
 #[AutowiredService]
 final class IsAFunctionTypeSpecifyingHelper
 {
-
 	public function determineType(
 		Type $objectOrClassType,
 		Type $classType,
@@ -38,7 +37,7 @@ final class IsAFunctionTypeSpecifyingHelper
 
 		return TypeTraverser::map(
 			$classType,
-			static function (Type $type, callable $traverse) use ($objectOrClassTypeClassNames, $allowString, $allowSameClass): Type {
+			static function(Type $type, callable $traverse) use ($objectOrClassTypeClassNames, $allowString, $allowSameClass): Type {
 				if ($type instanceof UnionType || $type instanceof IntersectionType) {
 					return $traverse($type);
 				}
@@ -76,5 +75,4 @@ final class IsAFunctionTypeSpecifyingHelper
 			},
 		);
 	}
-
 }

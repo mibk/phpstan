@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
@@ -9,7 +9,6 @@ use function array_merge;
  */
 final class RuleLevelHelperAcceptsResult
 {
-
 	/**
 	 * @param list<string> $reasons
 	 */
@@ -40,5 +39,4 @@ final class RuleLevelHelperAcceptsResult
 
 		return new self($this->result, $reasons);
 	}
-
 }

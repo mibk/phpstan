@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -14,7 +14,6 @@ use PHPStan\Type\Type;
  */
 final class EnumCaseReflection
 {
-
 	private bool $isDeprecated;
 
 	private ?string $deprecatedDescription;
@@ -34,7 +33,6 @@ final class EnumCaseReflection
 		if ($deprecation !== null) {
 			$this->isDeprecated = true;
 			$this->deprecatedDescription = $deprecation->getDescription();
-
 		} elseif ($reflection->isDeprecated()) {
 			$attributes = $this->reflection->getBetterReflection()->getAttributes();
 			$this->isDeprecated = true;
@@ -77,5 +75,4 @@ final class EnumCaseReflection
 	{
 		return $this->attributes;
 	}
-
 }

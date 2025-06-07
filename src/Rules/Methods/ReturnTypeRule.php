@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
@@ -19,6 +17,8 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\ObjectType;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Return_;
 use function count;
 use function sprintf;
 use function strtolower;
@@ -30,7 +30,6 @@ use function ucfirst;
 #[RegisteredRule(level: 3)]
 final class ReturnTypeRule implements Rule
 {
-
 	public function __construct(private FunctionReturnTypeCheck $returnTypeCheck)
 	{
 	}
@@ -51,7 +50,7 @@ final class ReturnTypeRule implements Rule
 		}
 
 		$method = $scope->getFunction();
-		if (!$method instanceof PhpMethodFromParserNodeReflection) {
+		if (! $method instanceof PhpMethodFromParserNodeReflection) {
 			return [];
 		}
 
@@ -93,12 +92,12 @@ final class ReturnTypeRule implements Rule
 
 		if (
 			count($errors) === 1
-			&& $errors[0]->getIdentifier() === 'return.type'
-			&& !$errors[0] instanceof TipRuleError
-			&& $errors[0] instanceof LineRuleError
-			&& $method->getDeclaringClass()->is(Rule::class)
-			&& strtolower($method->getName()) === 'processnode'
-			&& $node->expr !== null
+				&& $errors[0]->getIdentifier() === 'return.type'
+				&& !$errors[0] instanceof TipRuleError
+				&& $errors[0] instanceof LineRuleError
+				&& $method->getDeclaringClass()->is(Rule::class)
+				&& strtolower($method->getName()) === 'processnode'
+				&& $node->expr !== null
 		) {
 			$ruleErrorType = new ObjectType(RuleError::class);
 			$identifierRuleErrorType = new ObjectType(IdentifierRuleError::class);
@@ -118,7 +117,7 @@ final class ReturnTypeRule implements Rule
 				$builder->tip('Rules can no longer return plain strings. See: https://phpstan.org/blog/using-rule-error-builder');
 			} elseif (
 				$ruleErrorType->isSuperTypeOf($returnValueType)->yes()
-				&& !$identifierRuleErrorType->isSuperTypeOf($returnValueType)->yes()
+					&& !$identifierRuleErrorType->isSuperTypeOf($returnValueType)->yes()
 			) {
 				$builder->tip('Error is missing an identifier. See: https://phpstan.org/blog/using-rule-error-builder');
 			}
@@ -128,5 +127,4 @@ final class ReturnTypeRule implements Rule
 
 		return $errors;
 	}
-
 }

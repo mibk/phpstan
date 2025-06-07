@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\DependencyInjection\RegisteredCollector;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Expression;
 
 /**
  * @implements Collector<Node\Stmt\Expression, array{non-empty-list<class-string>, string, int}>
@@ -14,7 +14,6 @@ use PHPStan\DependencyInjection\RegisteredCollector;
 #[RegisteredCollector(level: 4)]
 final class PossiblyPureMethodCallCollector implements Collector
 {
-
 	public function __construct()
 	{
 	}
@@ -26,10 +25,10 @@ final class PossiblyPureMethodCallCollector implements Collector
 
 	public function processNode(Node $node, Scope $scope)
 	{
-		if (!$node->expr instanceof Node\Expr\MethodCall) {
+		if (! $node->expr instanceof Node\Expr\MethodCall) {
 			return null;
 		}
-		if (!$node->expr->name instanceof Node\Identifier) {
+		if (! $node->expr->name instanceof Node\Identifier) {
 			return null;
 		}
 
@@ -49,8 +48,8 @@ final class PossiblyPureMethodCallCollector implements Collector
 			$methodReflection = $classReflection->getMethod($methodName, $scope);
 			if (
 				!$methodReflection->isPrivate()
-				&& !$methodReflection->isFinal()->yes()
-				&& !$methodReflection->getDeclaringClass()->isFinal()
+					&& !$methodReflection->isFinal()->yes()
+					&& !$methodReflection->getDeclaringClass()->isFinal()
 			) {
 				if (!$classReflection->isFinal()) {
 					return null;
@@ -72,5 +71,4 @@ final class PossiblyPureMethodCallCollector implements Collector
 
 		return [$classNames, $methodReflection->getName(), $node->getStartLine()];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
@@ -8,7 +8,7 @@ use PHPStan\TrinaryLogic;
  * Asserts the static type of a value.
  *
  * @phpstan-pure
- * @param mixed $value
+ * @param  mixed $value
  * @return mixed
  *
  * @throws void
@@ -25,7 +25,7 @@ function assertType(string $type, $value) // phpcs:ignore
  * method/function parameter phpDocs.
  *
  * @phpstan-pure
- * @param mixed $value
+ * @param  mixed $value
  * @return mixed
  *
  * @throws void
@@ -37,7 +37,7 @@ function assertNativeType(string $type, $value) // phpcs:ignore
 
 /**
  * @phpstan-pure
- * @param mixed $variable
+ * @param  mixed $variable
  * @return mixed
  *
  * @throws void

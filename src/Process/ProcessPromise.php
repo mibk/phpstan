@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Process;
 
@@ -14,7 +14,6 @@ use function tmpfile;
 
 final class ProcessPromise
 {
-
 	/** @var Deferred<string> */
 	private Deferred $deferred;
 
@@ -24,7 +23,7 @@ final class ProcessPromise
 
 	public function __construct(private LoopInterface $loop, private string $command)
 	{
-		$this->deferred = new Deferred(function (): void {
+		$this->deferred = new Deferred(function(): void {
 			$this->cancel();
 		});
 	}
@@ -49,7 +48,7 @@ final class ProcessPromise
 		]);
 		$this->process->start($this->loop);
 
-		$this->process->on('exit', function ($exitCode) use ($tmpStdOutResource, $tmpStdErrResource): void {
+		$this->process->on('exit', function($exitCode) use ($tmpStdOutResource, $tmpStdErrResource): void {
 			if ($this->canceled) {
 				fclose($tmpStdOutResource);
 				fclose($tmpStdErrResource);
@@ -91,5 +90,4 @@ final class ProcessPromise
 		$this->process->terminate();
 		$this->deferred->reject(new ProcessCanceledException());
 	}
-
 }

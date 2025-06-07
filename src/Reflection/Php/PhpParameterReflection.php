@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -17,7 +17,6 @@ use PHPStan\Type\TypehintHelper;
 
 final class PhpParameterReflection implements ExtendedParameterReflection
 {
-
 	private ?Type $type = null;
 
 	private ?Type $nativeType = null;
@@ -54,7 +53,7 @@ final class PhpParameterReflection implements ExtendedParameterReflection
 			$phpDocType = $this->phpDocType;
 			if (
 				$phpDocType !== null
-				&& $this->reflection->isDefaultValueAvailable()
+					&& $this->reflection->isDefaultValueAvailable()
 			) {
 				$defaultValueType = $this->initializerExprTypeResolver->getType(
 					$this->reflection->getDefaultValueExpression(),
@@ -146,5 +145,4 @@ final class PhpParameterReflection implements ExtendedParameterReflection
 	{
 		return $this->attributes;
 	}
-
 }

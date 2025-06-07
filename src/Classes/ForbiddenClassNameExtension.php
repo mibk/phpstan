@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Classes;
 
@@ -14,19 +14,17 @@ namespace PHPStan\Classes;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.forbiddenClassNamesExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.forbiddenClassNamesExtension
  * ```
  *
  * @api
  */
 interface ForbiddenClassNameExtension
 {
-
 	public const EXTENSION_TAG = 'phpstan.forbiddenClassNamesExtension';
 
 	/** @return array<string, string> */
 	public function getClassPrefixes(): array;
-
 }

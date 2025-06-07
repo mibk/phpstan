@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Mixin;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\Type;
 
 final class MixinMethodReflection implements MethodReflection
 {
-
 	public function __construct(private MethodReflection $reflection, private bool $static)
 	{
 	}
@@ -84,5 +83,4 @@ final class MixinMethodReflection implements MethodReflection
 	{
 		return $this->reflection->hasSideEffects();
 	}
-
 }

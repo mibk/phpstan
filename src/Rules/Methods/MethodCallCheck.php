@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -20,6 +16,10 @@ use PHPStan\Type\ErrorType;
 use PHPStan\Type\StaticType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use function count;
 use function sprintf;
 use function strtolower;
@@ -27,7 +27,6 @@ use function strtolower;
 #[AutowiredService]
 final class MethodCallCheck
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -53,7 +52,7 @@ final class MethodCallCheck
 			$scope,
 			NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $var),
 			sprintf('Call to method %s() on an unknown class %%s.', SprintfHelper::escapeFormatString($methodName)),
-			static fn (Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
+			static fn(Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
 		);
 
 		$type = $typeResult->getType();
@@ -156,8 +155,8 @@ final class MethodCallCheck
 
 		if (
 			$this->checkFunctionNameCase
-			&& strtolower($methodReflection->getName()) === strtolower($methodName)
-			&& $methodReflection->getName() !== $methodName
+				&& strtolower($methodReflection->getName()) === strtolower($methodName)
+				&& $methodReflection->getName() !== $methodName
 		) {
 			$errors[] = RuleErrorBuilder::message(
 				sprintf('Call to method %s with incorrect case: %s', $messagesMethodName, $methodName),
@@ -166,5 +165,4 @@ final class MethodCallCheck
 
 		return [$errors, $methodReflection];
 	}
-
 }

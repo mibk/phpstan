@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Enum;
 
@@ -28,7 +28,6 @@ use function sprintf;
 /** @api */
 class EnumCaseObjectType extends ObjectType
 {
-
 	/** @api */
 	public function __construct(
 		string $className,
@@ -53,7 +52,7 @@ class EnumCaseObjectType extends ObjectType
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -80,7 +79,7 @@ class EnumCaseObjectType extends ObjectType
 
 		if (
 			$type instanceof SubtractableType
-			&& $type->getSubtractedType() !== null
+				&& $type->getSubtractedType() !== null
 		) {
 			$isSuperType = $type->getSubtractedType()->isSuperTypeOf($this);
 			if ($isSuperType->yes()) {
@@ -105,7 +104,7 @@ class EnumCaseObjectType extends ObjectType
 
 	public function changeSubtractedType(?Type $subtractedType): Type
 	{
-		if ($subtractedType === null || ! $this->equals($subtractedType)) {
+		if ($subtractedType === null || !$this->equals($subtractedType)) {
 			return $this;
 		}
 
@@ -131,7 +130,6 @@ class EnumCaseObjectType extends ObjectType
 		$classReflection = $this->getClassReflection();
 		if ($classReflection === null) {
 			return parent::getUnresolvedPropertyPrototype($propertyName, $scope);
-
 		}
 		if ($propertyName === 'name') {
 			return new EnumUnresolvedPropertyPrototypeReflection(
@@ -205,5 +203,4 @@ class EnumCaseObjectType extends ObjectType
 			),
 		);
 	}
-
 }

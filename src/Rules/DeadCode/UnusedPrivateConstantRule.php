@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\ClassConstantsNode;
@@ -10,6 +9,7 @@ use PHPStan\Rules\Constants\AlwaysUsedClassConstantsExtensionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -18,7 +18,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class UnusedPrivateConstantRule implements Rule
 {
-
 	public function __construct(private AlwaysUsedClassConstantsExtensionProvider $extensionProvider)
 	{
 	}
@@ -67,7 +66,7 @@ final class UnusedPrivateConstantRule implements Rule
 				$fetchedOnClass = $fetchScope->getType($fetchNode->class);
 			}
 
-			if (!$fetchNode->name instanceof Node\Identifier) {
+			if (! $fetchNode->name instanceof Node\Identifier) {
 				if (!$classType->isSuperTypeOf($fetchedOnClass)->no()) {
 					$constants = [];
 					break;
@@ -104,5 +103,4 @@ final class UnusedPrivateConstantRule implements Rule
 
 		return $errors;
 	}
-
 }

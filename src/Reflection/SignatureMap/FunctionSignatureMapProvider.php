@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\SignatureMap;
 
@@ -13,18 +13,17 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\TypehintHelper;
 use ReflectionFunctionAbstract;
+use const CASE_LOWER;
 use function array_change_key_case;
 use function array_key_exists;
 use function array_keys;
 use function is_array;
 use function sprintf;
 use function strtolower;
-use const CASE_LOWER;
 
 #[AutowiredService(as: FunctionSignatureMapProvider::class)]
 final class FunctionSignatureMapProvider implements SignatureMapProvider
 {
-
 	/** @var array<string, mixed[]> */
 	private static array $signatureMaps = [];
 
@@ -74,7 +73,7 @@ final class FunctionSignatureMapProvider implements SignatureMapProvider
 
 	private function createSignature(string $functionName, ?string $className, ?ReflectionFunctionAbstract $reflectionFunction): FunctionSignature
 	{
-		if (!$reflectionFunction instanceof ReflectionMethod && !$reflectionFunction instanceof ReflectionFunction && $reflectionFunction !== null) {
+		if (! $reflectionFunction instanceof ReflectionMethod && ! $reflectionFunction instanceof ReflectionFunction && $reflectionFunction !== null) {
 			throw new ShouldNotHappenException();
 		}
 		$signatureMap = self::getSignatureMap();
@@ -223,7 +222,7 @@ final class FunctionSignatureMapProvider implements SignatureMapProvider
 	}
 
 	/**
-	 * @param array<string, mixed> $signatureMap
+	 * @param  array<string, mixed> $signatureMap
 	 * @return array<string, mixed>
 	 */
 	private function computeSignatureMapFile(array $signatureMap, string $file): array
@@ -237,8 +236,8 @@ final class FunctionSignatureMapProvider implements SignatureMapProvider
 	}
 
 	/**
-	 * @param array<string, mixed> $signatureMap
-	 * @param array<string, array<string, mixed>> $delta
+	 * @param  array<string, mixed>                $signatureMap
+	 * @param  array<string, array<string, mixed>> $delta
 	 * @return array<string, mixed>
 	 */
 	private function computeSignatureMap(array $signatureMap, array $delta): array
@@ -262,5 +261,4 @@ final class FunctionSignatureMapProvider implements SignatureMapProvider
 	{
 		throw new ShouldNotHappenException();
 	}
-
 }

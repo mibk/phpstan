@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -7,7 +7,6 @@ namespace PHPStan\Type;
  */
 final class SimultaneousTypeTraverser
 {
-
 	/** @var callable(Type $left, Type $right, callable(Type, Type): Type $traverse): Type */
 	private $cb;
 
@@ -38,5 +37,4 @@ final class SimultaneousTypeTraverser
 	{
 		return $left->traverseSimultaneously($right, [$this, 'mapInternal']);
 	}
-
 }

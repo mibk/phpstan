@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\InternalTag;
 
@@ -11,7 +11,6 @@ use function str_starts_with;
 #[AutowiredService]
 final class RestrictedInternalUsageHelper
 {
-
 	public function shouldBeReported(Scope $scope, string $name): bool
 	{
 		$currentNamespace = $scope->getNamespace();
@@ -24,5 +23,4 @@ final class RestrictedInternalUsageHelper
 
 		return !str_starts_with($namespace . '\\', $currentNamespace . '\\');
 	}
-
 }

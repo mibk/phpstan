@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class RequireExtendsRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InClassNode::class;
@@ -84,5 +83,4 @@ final class RequireExtendsRule implements Rule
 
 		return $errors;
 	}
-
 }

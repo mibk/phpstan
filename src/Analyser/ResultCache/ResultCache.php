@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser\ResultCache;
 
@@ -13,20 +13,19 @@ use PHPStan\Dependency\RootExportedNode;
  */
 final class ResultCache
 {
-
 	/**
-	 * @param string[] $filesToAnalyse
-	 * @param mixed[] $meta
-	 * @param array<string, list<Error>> $errors
-	 * @param array<string, list<Error>> $locallyIgnoredErrors
-	 * @param array<string, LinesToIgnore> $linesToIgnore
-	 * @param array<string, LinesToIgnore> $unmatchedLineIgnores
-	 * @param CollectorData $collectedData
-	 * @param array<string, array<string>> $dependencies
-	 * @param array<string, array<string>> $usedTraitDependencies
-	 * @param array<string, array<RootExportedNode>> $exportedNodes
+	 * @param string[]                                   $filesToAnalyse
+	 * @param mixed[]                                    $meta
+	 * @param array<string, list<Error>>                 $errors
+	 * @param array<string, list<Error>>                 $locallyIgnoredErrors
+	 * @param array<string, LinesToIgnore>               $linesToIgnore
+	 * @param array<string, LinesToIgnore>               $unmatchedLineIgnores
+	 * @param CollectorData                              $collectedData
+	 * @param array<string, array<string>>               $dependencies
+	 * @param array<string, array<string>>               $usedTraitDependencies
+	 * @param array<string, array<RootExportedNode>>     $exportedNodes
 	 * @param array<string, array{string, bool, string}> $projectExtensionFiles
-	 * @param array<string, string> $currentFileHashes
+	 * @param array<string, string>                      $currentFileHashes
 	 */
 	public function __construct(
 		private array $filesToAnalyse,
@@ -152,5 +151,4 @@ final class ResultCache
 	{
 		return $this->currentFileHashes;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Regex;
 
@@ -7,7 +7,6 @@ use PHPStan\TrinaryLogic;
 /** @immutable */
 final class RegexGroupWalkResult
 {
-
 	/**
 	 * @param array<string>|null $onlyLiterals
 	 */
@@ -131,5 +130,4 @@ final class RegexGroupWalkResult
 	{
 		return $this->isNumeric;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -8,7 +8,6 @@ use function sprintf;
 
 final class DuplicateIncludedFilesException extends Exception
 {
-
 	/**
 	 * @param string[] $files
 	 */
@@ -24,5 +23,4 @@ final class DuplicateIncludedFilesException extends Exception
 	{
 		return $this->files;
 	}
-
 }

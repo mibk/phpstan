@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
 /** @api */
 final class TemplateMixedType extends MixedType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<MixedType> */
 	use TemplateTypeTrait;
 
@@ -62,5 +61,4 @@ final class TemplateMixedType extends MixedType implements TemplateType
 			$this->default,
 		);
 	}
-
 }

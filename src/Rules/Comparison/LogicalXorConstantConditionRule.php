@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\LogicalXor;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -11,6 +9,8 @@ use PHPStan\Parser\LastConditionVisitor;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
+use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\LogicalXor;
 use function sprintf;
 
 /**
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class LogicalXorConstantConditionRule implements Rule
 {
-
 	public function __construct(
 		private ConstantConditionRuleHelper $helper,
 		#[AutowiredParameter]
@@ -42,7 +41,7 @@ final class LogicalXorConstantConditionRule implements Rule
 		$errors = [];
 		$leftType = $this->helper->getBooleanType($scope, $node->left);
 		if ($leftType instanceof ConstantBooleanType) {
-			$addTipLeft = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
+			$addTipLeft = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
 				if (!$this->treatPhpDocTypesAsCertain) {
 					return $ruleErrorBuilder;
 				}
@@ -75,7 +74,7 @@ final class LogicalXorConstantConditionRule implements Rule
 
 		$rightType = $this->helper->getBooleanType($scope, $node->right);
 		if ($rightType instanceof ConstantBooleanType) {
-			$addTipRight = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
+			$addTipRight = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
 				if (!$this->treatPhpDocTypesAsCertain) {
 					return $ruleErrorBuilder;
 				}
@@ -111,5 +110,4 @@ final class LogicalXorConstantConditionRule implements Rule
 
 		return $errors;
 	}
-
 }

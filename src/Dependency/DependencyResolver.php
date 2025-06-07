@@ -1,13 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayDimFetch;
-use PhpParser\Node\Expr\Closure;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt\Foreach_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Broker\FunctionNotFoundException;
@@ -26,13 +20,18 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ClosureType;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Expr\ArrayDimFetch;
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Foreach_;
 use function array_merge;
 use function count;
 
 #[AutowiredService]
 final class DependencyResolver
 {
-
 	public function __construct(
 		private FileHelper $fileHelper,
 		private ReflectionProvider $reflectionProvider,
@@ -177,7 +176,7 @@ final class DependencyResolver
 						}
 
 						foreach ($variant->getParameters() as $parameter) {
-							if (!$parameter instanceof ExtendedParameterReflection) {
+							if (! $parameter instanceof ExtendedParameterReflection) {
 								continue;
 							}
 							if ($parameter->getOutType() !== null) {
@@ -391,7 +390,7 @@ final class DependencyResolver
 			}
 		} elseif (
 			$node instanceof Node\Expr\New_
-			&& $node->class instanceof Node\Name
+				&& $node->class instanceof Node\Name
 		) {
 			$this->addClassToDependencies($scope->resolveName($node->class), $dependenciesReflections);
 		} elseif ($node instanceof Node\Stmt\Trait_ && $node->namespacedName !== null) {
@@ -448,7 +447,6 @@ final class DependencyResolver
 		} elseif ($node instanceof Foreach_) {
 			$exprType = $scope->getType($node->expr);
 			if ($node->keyVar !== null) {
-
 				foreach ($scope->getIterableKeyType($exprType)->getReferencedClasses() as $referencedClass) {
 					$this->addClassToDependencies($referencedClass, $dependenciesReflections);
 				}
@@ -459,7 +457,7 @@ final class DependencyResolver
 			}
 		} elseif (
 			$node instanceof Array_
-			&& $this->considerArrayForCallableTest($scope, $node)
+				&& $this->considerArrayForCallableTest($scope, $node)
 		) {
 			$arrayType = $scope->getType($node);
 			if (!$arrayType->isCallable()->no()) {
@@ -694,5 +692,4 @@ final class DependencyResolver
 			$this->addClassToDependencies($referencedClass, $dependenciesReflections);
 		}
 	}
-
 }

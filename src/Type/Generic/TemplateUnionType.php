@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\UnionType;
 /** @api */
 final class TemplateUnionType extends UnionType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<UnionType> */
 	use TemplateTypeTrait;
 
@@ -37,7 +36,7 @@ final class TemplateUnionType extends UnionType implements TemplateType
 	public function filterTypes(callable $filterCb): Type
 	{
 		$result = parent::filterTypes($filterCb);
-		if (!$result instanceof TemplateType) {
+		if (! $result instanceof TemplateType) {
 			return TemplateTypeFactory::create(
 				$this->getScope(),
 				$this->getName(),
@@ -50,5 +49,4 @@ final class TemplateUnionType extends UnionType implements TemplateType
 
 		return $result;
 	}
-
 }

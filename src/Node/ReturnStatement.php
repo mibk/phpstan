@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Analyser\Scope;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Return_;
-use PHPStan\Analyser\Scope;
 
 /**
  * @api
  */
 final class ReturnStatement
 {
-
 	private Node\Stmt\Return_ $returnNode;
 
 	public function __construct(private Scope $scope, Return_ $returnNode)
@@ -28,5 +27,4 @@ final class ReturnStatement
 	{
 		return $this->returnNode;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -7,10 +7,9 @@ use PHPStan\Reflection\RequireExtension\RequireExtendsPropertiesClassReflectionE
 
 final class ClassReflectionExtensionRegistry
 {
-
 	/**
-	 * @param PropertiesClassReflectionExtension[] $propertiesClassReflectionExtensions
-	 * @param MethodsClassReflectionExtension[] $methodsClassReflectionExtensions
+	 * @param PropertiesClassReflectionExtension[]      $propertiesClassReflectionExtensions
+	 * @param MethodsClassReflectionExtension[]         $methodsClassReflectionExtensions
 	 * @param AllowedSubTypesClassReflectionExtension[] $allowedSubTypesClassReflectionExtensions
 	 */
 	public function __construct(
@@ -56,5 +55,4 @@ final class ClassReflectionExtensionRegistry
 	{
 		return $this->requireExtendsMethodsClassReflectionExtension;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\Reflector;
 
@@ -14,7 +14,6 @@ use function strtolower;
 
 final class MemoizingReflector implements Reflector
 {
-
 	/** @var array<string, ReflectionClass|null> */
 	private array $classReflections = [];
 
@@ -107,5 +106,4 @@ final class MemoizingReflector implements Reflector
 	{
 		return $this->reflector->reflectAllConstants();
 	}
-
 }

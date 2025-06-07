@@ -1,19 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
-use PhpParser\Node;
 use PHPStan\Rules\FixableNodeRuleError;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\NonIgnorableRuleError;
 use PHPStan\Rules\RuleError;
+use PhpParser\Node;
 
 /**
  * @internal Use PHPStan\Rules\RuleErrorBuilder instead.
  */
 final class RuleError209 implements RuleError, IdentifierRuleError, NonIgnorableRuleError, FixableNodeRuleError
 {
-
 	public string $message;
 
 	public string $identifier;
@@ -45,5 +44,4 @@ final class RuleError209 implements RuleError, IdentifierRuleError, NonIgnorable
 	{
 		return $this->newNodeCallable;
 	}
-
 }

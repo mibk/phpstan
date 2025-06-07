@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -18,32 +17,32 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node\Expr\FuncCall;
+use const MB_CASE_LOWER;
+use const MB_CASE_UPPER;
 use function array_diff;
 use function array_map;
 use function count;
 use function in_array;
 use function is_callable;
 use function mb_check_encoding;
-use const MB_CASE_LOWER;
-use const MB_CASE_UPPER;
 
 #[AutowiredService]
 final class StrCaseFunctionsReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	/**
 	 * [function name => minimum arity]
 	 */
 	private const FUNCTIONS = [
-		'strtoupper' => 1,
-		'strtolower' => 1,
-		'mb_strtoupper' => 1,
-		'mb_strtolower' => 1,
-		'lcfirst' => 1,
-		'ucfirst' => 1,
-		'mb_lcfirst' => 1,
-		'mb_ucfirst' => 1,
-		'ucwords' => 1,
+		'strtoupper'      => 1,
+		'strtolower'      => 1,
+		'mb_strtoupper'   => 1,
+		'mb_strtolower'   => 1,
+		'lcfirst'         => 1,
+		'ucfirst'         => 1,
+		'mb_lcfirst'      => 1,
+		'mb_ucfirst'      => 1,
+		'ucwords'         => 1,
 		'mb_convert_case' => 2,
 		'mb_convert_kana' => 1,
 	];
@@ -79,7 +78,7 @@ final class StrCaseFunctionsReturnTypeExtension implements DynamicFunctionReturn
 
 		if ($fnName === 'mb_convert_case') {
 			$modeType = $scope->getType($args[1]->value);
-			$modes = array_map(static fn ($mode) => $mode->getValue(), TypeUtils::getConstantIntegers($modeType));
+			$modes = array_map(static fn($mode) => $mode->getValue(), TypeUtils::getConstantIntegers($modeType));
 			if (count($modes) > 0) {
 				$forceLowercase = count(array_diff($modes, [
 					MB_CASE_LOWER,
@@ -105,7 +104,7 @@ final class StrCaseFunctionsReturnTypeExtension implements DynamicFunctionReturn
 		} elseif (in_array($fnName, ['ucwords', 'mb_convert_kana'], true)) {
 			if (count($args) >= 2) {
 				$modeType = $scope->getType($args[1]->value);
-				$modes = array_map(static fn ($mode) => $mode->getValue(), $modeType->getConstantStrings());
+				$modes = array_map(static fn($mode) => $mode->getValue(), $modeType->getConstantStrings());
 			} else {
 				$modes = $fnName === 'mb_convert_kana' ? ['KV'] : [" \t\r\n\f\v"];
 			}
@@ -119,7 +118,7 @@ final class StrCaseFunctionsReturnTypeExtension implements DynamicFunctionReturn
 			$keepUppercase = true;
 		}
 
-		$constantStrings = array_map(static fn ($type) => $type->getValue(), $argType->getConstantStrings());
+		$constantStrings = array_map(static fn($type) => $type->getValue(), $argType->getConstantStrings());
 		if (count($constantStrings) > 0 && mb_check_encoding($constantStrings, 'UTF-8')) {
 			$strings = [];
 
@@ -131,7 +130,7 @@ final class StrCaseFunctionsReturnTypeExtension implements DynamicFunctionReturn
 					}
 				}
 			} else {
-				$parameters = array_map(static fn ($s) => [$s], $constantStrings);
+				$parameters = array_map(static fn($s) => [$s], $constantStrings);
 			}
 
 			foreach ($parameters as $parameter) {
@@ -139,7 +138,7 @@ final class StrCaseFunctionsReturnTypeExtension implements DynamicFunctionReturn
 			}
 
 			if (count($strings) !== 0 && mb_check_encoding($strings, 'UTF-8')) {
-				return TypeCombinator::union(...array_map(static fn ($s) => new ConstantStringType($s), $strings));
+				return TypeCombinator::union(...array_map(static fn($s) => new ConstantStringType($s), $strings));
 			}
 		}
 
@@ -168,5 +167,4 @@ final class StrCaseFunctionsReturnTypeExtension implements DynamicFunctionReturn
 
 		return new StringType();
 	}
-
 }

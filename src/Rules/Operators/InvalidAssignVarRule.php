@@ -1,17 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Operators;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\AssignOp;
-use PhpParser\Node\Expr\AssignRef;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\NullsafeCheck;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\AssignOp;
+use PhpParser\Node\Expr\AssignRef;
 
 /**
  * @implements Rule<Expr>
@@ -19,7 +19,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class InvalidAssignVarRule implements Rule
 {
-
 	public function __construct(private NullsafeCheck $nullsafeCheck)
 	{
 	}
@@ -32,9 +31,9 @@ final class InvalidAssignVarRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if (
-			!$node instanceof Assign
-			&& !$node instanceof AssignOp
-			&& !$node instanceof AssignRef
+			! $node instanceof Assign
+				&& ! $node instanceof AssignOp
+				&& ! $node instanceof AssignRef
 		) {
 			return [];
 		}
@@ -104,5 +103,4 @@ final class InvalidAssignVarRule implements Rule
 
 		return true;
 	}
-
 }

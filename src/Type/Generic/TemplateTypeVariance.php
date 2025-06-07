@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -17,12 +17,11 @@ use function sprintf;
  */
 final class TemplateTypeVariance
 {
-
-	private const INVARIANT = 1;
-	private const COVARIANT = 2;
+	private const INVARIANT     = 1;
+	private const COVARIANT     = 2;
 	private const CONTRAVARIANT = 3;
-	private const STATIC = 4;
-	private const BIVARIANT = 5;
+	private const STATIC        = 4;
+	private const BIVARIANT     = 5;
 
 	/** @var self[] */
 	private static array $registry;
@@ -132,7 +131,7 @@ final class TemplateTypeVariance
 			return IsSuperTypeOfResult::createYes();
 		}
 
-		if ($a instanceof MixedType && !$a instanceof TemplateType) {
+		if ($a instanceof MixedType && ! $a instanceof TemplateType) {
 			return IsSuperTypeOfResult::createYes();
 		}
 
@@ -148,7 +147,7 @@ final class TemplateTypeVariance
 			}
 		}
 
-		if ($b instanceof MixedType && !$b instanceof TemplateType) {
+		if ($b instanceof MixedType && ! $b instanceof TemplateType) {
 			return IsSuperTypeOfResult::createYes();
 		}
 
@@ -158,7 +157,7 @@ final class TemplateTypeVariance
 			if (!$result) {
 				if (
 					$templateType->getScope()->getClassName() !== null
-					&& $a->isSuperTypeOf($b)->yes()
+						&& $a->isSuperTypeOf($b)->yes()
 				) {
 					$reasons[] = sprintf(
 						'Template type %s on class %s is not covariant. Learn more: <fg=cyan>https://phpstan.org/blog/whats-up-with-template-covariant</>',
@@ -202,16 +201,16 @@ final class TemplateTypeVariance
 	public function describe(): string
 	{
 		switch ($this->value) {
-			case self::INVARIANT:
-				return 'invariant';
-			case self::COVARIANT:
-				return 'covariant';
-			case self::CONTRAVARIANT:
-				return 'contravariant';
-			case self::STATIC:
-				return 'static';
-			case self::BIVARIANT:
-				return 'bivariant';
+		case self::INVARIANT:
+			return 'invariant';
+		case self::COVARIANT:
+			return 'covariant';
+		case self::CONTRAVARIANT:
+			return 'contravariant';
+		case self::STATIC:
+			return 'static';
+		case self::BIVARIANT:
+			return 'bivariant';
 		}
 
 		throw new ShouldNotHappenException();
@@ -223,17 +222,16 @@ final class TemplateTypeVariance
 	public function toPhpDocNodeVariance(): string
 	{
 		switch ($this->value) {
-			case self::INVARIANT:
-				return GenericTypeNode::VARIANCE_INVARIANT;
-			case self::COVARIANT:
-				return GenericTypeNode::VARIANCE_COVARIANT;
-			case self::CONTRAVARIANT:
-				return GenericTypeNode::VARIANCE_CONTRAVARIANT;
-			case self::BIVARIANT:
-				return GenericTypeNode::VARIANCE_BIVARIANT;
+		case self::INVARIANT:
+			return GenericTypeNode::VARIANCE_INVARIANT;
+		case self::COVARIANT:
+			return GenericTypeNode::VARIANCE_COVARIANT;
+		case self::CONTRAVARIANT:
+			return GenericTypeNode::VARIANCE_CONTRAVARIANT;
+		case self::BIVARIANT:
+			return GenericTypeNode::VARIANCE_BIVARIANT;
 		}
 
 		throw new ShouldNotHappenException();
 	}
-
 }

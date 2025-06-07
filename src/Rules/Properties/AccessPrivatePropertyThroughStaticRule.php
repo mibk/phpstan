@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Name;
 use function sprintf;
 
 /**
@@ -16,7 +16,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class AccessPrivatePropertyThroughStaticRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Expr\StaticPropertyFetch::class;
@@ -24,10 +23,10 @@ final class AccessPrivatePropertyThroughStaticRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\VarLikeIdentifier) {
+		if (! $node->name instanceof Node\VarLikeIdentifier) {
 			return [];
 		}
-		if (!$node->class instanceof Name) {
+		if (! $node->class instanceof Name) {
 			return [];
 		}
 
@@ -62,5 +61,4 @@ final class AccessPrivatePropertyThroughStaticRule implements Rule
 			))->identifier('staticClassAccess.privateProperty')->build(),
 		];
 	}
-
 }

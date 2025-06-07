@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Cache;
 
@@ -8,7 +8,6 @@ use PHPStan\DependencyInjection\AutowiredService;
 #[AutowiredService]
 final class Cache
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '@cacheStorage')]
 		private CacheStorage $storage,
@@ -31,5 +30,4 @@ final class Cache
 	{
 		$this->storage->save($key, $variableKey, $data);
 	}
-
 }

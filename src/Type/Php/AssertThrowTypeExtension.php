@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Type\DynamicFunctionThrowTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use Throwable;
 use function count;
 
 #[AutowiredService]
 final class AssertThrowTypeExtension implements DynamicFunctionThrowTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'assert';
@@ -34,5 +33,4 @@ final class AssertThrowTypeExtension implements DynamicFunctionThrowTypeExtensio
 
 		return $functionReflection->getThrowType();
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\Type;
  */
 final class TemplateTag
 {
-
 	/**
 	 * @param non-empty-string $name
 	 */
@@ -40,5 +39,4 @@ final class TemplateTag
 	{
 		return $this->variance;
 	}
-
 }

@@ -1,11 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Traits;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\DependencyInjection\RegisteredCollector;
+use PhpParser\Node;
 
 /**
  * @implements Collector<Node\Stmt\Trait_, array{string, int}>
@@ -13,7 +13,6 @@ use PHPStan\DependencyInjection\RegisteredCollector;
 #[RegisteredCollector(level: 4)]
 final class TraitDeclarationCollector implements Collector
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Stmt\Trait_::class;
@@ -27,5 +26,4 @@ final class TraitDeclarationCollector implements Collector
 
 		return [$node->namespacedName->toString(), $node->getStartLine()];
 	}
-
 }

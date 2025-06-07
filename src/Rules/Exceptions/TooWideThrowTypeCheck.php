@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Exceptions;
 
@@ -15,7 +15,6 @@ use function array_map;
 #[AutowiredService]
 final class TooWideThrowTypeCheck
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '%exceptions.implicitThrows%')]
 		private bool $implicitThrows,
@@ -24,7 +23,7 @@ final class TooWideThrowTypeCheck
 	}
 
 	/**
-	 * @param ThrowPoint[] $throwPoints
+	 * @param  ThrowPoint[] $throwPoints
 	 * @return string[]
 	 */
 	public function check(Type $throwType, array $throwPoints): array
@@ -33,7 +32,7 @@ final class TooWideThrowTypeCheck
 			return [];
 		}
 
-		$throwPointType = TypeCombinator::union(...array_map(function (ThrowPoint $throwPoint): Type {
+		$throwPointType = TypeCombinator::union(...array_map(function(ThrowPoint $throwPoint): Type {
 			if (!$this->implicitThrows && !$throwPoint->isExplicit()) {
 				return new NeverType();
 			}
@@ -43,7 +42,7 @@ final class TooWideThrowTypeCheck
 
 		$throwClasses = [];
 		foreach (TypeUtils::flattenTypes($throwType) as $type) {
-			if (!$throwPointType instanceof NeverType && !$type->isSuperTypeOf($throwPointType)->no()) {
+			if (! $throwPointType instanceof NeverType && !$type->isSuperTypeOf($throwPointType)->no()) {
 				continue;
 			}
 
@@ -52,5 +51,4 @@ final class TooWideThrowTypeCheck
 
 		return $throwClasses;
 	}
-
 }

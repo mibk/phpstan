@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Constant;
 
@@ -22,7 +22,6 @@ use function sprintf;
 /** @api */
 class ConstantIntegerType extends IntegerType implements ConstantScalarType
 {
-
 	use ConstantScalarTypeTrait;
 	use ConstantScalarToBooleanTrait;
 	use ConstantNumericComparisonTypeTrait;
@@ -68,8 +67,8 @@ class ConstantIntegerType extends IntegerType implements ConstantScalarType
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			static fn (): string => 'int',
-			fn (): string => sprintf('%s', $this->value),
+			static fn(): string => 'int',
+			fn(): string        => sprintf('%s', $this->value),
 		);
 	}
 
@@ -114,5 +113,4 @@ class ConstantIntegerType extends IntegerType implements ConstantScalarType
 	{
 		return new ConstTypeNode(new ConstExprIntegerNode((string) $this->value));
 	}
-
 }

@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -14,14 +12,15 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\FuncCall;
+use const ENT_SUBSTITUTE;
 use function count;
 use function in_array;
-use const ENT_SUBSTITUTE;
 
 #[AutowiredService]
 final class NonEmptyStringFunctionsReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return in_array($functionReflection->getName(), [
@@ -88,10 +87,9 @@ final class NonEmptyStringFunctionsReturnTypeExtension implements DynamicFunctio
 			return true;
 		}
 		$flagsType = $scope->getType($args[1]->value);
-		if (!$flagsType instanceof ConstantIntegerType) {
+		if (! $flagsType instanceof ConstantIntegerType) {
 			return false;
 		}
 		return (bool) ($flagsType->getValue() & ENT_SUBSTITUTE);
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Annotations;
 
@@ -12,7 +12,6 @@ use PHPStan\Type\Type;
 
 final class AnnotationPropertyReflection implements ExtendedPropertyReflection
 {
-
 	public function __construct(
 		private string $name,
 		private ClassReflection $declaringClass,
@@ -158,5 +157,4 @@ final class AnnotationPropertyReflection implements ExtendedPropertyReflection
 	{
 		return [];
 	}
-
 }

@@ -1,14 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node;
 
 /** @api */
 interface ReflectionProvider
 {
-
 	/** @phpstan-assert-if-true =class-string $className */
 	public function hasClass(string $className): bool;
 
@@ -35,5 +34,4 @@ interface ReflectionProvider
 	public function getConstant(Node\Name $nameNode, ?NamespaceAnswerer $namespaceAnswerer): ConstantReflection;
 
 	public function resolveConstantName(Node\Name $nameNode, ?NamespaceAnswerer $namespaceAnswerer): ?string;
-
 }

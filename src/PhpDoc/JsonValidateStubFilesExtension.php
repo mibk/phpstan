@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -8,7 +8,6 @@ use PHPStan\Php\PhpVersion;
 #[AutowiredService]
 final class JsonValidateStubFilesExtension implements StubFilesExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -21,5 +20,4 @@ final class JsonValidateStubFilesExtension implements StubFilesExtension
 
 		return [__DIR__ . '/../../stubs/json_validate.stub'];
 	}
-
 }

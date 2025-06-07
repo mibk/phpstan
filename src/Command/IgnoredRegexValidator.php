@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -17,7 +17,6 @@ use function substr;
 
 final class IgnoredRegexValidator
 {
-
 	public function __construct(
 		private Parser $parser,
 		private TypeStringResolver $typeStringResolver,
@@ -149,7 +148,7 @@ final class IgnoredRegexValidator
 			$has = $this->hasAnchorsInTheMiddle($child);
 			if (
 				$has
-				&& ($ast->getId() !== '#concatenation' || $i !== $childrenCount - 1)
+					&& ($ast->getId() !== '#concatenation' || $i !== $childrenCount - 1)
 			) {
 				return true;
 			}
@@ -157,5 +156,4 @@ final class IgnoredRegexValidator
 
 		return false;
 	}
-
 }

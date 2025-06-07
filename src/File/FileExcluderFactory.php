@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -12,7 +12,6 @@ use function array_values;
 #[AutowiredService]
 final class FileExcluderFactory
 {
-
 	/**
 	 * @param array{analyse?: array<int, string>, analyseAndScan?: array<int, string>} $excludePaths
 	 */
@@ -46,5 +45,4 @@ final class FileExcluderFactory
 
 		return $this->fileExcluderRawFactory->create(array_values(array_unique($paths)));
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -13,7 +13,6 @@ use function is_string;
 
 final class DumpParametersCommand extends Command
 {
-
 	private const NAME = 'dump-parameters';
 
 	/**
@@ -63,8 +62,8 @@ final class DumpParametersCommand extends Command
 		if (
 			(!is_string($memoryLimit) && $memoryLimit !== null)
 			|| (!is_string($autoloadFile) && $autoloadFile !== null)
-			|| (!is_string($configuration) && $configuration !== null)
-			|| (!is_string($level) && $level !== null)
+				|| (!is_string($configuration) && $configuration !== null)
+				|| (!is_string($level) && $level !== null)
 		) {
 			throw new ShouldNotHappenException();
 		}
@@ -114,5 +113,4 @@ final class DumpParametersCommand extends Command
 
 		return 0;
 	}
-
 }

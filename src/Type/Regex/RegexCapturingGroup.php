@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Regex;
 
@@ -6,7 +6,6 @@ use PHPStan\Type\Type;
 
 final class RegexCapturingGroup
 {
-
 	public function __construct(
 		private readonly int $id,
 		private readonly ?string $name,
@@ -119,7 +118,7 @@ final class RegexCapturingGroup
 
 		$parent = $this->parent;
 		while ($parent !== null && $parent->getAlternationId() === $this->getAlternationId()) {
-			if (!$parent instanceof RegexNonCapturingGroup) {
+			if (! $parent instanceof RegexNonCapturingGroup) {
 				return false;
 			}
 			$parent = $parent->getParent();
@@ -156,5 +155,4 @@ final class RegexCapturingGroup
 	{
 		return $this->parent;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
@@ -8,7 +8,6 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService]
 final class LazyReadWritePropertiesExtensionProvider implements ReadWritePropertiesExtensionProvider
 {
-
 	/** @var ReadWritePropertiesExtension[]|null */
 	private ?array $extensions = null;
 
@@ -24,5 +23,4 @@ final class LazyReadWritePropertiesExtensionProvider implements ReadWritePropert
 
 		return $this->extensions;
 	}
-
 }

@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
@@ -14,6 +12,8 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 use function max;
@@ -26,7 +26,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class PrintfArrayParametersRule implements Rule
 {
-
 	public function __construct(
 		private PrintfHelper $printfHelper,
 		private ReflectionProvider $reflectionProvider,
@@ -80,7 +79,7 @@ final class PrintfArrayParametersRule implements Rule
 		} else {
 			$placeHoldersCount = IntegerRangeType::fromInterval($minCount, $maxCount);
 
-			if (!$placeHoldersCount instanceof IntegerRangeType && !$placeHoldersCount instanceof ConstantIntegerType) {
+			if (! $placeHoldersCount instanceof IntegerRangeType && ! $placeHoldersCount instanceof ConstantIntegerType) {
 				return [];
 			}
 		}
@@ -103,13 +102,12 @@ final class PrintfArrayParametersRule implements Rule
 		} else {
 			$formatArgsCount = TypeCombinator::union(...$formatArgsCounts);
 
-			if (!$formatArgsCount instanceof IntegerRangeType && !$formatArgsCount instanceof ConstantIntegerType) {
+			if (! $formatArgsCount instanceof IntegerRangeType && ! $formatArgsCount instanceof ConstantIntegerType) {
 				return [];
 			}
 		}
 
 		if (!$this->placeholdersMatchesArgsCount($placeHoldersCount, $formatArgsCount)) {
-
 			if ($placeHoldersCount instanceof IntegerRangeType) {
 				$placeholders = $this->getIntegerRangeAsString($placeHoldersCount);
 				$singlePlaceholder = false;
@@ -160,7 +158,7 @@ final class PrintfArrayParametersRule implements Rule
 
 		if (
 			$formatArgsCount instanceof IntegerRangeType
-			&& IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($placeHoldersCount)->yes()
+				&& IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($placeHoldersCount)->yes()
 		) {
 			if ($formatArgsCount->getMin() !== null && $formatArgsCount->getMax() !== null) {
 				// constant array
@@ -186,5 +184,4 @@ final class PrintfArrayParametersRule implements Rule
 
 		throw new ShouldNotHappenException();
 	}
-
 }

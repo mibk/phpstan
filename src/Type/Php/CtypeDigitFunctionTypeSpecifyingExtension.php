@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\Cast;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -20,12 +18,13 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\Cast;
+use PhpParser\Node\Expr\FuncCall;
 use function strtolower;
 
 #[AutowiredService]
 final class CtypeDigitFunctionTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function isFunctionSupported(FunctionReflection $functionReflection, FuncCall $node, TypeSpecifierContext $context): bool
@@ -49,7 +48,7 @@ final class CtypeDigitFunctionTypeSpecifyingExtension implements FunctionTypeSpe
 		}
 
 		$types = [
-			IntegerRangeType::fromInterval(48, 57), // ASCII-codes for 0-9
+			IntegerRangeType::fromInterval(48, 57),               // ASCII-codes for 0-9
 			IntegerRangeType::createAllGreaterThanOrEqualTo(256), // Starting from 256 ints are interpreted as strings
 		];
 
@@ -84,5 +83,4 @@ final class CtypeDigitFunctionTypeSpecifyingExtension implements FunctionTypeSpe
 	{
 		$this->typeSpecifier = $typeSpecifier;
 	}
-
 }

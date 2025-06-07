@@ -1,10 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\StaticPropertyFetch;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
@@ -26,6 +23,9 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\StaticPropertyFetch;
+use PhpParser\Node\Name;
 use function array_map;
 use function array_merge;
 use function count;
@@ -39,7 +39,6 @@ use function strtolower;
 #[RegisteredRule(level: 0)]
 final class AccessStaticPropertiesRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private RuleLevelHelper $ruleLevelHelper,
@@ -60,7 +59,7 @@ final class AccessStaticPropertiesRule implements Rule
 		if ($node->name instanceof Node\VarLikeIdentifier) {
 			$names = [$node->name->name];
 		} else {
-			$names = array_map(static fn (ConstantStringType $type): string => $type->getValue(), $scope->getType($node->name)->getConstantStrings());
+			$names = array_map(static fn(ConstantStringType $type): string => $type->getValue(), $scope->getType($node->name)->getConstantStrings());
 		}
 
 		$errors = [];
@@ -155,7 +154,7 @@ final class AccessStaticPropertiesRule implements Rule
 				$scope,
 				NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $node->class),
 				sprintf('Access to static property $%s on an unknown class %%s.', SprintfHelper::escapeFormatString($name)),
-				static fn (Type $type): bool => $type->canAccessProperties()->yes() && $type->hasProperty($name)->yes(),
+				static fn(Type $type): bool => $type->canAccessProperties()->yes() && $type->hasProperty($name)->yes(),
 			);
 			$classType = $classTypeResult->getType();
 			if ($classType instanceof ErrorType) {
@@ -260,5 +259,4 @@ final class AccessStaticPropertiesRule implements Rule
 
 		return $messages;
 	}
-
 }

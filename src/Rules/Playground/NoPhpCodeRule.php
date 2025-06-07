@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Playground;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\FileNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 
 /**
@@ -14,7 +14,6 @@ use function count;
  */
 final class NoPhpCodeRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return FileNode::class;
@@ -27,7 +26,7 @@ final class NoPhpCodeRule implements Rule
 		}
 
 		$html = $node->getNodes()[0];
-		if (!$html instanceof Node\Stmt\InlineHTML) {
+		if (! $html instanceof Node\Stmt\InlineHTML) {
 			return [];
 		}
 
@@ -37,5 +36,4 @@ final class NoPhpCodeRule implements Rule
 				->build(),
 		];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
@@ -7,7 +7,6 @@ namespace PHPStan\Rules\RestrictedUsage;
  */
 final class RestrictedUsage
 {
-
 	private function __construct(
 		public readonly string $errorMessage,
 		public readonly string $identifier,
@@ -22,5 +21,4 @@ final class RestrictedUsage
 	{
 		return new self($errorMessage, $identifier);
 	}
-
 }

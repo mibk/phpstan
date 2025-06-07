@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Deprecation;
 
@@ -17,7 +17,6 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService]
 final class DeprecationProvider
 {
-
 	/** @var ?array<PropertyDeprecationExtension> $propertyDeprecationExtensions */
 	private ?array $propertyDeprecationExtensions = null;
 
@@ -142,5 +141,4 @@ final class DeprecationProvider
 
 		return null;
 	}
-
 }

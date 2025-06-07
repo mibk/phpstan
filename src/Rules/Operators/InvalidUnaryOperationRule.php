@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Operators;
 
-use PhpParser\Node;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -14,6 +13,7 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -22,7 +22,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class InvalidUnaryOperationRule implements Rule
 {
-
 	public function __construct(
 		private RuleLevelHelper $ruleLevelHelper,
 	)
@@ -37,9 +36,9 @@ final class InvalidUnaryOperationRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if (
-			!$node instanceof Node\Expr\UnaryPlus
-			&& !$node instanceof Node\Expr\UnaryMinus
-			&& !$node instanceof Node\Expr\BitwiseNot
+			! $node instanceof Node\Expr\UnaryPlus
+				&& ! $node instanceof Node\Expr\UnaryMinus
+				&& ! $node instanceof Node\Expr\BitwiseNot
 		) {
 			return [];
 		}
@@ -51,9 +50,9 @@ final class InvalidUnaryOperationRule implements Rule
 		$newNode->expr = $variable;
 
 		if ($node instanceof Node\Expr\BitwiseNot) {
-			$callback = static fn (Type $type): bool => $type->isString()->yes() || $type->isInteger()->yes() || $type->isFloat()->yes();
+			$callback = static fn(Type $type): bool => $type->isString()->yes() || $type->isInteger()->yes() || $type->isFloat()->yes();
 		} else {
-			$callback = static fn (Type $type): bool => !$type->toNumber() instanceof ErrorType;
+			$callback = static fn(Type $type): bool => !$type->toNumber() instanceof ErrorType;
 		}
 
 		$exprType = $this->ruleLevelHelper->findTypeToCheck(
@@ -66,7 +65,7 @@ final class InvalidUnaryOperationRule implements Rule
 			return [];
 		}
 
-		if (!$scope instanceof MutatingScope) {
+		if (! $scope instanceof MutatingScope) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -93,5 +92,4 @@ final class InvalidUnaryOperationRule implements Rule
 				->build(),
 		];
 	}
-
 }

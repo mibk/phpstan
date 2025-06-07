@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -11,7 +11,6 @@ use PHPStan\BetterReflection\SourceLocator\Type\SourceLocator;
 
 final class PhpVersionBlacklistSourceLocator implements SourceLocator
 {
-
 	public function __construct(
 		private SourceLocator $sourceLocator,
 		private PhpStormStubsSourceStubber $phpStormStubsSourceStubber,
@@ -40,5 +39,4 @@ final class PhpVersionBlacklistSourceLocator implements SourceLocator
 	{
 		return $this->sourceLocator->locateIdentifiersByType($reflector, $identifierType);
 	}
-
 }

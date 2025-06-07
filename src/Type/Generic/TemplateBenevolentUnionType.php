@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 /** @api */
 final class TemplateBenevolentUnionType extends BenevolentUnionType implements TemplateType
 {
-
 	/** @use TemplateTypeTrait<BenevolentUnionType> */
 	use TemplateTypeTrait;
 
@@ -50,7 +49,7 @@ final class TemplateBenevolentUnionType extends BenevolentUnionType implements T
 	public function filterTypes(callable $filterCb): Type
 	{
 		$result = parent::filterTypes($filterCb);
-		if (!$result instanceof TemplateType) {
+		if (! $result instanceof TemplateType) {
 			return TemplateTypeFactory::create(
 				$this->getScope(),
 				$this->getName(),
@@ -63,5 +62,4 @@ final class TemplateBenevolentUnionType extends BenevolentUnionType implements T
 
 		return $result;
 	}
-
 }

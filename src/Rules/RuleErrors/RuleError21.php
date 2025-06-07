@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
@@ -11,7 +11,6 @@ use PHPStan\Rules\RuleError;
  */
 final class RuleError21 implements RuleError, FileRuleError, IdentifierRuleError
 {
-
 	public string $message;
 
 	public string $file;
@@ -39,5 +38,4 @@ final class RuleError21 implements RuleError, FileRuleError, IdentifierRuleError
 	{
 		return $this->identifier;
 	}
-
 }

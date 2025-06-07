@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
@@ -19,12 +17,13 @@ use PHPStan\Type\FunctionTypeSpecifyingExtension;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name\FullyQualified;
 use function count;
 
 #[AutowiredService]
 final class MethodExistsTypeSpecifyingExtension implements FunctionTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-
 	private TypeSpecifier $typeSpecifier;
 
 	public function setTypeSpecifier(TypeSpecifier $typeSpecifier): void
@@ -51,7 +50,7 @@ final class MethodExistsTypeSpecifyingExtension implements FunctionTypeSpecifyin
 	): SpecifiedTypes
 	{
 		$methodNameType = $scope->getType($node->getArgs()[1]->value);
-		if (!$methodNameType instanceof ConstantStringType) {
+		if (! $methodNameType instanceof ConstantStringType) {
 			return $this->typeSpecifier->create(
 				new FuncCall(new FullyQualified('method_exists'), $node->getRawArgs()),
 				new ConstantBooleanType(true),
@@ -90,5 +89,4 @@ final class MethodExistsTypeSpecifyingExtension implements FunctionTypeSpecifyin
 			$scope,
 		);
 	}
-
 }

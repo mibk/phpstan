@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\DeadCode;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\DependencyInjection\RegisteredCollector;
 use PHPStan\Reflection\ReflectionProvider;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\Expression;
 
 /**
  * @implements Collector<Node\Stmt\Expression, array{string, int}>
@@ -15,7 +15,6 @@ use PHPStan\Reflection\ReflectionProvider;
 #[RegisteredCollector(level: 4)]
 final class PossiblyPureFuncCallCollector implements Collector
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -27,10 +26,10 @@ final class PossiblyPureFuncCallCollector implements Collector
 
 	public function processNode(Node $node, Scope $scope)
 	{
-		if (!$node->expr instanceof Node\Expr\FuncCall) {
+		if (! $node->expr instanceof Node\Expr\FuncCall) {
 			return null;
 		}
-		if (!$node->expr->name instanceof Node\Name) {
+		if (! $node->expr->name instanceof Node\Name) {
 			return null;
 		}
 
@@ -48,5 +47,4 @@ final class PossiblyPureFuncCallCollector implements Collector
 
 		return [$functionReflection->getName(), $node->getStartLine()];
 	}
-
 }

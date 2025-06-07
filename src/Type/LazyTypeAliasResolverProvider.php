@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -8,7 +8,6 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService(as: TypeAliasResolverProvider::class)]
 final class LazyTypeAliasResolverProvider implements TypeAliasResolverProvider
 {
-
 	public function __construct(private Container $container)
 	{
 	}
@@ -17,5 +16,4 @@ final class LazyTypeAliasResolverProvider implements TypeAliasResolverProvider
 	{
 		return $this->container->getByType(TypeAliasResolver::class);
 	}
-
 }

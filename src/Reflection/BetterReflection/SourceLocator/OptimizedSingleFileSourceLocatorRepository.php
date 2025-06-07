@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -8,7 +8,6 @@ use function array_key_exists;
 #[AutowiredService]
 final class OptimizedSingleFileSourceLocatorRepository
 {
-
 	/** @var array<string, OptimizedSingleFileSourceLocator> */
 	private array $locators = [];
 
@@ -26,5 +25,4 @@ final class OptimizedSingleFileSourceLocatorRepository
 
 		return $this->locators[$fileName];
 	}
-
 }

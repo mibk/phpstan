@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node;
 use PHPStan\AnalysedCodeException;
 use PHPStan\BetterReflection\NodeCompiler\Exception\UnableToCompileNode;
 use PHPStan\BetterReflection\Reflection\Exception\CircularReference;
@@ -18,6 +17,17 @@ use PHPStan\Node\InTraitNode;
 use PHPStan\Parser\Parser;
 use PHPStan\Parser\ParserErrorsException;
 use PHPStan\Rules\Registry as RuleRegistry;
+use PhpParser\Node;
+use const E_DEPRECATED;
+use const E_ERROR;
+use const E_NOTICE;
+use const E_PARSE;
+use const E_STRICT;
+use const E_USER_DEPRECATED;
+use const E_USER_ERROR;
+use const E_USER_NOTICE;
+use const E_USER_WARNING;
+use const E_WARNING;
 use function array_keys;
 use function array_unique;
 use function array_values;
@@ -29,16 +39,6 @@ use function is_file;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;
-use const E_DEPRECATED;
-use const E_ERROR;
-use const E_NOTICE;
-use const E_PARSE;
-use const E_STRICT;
-use const E_USER_DEPRECATED;
-use const E_USER_ERROR;
-use const E_USER_NOTICE;
-use const E_USER_WARNING;
-use const E_WARNING;
 
 /**
  * @phpstan-import-type CollectorData from CollectedData
@@ -46,7 +46,6 @@ use const E_WARNING;
 #[AutowiredService]
 final class FileAnalyser
 {
-
 	/** @var list<Error> */
 	private array $allPhpErrors = [];
 
@@ -67,7 +66,7 @@ final class FileAnalyser
 	}
 
 	/**
-	 * @param array<string, true> $analysedFiles
+	 * @param array<string, true>                           $analysedFiles
 	 * @param callable(Node $node, Scope $scope): void|null $outerNodeCallback
 	 */
 	public function analyseFile(
@@ -98,7 +97,7 @@ final class FileAnalyser
 				$parserNodes = $this->parser->parseFile($file);
 				$linesToIgnore = $unmatchedLineIgnores = [$file => $this->getLinesToIgnoreFromTokens($parserNodes)];
 				$temporaryFileErrors = [];
-				$nodeCallback = function (Node $node, Scope $scope) use (&$fileErrors, &$fileCollectedData, &$fileDependencies, &$usedTraitFileDependencies, &$exportedNodes, $file, $ruleRegistry, $collectorRegistry, $outerNodeCallback, $analysedFiles, &$linesToIgnore, &$unmatchedLineIgnores, &$temporaryFileErrors, $parserNodes): void {
+				$nodeCallback = function(Node $node, Scope $scope) use (&$fileErrors, &$fileCollectedData, &$fileDependencies, &$usedTraitFileDependencies, &$exportedNodes, $file, $ruleRegistry, $collectorRegistry, $outerNodeCallback, $analysedFiles, &$linesToIgnore, &$unmatchedLineIgnores, &$temporaryFileErrors, $parserNodes): void {
 					if ($node instanceof Node\Stmt\Trait_) {
 						foreach (array_keys($linesToIgnore[$file] ?? []) as $lineToIgnore) {
 							if ($lineToIgnore < $node->getStartLine() || $lineToIgnore > $node->getEndLine()) {
@@ -138,7 +137,7 @@ final class FileAnalyser
 							$fileErrors[] = (new Error($e->getMessage(), $file, $node->getStartLine(), $e, tip: $e->getTip()))
 								->withIdentifier('phpstan.internal')
 								->withMetadata([
-									InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+									InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 									InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 								]);
 							continue;
@@ -146,7 +145,7 @@ final class FileAnalyser
 							$fileErrors[] = (new Error(sprintf('Reflection error: %s not found.', $e->getIdentifier()->getName()), $file, $node->getStartLine(), $e, tip: 'Learn more at https://phpstan.org/user-guide/discovering-symbols'))
 								->withIdentifier('phpstan.reflection')
 								->withMetadata([
-									InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+									InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 									InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 								]);
 							continue;
@@ -154,7 +153,7 @@ final class FileAnalyser
 							$fileErrors[] = (new Error(sprintf('Reflection error: %s', $e->getMessage()), $file, $node->getStartLine(), $e))
 								->withIdentifier('phpstan.reflection')
 								->withMetadata([
-									InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+									InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 									InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 								]);
 							continue;
@@ -187,7 +186,7 @@ final class FileAnalyser
 							$fileErrors[] = (new Error($e->getMessage(), $file, $node->getStartLine(), $e, tip: $e->getTip()))
 								->withIdentifier('phpstan.internal')
 								->withMetadata([
-									InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+									InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 									InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 								]);
 							continue;
@@ -195,7 +194,7 @@ final class FileAnalyser
 							$fileErrors[] = (new Error(sprintf('Reflection error: %s not found.', $e->getIdentifier()->getName()), $file, $node->getStartLine(), $e, tip: 'Learn more at https://phpstan.org/user-guide/discovering-symbols'))
 								->withIdentifier('phpstan.reflection')
 								->withMetadata([
-									InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+									InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 									InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 								]);
 							continue;
@@ -203,7 +202,7 @@ final class FileAnalyser
 							$fileErrors[] = (new Error(sprintf('Reflection error: %s', $e->getMessage()), $file, $node->getStartLine(), $e))
 								->withIdentifier('phpstan.reflection')
 								->withMetadata([
-									InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+									InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 									InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 								]);
 							continue;
@@ -232,7 +231,7 @@ final class FileAnalyser
 						// pass
 					}
 
-					if (!$node instanceof InClassNode) {
+					if (! $node instanceof InClassNode) {
 						return;
 					}
 
@@ -273,21 +272,21 @@ final class FileAnalyser
 				$fileErrors[] = (new Error($e->getMessage(), $file, canBeIgnored: $e, tip: $e->getTip()))
 					->withIdentifier('phpstan.internal')
 					->withMetadata([
-						InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+						InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 						InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 					]);
 			} catch (IdentifierNotFound $e) {
 				$fileErrors[] = (new Error(sprintf('Reflection error: %s not found.', $e->getIdentifier()->getName()), $file, canBeIgnored: $e, tip: 'Learn more at https://phpstan.org/user-guide/discovering-symbols'))
 					->withIdentifier('phpstan.reflection')
 					->withMetadata([
-						InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+						InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 						InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 					]);
 			} catch (UnableToCompileNode | CircularReference $e) {
 				$fileErrors[] = (new Error(sprintf('Reflection error: %s', $e->getMessage()), $file, canBeIgnored: $e))
 					->withIdentifier('phpstan.reflection')
 					->withMetadata([
-						InternalError::STACK_TRACE_METADATA_KEY => InternalError::prepareTrace($e),
+						InternalError::STACK_TRACE_METADATA_KEY           => InternalError::prepareTrace($e),
 						InternalError::STACK_TRACE_AS_STRING_METADATA_KEY => $e->getTraceAsString(),
 					]);
 			}
@@ -330,7 +329,7 @@ final class FileAnalyser
 	}
 
 	/**
-	 * @param Node[] $nodes
+	 * @param  Node[] $nodes
 	 * @return array<int, non-empty-list<string>|null>
 	 */
 	private function getLinesToIgnoreFromTokens(array $nodes): array
@@ -350,7 +349,7 @@ final class FileAnalyser
 	{
 		$this->filteredPhpErrors = [];
 		$this->allPhpErrors = [];
-		set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline) use ($analysedFiles): bool {
+		set_error_handler(function(int $errno, string $errstr, string $errfile, int $errline) use ($analysedFiles): bool {
 			if ((error_reporting() & $errno) === 0) {
 				// silence @ operator
 				return true;
@@ -382,29 +381,28 @@ final class FileAnalyser
 	private function getErrorLabel(int $errno): string
 	{
 		switch ($errno) {
-			case E_ERROR:
-				return 'Fatal error';
-			case E_WARNING:
-				return 'Warning';
-			case E_PARSE:
-				return 'Parse error';
-			case E_NOTICE:
-				return 'Notice';
-			case E_DEPRECATED:
-				return 'Deprecated';
-			case E_USER_ERROR:
-				return 'User error (E_USER_ERROR)';
-			case E_USER_WARNING:
-				return 'User warning (E_USER_WARNING)';
-			case E_USER_NOTICE:
-				return 'User notice (E_USER_NOTICE)';
-			case E_USER_DEPRECATED:
-				return 'Deprecated (E_USER_DEPRECATED)';
-			case E_STRICT:
-				return 'Strict error (E_STRICT)';
+		case E_ERROR:
+			return 'Fatal error';
+		case E_WARNING:
+			return 'Warning';
+		case E_PARSE:
+			return 'Parse error';
+		case E_NOTICE:
+			return 'Notice';
+		case E_DEPRECATED:
+			return 'Deprecated';
+		case E_USER_ERROR:
+			return 'User error (E_USER_ERROR)';
+		case E_USER_WARNING:
+			return 'User warning (E_USER_WARNING)';
+		case E_USER_NOTICE:
+			return 'User notice (E_USER_NOTICE)';
+		case E_USER_DEPRECATED:
+			return 'Deprecated (E_USER_DEPRECATED)';
+		case E_STRICT:
+			return 'Strict error (E_STRICT)';
 		}
 
 		return 'Unknown PHP error';
 	}
-
 }

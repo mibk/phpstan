@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -14,7 +14,6 @@ use function array_unshift;
  */
 final class InternalError implements JsonSerializable
 {
-
 	public const STACK_TRACE_METADATA_KEY = 'stackTrace';
 
 	public const STACK_TRACE_AS_STRING_METADATA_KEY = 'stackTraceAsString';
@@ -37,7 +36,7 @@ final class InternalError implements JsonSerializable
 	 */
 	public static function prepareTrace(Throwable $exception): array
 	{
-		$trace = array_map(static fn (array $trace) => [
+		$trace = array_map(static fn(array $trace) => [
 			'file' => $trace['file'] ?? null,
 			'line' => $trace['line'] ?? null,
 		], $exception->getTrace());
@@ -93,12 +92,11 @@ final class InternalError implements JsonSerializable
 	public function jsonSerialize()
 	{
 		return [
-			'message' => $this->message,
+			'message'            => $this->message,
 			'contextDescription' => $this->contextDescription,
-			'trace' => $this->trace,
-			'traceAsString' => $this->traceAsString,
-			'shouldReportBug' => $this->shouldReportBug,
+			'trace'              => $this->trace,
+			'traceAsString'      => $this->traceAsString,
+			'shouldReportBug'    => $this->shouldReportBug,
 		];
 	}
-
 }

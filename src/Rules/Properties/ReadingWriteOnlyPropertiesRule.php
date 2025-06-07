@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Rules\RuleLevelHelper;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class ReadingWriteOnlyPropertiesRule implements Rule
 {
-
 	public function __construct(
 		private PropertyDescriptor $propertyDescriptor,
 		private PropertyReflectionFinder $propertyReflectionFinder,
@@ -37,15 +36,15 @@ final class ReadingWriteOnlyPropertiesRule implements Rule
 	{
 		if (
 			!($node instanceof Node\Expr\PropertyFetch)
-			&& !($node instanceof Node\Expr\StaticPropertyFetch)
+				&& !($node instanceof Node\Expr\StaticPropertyFetch)
 		) {
 			return [];
 		}
 
 		if (
 			$node instanceof Node\Expr\PropertyFetch
-			&& $this->checkThisOnly
-			&& !$this->ruleLevelHelper->isThis($node->var)
+				&& $this->checkThisOnly
+				&& !$this->ruleLevelHelper->isThis($node->var)
 		) {
 			return [];
 		}
@@ -77,5 +76,4 @@ final class ReadingWriteOnlyPropertiesRule implements Rule
 
 		return [];
 	}
-
 }

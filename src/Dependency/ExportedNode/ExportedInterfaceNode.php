@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -11,9 +11,8 @@ use function count;
 
 final class ExportedInterfaceNode implements RootExportedNode, JsonSerializable
 {
-
 	/**
-	 * @param string[] $extends
+	 * @param string[]       $extends
 	 * @param ExportedNode[] $statements
 	 */
 	public function __construct(private string $name, private ?ExportedPhpDocNode $phpDoc, private array $extends, private array $statements)
@@ -22,7 +21,7 @@ final class ExportedInterfaceNode implements RootExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -76,9 +75,9 @@ final class ExportedInterfaceNode implements RootExportedNode, JsonSerializable
 		return [
 			'type' => self::class,
 			'data' => [
-				'name' => $this->name,
-				'phpDoc' => $this->phpDoc,
-				'extends' => $this->extends,
+				'name'       => $this->name,
+				'phpDoc'     => $this->phpDoc,
+				'extends'    => $this->extends,
 				'statements' => $this->statements,
 			],
 		];
@@ -93,7 +92,7 @@ final class ExportedInterfaceNode implements RootExportedNode, JsonSerializable
 			$data['name'],
 			$data['phpDoc'] !== null ? ExportedPhpDocNode::decode($data['phpDoc']['data']) : null,
 			$data['extends'],
-			array_map(static function (array $node): ExportedNode {
+			array_map(static function(array $node): ExportedNode {
 				$nodeType = $node['type'];
 
 				return $nodeType::decode($node['data']);
@@ -113,5 +112,4 @@ final class ExportedInterfaceNode implements RootExportedNode, JsonSerializable
 	{
 		return $this->name;
 	}
-
 }

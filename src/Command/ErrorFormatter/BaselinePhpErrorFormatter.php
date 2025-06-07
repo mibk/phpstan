@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -6,16 +6,15 @@ use Nette\DI\Helpers;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\Output;
 use PHPStan\File\RelativePathHelper;
+use const SORT_STRING;
 use function count;
 use function ksort;
 use function preg_quote;
 use function sprintf;
 use function var_export;
-use const SORT_STRING;
 
 final class BaselinePhpErrorFormatter
 {
-
 	public function __construct(private RelativePathHelper $relativePathHelper)
 	{
 	}
@@ -106,5 +105,4 @@ final class BaselinePhpErrorFormatter
 
 		return 1;
 	}
-
 }

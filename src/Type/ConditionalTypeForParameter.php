@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -13,7 +13,6 @@ use function sprintf;
 /** @api */
 final class ConditionalTypeForParameter implements CompoundType, LateResolvableType
 {
-
 	use LateResolvableTypeTrait;
 	use NonGeneralizableTypeTrait;
 
@@ -148,7 +147,7 @@ final class ConditionalTypeForParameter implements CompoundType, LateResolvableT
 
 	public function traverseSimultaneously(Type $right, callable $cb): Type
 	{
-		if (!$right instanceof self) {
+		if (! $right instanceof self) {
 			return $this;
 		}
 
@@ -173,5 +172,4 @@ final class ConditionalTypeForParameter implements CompoundType, LateResolvableT
 			$this->negated,
 		);
 	}
-
 }

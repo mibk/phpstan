@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc;
 
@@ -8,7 +8,6 @@ use PHPStan\Php\PhpVersion;
 #[AutowiredService]
 final class ReflectionEnumStubFilesExtension implements StubFilesExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -25,5 +24,4 @@ final class ReflectionEnumStubFilesExtension implements StubFilesExtension
 
 		return [__DIR__ . '/../../stubs/ReflectionEnumWithLazyObjects.stub'];
 	}
-
 }

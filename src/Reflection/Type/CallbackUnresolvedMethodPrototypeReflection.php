@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Type;
 
@@ -17,7 +17,6 @@ use function array_map;
 
 final class CallbackUnresolvedMethodPrototypeReflection implements UnresolvedMethodPrototypeReflection
 {
-
 	/** @var callable(Type): Type */
 	private $transformStaticTypeCallback;
 
@@ -85,7 +84,7 @@ final class CallbackUnresolvedMethodPrototypeReflection implements UnresolvedMet
 	private function transformMethodWithStaticType(ClassReflection $declaringClass, ExtendedMethodReflection $method): ExtendedMethodReflection
 	{
 		$selfOutType = $method->getSelfOutType() !== null ? $this->transformStaticType($method->getSelfOutType()) : null;
-		$variantFn = function (ExtendedParametersAcceptor $acceptor) use (&$selfOutType): ExtendedParametersAcceptor {
+		$variantFn = function(ExtendedParametersAcceptor $acceptor) use (&$selfOutType): ExtendedParametersAcceptor {
 			$originalReturnType = $acceptor->getReturnType();
 			if ($originalReturnType instanceof ThisType && $selfOutType !== null) {
 				$returnType = TypeCombinator::intersect($selfOutType, $this->transformStaticType($originalReturnType));
@@ -97,7 +96,7 @@ final class CallbackUnresolvedMethodPrototypeReflection implements UnresolvedMet
 				$acceptor->getTemplateTypeMap(),
 				$acceptor->getResolvedTemplateTypeMap(),
 				array_map(
-					fn (ExtendedParameterReflection $parameter): ExtendedParameterReflection => new ExtendedDummyParameter(
+					fn(ExtendedParameterReflection $parameter): ExtendedParameterReflection => new ExtendedDummyParameter(
 						$parameter->getName(),
 						$this->transformStaticType($parameter->getType()),
 						$parameter->isOptional(),
@@ -140,5 +139,4 @@ final class CallbackUnresolvedMethodPrototypeReflection implements UnresolvedMet
 		$callback = $this->transformStaticTypeCallback;
 		return $callback($type);
 	}
-
 }

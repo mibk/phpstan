@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Annotations;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\Type;
 
 final class AnnotationsMethodParameterReflection implements ExtendedParameterReflection
 {
-
 	public function __construct(private string $name, private Type $type, private PassedByReference $passedByReference, private bool $isOptional, private bool $isVariadic, private ?Type $defaultValue)
 	{
 	}
@@ -79,5 +78,4 @@ final class AnnotationsMethodParameterReflection implements ExtendedParameterRef
 	{
 		return [];
 	}
-
 }

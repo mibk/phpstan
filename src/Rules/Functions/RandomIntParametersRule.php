@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -14,6 +12,8 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function array_values;
 use function count;
 use function sprintf;
@@ -24,7 +24,6 @@ use function sprintf;
 #[RegisteredRule(level: 5)]
 final class RandomIntParametersRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private PhpVersion $phpVersion,
@@ -58,8 +57,8 @@ final class RandomIntParametersRule implements Rule
 		$maxType = $scope->getType($args[1]->value)->toInteger();
 
 		if (
-			!$minType instanceof ConstantIntegerType && !$minType instanceof IntegerRangeType
-			|| !$maxType instanceof ConstantIntegerType && !$maxType instanceof IntegerRangeType
+			! $minType instanceof ConstantIntegerType && ! $minType instanceof IntegerRangeType
+				|| ! $maxType instanceof ConstantIntegerType && ! $maxType instanceof IntegerRangeType
 		) {
 			return [];
 		}
@@ -79,5 +78,4 @@ final class RandomIntParametersRule implements Rule
 
 		return [];
 	}
-
 }

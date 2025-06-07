@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -37,7 +37,6 @@ use function sprintf;
 /** @api */
 class ObjectShapeType implements Type
 {
-
 	use ObjectTypeTrait;
 	use UndecidedComparisonTypeTrait;
 	use NonGeneralizableTypeTrait;
@@ -45,7 +44,7 @@ class ObjectShapeType implements Type
 	/**
 	 * @api
 	 * @param array<string, Type> $properties
-	 * @param list<string> $optionalProperties
+	 * @param list<string>        $optionalProperties
 	 */
 	public function __construct(private array $properties, private array $optionalProperties)
 	{
@@ -118,7 +117,7 @@ class ObjectShapeType implements Type
 			$property,
 			$property->getDeclaringClass(),
 			false,
-			static fn (Type $type): Type => $type,
+			static fn(Type $type): Type => $type,
 		);
 	}
 
@@ -203,7 +202,7 @@ class ObjectShapeType implements Type
 			$otherPropertyType = $otherProperty->getReadableType();
 			$verbosity = VerbosityLevel::getRecommendedLevelByType($propertyType, $otherPropertyType);
 			$acceptsValue = $propertyType->accepts($otherPropertyType, $strictTypes)->decorateReasons(
-				static fn (string $reason) => sprintf(
+				static fn(string $reason) => sprintf(
 					'Property ($%s) type %s does not accept type %s: %s',
 					$propertyName,
 					$propertyType->describe($verbosity),
@@ -299,7 +298,7 @@ class ObjectShapeType implements Type
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof self) {
+		if (! $type instanceof self) {
 			return false;
 		}
 
@@ -337,7 +336,7 @@ class ObjectShapeType implements Type
 		if ($typeToRemove instanceof HasPropertyType) {
 			$properties = $this->properties;
 			unset($properties[$typeToRemove->getPropertyName()]);
-			$optionalProperties = array_values(array_filter($this->optionalProperties, static fn (string $propertyName) => $propertyName !== $typeToRemove->getPropertyName()));
+			$optionalProperties = array_values(array_filter($this->optionalProperties, static fn(string $propertyName) => $propertyName !== $typeToRemove->getPropertyName()));
 
 			return new self($properties, $optionalProperties);
 		}
@@ -348,7 +347,7 @@ class ObjectShapeType implements Type
 	public function makePropertyRequired(string $propertyName): self
 	{
 		if (array_key_exists($propertyName, $this->properties)) {
-			$optionalProperties = array_values(array_filter($this->optionalProperties, static fn (string $currentPropertyName) => $currentPropertyName !== $propertyName));
+			$optionalProperties = array_values(array_filter($this->optionalProperties, static fn(string $currentPropertyName) => $currentPropertyName !== $propertyName));
 
 			return new self($this->properties, $optionalProperties);
 		}
@@ -406,7 +405,7 @@ class ObjectShapeType implements Type
 
 	public function describe(VerbosityLevel $level): string
 	{
-		$callback = function () use ($level): string {
+		$callback = function() use ($level): string {
 			$items = [];
 			foreach ($this->properties as $name => $propertyType) {
 				$optional = in_array($name, $this->optionalProperties, true);
@@ -482,7 +481,7 @@ class ObjectShapeType implements Type
 
 	public function exponentiate(Type $exponent): Type
 	{
-		if (!$exponent instanceof NeverType && !$this->isSuperTypeOf($exponent)->no()) {
+		if (! $exponent instanceof NeverType && !$this->isSuperTypeOf($exponent)->no()) {
 			return TypeCombinator::union($this, $exponent);
 		}
 
@@ -505,7 +504,7 @@ class ObjectShapeType implements Type
 				$keyNode = new IdentifierTypeNode($name);
 			} else {
 				$keyPhpDocNode = (new ConstantStringType($name))->toPhpDocNode();
-				if (!$keyPhpDocNode instanceof ConstTypeNode) {
+				if (! $keyPhpDocNode instanceof ConstTypeNode) {
 					continue;
 				}
 
@@ -521,5 +520,4 @@ class ObjectShapeType implements Type
 
 		return new ObjectShapeNode($items);
 	}
-
 }

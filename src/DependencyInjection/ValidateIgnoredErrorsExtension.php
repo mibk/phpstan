@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -32,6 +32,7 @@ use PHPStan\Type\DirectTypeAliasResolverProvider;
 use PHPStan\Type\OperatorTypeSpecifyingExtensionRegistry;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeAliasResolver;
+use const PHP_VERSION_ID;
 use function array_keys;
 use function array_map;
 use function count;
@@ -40,11 +41,9 @@ use function is_array;
 use function is_dir;
 use function is_file;
 use function sprintf;
-use const PHP_VERSION_ID;
 
 final class ValidateIgnoredErrorsExtension extends CompilerExtension
 {
-
 	/**
 	 * @throws InvalidIgnoredErrorPatternsException
 	 */
@@ -77,18 +76,17 @@ final class ValidateIgnoredErrorsExtension extends CompilerExtension
 				new TypeParser($phpDocParserConfig, new ConstExprParser($phpDocParserConfig)),
 				new TypeNodeResolver(
 					new DirectTypeNodeResolverExtensionRegistryProvider(
-						new class implements TypeNodeResolverExtensionRegistry {
-
+						new class implements TypeNodeResolverExtensionRegistry
+						{
 							public function getExtensions(): array
 							{
 								return [];
 							}
-
 						},
 					),
 					$reflectionProviderProvider,
-					new DirectTypeAliasResolverProvider(new class implements TypeAliasResolver {
-
+					new DirectTypeAliasResolverProvider(new class implements TypeAliasResolver
+					{
 						public function hasTypeAlias(string $aliasName, ?string $classNameScope): bool
 						{
 							return false;
@@ -98,16 +96,14 @@ final class ValidateIgnoredErrorsExtension extends CompilerExtension
 						{
 							return null;
 						}
-
 					}),
 					$constantResolver,
-					new InitializerExprTypeResolver($constantResolver, $reflectionProviderProvider, new PhpVersion(PHP_VERSION_ID), new class implements OperatorTypeSpecifyingExtensionRegistryProvider {
-
+					new InitializerExprTypeResolver($constantResolver, $reflectionProviderProvider, new PhpVersion(PHP_VERSION_ID), new class implements OperatorTypeSpecifyingExtensionRegistryProvider
+					{
 						public function getRegistry(): OperatorTypeSpecifyingExtensionRegistry
 						{
 							return new OperatorTypeSpecifyingExtensionRegistry([]);
 						}
-
 					}, new OversizedArrayBuilder(), true),
 				),
 			),
@@ -213,7 +209,7 @@ final class ValidateIgnoredErrorsExtension extends CompilerExtension
 			$regex,
 			sprintf(
 				"It ignores all errors containing the following types:\n%s",
-				implode("\n", array_map(static fn (string $typeDescription): string => sprintf('* %s', $typeDescription), array_keys($ignoredTypes))),
+				implode("\n", array_map(static fn(string $typeDescription): string => sprintf('* %s', $typeDescription), array_keys($ignoredTypes))),
 			),
 		);
 	}
@@ -222,5 +218,4 @@ final class ValidateIgnoredErrorsExtension extends CompilerExtension
 	{
 		return sprintf("Ignored error %s has an unescaped anchor '$' in the middle. This leads to unintended behavior. Use '\\$' instead.", $regex);
 	}
-
 }

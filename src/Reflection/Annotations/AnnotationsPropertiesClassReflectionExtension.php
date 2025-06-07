@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Annotations;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\NeverType;
 
 final class AnnotationsPropertiesClassReflectionExtension implements PropertiesClassReflectionExtension
 {
-
 	/** @var ExtendedPropertyReflection[][] */
 	private array $properties = [];
 
@@ -101,5 +100,4 @@ final class AnnotationsPropertiesClassReflectionExtension implements PropertiesC
 
 		return null;
 	}
-
 }

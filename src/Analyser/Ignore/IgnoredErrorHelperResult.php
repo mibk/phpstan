@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser\Ignore;
 
@@ -15,12 +15,11 @@ use function sprintf;
 
 final class IgnoredErrorHelperResult
 {
-
 	/**
-	 * @param list<string> $errors
-	 * @param array<array<mixed>> $otherIgnoreErrors
+	 * @param list<string>                       $errors
+	 * @param array<array<mixed>>                $otherIgnoreErrors
 	 * @param array<string, array<array<mixed>>> $ignoreErrorsByFile
-	 * @param (string|mixed[])[] $ignoreErrors
+	 * @param (string|mixed[])[]                 $ignoreErrors
 	 */
 	public function __construct(
 		private FileHelper $fileHelper,
@@ -42,7 +41,7 @@ final class IgnoredErrorHelperResult
 	}
 
 	/**
-	 * @param Error[] $errors
+	 * @param Error[]  $errors
 	 * @param string[] $analysedFiles
 	 */
 	public function process(
@@ -55,7 +54,7 @@ final class IgnoredErrorHelperResult
 		$unmatchedIgnoredErrors = $this->ignoreErrors;
 		$stringErrors = [];
 
-		$processIgnoreError = function (Error $error, int $i, $ignore) use (&$unmatchedIgnoredErrors, &$stringErrors): bool {
+		$processIgnoreError = function(Error $error, int $i, $ignore) use (&$unmatchedIgnoredErrors, &$stringErrors): bool {
 			$shouldBeIgnored = false;
 			if (is_string($ignore)) {
 				$shouldBeIgnored = IgnoredError::shouldIgnore($this->fileHelper, $error, $ignore, null, null);
@@ -200,8 +199,8 @@ final class IgnoredErrorHelperResult
 				}
 				if (
 					isset($unmatchedIgnoredError['count'])
-					&& isset($unmatchedIgnoredError['realCount'])
-					&& (isset($unmatchedIgnoredError['realPath']) || !$onlyFiles)
+						&& isset($unmatchedIgnoredError['realCount'])
+						&& (isset($unmatchedIgnoredError['realPath']) || !$onlyFiles)
 				) {
 					if ($unmatchedIgnoredError['realCount'] < $unmatchedIgnoredError['count']) {
 						$errors[] = (new Error(sprintf(
@@ -237,5 +236,4 @@ final class IgnoredErrorHelperResult
 
 		return new IgnoredErrorHelperProcessedResult($errors, $ignoredErrors, $stringErrors);
 	}
-
 }

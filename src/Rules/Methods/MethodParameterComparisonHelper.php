@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
@@ -25,7 +25,6 @@ use function sprintf;
 #[AutowiredService]
 final class MethodParameterComparisonHelper
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -54,7 +53,7 @@ final class MethodParameterComparisonHelper
 					$prototypeParameter->getName(),
 				))->identifier('parameter.missing');
 
-				if (! $ignorable) {
+				if (!$ignorable) {
 					$error->nonIgnorable();
 				}
 
@@ -78,7 +77,7 @@ final class MethodParameterComparisonHelper
 						$prototype->getName(),
 					))->identifier('parameter.byRef');
 
-					if (! $ignorable) {
+					if (!$ignorable) {
 						$error->nonIgnorable();
 					}
 
@@ -97,7 +96,7 @@ final class MethodParameterComparisonHelper
 					$prototype->getName(),
 				))->identifier('parameter.notByRef');
 
-				if (! $ignorable) {
+				if (!$ignorable) {
 					$error->nonIgnorable();
 				}
 
@@ -117,7 +116,7 @@ final class MethodParameterComparisonHelper
 								$method->getName(),
 							))->identifier('parameter.notOptional');
 
-							if (! $ignorable) {
+							if (!$ignorable) {
 								$error->nonIgnorable();
 							}
 
@@ -138,7 +137,7 @@ final class MethodParameterComparisonHelper
 							$prototype->getName(),
 						))->identifier('parameter.notVariadic');
 
-						if (! $ignorable) {
+						if (!$ignorable) {
 							$error->nonIgnorable();
 						}
 
@@ -154,7 +153,7 @@ final class MethodParameterComparisonHelper
 							$method->getName(),
 						))->identifier('parameter.notVariadic');
 
-						if (! $ignorable) {
+						if (!$ignorable) {
 							$error->nonIgnorable();
 						}
 
@@ -183,7 +182,7 @@ final class MethodParameterComparisonHelper
 							$prototype->getName(),
 						))->identifier('method.childParameterType');
 
-						if (! $ignorable) {
+						if (!$ignorable) {
 							$error->nonIgnorable();
 						}
 
@@ -203,7 +202,7 @@ final class MethodParameterComparisonHelper
 					$prototype->getName(),
 				))->identifier('parameter.variadic');
 
-				if (! $ignorable) {
+				if (!$ignorable) {
 					$error->nonIgnorable();
 				}
 
@@ -225,7 +224,7 @@ final class MethodParameterComparisonHelper
 					$prototype->getName(),
 				))->identifier('parameter.notOptional');
 
-				if (! $ignorable) {
+				if (!$ignorable) {
 					$error->nonIgnorable();
 				}
 
@@ -251,7 +250,7 @@ final class MethodParameterComparisonHelper
 						$prototype->getName(),
 					))->identifier('method.childParameterType');
 
-					if (! $ignorable) {
+					if (!$ignorable) {
 						$error->nonIgnorable();
 					}
 
@@ -279,7 +278,7 @@ final class MethodParameterComparisonHelper
 					$prototype->getName(),
 				))->identifier('method.childParameterType');
 
-				if (! $ignorable) {
+				if (!$ignorable) {
 					$error->nonIgnorable();
 				}
 
@@ -299,7 +298,7 @@ final class MethodParameterComparisonHelper
 					$prototype->getName(),
 				))->identifier('method.childParameterType');
 
-				if (! $ignorable) {
+				if (!$ignorable) {
 					$error->nonIgnorable();
 				}
 
@@ -318,8 +317,8 @@ final class MethodParameterComparisonHelper
 
 			if (
 				$j === count($methodParameters) - 1
-				&& $prototypeAfterVariadic
-				&& !$methodParameter->isVariadic()
+					&& $prototypeAfterVariadic
+					&& !$methodParameter->isVariadic()
 			) {
 				$error = RuleErrorBuilder::message(sprintf(
 					'Parameter #%d $%s of method %s::%s() is not variadic.',
@@ -329,7 +328,7 @@ final class MethodParameterComparisonHelper
 					$method->getName(),
 				))->identifier('parameter.notVariadic');
 
-				if (! $ignorable) {
+				if (!$ignorable) {
 					$error->nonIgnorable();
 				}
 
@@ -350,7 +349,7 @@ final class MethodParameterComparisonHelper
 				$method->getName(),
 			))->identifier('parameter.notOptional');
 
-			if (! $ignorable) {
+			if (!$ignorable) {
 				$error->nonIgnorable();
 			}
 
@@ -408,5 +407,4 @@ final class MethodParameterComparisonHelper
 
 		return $methodParameterType->isSuperTypeOf($prototypeParameterType)->yes();
 	}
-
 }

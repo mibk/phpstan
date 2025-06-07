@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -7,14 +7,13 @@ namespace PHPStan\Type;
  */
 final class TypeResult
 {
-
 	public readonly Type $type;
 
 	/** @var list<string> */
 	public readonly array $reasons;
 
 	/**
-	 * @param T $type
+	 * @param T            $type
 	 * @param list<string> $reasons
 	 */
 	public function __construct(
@@ -25,5 +24,4 @@ final class TypeResult
 		$this->type = $type;
 		$this->reasons = $reasons;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -8,7 +8,6 @@ use function getenv;
 
 final class LoaderFactory
 {
-
 	/**
 	 * @param list<string> $expandRelativePaths
 	 */
@@ -30,12 +29,11 @@ final class LoaderFactory
 		$loader->addAdapter('dist', $neonAdapter);
 		$loader->addAdapter('neon', $neonAdapter);
 		$loader->setParameters([
-			'rootDir' => $this->rootDir,
+			'rootDir'                 => $this->rootDir,
 			'currentWorkingDirectory' => $this->currentWorkingDirectory,
-			'env' => getenv(),
+			'env'                     => getenv(),
 		]);
 
 		return $loader;
 	}
-
 }

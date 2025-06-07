@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
@@ -15,7 +15,6 @@ use function strtoupper;
 
 trait MbFunctionsReturnTypeExtensionTrait
 {
-
 	/** @var string[]|null */
 	private ?array $supportedEncodings = null;
 
@@ -47,11 +46,10 @@ trait MbFunctionsReturnTypeExtensionTrait
 		if (!$this->phpVersion->supportsPassNoneEncodings()) {
 			$this->supportedEncodings = array_filter(
 				$this->supportedEncodings,
-				static fn (string $enc) => !in_array($enc, ['PASS', 'NONE'], true),
+				static fn(string $enc) => !in_array($enc, ['PASS', 'NONE'], true),
 			);
 		}
 
 		return $this->supportedEncodings;
 	}
-
 }

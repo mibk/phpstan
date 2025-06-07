@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection\Type;
 
@@ -10,7 +10,6 @@ use PHPStan\Type\OperatorTypeSpecifyingExtensionRegistry;
 #[AutowiredService(as: OperatorTypeSpecifyingExtensionRegistryProvider::class)]
 final class LazyOperatorTypeSpecifyingExtensionRegistryProvider implements OperatorTypeSpecifyingExtensionRegistryProvider
 {
-
 	private ?OperatorTypeSpecifyingExtensionRegistry $registry = null;
 
 	public function __construct(private Container $container)
@@ -27,5 +26,4 @@ final class LazyOperatorTypeSpecifyingExtensionRegistryProvider implements Opera
 
 		return $this->registry;
 	}
-
 }

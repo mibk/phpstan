@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
@@ -8,7 +8,6 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService]
 final class LazyAlwaysUsedMethodExtensionProvider implements AlwaysUsedMethodExtensionProvider
 {
-
 	/** @var AlwaysUsedMethodExtension[]|null */
 	private ?array $extensions = null;
 
@@ -20,5 +19,4 @@ final class LazyAlwaysUsedMethodExtensionProvider implements AlwaysUsedMethodExt
 	{
 		return $this->extensions ??= $this->container->getServicesByTag(static::EXTENSION_TAG);
 	}
-
 }

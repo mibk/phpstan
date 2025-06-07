@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Cache;
 
 interface CacheStorage
 {
-
 	/**
 	 * @return mixed|null
 	 */
@@ -14,5 +13,4 @@ interface CacheStorage
 	 * @param mixed $data
 	 */
 	public function save(string $key, string $variableKey, $data): void;
-
 }

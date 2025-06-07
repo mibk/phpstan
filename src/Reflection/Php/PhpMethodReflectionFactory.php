@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -12,13 +12,12 @@ use PHPStan\Type\Type;
 
 interface PhpMethodReflectionFactory
 {
-
 	/**
-	 * @param Type[] $phpDocParameterTypes
-	 * @param Type[] $phpDocParameterOutTypes
+	 * @param Type[]                      $phpDocParameterTypes
+	 * @param Type[]                      $phpDocParameterOutTypes
 	 * @param array<string, TrinaryLogic> $immediatelyInvokedCallableParameters
-	 * @param array<string, Type> $phpDocClosureThisTypeParameters
-	 * @param list<AttributeReflection> $attributes
+	 * @param array<string, Type>         $phpDocClosureThisTypeParameters
+	 * @param list<AttributeReflection>   $attributes
 	 */
 	public function create(
 		ClassReflection $declaringClass,
@@ -42,5 +41,4 @@ interface PhpMethodReflectionFactory
 		bool $acceptsNamedArguments,
 		array $attributes,
 	): PhpMethodReflection;
-
 }

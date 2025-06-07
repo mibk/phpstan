@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -11,6 +10,7 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
 use function array_map;
 use function assert;
 use function count;
@@ -21,7 +21,6 @@ use function min;
 #[AutowiredService]
 final class RandomIntFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return in_array($functionReflection->getName(), ['random_int', 'rand', 'mt_rand'], true);
@@ -46,7 +45,8 @@ final class RandomIntFunctionReturnTypeExtension implements DynamicFunctionRetur
 	private function createRange(Type $minType, Type $maxType): Type
 	{
 		$minValues = array_map(
-			static function (Type $type): ?int {
+			static function(Type $type): ?int
+			{
 				if ($type instanceof IntegerRangeType) {
 					return $type->getMin();
 				}
@@ -59,7 +59,8 @@ final class RandomIntFunctionReturnTypeExtension implements DynamicFunctionRetur
 		);
 
 		$maxValues = array_map(
-			static function (Type $type): ?int {
+			static function(Type $type): ?int
+			{
 				if ($type instanceof IntegerRangeType) {
 					return $type->getMax();
 				}
@@ -79,5 +80,4 @@ final class RandomIntFunctionReturnTypeExtension implements DynamicFunctionRetur
 			in_array(null, $maxValues, true) ? null : max($maxValues),
 		);
 	}
-
 }

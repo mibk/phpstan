@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser\ResultCache;
 
@@ -14,16 +14,15 @@ namespace PHPStan\Analyser\ResultCache;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.resultCacheMetaExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.resultCacheMetaExtension
  * ```
  *
  * @api
  */
 interface ResultCacheMetaExtension
 {
-
 	public const EXTENSION_TAG = 'phpstan.resultCacheMetaExtension';
 
 	/**
@@ -35,5 +34,4 @@ interface ResultCacheMetaExtension
 	 * Returns hash of the result cache meta entry. This represents the current state of the additional meta source.
 	 */
 	public function getHash(): string;
-
 }

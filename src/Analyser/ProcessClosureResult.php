@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -6,10 +6,9 @@ use PHPStan\Node\InvalidateExprNode;
 
 final class ProcessClosureResult
 {
-
 	/**
-	 * @param ThrowPoint[] $throwPoints
-	 * @param ImpurePoint[] $impurePoints
+	 * @param ThrowPoint[]         $throwPoints
+	 * @param ImpurePoint[]        $impurePoints
 	 * @param InvalidateExprNode[] $invalidateExpressions
 	 */
 	public function __construct(
@@ -49,5 +48,4 @@ final class ProcessClosureResult
 	{
 		return $this->invalidateExpressions;
 	}
-
 }

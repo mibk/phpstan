@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Deprecation;
 
@@ -12,18 +12,16 @@ use PHPStan\BetterReflection\Reflection\Adapter\ReflectionMethod;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyProvider
- *		tags:
- *			- phpstan.methodDeprecationExtension
+ * *		class: App\PHPStan\MyProvider
+ * *		tags:
+ * *			- phpstan.methodDeprecationExtension
  * ```
  *
  * @api
  */
 interface MethodDeprecationExtension
 {
-
 	public const METHOD_EXTENSION_TAG = 'phpstan.methodDeprecationExtension';
 
 	public function getMethodDeprecation(ReflectionMethod $reflection): ?Deprecation;
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -11,7 +11,6 @@ use PHPStan\Dependency\RootExportedNode;
  */
 final class FileAnalyserResult
 {
-
 	/**
 	 * @param list<Error> $errors
 	 * @param list<Error> $filteredPhpErrors
@@ -118,5 +117,4 @@ final class FileAnalyserResult
 	{
 		return $this->unmatchedLineIgnores;
 	}
-
 }

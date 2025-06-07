@@ -1,23 +1,22 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\Php\PhpVersion;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\Php\PhpVersion;
 use function count;
 use function version_compare;
 
 final class RemoveUnusedCodeByPhpVersionIdVisitor extends NodeVisitorAbstract
 {
-
 	public function __construct(private string $phpVersionString)
 	{
 	}
 
 	public function enterNode(Node $node): ?Node
 	{
-		if (!$node instanceof Node\Stmt\If_) {
+		if (! $node instanceof Node\Stmt\If_) {
 			return null;
 		}
 
@@ -31,14 +30,14 @@ final class RemoveUnusedCodeByPhpVersionIdVisitor extends NodeVisitorAbstract
 
 		$cond = $node->cond;
 		if (
-			!$cond instanceof Node\Expr\BinaryOp\Smaller
-			&& !$cond instanceof Node\Expr\BinaryOp\SmallerOrEqual
-			&& !$cond instanceof Node\Expr\BinaryOp\Greater
-			&& !$cond instanceof Node\Expr\BinaryOp\GreaterOrEqual
-			&& !$cond instanceof Node\Expr\BinaryOp\Equal
-			&& !$cond instanceof Node\Expr\BinaryOp\NotEqual
-			&& !$cond instanceof Node\Expr\BinaryOp\Identical
-			&& !$cond instanceof Node\Expr\BinaryOp\NotIdentical
+			! $cond instanceof Node\Expr\BinaryOp\Smaller
+				&& ! $cond instanceof Node\Expr\BinaryOp\SmallerOrEqual
+				&& ! $cond instanceof Node\Expr\BinaryOp\Greater
+				&& ! $cond instanceof Node\Expr\BinaryOp\GreaterOrEqual
+				&& ! $cond instanceof Node\Expr\BinaryOp\Equal
+				&& ! $cond instanceof Node\Expr\BinaryOp\NotEqual
+				&& ! $cond instanceof Node\Expr\BinaryOp\Identical
+				&& ! $cond instanceof Node\Expr\BinaryOp\NotIdentical
 		) {
 			return null;
 		}
@@ -78,21 +77,20 @@ final class RemoveUnusedCodeByPhpVersionIdVisitor extends NodeVisitorAbstract
 	{
 		if (
 			$left instanceof Node\Scalar\Int_
-			&& $right instanceof Node\Expr\ConstFetch
-			&& $right->name->toString() === 'PHP_VERSION_ID'
+				&& $right instanceof Node\Expr\ConstFetch
+				&& $right->name->toString() === 'PHP_VERSION_ID'
 		) {
 			return [(new PhpVersion($left->value))->getVersionString(), $this->phpVersionString];
 		}
 
 		if (
 			$right instanceof Node\Scalar\Int_
-			&& $left instanceof Node\Expr\ConstFetch
-			&& $left->name->toString() === 'PHP_VERSION_ID'
+				&& $left instanceof Node\Expr\ConstFetch
+				&& $left->name->toString() === 'PHP_VERSION_ID'
 		) {
 			return [$this->phpVersionString, (new PhpVersion($right->value))->getVersionString()];
 		}
 
 		return null;
 	}
-
 }

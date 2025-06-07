@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Diagnose;
 
@@ -14,18 +14,16 @@ use PHPStan\Command\Output;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.diagnoseExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.diagnoseExtension
  * ```
  *
  * @api
  */
 interface DiagnoseExtension
 {
-
 	public const EXTENSION_TAG = 'phpstan.diagnoseExtension';
 
 	public function print(Output $output): void;
-
 }

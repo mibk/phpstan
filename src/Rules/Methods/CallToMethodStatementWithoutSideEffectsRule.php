@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\NullsafeOperatorHelper;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -13,6 +12,7 @@ use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -21,7 +21,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class CallToMethodStatementWithoutSideEffectsRule implements Rule
 {
-
 	public function __construct(private RuleLevelHelper $ruleLevelHelper)
 	{
 	}
@@ -36,11 +35,11 @@ final class CallToMethodStatementWithoutSideEffectsRule implements Rule
 		$methodCall = $node->getOriginalExpr();
 		if ($methodCall instanceof Node\Expr\NullsafeMethodCall) {
 			$scope = $scope->filterByTruthyValue(new Node\Expr\BinaryOp\NotIdentical($methodCall->var, new Node\Expr\ConstFetch(new Node\Name('null'))));
-		} elseif (!$methodCall instanceof Node\Expr\MethodCall) {
+		} elseif (! $methodCall instanceof Node\Expr\MethodCall) {
 			return [];
 		}
 
-		if (!$methodCall->name instanceof Node\Identifier) {
+		if (! $methodCall->name instanceof Node\Identifier) {
 			return [];
 		}
 		$methodName = $methodCall->name->toString();
@@ -49,7 +48,7 @@ final class CallToMethodStatementWithoutSideEffectsRule implements Rule
 			$scope,
 			NullsafeOperatorHelper::getNullsafeShortcircuitedExprRespectingScope($scope, $methodCall->var),
 			'',
-			static fn (Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
+			static fn(Type $type): bool => $type->canCallMethods()->yes() && $type->hasMethod($methodName)->yes(),
 		);
 		$calledOnType = $typeResult->getType();
 		if ($calledOnType instanceof ErrorType) {
@@ -79,5 +78,4 @@ final class CallToMethodStatementWithoutSideEffectsRule implements Rule
 			))->identifier('method.resultUnused')->build(),
 		];
 	}
-
 }

@@ -1,16 +1,15 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Collectors;
 
-use PhpParser\Node;
 use PHPStan\DependencyInjection\AutowiredService;
+use PhpParser\Node;
 use function class_implements;
 use function class_parents;
 
 #[AutowiredService(factory: '@PHPStan\Collectors\RegistryFactory::create')]
 final class Registry
 {
-
 	/** @var Collector[][] */
 	private array $collectors = [];
 
@@ -29,8 +28,8 @@ final class Registry
 
 	/**
 	 * @template TNodeType of Node
-	 * @param class-string<TNodeType> $nodeType
-	 * @return array<Collector<TNodeType, mixed>>
+	 * @param    class-string<TNodeType> $nodeType
+	 * @return   array<Collector<TNodeType, mixed>>
 	 */
 	public function getCollectors(string $nodeType): array
 	{
@@ -54,5 +53,4 @@ final class Registry
 
 		return $selectedCollectors;
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassMethodNode;
 use PHPStan\Reflection\ClassReflection;
@@ -25,9 +24,10 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StaticType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypehintHelper;
 use PHPStan\Type\TypeTraverser;
+use PHPStan\Type\TypehintHelper;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function count;
 use function min;
 use function sprintf;
@@ -38,7 +38,6 @@ use function strtolower;
  */
 final class MethodSignatureRule implements Rule
 {
-
 	public function __construct(
 		private PhpClassReflectionExtension $phpClassReflectionExtension,
 		private bool $reportMaybes,
@@ -87,7 +86,7 @@ final class MethodSignatureRule implements Rule
 				))->identifier('method.childReturnType');
 				if (
 					$parentMethod->getDeclaringClass()->getName() === Rule::class
-					&& strtolower($methodName) === 'processnode'
+						&& strtolower($methodName) === 'processnode'
 				) {
 					$ruleErrorType = new ObjectType(RuleError::class);
 					$identifierRuleErrorType = new ObjectType(IdentifierRuleError::class);
@@ -101,7 +100,7 @@ final class MethodSignatureRule implements Rule
 							$builder->tip('Rules can no longer return plain strings. See: https://phpstan.org/blog/using-rule-error-builder');
 						} elseif (
 							$ruleErrorType->isSuperTypeOf($returnValueType)->yes()
-							&& !$identifierRuleErrorType->isSuperTypeOf($returnValueType)->yes()
+								&& !$identifierRuleErrorType->isSuperTypeOf($returnValueType)->yes()
 						) {
 							$builder->tip('Errors are missing identifiers. See: https://phpstan.org/blog/using-rule-error-builder');
 						} elseif (!$returnType->isList()->yes()) {
@@ -227,8 +226,8 @@ final class MethodSignatureRule implements Rule
 	}
 
 	/**
-	 * @param ExtendedParameterReflection[] $parameters
-	 * @param ExtendedParameterReflection[] $parentParameters
+	 * @param  ExtendedParameterReflection[] $parameters
+	 * @param  ExtendedParameterReflection[] $parentParameters
 	 * @return array<int, array{TrinaryLogic, Type, Type}>
 	 */
 	private function checkParameterTypeCompatibility(
@@ -265,7 +264,7 @@ final class MethodSignatureRule implements Rule
 
 	private function transformStaticType(ClassReflection $declaringClass, Type $type): Type
 	{
-		return TypeTraverser::map($type, static function (Type $type, callable $traverse) use ($declaringClass): Type {
+		return TypeTraverser::map($type, static function(Type $type, callable $traverse) use ($declaringClass): Type {
 			if ($type instanceof GenericStaticType) {
 				if ($declaringClass->isFinal()) {
 					$changedType = $type->changeBaseClass($declaringClass)->getStaticObjectType();
@@ -287,5 +286,4 @@ final class MethodSignatureRule implements Rule
 			return $traverse($type);
 		});
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -23,7 +23,6 @@ use function sprintf;
  */
 trait TemplateTypeTrait
 {
-
 	/** @var non-empty-string */
 	private string $name;
 
@@ -62,9 +61,9 @@ trait TemplateTypeTrait
 
 	public function describe(VerbosityLevel $level): string
 	{
-		$basicDescription = function () use ($level): string {
+		$basicDescription = function() use ($level): string {
 			// @phpstan-ignore booleanAnd.alwaysFalse, instanceof.alwaysFalse, booleanAnd.alwaysFalse, instanceof.alwaysFalse, instanceof.alwaysTrue
-			if ($this->bound instanceof MixedType && $this->bound->getSubtractedType() === null && !$this->bound instanceof TemplateMixedType) {
+			if ($this->bound instanceof MixedType && $this->bound->getSubtractedType() === null && ! $this->bound instanceof TemplateMixedType) {
 				$boundDescription = '';
 			} else {
 				$boundDescription = sprintf(' of %s', $this->bound->describe($level));
@@ -81,7 +80,7 @@ trait TemplateTypeTrait
 		return $level->handle(
 			$basicDescription,
 			$basicDescription,
-			fn (): string => sprintf('%s (%s, %s)', $basicDescription(), $this->scope->describe(), $this->isArgument() ? 'argument' : 'parameter'),
+			fn(): string => sprintf('%s (%s, %s)', $basicDescription(), $this->scope->describe(), $this->isArgument() ? 'argument' : 'parameter'),
 		);
 	}
 
@@ -123,7 +122,7 @@ trait TemplateTypeTrait
 	public function getTypeWithoutSubtractedType(): Type
 	{
 		$bound = $this->getBound();
-		if (!$bound instanceof SubtractableType) { // @phpstan-ignore instanceof.alwaysTrue
+		if (! $bound instanceof SubtractableType) { // @phpstan-ignore instanceof.alwaysTrue
 			return $this;
 		}
 
@@ -140,7 +139,7 @@ trait TemplateTypeTrait
 	public function changeSubtractedType(?Type $subtractedType): Type
 	{
 		$bound = $this->getBound();
-		if (!$bound instanceof SubtractableType) { // @phpstan-ignore instanceof.alwaysTrue
+		if (! $bound instanceof SubtractableType) { // @phpstan-ignore instanceof.alwaysTrue
 			return $this;
 		}
 
@@ -157,7 +156,7 @@ trait TemplateTypeTrait
 	public function getSubtractedType(): ?Type
 	{
 		$bound = $this->getBound();
-		if (!$bound instanceof SubtractableType) { // @phpstan-ignore instanceof.alwaysTrue
+		if (! $bound instanceof SubtractableType) { // @phpstan-ignore instanceof.alwaysTrue
 			return null;
 		}
 
@@ -181,15 +180,15 @@ trait TemplateTypeTrait
 		/** @var TBound $bound */
 		$bound = $this->getBound();
 		if (
-			!$acceptingType instanceof $bound
-			&& !$this instanceof $acceptingType
-			&& !$acceptingType instanceof TemplateType
-			&& ($acceptingType instanceof UnionType || $acceptingType instanceof IntersectionType)
+			! $acceptingType instanceof $bound
+				&& ! $this instanceof $acceptingType
+				&& ! $acceptingType instanceof TemplateType
+				&& ($acceptingType instanceof UnionType || $acceptingType instanceof IntersectionType)
 		) {
 			return $acceptingType->accepts($this, $strictTypes);
 		}
 
-		if (!$acceptingType instanceof TemplateType) {
+		if (! $acceptingType instanceof TemplateType) {
 			return $acceptingType->accepts($this->getBound(), $strictTypes);
 		}
 
@@ -225,15 +224,15 @@ trait TemplateTypeTrait
 		/** @var TBound $bound */
 		$bound = $this->getBound();
 		if (
-			!$type instanceof $bound
-			&& !$this instanceof $type
-			&& !$type instanceof TemplateType
-			&& ($type instanceof UnionType || $type instanceof IntersectionType)
+			! $type instanceof $bound
+				&& ! $this instanceof $type
+				&& ! $type instanceof TemplateType
+				&& ($type instanceof UnionType || $type instanceof IntersectionType)
 		) {
 			return $type->isSuperTypeOf($this);
 		}
 
-		if (!$type instanceof TemplateType) {
+		if (! $type instanceof TemplateType) {
 			return $type->isSuperTypeOf($this->getBound());
 		}
 
@@ -259,7 +258,7 @@ trait TemplateTypeTrait
 	{
 		if (
 			$receivedType instanceof TemplateType
-			&& $this->getBound()->isSuperTypeOf($receivedType->getBound())->yes()
+				&& $this->getBound()->isSuperTypeOf($receivedType->getBound())->yes()
 		) {
 			return new TemplateTypeMap([
 				$this->name => $receivedType,
@@ -318,7 +317,7 @@ trait TemplateTypeTrait
 
 	public function traverseSimultaneously(Type $right, callable $cb): Type
 	{
-		if (!$right instanceof TemplateType) {
+		if (! $right instanceof TemplateType) {
 			return $this;
 		}
 
@@ -360,5 +359,4 @@ trait TemplateTypeTrait
 	{
 		return new IdentifierTypeNode($this->name);
 	}
-
 }

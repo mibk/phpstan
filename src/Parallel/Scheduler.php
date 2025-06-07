@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parallel;
 
@@ -16,7 +16,6 @@ use function sprintf;
 #[AutowiredService]
 final class Scheduler implements DiagnoseExtension
 {
-
 	/** @var array{int, int, int, int}|null */
 	private ?array $storedData = null;
 
@@ -76,5 +75,4 @@ final class Scheduler implements DiagnoseExtension
 		$output->writeLineFormatted(sprintf('# of spawned processes:    %d', $usedNumberOfProcesses));
 		$output->writeLineFormatted('');
 	}
-
 }

@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
-use PhpParser\Node;
-use PhpParser\NodeVisitorAbstract;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Node\AnonymousClassNode;
+use PhpParser\Node;
+use PhpParser\NodeVisitorAbstract;
 use function count;
 
 #[AutowiredService]
 final class AnonymousClassVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_LINE_INDEX = 'anonymousClassLineIndex';
 
 	/** @var array<int, non-empty-list<AnonymousClassNode>> */
@@ -25,7 +24,7 @@ final class AnonymousClassVisitor extends NodeVisitorAbstract
 
 	public function enterNode(Node $node): ?Node
 	{
-		if (!$node instanceof Node\Stmt\Class_ || !$node->isAnonymous()) {
+		if (! $node instanceof Node\Stmt\Class_ || !$node->isAnonymous()) {
 			return null;
 		}
 
@@ -50,5 +49,4 @@ final class AnonymousClassVisitor extends NodeVisitorAbstract
 		$this->nodesPerLine = [];
 		return null;
 	}
-
 }

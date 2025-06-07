@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Constant;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 
 final class RuntimeConstantReflection implements ConstantReflection
 {
-
 	public function __construct(
 		private string $name,
 		private Type $valueType,
@@ -48,5 +47,4 @@ final class RuntimeConstantReflection implements ConstantReflection
 	{
 		return TrinaryLogic::createNo();
 	}
-
 }

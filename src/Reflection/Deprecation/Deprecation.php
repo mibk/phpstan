@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Deprecation;
 
@@ -7,7 +7,6 @@ namespace PHPStan\Reflection\Deprecation;
  */
 final class Deprecation
 {
-
 	private ?string $description = null;
 
 	private function __construct()
@@ -31,5 +30,4 @@ final class Deprecation
 
 		return $clone;
 	}
-
 }

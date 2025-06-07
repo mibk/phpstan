@@ -1,21 +1,20 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Node\Constant\ClassConstantFetch;
+use PHPStan\Reflection\ClassReflection;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeAbstract;
-use PHPStan\Node\Constant\ClassConstantFetch;
-use PHPStan\Reflection\ClassReflection;
 
 /**
  * @api
  */
 final class ClassConstantsNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
-	 * @param ClassConst[] $constants
+	 * @param ClassConst[]         $constants
 	 * @param ClassConstantFetch[] $fetches
 	 */
 	public function __construct(private ClassLike $class, private array $constants, private array $fetches, private ClassReflection $classReflection)
@@ -61,5 +60,4 @@ final class ClassConstantsNode extends NodeAbstract implements VirtualNode
 	{
 		return $this->classReflection;
 	}
-
 }

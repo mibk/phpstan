@@ -1,20 +1,19 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function sprintf;
 
 /** @implements Rule<InClassMethodNode> */
 #[RegisteredRule(level: 0)]
 final class AbstractPrivateMethodRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InClassMethodNode::class;
@@ -56,5 +55,4 @@ final class AbstractPrivateMethodRule implements Rule
 				->build(),
 		];
 	}
-
 }

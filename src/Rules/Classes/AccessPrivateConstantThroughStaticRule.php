@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Name;
 use function sprintf;
 
 /**
@@ -16,7 +16,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class AccessPrivateConstantThroughStaticRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Expr\ClassConstFetch::class;
@@ -24,10 +23,10 @@ final class AccessPrivateConstantThroughStaticRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Identifier) {
+		if (! $node->name instanceof Node\Identifier) {
 			return [];
 		}
-		if (!$node->class instanceof Name) {
+		if (! $node->class instanceof Name) {
 			return [];
 		}
 
@@ -59,5 +58,4 @@ final class AccessPrivateConstantThroughStaticRule implements Rule
 			))->identifier('staticClassAccess.privateConstant')->build(),
 		];
 	}
-
 }

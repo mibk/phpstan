@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -12,7 +12,7 @@ use PHPStan\Command\Output;
  * ```
  * services:
  * 	errorFormatter.myFormat:
- *		class: App\PHPStan\AwesomeErrorFormatter
+ * *		class: App\PHPStan\AwesomeErrorFormatter
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/error-formatters
@@ -21,7 +21,6 @@ use PHPStan\Command\Output;
  */
 interface ErrorFormatter
 {
-
 	/**
 	 * Formats the errors and outputs them to the console.
 	 *
@@ -31,5 +30,4 @@ interface ErrorFormatter
 		AnalysisResult $analysisResult,
 		Output $output,
 	): int;
-
 }

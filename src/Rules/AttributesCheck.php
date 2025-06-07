@@ -1,16 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules;
 
 use Attribute;
-use PhpParser\Node\AttributeGroup;
-use PhpParser\Node\Expr\New_;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Internal\SprintfHelper;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
+use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Expr\New_;
 use function array_key_exists;
 use function count;
 use function sprintf;
@@ -19,7 +19,6 @@ use function strtolower;
 #[AutowiredService]
 final class AttributesCheck
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private FunctionCallParametersCheck $functionCallParametersCheck,
@@ -31,8 +30,8 @@ final class AttributesCheck
 	}
 
 	/**
-	 * @param AttributeGroup[] $attrGroups
-	 * @param int-mask-of<Attribute::TARGET_*> $requiredTarget
+	 * @param  AttributeGroup[]                 $attrGroups
+	 * @param  int-mask-of<Attribute::TARGET_*> $requiredTarget
 	 * @return list<IdentifierRuleError>
 	 */
 	public function check(
@@ -167,5 +166,4 @@ final class AttributesCheck
 
 		return $errors;
 	}
-
 }

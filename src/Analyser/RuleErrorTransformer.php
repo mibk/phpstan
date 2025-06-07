@@ -1,13 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Internal\TokenStream;
-use PhpParser\Node;
-use PhpParser\Node\Stmt;
-use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor\CloningVisitor;
-use PhpParser\Parser;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\File\FileReader;
@@ -25,6 +19,12 @@ use PHPStan\Rules\NonIgnorableRuleError;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\TipRuleError;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\Internal\TokenStream;
+use PhpParser\Node;
+use PhpParser\Node\Stmt;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\CloningVisitor;
+use PhpParser\Parser;
 use SebastianBergmann\Diff\Differ;
 use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use function get_class;
@@ -34,7 +34,6 @@ use function str_repeat;
 #[AutowiredService]
 final class RuleErrorTransformer
 {
-
 	private Differ $differ;
 
 	public function __construct(
@@ -72,13 +71,13 @@ final class RuleErrorTransformer
 
 		if (
 			$ruleError instanceof LineRuleError
-			&& $ruleError->getLine() !== -1
+				&& $ruleError->getLine() !== -1
 		) {
 			$line = $ruleError->getLine();
 		}
 		if (
 			$ruleError instanceof FileRuleError
-			&& $ruleError->getFile() !== ''
+				&& $ruleError->getFile() !== ''
 		) {
 			$fileName = $ruleError->getFileDescription();
 			$filePath = $ruleError->getFile();
@@ -161,5 +160,4 @@ final class RuleErrorTransformer
 			$fixedErrorDiff,
 		);
 	}
-
 }

@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
@@ -11,6 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\FileTypeMapper;
 use PHPStan\Type\Type;
+use PhpParser\Node;
 use function array_map;
 use function sprintf;
 use function strtolower;
@@ -22,7 +22,6 @@ use function ucfirst;
 #[RegisteredRule(level: 2)]
 final class UsedTraitsRule implements Rule
 {
-
 	public function __construct(
 		private FileTypeMapper $fileTypeMapper,
 		private GenericAncestorsCheck $genericAncestorsCheck,
@@ -72,7 +71,7 @@ final class UsedTraitsRule implements Rule
 
 		return $this->genericAncestorsCheck->check(
 			$node->traits,
-			array_map(static fn (UsesTag $tag): Type => $tag->getType(), $useTags),
+			array_map(static fn(UsesTag $tag): Type => $tag->getType(), $useTags),
 			sprintf('%s @use tag contains incompatible type %%s.', $escapedUpperCaseDescription),
 			sprintf('%s @use tag contains unresolvable type.', $upperCaseDescription),
 			sprintf('%s has @use tag, but does not use any trait.', $upperCaseDescription),
@@ -87,5 +86,4 @@ final class UsedTraitsRule implements Rule
 			sprintf('in used type %%s of %s', $escapedDescription),
 		);
 	}
-
 }

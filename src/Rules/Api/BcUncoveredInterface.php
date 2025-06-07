@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Api;
 
@@ -35,7 +35,6 @@ use PHPStan\Type\TypeWithClassName;
 
 final class BcUncoveredInterface
 {
-
 	public const CLASSES = [
 		Type::class,
 		CompoundType::class,
@@ -68,5 +67,4 @@ final class BcUncoveredInterface
 		OutputStyle::class,
 		ReturnStatementsNode::class,
 	];
-
 }

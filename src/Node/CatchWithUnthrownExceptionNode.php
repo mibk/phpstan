@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
+use PHPStan\Type\Type;
 use PhpParser\Node\Stmt\Catch_;
 use PhpParser\NodeAbstract;
-use PHPStan\Type\Type;
 
 /**
  * @api
  */
 final class CatchWithUnthrownExceptionNode extends NodeAbstract implements VirtualNode
 {
-
 	public function __construct(private Catch_ $originalNode, private Type $caughtType, private Type $originalCaughtType)
 	{
 		parent::__construct($originalNode->getAttributes());
@@ -44,5 +43,4 @@ final class CatchWithUnthrownExceptionNode extends NodeAbstract implements Virtu
 	{
 		return [];
 	}
-
 }

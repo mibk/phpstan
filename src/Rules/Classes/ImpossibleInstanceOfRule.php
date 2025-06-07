@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -15,6 +14,7 @@ use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -23,7 +23,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class ImpossibleInstanceOfRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter]
 		private bool $treatPhpDocTypesAsCertain,
@@ -43,7 +42,7 @@ final class ImpossibleInstanceOfRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		$instanceofType = $this->treatPhpDocTypesAsCertain ? $scope->getType($node) : $scope->getNativeType($node);
-		if (!$instanceofType instanceof ConstantBooleanType) {
+		if (! $instanceofType instanceof ConstantBooleanType) {
 			return [];
 		}
 
@@ -67,7 +66,7 @@ final class ImpossibleInstanceOfRule implements Rule
 			}
 		}
 
-		$addTip = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
+		$addTip = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
 			if (!$this->treatPhpDocTypesAsCertain) {
 				return $ruleErrorBuilder;
 			}
@@ -115,5 +114,4 @@ final class ImpossibleInstanceOfRule implements Rule
 
 		return [$errorBuilder->build()];
 	}
-
 }

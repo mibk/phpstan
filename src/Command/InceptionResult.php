@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command;
 
@@ -15,13 +15,12 @@ use function sprintf;
 
 final class InceptionResult
 {
-
 	/** @var callable(): (array{string[], bool}) */
 	private $filesCallback;
 
 	/**
 	 * @param callable(): (array{string[], bool}) $filesCallback
-	 * @param mixed[]|null $projectConfigArray
+	 * @param mixed[]|null                        $projectConfigArray
 	 */
 	public function __construct(
 		callable $filesCallback,
@@ -141,5 +140,4 @@ final class InceptionResult
 
 		return implode(' ', $result);
 	}
-
 }

@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
 use PHPStan\Node\ClassPropertyNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Generic\TemplateTypeVariance;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class PropertyVarianceRule implements Rule
 {
-
 	public function __construct(
 		private VarianceCheck $varianceCheck,
 	)
@@ -53,5 +52,4 @@ final class PropertyVarianceRule implements Rule
 			sprintf('in property %s::$%s', SprintfHelper::escapeFormatString($classReflection->getDisplayName()), SprintfHelper::escapeFormatString($node->getName())),
 		);
 	}
-
 }

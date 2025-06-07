@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RestrictedUsage;
 
@@ -18,21 +18,19 @@ use PHPStan\Reflection\ClassConstantReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.restrictedClassConstantUsageExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.restrictedClassConstantUsageExtension
  * ```
  *
  * @api
  */
 interface RestrictedClassConstantUsageExtension
 {
-
 	public const CLASS_CONSTANT_EXTENSION_TAG = 'phpstan.restrictedClassConstantUsageExtension';
 
 	public function isRestrictedClassConstantUsage(
 		ClassConstantReflection $constantReflection,
 		Scope $scope,
 	): ?RestrictedUsage;
-
 }

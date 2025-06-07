@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -35,6 +35,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypehintHelper;
 use PHPStan\Type\VoidType;
 use ReflectionException;
+use const PHP_VERSION_ID;
 use function array_key_exists;
 use function array_map;
 use function count;
@@ -43,7 +44,6 @@ use function in_array;
 use function is_array;
 use function sprintf;
 use function strtolower;
-use const PHP_VERSION_ID;
 
 /**
  * @api
@@ -51,7 +51,6 @@ use const PHP_VERSION_ID;
 #[GenerateFactory(interface: PhpMethodReflectionFactory::class)]
 final class PhpMethodReflection implements ExtendedMethodReflection
 {
-
 	/** @var list<PhpParameterReflection>|null */
 	private ?array $parameters = null;
 
@@ -65,11 +64,11 @@ final class PhpMethodReflection implements ExtendedMethodReflection
 	private ?bool $containsVariadicCalls = null;
 
 	/**
-	 * @param Type[] $phpDocParameterTypes
-	 * @param Type[] $phpDocParameterOutTypes
+	 * @param Type[]                      $phpDocParameterTypes
+	 * @param Type[]                      $phpDocParameterOutTypes
 	 * @param array<string, TrinaryLogic> $immediatelyInvokedCallableParameters
-	 * @param array<string, Type> $phpDocClosureThisTypeParameters
-	 * @param list<AttributeReflection> $attributes
+	 * @param array<string, Type>         $phpDocClosureThisTypeParameters
+	 * @param list<AttributeReflection>   $attributes
 	 */
 	public function __construct(
 		private InitializerExprTypeResolver $initializerExprTypeResolver,
@@ -231,7 +230,7 @@ final class PhpMethodReflection implements ExtendedMethodReflection
 	private function getParameters(): array
 	{
 		if ($this->parameters === null) {
-			$this->parameters = array_map(fn (ReflectionParameter $reflection): PhpParameterReflection => new PhpParameterReflection(
+			$this->parameters = array_map(fn(ReflectionParameter $reflection): PhpParameterReflection => new PhpParameterReflection(
 				$this->initializerExprTypeResolver,
 				$reflection,
 				$this->phpDocParameterTypes[$reflection->getName()] ?? null,
@@ -279,8 +278,8 @@ final class PhpMethodReflection implements ExtendedMethodReflection
 
 				if (
 					is_array($variadicMethods)
-					&& array_key_exists($className, $variadicMethods)
-					&& array_key_exists($this->reflection->getName(), $variadicMethods[$className])
+						&& array_key_exists($className, $variadicMethods)
+						&& array_key_exists($this->reflection->getName(), $variadicMethods[$className])
 				) {
 					return $this->containsVariadicCalls = $variadicMethods[$className][$this->reflection->getName()];
 				}
@@ -413,7 +412,7 @@ final class PhpMethodReflection implements ExtendedMethodReflection
 	{
 		if (
 			strtolower($this->getName()) !== '__construct'
-			&& $this->getReturnType()->isVoid()->yes()
+				&& $this->getReturnType()->isVoid()->yes()
 		) {
 			return TrinaryLogic::createYes();
 		}
@@ -531,5 +530,4 @@ final class PhpMethodReflection implements ExtendedMethodReflection
 	{
 		return $this->attributes;
 	}
-
 }

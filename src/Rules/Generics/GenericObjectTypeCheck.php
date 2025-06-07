@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
@@ -27,7 +27,6 @@ use function strtolower;
 #[AutowiredService]
 final class GenericObjectTypeCheck
 {
-
 	/**
 	 * @return list<IdentifierRuleError>
 	 */
@@ -63,7 +62,7 @@ final class GenericObjectTypeCheck
 			$genericTypeVariances = $genericType->getVariances();
 			$templateTypesCount = count($templateTypes);
 			$genericTypeTypesCount = count($genericTypeTypes);
-			$requiredTemplateTypesCount = count(array_filter($templateTypes, static fn (Type $type) => $type instanceof TemplateType && $type->getDefault() === null));
+			$requiredTemplateTypesCount = count(array_filter($templateTypes, static fn(Type $type) => $type instanceof TemplateType && $type->getDefault() === null));
 			if ($requiredTemplateTypesCount > $genericTypeTypesCount) {
 				$templateTypesList = implode(', ', array_keys($classReflection->getTemplateTypeMap()->getTypes()));
 				if ($requiredTemplateTypesCount !== $templateTypesCount) {
@@ -131,7 +130,7 @@ final class GenericObjectTypeCheck
 
 				$boundType = TemplateTypeHelper::resolveToBounds($templateType);
 				if ($boundType->isSuperTypeOf($genericTypeType)->yes()) {
-					if (!$templateType instanceof TemplateType) {
+					if (! $templateType instanceof TemplateType) {
 						continue;
 					}
 					$map = $templateType->inferTemplateTypes($genericTypeType);
@@ -174,10 +173,10 @@ final class GenericObjectTypeCheck
 	private function getGenericTypes(Type $phpDocType): array
 	{
 		$genericObjectTypes = [];
-		TypeTraverser::map($phpDocType, static function (Type $type, callable $traverse) use (&$genericObjectTypes): Type {
+		TypeTraverser::map($phpDocType, static function(Type $type, callable $traverse) use (&$genericObjectTypes): Type {
 			if ($type instanceof GenericObjectType || $type instanceof GenericStaticType) {
 				$resolvedType = TemplateTypeHelper::resolveToBounds($type);
-				if (!$resolvedType instanceof GenericObjectType && !$resolvedType instanceof GenericStaticType) {
+				if (! $resolvedType instanceof GenericObjectType && ! $resolvedType instanceof GenericStaticType) {
 					throw new ShouldNotHappenException();
 				}
 				$genericObjectTypes[] = $resolvedType;
@@ -190,5 +189,4 @@ final class GenericObjectTypeCheck
 
 		return $genericObjectTypes;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 /** @api */
 interface ExtendedParametersAcceptor extends ParametersAcceptor
 {
-
 	/**
 	 * @return list<ExtendedParameterReflection>
 	 */
@@ -19,5 +18,4 @@ interface ExtendedParametersAcceptor extends ParametersAcceptor
 	public function getNativeReturnType(): Type;
 
 	public function getCallSiteVarianceMap(): TemplateTypeVarianceMap;
-
 }

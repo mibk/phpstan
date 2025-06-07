@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -17,6 +16,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
 use function array_key_exists;
 use function array_map;
 use function array_unique;
@@ -25,17 +25,16 @@ use function count;
 #[AutowiredService]
 final class MbFunctionsReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	use MbFunctionsReturnTypeExtensionTrait;
 
-	/** @var int[]  */
+	/** @var int[] */
 	private array $encodingPositionMap = [
-		'mb_http_output' => 1,
-		'mb_regex_encoding' => 1,
+		'mb_http_output'       => 1,
+		'mb_regex_encoding'    => 1,
 		'mb_internal_encoding' => 1,
-		'mb_encoding_aliases' => 1,
-		'mb_chr' => 2,
-		'mb_ord' => 2,
+		'mb_encoding_aliases'  => 1,
+		'mb_chr'               => 2,
+		'mb_ord'               => 2,
 	];
 
 	public function __construct(private PhpVersion $phpVersion)
@@ -61,7 +60,7 @@ final class MbFunctionsReturnTypeExtension implements DynamicFunctionReturnTypeE
 		}
 
 		$strings = $scope->getType($functionCall->getArgs()[$positionEncodingParam - 1]->value)->getConstantStrings();
-		$results = array_unique(array_map(fn (ConstantStringType $encoding): bool => $this->isSupportedEncoding($encoding->getValue()), $strings));
+		$results = array_unique(array_map(fn(ConstantStringType $encoding): bool => $this->isSupportedEncoding($encoding->getValue()), $strings));
 
 		if ($returnType->equals(new UnionType([new StringType(), new BooleanType()]))) {
 			return count($results) === 1 ? new ConstantBooleanType($results[0]) : new BooleanType();
@@ -80,5 +79,4 @@ final class MbFunctionsReturnTypeExtension implements DynamicFunctionReturnTypeE
 
 		return $returnType;
 	}
-
 }

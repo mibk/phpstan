@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Debug;
 
-use PhpParser\Node;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function implode;
 use function sprintf;
@@ -20,7 +20,6 @@ use function strtolower;
 #[AutowiredService]
 final class DebugScopeRule implements Rule
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -32,7 +31,7 @@ final class DebugScopeRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Name) {
+		if (! $node->name instanceof Node\Name) {
 			return [];
 		}
 
@@ -45,7 +44,7 @@ final class DebugScopeRule implements Rule
 			return [];
 		}
 
-		if (!$scope instanceof MutatingScope) {
+		if (! $scope instanceof MutatingScope) {
 			return [];
 		}
 
@@ -64,5 +63,4 @@ final class DebugScopeRule implements Rule
 			)->nonIgnorable()->identifier('phpstan.debugScope')->build(),
 		];
 	}
-
 }

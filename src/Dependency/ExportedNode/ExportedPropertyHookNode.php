@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -11,7 +11,6 @@ use function count;
 
 final class ExportedPropertyHookNode implements ExportedNode, JsonSerializable
 {
-
 	/**
 	 * @param ExportedParameterNode[] $parameters
 	 * @param ExportedAttributeNode[] $attributes
@@ -31,7 +30,7 @@ final class ExportedPropertyHookNode implements ExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -101,12 +100,12 @@ final class ExportedPropertyHookNode implements ExportedNode, JsonSerializable
 		return [
 			'type' => self::class,
 			'data' => [
-				'name' => $this->name,
-				'phpDoc' => $this->phpDoc,
-				'byRef' => $this->byRef,
-				'abstract' => $this->abstract,
-				'final' => $this->final,
-				'short' => $this->short,
+				'name'       => $this->name,
+				'phpDoc'     => $this->phpDoc,
+				'byRef'      => $this->byRef,
+				'abstract'   => $this->abstract,
+				'final'      => $this->final,
+				'short'      => $this->short,
 				'parameters' => $this->parameters,
 				'attributes' => $this->attributes,
 			],
@@ -125,13 +124,13 @@ final class ExportedPropertyHookNode implements ExportedNode, JsonSerializable
 			$data['abstract'],
 			$data['final'],
 			$data['short'],
-			array_map(static function (array $parameterData): ExportedParameterNode {
+			array_map(static function(array $parameterData): ExportedParameterNode {
 				if ($parameterData['type'] !== ExportedParameterNode::class) {
 					throw new ShouldNotHappenException();
 				}
 				return ExportedParameterNode::decode($parameterData['data']);
 			}, $data['parameters']),
-			array_map(static function (array $attributeData): ExportedAttributeNode {
+			array_map(static function(array $attributeData): ExportedAttributeNode {
 				if ($attributeData['type'] !== ExportedAttributeNode::class) {
 					throw new ShouldNotHappenException();
 				}
@@ -139,5 +138,4 @@ final class ExportedPropertyHookNode implements ExportedNode, JsonSerializable
 			}, $data['attributes']),
 		);
 	}
-
 }

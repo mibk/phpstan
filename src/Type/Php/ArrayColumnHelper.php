@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
@@ -21,7 +21,6 @@ use PHPStan\Type\TypeCombinator;
 #[AutowiredService]
 final class ArrayColumnHelper
 {
-
 	public function __construct(
 		private PhpVersion $phpVersion,
 	)
@@ -194,5 +193,4 @@ final class ArrayColumnHelper
 		}
 		return TypeCombinator::union($keyType, new IntegerType());
 	}
-
 }

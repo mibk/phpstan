@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\TooWideTypehints;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -14,6 +13,7 @@ use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use PHPStan\Type\VoidType;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
@@ -23,7 +23,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class TooWideMethodReturnTypehintRule implements Rule
 {
-
 	public function __construct(
 		#[AutowiredParameter(ref: '%checkTooWideReturnTypesInProtectedAndPublicMethods%')]
 		private bool $checkProtectedAndPublicMethods,
@@ -57,7 +56,7 @@ final class TooWideMethodReturnTypehintRule implements Rule
 
 		$methodReturnType = $method->getReturnType();
 		$methodReturnType = TypeUtils::resolveLateResolvableTypes($methodReturnType);
-		if (!$methodReturnType instanceof UnionType) {
+		if (! $methodReturnType instanceof UnionType) {
 			return [];
 		}
 		$statementResult = $node->getStatementResult();
@@ -88,8 +87,8 @@ final class TooWideMethodReturnTypehintRule implements Rule
 		$returnType = TypeCombinator::union(...$returnTypes);
 		if (
 			!$isFirstDeclaration
-			&& !$method->isPrivate()
-			&& ($returnType->isNull()->yes() || $returnType->isTrue()->yes() || $returnType->isFalse()->yes())
+				&& !$method->isPrivate()
+				&& ($returnType->isNull()->yes() || $returnType->isTrue()->yes() || $returnType->isFalse()->yes())
 		) {
 			return [];
 		}
@@ -120,5 +119,4 @@ final class TooWideMethodReturnTypehintRule implements Rule
 
 		return $messages;
 	}
-
 }

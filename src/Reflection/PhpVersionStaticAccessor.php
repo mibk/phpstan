@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -7,7 +7,6 @@ use PHPStan\ShouldNotHappenException;
 
 final class PhpVersionStaticAccessor
 {
-
 	private static ?PhpVersion $instance = null;
 
 	private function __construct()
@@ -26,5 +25,4 @@ final class PhpVersionStaticAccessor
 		}
 		return self::$instance;
 	}
-
 }

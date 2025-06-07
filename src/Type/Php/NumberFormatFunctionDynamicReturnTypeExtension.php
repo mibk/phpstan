@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -13,12 +12,12 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
 use function in_array;
 
 #[AutowiredService]
 final class NumberFormatFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'number_format';
@@ -34,11 +33,11 @@ final class NumberFormatFunctionDynamicReturnTypeExtension implements DynamicFun
 		$thousandsType = $scope->getType($functionCall->getArgs()[3]->value);
 		$decimalType = $scope->getType($functionCall->getArgs()[2]->value);
 
-		if (!$thousandsType instanceof ConstantStringType || $thousandsType->getValue() !== '') {
+		if (! $thousandsType instanceof ConstantStringType || $thousandsType->getValue() !== '') {
 			return $stringType;
 		}
 
-		if (!$decimalType instanceof ConstantScalarType || !in_array($decimalType->getValue(), [null, '.', ''], true)) {
+		if (! $decimalType instanceof ConstantScalarType || !in_array($decimalType->getValue(), [null, '.', ''], true)) {
 			return $stringType;
 		}
 
@@ -47,5 +46,4 @@ final class NumberFormatFunctionDynamicReturnTypeExtension implements DynamicFun
 			new AccessoryNumericStringType(),
 		]);
 	}
-
 }

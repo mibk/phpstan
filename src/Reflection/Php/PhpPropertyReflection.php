@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -22,7 +22,6 @@ use function sprintf;
  */
 final class PhpPropertyReflection implements ExtendedPropertyReflection
 {
-
 	private ?Type $finalNativeType = null;
 
 	private ?Type $type = null;
@@ -302,5 +301,4 @@ final class PhpPropertyReflection implements ExtendedPropertyReflection
 	{
 		return $this->attributes;
 	}
-
 }

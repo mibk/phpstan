@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -11,7 +11,6 @@ use PHPStan\Reflection\PropertyReflection;
 
 final class OutOfClassScope implements ClassMemberAccessAnswerer
 {
-
 	/** @api */
 	public function __construct()
 	{
@@ -53,5 +52,4 @@ final class OutOfClassScope implements ClassMemberAccessAnswerer
 	{
 		return $constantReflection->isPublic();
 	}
-
 }

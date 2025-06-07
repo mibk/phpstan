@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InstantiationCallableNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<InstantiationCallableNode>
@@ -15,7 +15,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class InstantiationCallableRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InstantiationCallableNode::class;
@@ -30,5 +29,4 @@ final class InstantiationCallableRule implements Rule
 				->build(),
 		];
 	}
-
 }

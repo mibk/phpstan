@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -11,6 +9,8 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use function array_key_exists;
 use function count;
 use function sprintf;
@@ -21,10 +21,9 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class UselessFunctionReturnValueRule implements Rule
 {
-
 	private const USELESS_FUNCTIONS = [
-		'var_export' => 'null',
-		'print_r' => 'true',
+		'var_export'       => 'null',
+		'print_r'          => 'true',
 		'highlight_string' => 'true',
 	];
 
@@ -71,14 +70,14 @@ final class UselessFunctionReturnValueRule implements Rule
 
 		if (count($reorderedArgs) === 1 || (count($reorderedArgs) >= 2 && $scope->getType($reorderedArgs[1]->value)->isFalse()->yes())) {
 			return [RuleErrorBuilder::message(
-				sprintf(
-					'Return value of function %s() is always %s and the result is printed instead of being returned. Pass in true as parameter #%d $%s to return the output instead.',
-					$functionReflection->getName(),
-					self::USELESS_FUNCTIONS[$functionReflection->getName()],
-					2,
-					$parametersAcceptor->getParameters()[1]->getName(),
-				),
-			)
+					sprintf(
+						'Return value of function %s() is always %s and the result is printed instead of being returned. Pass in true as parameter #%d $%s to return the output instead.',
+						$functionReflection->getName(),
+						self::USELESS_FUNCTIONS[$functionReflection->getName()],
+						2,
+						$parametersAcceptor->getParameters()[1]->getName(),
+					),
+				)
 				->identifier('function.uselessReturnValue')
 				->line($funcCall->getStartLine())
 				->build(),
@@ -87,5 +86,4 @@ final class UselessFunctionReturnValueRule implements Rule
 
 		return [];
 	}
-
 }

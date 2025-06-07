@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
  */
 final class TemplateTypeParameterStrategy implements TemplateTypeStrategy
 {
-
 	public function accepts(TemplateType $left, Type $right, bool $strictTypes): AcceptsResult
 	{
 		if ($right instanceof CompoundType) {
@@ -25,5 +24,4 @@ final class TemplateTypeParameterStrategy implements TemplateTypeStrategy
 	{
 		return false;
 	}
-
 }

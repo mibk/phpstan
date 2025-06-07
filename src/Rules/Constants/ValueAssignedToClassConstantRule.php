@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Constants;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ClassReflection;
@@ -13,6 +12,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ParserNodeTypeToPHPStanType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
+use PhpParser\Node;
 use function array_merge;
 use function sprintf;
 
@@ -22,7 +22,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class ValueAssignedToClassConstantRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Stmt\ClassConst::class;
@@ -92,7 +91,6 @@ final class ValueAssignedToClassConstantRule implements Rule
 						$valueExprType->describe(VerbosityLevel::value()),
 					))->identifier('classConstant.phpDocType')->build(),
 				];
-
 			} elseif ($isSuperType->maybe()) {
 				return [
 					RuleErrorBuilder::message(sprintf(
@@ -126,5 +124,4 @@ final class ValueAssignedToClassConstantRule implements Rule
 			))->acceptsReasonsTip($accepts->reasons)->identifier('classConstant.value')->build(),
 		];
 	}
-
 }

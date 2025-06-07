@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -16,7 +16,6 @@ use function trim;
 
 final class ParentDirectoryRelativePathHelper implements RelativePathHelper
 {
-
 	public function __construct(private string $parentDirectory)
 	{
 	}
@@ -66,5 +65,4 @@ final class ParentDirectoryRelativePathHelper implements RelativePathHelper
 
 		return array_merge(array_fill(0, $dotsCount, '..'), array_slice($filenameParts, $i));
 	}
-
 }

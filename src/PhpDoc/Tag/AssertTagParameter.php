@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\PhpDoc\Tag;
 
@@ -7,7 +7,6 @@ use function sprintf;
 
 final class AssertTagParameter
 {
-
 	public function __construct(
 		private string $parameterName,
 		private ?string $property,
@@ -55,5 +54,4 @@ final class AssertTagParameter
 
 		return $parameter;
 	}
-
 }

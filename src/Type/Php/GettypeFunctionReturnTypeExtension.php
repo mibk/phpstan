@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -14,12 +13,12 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeTraverser;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 
 #[AutowiredService]
 final class GettypeFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return $functionReflection->getName() === 'gettype';
@@ -33,7 +32,7 @@ final class GettypeFunctionReturnTypeExtension implements DynamicFunctionReturnT
 
 		$valueType = $scope->getType($functionCall->getArgs()[0]->value);
 
-		return TypeTraverser::map($valueType, static function (Type $valueType, callable $traverse): Type {
+		return TypeTraverser::map($valueType, static function(Type $valueType, callable $traverse): Type {
 			if ($valueType instanceof UnionType || $valueType instanceof IntersectionType) {
 				return $traverse($valueType);
 			}
@@ -88,5 +87,4 @@ final class GettypeFunctionReturnTypeExtension implements DynamicFunctionReturnT
 			);
 		});
 	}
-
 }

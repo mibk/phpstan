@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Properties;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassPropertiesNode;
 use PHPStan\Reflection\ConstructorsHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -15,7 +15,6 @@ use function sprintf;
  */
 final class UninitializedPropertyRule implements Rule
 {
-
 	public function __construct(
 		private ConstructorsHelper $constructorsHelper,
 	)
@@ -64,5 +63,4 @@ final class UninitializedPropertyRule implements Rule
 
 		return $errors;
 	}
-
 }

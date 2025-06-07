@@ -1,12 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\Const_;
 use PHPStan\BetterReflection\Identifier\Identifier;
 use PHPStan\BetterReflection\Identifier\IdentifierType;
 use PHPStan\BetterReflection\Reflection\Reflection;
@@ -19,8 +14,14 @@ use PHPStan\Node\Expr\TypeExpr;
 use PHPStan\Reflection\ConstantNameHelper;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ConstantTypeHelper;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt\Const_;
 use ReflectionClass;
 use ReflectionFunction;
+use const PHP_VERSION_ID;
 use function array_key_exists;
 use function array_keys;
 use function class_exists;
@@ -37,7 +38,6 @@ use function set_error_handler;
 use function spl_autoload_functions;
 use function strtolower;
 use function trait_exists;
-use const PHP_VERSION_ID;
 
 /**
  * Use PHP's built in autoloader to locate a class, without actually loading.
@@ -49,10 +49,9 @@ use const PHP_VERSION_ID;
  */
 final class AutoloadSourceLocator implements SourceLocator
 {
-
 	/** @var array{classes: array<string, string>, functions: array<string, string>, constants: array<string, string>} */
 	private array $presentSymbols = [
-		'classes' => [],
+		'classes'   => [],
 		'functions' => [],
 		'constants' => [],
 	];
@@ -109,10 +108,10 @@ final class AutoloadSourceLocator implements SourceLocator
 					new Arg(new String_($constantName)),
 					new Arg(new TypeExpr(ConstantTypeHelper::getTypeFromValue($constantValue))),
 				], [
-					'startLine' => 1,
-					'endLine' => 1,
+					'startLine'    => 1,
+					'endLine'      => 1,
 					'startFilePos' => 1,
-					'endFilePos' => 4,
+					'endFilePos'   => 4,
 				]),
 				new LocatedSource('<?php', $constantName, null),
 				null,
@@ -133,10 +132,10 @@ final class AutoloadSourceLocator implements SourceLocator
 				$reflection = $this->getReflectionClass($identifier->getName());
 				if (
 					$reflection !== null
-					&& $reflection->getStartLine() !== false
-					&& is_string($reflection->getFileName())
-					&& is_file($reflection->getFileName())
-					&& $reflection->getFileName() === $this->presentSymbols['classes'][$loweredClassName]
+						&& $reflection->getStartLine() !== false
+						&& is_string($reflection->getFileName())
+						&& is_file($reflection->getFileName())
+						&& $reflection->getFileName() === $this->presentSymbols['classes'][$loweredClassName]
 				) {
 					$startLine = $reflection->getStartLine();
 				}
@@ -333,7 +332,8 @@ final class AutoloadSourceLocator implements SourceLocator
 
 		try {
 			$result = FileReadTrapStreamWrapper::withStreamWrapperOverride(
-				static function () use ($className): ?array {
+				static function() use ($className): ?array
+				{
 					$functions = spl_autoload_functions();
 					if ($functions === false) {
 						return null;
@@ -376,7 +376,6 @@ final class AutoloadSourceLocator implements SourceLocator
 
 	private function silenceErrors(): void
 	{
-		set_error_handler(static fn (): bool => true);
+		set_error_handler(static fn(): bool => true);
 	}
-
 }

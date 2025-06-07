@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -8,9 +8,8 @@ use ReturnTypeWillChange;
 
 final class ExportedPhpDocNode implements ExportedNode, JsonSerializable
 {
-
 	/**
-	 * @param array<string, string> $uses alias(string) => fullName(string)
+	 * @param array<string, string> $uses      alias(string) => fullName(string)
 	 * @param array<string, string> $constUses alias(string) => fullName(string)
 	 */
 	public function __construct(private string $phpDocString, private ?string $namespace, private array $uses, private array $constUses)
@@ -19,7 +18,7 @@ final class ExportedPhpDocNode implements ExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -39,9 +38,9 @@ final class ExportedPhpDocNode implements ExportedNode, JsonSerializable
 			'type' => self::class,
 			'data' => [
 				'phpDocString' => $this->phpDocString,
-				'namespace' => $this->namespace,
-				'uses' => $this->uses,
-				'constUses' => $this->constUses,
+				'namespace'    => $this->namespace,
+				'uses'         => $this->uses,
+				'constUses'    => $this->constUses,
 			],
 		];
 	}
@@ -61,5 +60,4 @@ final class ExportedPhpDocNode implements ExportedNode, JsonSerializable
 	{
 		return new self($data['phpDocString'], $data['namespace'], $data['uses'], $data['constUses'] ?? []);
 	}
-
 }

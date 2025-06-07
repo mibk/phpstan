@@ -1,17 +1,16 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\ShouldNotHappenException;
 use PhpParser\Error;
 use PhpParser\ErrorHandler;
 use PhpParser\Node;
 use PhpParser\Parser;
-use PHPStan\ShouldNotHappenException;
 use function sprintf;
 
 final class PhpParserDecorator implements Parser
 {
-
 	public function __construct(private \PHPStan\Parser\Parser $wrappedParser)
 	{
 	}
@@ -36,5 +35,4 @@ final class PhpParserDecorator implements Parser
 	{
 		throw new ShouldNotHappenException('PhpParserDecorator::getTokens() should not be called');
 	}
-
 }

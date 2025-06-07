@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Methods;
 
@@ -12,16 +12,14 @@ use PHPStan\Reflection\ExtendedMethodReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.methods.alwaysUsedMethodExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.methods.alwaysUsedMethodExtension
  * ```
  *
  * @api
  */
 interface AlwaysUsedMethodExtension
 {
-
 	public function isAlwaysUsed(ExtendedMethodReflection $methodReflection): bool;
-
 }

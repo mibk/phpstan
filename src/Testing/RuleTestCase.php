@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Testing;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Analyser;
 use PHPStan\Analyser\AnalyserResultFinalizer;
 use PHPStan\Analyser\Error;
@@ -36,6 +35,7 @@ use PHPStan\Rules\Properties\ReadWritePropertiesExtension;
 use PHPStan\Rules\Properties\ReadWritePropertiesExtensionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\FileTypeMapper;
+use PhpParser\Node;
 use function array_map;
 use function array_merge;
 use function count;
@@ -49,7 +49,6 @@ use function str_replace;
  */
 abstract class RuleTestCase extends PHPStanTestCase
 {
-
 	private ?Analyser $analyser = null;
 
 	/**
@@ -139,13 +138,13 @@ abstract class RuleTestCase extends PHPStanTestCase
 	}
 
 	/**
-	 * @param string[] $files
+	 * @param string[]                                        $files
 	 * @param list<array{0: string, 1: int, 2?: string|null}> $expectedErrors
 	 */
 	public function analyse(array $files, array $expectedErrors): void
 	{
 		[$actualErrors, $delayedErrors] = $this->gatherAnalyserErrorsWithDelayedErrors($files);
-		$strictlyTypedSprintf = static function (int $line, string $message, ?string $tip): string {
+		$strictlyTypedSprintf = static function(int $line, string $message, ?string $tip): string {
 			$message = sprintf('%02d: %s', $line, $message);
 			if ($tip !== null) {
 				$message .= "\n    💡 " . $tip;
@@ -155,12 +154,12 @@ abstract class RuleTestCase extends PHPStanTestCase
 		};
 
 		$expectedErrors = array_map(
-			static fn (array $error): string => $strictlyTypedSprintf($error[1], $error[0], $error[2] ?? null),
+			static fn(array $error): string => $strictlyTypedSprintf($error[1], $error[0], $error[2] ?? null),
 			$expectedErrors,
 		);
 
 		$actualErrors = array_map(
-			static function (Error $error) use ($strictlyTypedSprintf): string {
+			static function(Error $error) use ($strictlyTypedSprintf): string {
 				$line = $error->getLine();
 				if ($line === null) {
 					return $strictlyTypedSprintf(-1, $error->getMessage(), $error->getTip());
@@ -221,7 +220,7 @@ abstract class RuleTestCase extends PHPStanTestCase
 	}
 
 	/**
-	 * @param string[] $files
+	 * @param  string[] $files
 	 * @return list<Error>
 	 */
 	public function gatherAnalyserErrors(array $files): array
@@ -230,7 +229,7 @@ abstract class RuleTestCase extends PHPStanTestCase
 	}
 
 	/**
-	 * @param string[] $files
+	 * @param  string[] $files
 	 * @return array{list<Error>, list<IdentifierRuleError>}
 	 */
 	private function gatherAnalyserErrorsWithDelayedErrors(array $files): array
@@ -251,12 +250,12 @@ abstract class RuleTestCase extends PHPStanTestCase
 			true,
 		);
 		if (count($analyserResult->getInternalErrors()) > 0) {
-			$this->fail(implode("\n", array_map(static fn (InternalError $internalError) => $internalError->getMessage(), $analyserResult->getInternalErrors())));
+			$this->fail(implode("\n", array_map(static fn(InternalError $internalError) => $internalError->getMessage(), $analyserResult->getInternalErrors())));
 		}
 
 		if ($this->shouldFailOnPhpErrors() && count($analyserResult->getAllPhpErrors()) > 0) {
 			$this->fail(implode("\n", array_map(
-				static fn (Error $error): string => sprintf('%s on %s:%d', $error->getMessage(), $error->getFile(), $error->getLine()),
+				static fn(Error $error): string => sprintf('%s on %s:%d', $error->getMessage(), $error->getFile(), $error->getLine()),
 				$analyserResult->getAllPhpErrors(),
 			)));
 		}
@@ -302,5 +301,4 @@ abstract class RuleTestCase extends PHPStanTestCase
 			__DIR__ . '/../../conf/bleedingEdge.neon',
 		];
 	}
-
 }

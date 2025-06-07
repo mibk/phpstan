@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
-use PhpParser\ErrorHandler\Collecting;
-use PhpParser\Node;
-use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor\NameResolver;
-use PhpParser\Token;
 use PHPStan\Analyser\Ignore\IgnoreLexer;
 use PHPStan\Analyser\Ignore\IgnoreParseException;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\File\FileReader;
 use PHPStan\ShouldNotHappenException;
+use PhpParser\ErrorHandler\Collecting;
+use PhpParser\Node;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\NameResolver;
+use PhpParser\Token;
+use const ARRAY_FILTER_USE_KEY;
+use const PREG_OFFSET_CAPTURE;
+use const T_COMMENT;
+use const T_DOC_COMMENT;
+use const T_WHITESPACE;
 use function array_filter;
 use function array_map;
 use function count;
@@ -24,15 +29,9 @@ use function strlen;
 use function strpos;
 use function substr;
 use function substr_count;
-use const ARRAY_FILTER_USE_KEY;
-use const PREG_OFFSET_CAPTURE;
-use const T_COMMENT;
-use const T_DOC_COMMENT;
-use const T_WHITESPACE;
 
 final class RichParser implements Parser
 {
-
 	public const VISITOR_SERVICE_TAG = 'phpstan.parser.richParserNodeVisitor';
 
 	private const PHPDOC_TAG_REGEX = '(@(?:[a-z][a-z0-9-\\\\]+:)?[a-z][a-z0-9-\\\\]*+)';
@@ -49,7 +48,7 @@ final class RichParser implements Parser
 	}
 
 	/**
-	 * @param string $file path to a file to parse
+	 * @param  string $file path to a file to parse
 	 * @return Node\Stmt[]
 	 */
 	public function parseFile(string $file): array
@@ -99,7 +98,7 @@ final class RichParser implements Parser
 
 		foreach ($traitCollectingVisitor->traits as $trait) {
 			$preexisting = $trait->getAttribute('linesToIgnore', []);
-			$filteredLinesToIgnore = array_filter($linesToIgnore, static fn (int $line): bool => $line >= $trait->getStartLine() && $line <= $trait->getEndLine(), ARRAY_FILTER_USE_KEY);
+			$filteredLinesToIgnore = array_filter($linesToIgnore, static fn(int $line): bool => $line >= $trait->getStartLine() && $line <= $trait->getEndLine(), ARRAY_FILTER_USE_KEY);
 			foreach ($preexisting as $line => $ignores) {
 				$filteredLinesToIgnore[$line] = $ignores;
 			}
@@ -110,7 +109,7 @@ final class RichParser implements Parser
 	}
 
 	/**
-	 * @param Token[] $tokens
+	 * @param  Token[] $tokens
 	 * @return array{lines: array<int, non-empty-list<string>|null>, errors: array<int, non-empty-list<string>>}
 	 */
 	private function getLinesToIgnore(array $tokens): array
@@ -181,7 +180,6 @@ final class RichParser implements Parser
 				if ($isNextLine || $isCurrentLine) {
 					continue;
 				}
-
 			} else {
 				if ($isNextLine) {
 					$line++;
@@ -235,7 +233,7 @@ final class RichParser implements Parser
 		}
 
 		return [
-			'lines' => $lines,
+			'lines'  => $lines,
 			'errors' => $processedErrors,
 		];
 	}
@@ -297,7 +295,7 @@ final class RichParser implements Parser
 			if ($expected !== null && !in_array($tokenType, $expected, true)) {
 				$tokenTypeLabel = $this->ignoreLexer->getLabel($tokenType);
 				$otherTokenContent = $tokenType === IgnoreLexer::TOKEN_OTHER ? sprintf(" '%s'", $content) : '';
-				$expectedLabels = implode(' or ', array_map(fn ($token) => $this->ignoreLexer->getLabel($token), $expected));
+				$expectedLabels = implode(' or ', array_map(fn($token) => $this->ignoreLexer->getLabel($token), $expected));
 
 				throw new IgnoreParseException(sprintf('Unexpected %s%s after %s, expected %s', $tokenTypeLabel, $otherTokenContent, $lastTokenTypeLabel, $expectedLabels), $tokenLine);
 			}
@@ -342,5 +340,4 @@ final class RichParser implements Parser
 
 		return $identifiers;
 	}
-
 }

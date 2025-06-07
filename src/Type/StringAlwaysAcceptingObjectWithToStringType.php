@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -6,7 +6,6 @@ use PHPStan\Reflection\ReflectionProviderStaticAccessor;
 
 class StringAlwaysAcceptingObjectWithToStringType extends StringType
 {
-
 	public function isSuperTypeOf(Type $type): IsSuperTypeOfResult
 	{
 		if ($type instanceof CompoundType) {
@@ -52,5 +51,4 @@ class StringAlwaysAcceptingObjectWithToStringType extends StringType
 
 		return $result;
 	}
-
 }

@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Arg;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Reflection\ReflectionProvider;
@@ -11,6 +9,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
+use PhpParser\Node;
+use PhpParser\Node\Arg;
 use function in_array;
 use function sprintf;
 
@@ -20,13 +20,11 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class CallToFunctionStatementWithoutSideEffectsRule implements Rule
 {
-
 	private const SIDE_EFFECT_FLIP_PARAMETERS = [
 		// functionName => [name, pos, testName]
-		'print_r' => ['return', 1, 'isTruthy'],
-		'var_export' => ['return', 1, 'isTruthy'],
+		'print_r'          => ['return', 1, 'isTruthy'],
+		'var_export'       => ['return', 1, 'isTruthy'],
 		'highlight_string' => ['return', 1, 'isTruthy'],
-
 	];
 
 	public const PHPSTAN_TESTING_FUNCTIONS = [
@@ -49,7 +47,7 @@ final class CallToFunctionStatementWithoutSideEffectsRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->expr instanceof Node\Expr\FuncCall) {
+		if (! $node->expr instanceof Node\Expr\FuncCall) {
 			return [];
 		}
 
@@ -80,12 +78,12 @@ final class CallToFunctionStatementWithoutSideEffectsRule implements Rule
 			$sideEffectFlipped = false;
 			$hasNamedParameter = false;
 			$checker = [
-				'isNotNull' => static fn (Type $type) => $type->isNull()->no(),
-				'isTruthy' => static fn (Type $type) => $type->toBoolean()->isTrue()->yes(),
+				'isNotNull' => static fn(Type $type) => $type->isNull()->no(),
+				'isTruthy'  => static fn(Type $type) => $type->toBoolean()->isTrue()->yes(),
 			][$testName];
 
 			foreach ($funcCall->getRawArgs() as $i => $arg) {
-				if (!$arg instanceof Arg) {
+				if (! $arg instanceof Arg) {
 					return [];
 				}
 
@@ -138,5 +136,4 @@ final class CallToFunctionStatementWithoutSideEffectsRule implements Rule
 
 		return [];
 	}
-
 }

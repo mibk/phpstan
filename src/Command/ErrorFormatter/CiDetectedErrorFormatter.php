@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Command\ErrorFormatter;
 
@@ -14,7 +14,6 @@ use PHPStan\DependencyInjection\AutowiredService;
 #[AutowiredService(as: CiDetectedErrorFormatter::class)]
 final class CiDetectedErrorFormatter implements ErrorFormatter
 {
-
 	public function __construct(
 		private GithubErrorFormatter $githubErrorFormatter,
 		private TeamcityErrorFormatter $teamcityErrorFormatter,
@@ -43,5 +42,4 @@ final class CiDetectedErrorFormatter implements ErrorFormatter
 
 		return $analysisResult->getTotalErrorsCount() > 0 ? 1 : 0;
 	}
-
 }

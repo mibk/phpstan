@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Constants;
 
@@ -13,9 +13,9 @@ use PHPStan\Reflection\ClassConstantReflection;
  * ```
  * services:
  * 	-
- *		class: App\PHPStan\MyExtension
- *		tags:
- *			- phpstan.constants.alwaysUsedClassConstantsExtension
+ * *		class: App\PHPStan\MyExtension
+ * *		tags:
+ * *			- phpstan.constants.alwaysUsedClassConstantsExtension
  * ```
  *
  * Learn more: https://phpstan.org/developing-extensions/always-used-class-constants
@@ -24,7 +24,5 @@ use PHPStan\Reflection\ClassConstantReflection;
  */
 interface AlwaysUsedClassConstantsExtension
 {
-
 	public function isAlwaysUsed(ClassConstantReflection $constant): bool;
-
 }

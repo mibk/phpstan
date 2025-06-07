@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\InternalTag;
 
@@ -12,7 +12,6 @@ use function strtolower;
 
 final class RestrictedInternalClassNameUsageExtension implements RestrictedClassNameUsageExtension
 {
-
 	public function __construct(
 		private RestrictedInternalUsageHelper $helper,
 	)
@@ -65,5 +64,4 @@ final class RestrictedInternalClassNameUsageExtension implements RestrictedClass
 			$location->createIdentifier(sprintf('internal%s', $classReflection->getClassTypeDescription())),
 		);
 	}
-
 }

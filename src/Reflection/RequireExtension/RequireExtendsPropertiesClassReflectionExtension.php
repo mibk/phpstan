@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\RequireExtension;
 
@@ -10,7 +10,6 @@ use PHPStan\ShouldNotHappenException;
 
 final class RequireExtendsPropertiesClassReflectionExtension implements PropertiesClassReflectionExtension
 {
-
 	public function hasProperty(ClassReflection $classReflection, string $propertyName): bool
 	{
 		return $this->findProperty($classReflection, $propertyName) !== null;
@@ -53,5 +52,4 @@ final class RequireExtendsPropertiesClassReflectionExtension implements Properti
 
 		return null;
 	}
-
 }

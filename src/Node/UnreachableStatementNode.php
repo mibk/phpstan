@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -9,7 +9,6 @@ use PhpParser\Node\Stmt;
  */
 final class UnreachableStatementNode extends Stmt implements VirtualNode
 {
-
 	/** @param Stmt[] $nextStatements */
 	public function __construct(private Stmt $originalStatement, private array $nextStatements = [])
 	{
@@ -41,5 +40,4 @@ final class UnreachableStatementNode extends Stmt implements VirtualNode
 	{
 		return $this->nextStatements;
 	}
-
 }

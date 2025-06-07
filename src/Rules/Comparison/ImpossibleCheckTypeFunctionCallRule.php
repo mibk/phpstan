@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Comparison;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredParameter;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Parser\LastConditionVisitor;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 4)]
 final class ImpossibleCheckTypeFunctionCallRule implements Rule
 {
-
 	public function __construct(
 		private ImpossibleCheckTypeHelper $impossibleCheckTypeHelper,
 		#[AutowiredParameter]
@@ -37,7 +36,7 @@ final class ImpossibleCheckTypeFunctionCallRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->name instanceof Node\Name) {
+		if (! $node->name instanceof Node\Name) {
 			return [];
 		}
 
@@ -47,7 +46,7 @@ final class ImpossibleCheckTypeFunctionCallRule implements Rule
 			return [];
 		}
 
-		$addTip = function (RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
+		$addTip = function(RuleErrorBuilder $ruleErrorBuilder) use ($scope, $node): RuleErrorBuilder {
 			if (!$this->treatPhpDocTypesAsCertain) {
 				return $ruleErrorBuilder;
 			}
@@ -91,5 +90,4 @@ final class ImpossibleCheckTypeFunctionCallRule implements Rule
 
 		return [$errorBuilder->build()];
 	}
-
 }

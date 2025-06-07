@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -18,6 +17,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\FuncCall;
 use function count;
 use function in_array;
 use function preg_match_all;
@@ -25,7 +25,6 @@ use function preg_match_all;
 #[AutowiredService]
 final class SscanfFunctionDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
-
 	public function isFunctionSupported(FunctionReflection $functionReflection): bool
 	{
 		return in_array($functionReflection->getName(), ['sscanf', 'fscanf'], true);
@@ -44,7 +43,7 @@ final class SscanfFunctionDynamicReturnTypeExtension implements DynamicFunctionR
 
 		$formatType = $scope->getType($args[1]->value);
 
-		if (!$formatType instanceof ConstantStringType) {
+		if (! $formatType instanceof ConstantStringType) {
 			return null;
 		}
 
@@ -87,5 +86,4 @@ final class SscanfFunctionDynamicReturnTypeExtension implements DynamicFunctionR
 
 		return null;
 	}
-
 }

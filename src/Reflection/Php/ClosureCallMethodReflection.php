@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -23,7 +23,6 @@ use function is_bool;
 
 final class ClosureCallMethodReflection implements ExtendedMethodReflection
 {
-
 	public function __construct(
 		private ExtendedMethodReflection $nativeMethodReflection,
 		private ClosureType $closureType,
@@ -84,7 +83,7 @@ final class ClosureCallMethodReflection implements ExtendedMethodReflection
 			new ExtendedFunctionVariant(
 				$this->closureType->getTemplateTypeMap(),
 				$this->closureType->getResolvedTemplateTypeMap(),
-				array_map(static fn (ParameterReflection $parameter): ExtendedParameterReflection => new ExtendedDummyParameter(
+				array_map(static fn(ParameterReflection $parameter): ExtendedParameterReflection => new ExtendedDummyParameter(
 					$parameter->getName(),
 					$parameter->getType(),
 					$parameter->isOptional(),
@@ -201,5 +200,4 @@ final class ClosureCallMethodReflection implements ExtendedMethodReflection
 	{
 		return $this->nativeMethodReflection->getAttributes();
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Constants;
 
@@ -8,7 +8,6 @@ use PHPStan\DependencyInjection\Container;
 #[AutowiredService]
 final class LazyAlwaysUsedClassConstantsExtensionProvider implements AlwaysUsedClassConstantsExtensionProvider
 {
-
 	/** @var AlwaysUsedClassConstantsExtension[]|null */
 	private ?array $extensions = null;
 
@@ -24,5 +23,4 @@ final class LazyAlwaysUsedClassConstantsExtensionProvider implements AlwaysUsedC
 
 		return $this->extensions;
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Php;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 
 final class EnumUnresolvedPropertyPrototypeReflection implements UnresolvedPropertyPrototypeReflection
 {
-
 	public function __construct(private EnumPropertyReflection $property)
 	{
 	}
@@ -32,5 +31,4 @@ final class EnumUnresolvedPropertyPrototypeReflection implements UnresolvedPrope
 	{
 		return $this;
 	}
-
 }

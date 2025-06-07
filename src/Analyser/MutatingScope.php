@@ -1,36 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
 use ArrayAccess;
 use Closure;
 use Generator;
-use PhpParser\Node;
-use PhpParser\Node\Arg;
-use PhpParser\Node\ComplexType;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\BinaryOp;
-use PhpParser\Node\Expr\Cast\Bool_;
-use PhpParser\Node\Expr\Cast\Double;
-use PhpParser\Node\Expr\Cast\Int_;
-use PhpParser\Node\Expr\Cast\Object_;
-use PhpParser\Node\Expr\Cast\Unset_;
-use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\InterpolatedStringPart;
-use PhpParser\Node\Name;
-use PhpParser\Node\Name\FullyQualified;
-use PhpParser\Node\PropertyHook;
-use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
-use PhpParser\NodeFinder;
 use PHPStan\Node\ExecutionEndNode;
 use PHPStan\Node\Expr\AlwaysRememberedExpr;
 use PHPStan\Node\Expr\ExistingArrayDimFetch;
@@ -136,8 +110,35 @@ use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use PHPStan\Type\VoidType;
-use stdClass;
+use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\ComplexType;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\BinaryOp;
+use PhpParser\Node\Expr\Cast\Bool_;
+use PhpParser\Node\Expr\Cast\Double;
+use PhpParser\Node\Expr\Cast\Int_;
+use PhpParser\Node\Expr\Cast\Object_;
+use PhpParser\Node\Expr\Cast\Unset_;
+use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\InterpolatedStringPart;
+use PhpParser\Node\Name;
+use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\PropertyHook;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
+use PhpParser\NodeFinder;
 use Throwable;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use function abs;
 use function array_filter;
 use function array_key_exists;
@@ -165,12 +166,10 @@ use function strlen;
 use function strtolower;
 use function substr;
 use function usort;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
+use stdClass;
 
 final class MutatingScope implements Scope
 {
-
 	private const BOOLEAN_EXPRESSION_MAX_PROCESS_DEPTH = 4;
 
 	private const KEEP_VOID_ATTRIBUTE_NAME = 'keepVoid';
@@ -194,13 +193,13 @@ final class MutatingScope implements Scope
 	private static int $resolveClosureTypeDepth = 0;
 
 	/**
-	 * @param int|array{min: int, max: int}|null $configPhpVersion
-	 * @param array<string, ExpressionTypeHolder> $expressionTypes
-	 * @param array<string, ConditionalExpressionHolder[]> $conditionalExpressions
-	 * @param list<string> $inClosureBindScopeClasses
-	 * @param array<string, true> $currentlyAssignedExpressions
-	 * @param array<string, true> $currentlyAllowedUndefinedExpressions
-	 * @param array<string, ExpressionTypeHolder> $nativeExpressionTypes
+	 * @param int|array{min: int, max: int}|null                                              $configPhpVersion
+	 * @param array<string, ExpressionTypeHolder>                                             $expressionTypes
+	 * @param array<string, ConditionalExpressionHolder[]>                                    $conditionalExpressions
+	 * @param list<string>                                                                    $inClosureBindScopeClasses
+	 * @param array<string, true>                                                             $currentlyAssignedExpressions
+	 * @param array<string, true>                                                             $currentlyAllowedUndefinedExpressions
+	 * @param array<string, ExpressionTypeHolder>                                             $nativeExpressionTypes
 	 * @param list<array{MethodReflection|FunctionReflection|null, ParameterReflection|null}> $inFunctionCallsStack
 	 */
 	public function __construct(
@@ -296,7 +295,7 @@ final class MutatingScope implements Scope
 	}
 
 	/**
-	 * @param array<string, ExpressionTypeHolder> $currentExpressionTypes
+	 * @param  array<string, ExpressionTypeHolder> $currentExpressionTypes
 	 * @return array<string, ExpressionTypeHolder>
 	 */
 	private function rememberConstructorExpressions(array $currentExpressionTypes): array
@@ -306,17 +305,17 @@ final class MutatingScope implements Scope
 			$expr = $expressionTypeHolder->getExpr();
 			if ($expr instanceof FuncCall) {
 				if (
-					!$expr->name instanceof Name
-					|| !in_array($expr->name->name, ['class_exists', 'function_exists'], true)
+					! $expr->name instanceof Name
+						|| !in_array($expr->name->name, ['class_exists', 'function_exists'], true)
 				) {
 					continue;
 				}
 			} elseif ($expr instanceof PropertyFetch) {
 				if (
-					!$expr->name instanceof Node\Identifier
-					|| !$expr->var instanceof Variable
-					|| $expr->var->name !== 'this'
-					|| !$this->phpVersion->supportsReadOnlyProperties()
+					! $expr->name instanceof Node\Identifier
+						|| ! $expr->var instanceof Variable
+						|| $expr->var->name !== 'this'
+						|| !$this->phpVersion->supportsReadOnlyProperties()
 				) {
 					continue;
 				}
@@ -328,9 +327,9 @@ final class MutatingScope implements Scope
 
 				$nativePropertyReflection = $propertyReflection->getNativeReflection();
 				if ($nativePropertyReflection === null || !$nativePropertyReflection->isReadOnly()) {
-						continue;
+					continue;
 				}
-			} elseif (!$expr instanceof ConstFetch && !$expr instanceof PropertyInitializationExpr) {
+			} elseif (! $expr instanceof ConstFetch && ! $expr instanceof PropertyInitializationExpr) {
 				continue;
 			}
 
@@ -789,8 +788,8 @@ final class MutatingScope implements Scope
 		$attributes = $node->getAttributes();
 		if (
 			$node instanceof Node\FunctionLike
-			&& (($attributes[ArrayMapArgVisitor::ATTRIBUTE_NAME] ?? null) !== null)
-			&& (($attributes['startFilePos'] ?? null) !== null)
+				&& (($attributes[ArrayMapArgVisitor::ATTRIBUTE_NAME] ?? null) !== null)
+				&& (($attributes['startFilePos'] ?? null) !== null)
 		) {
 			$key .= '/*' . $attributes['startFilePos'] . '*/';
 		}
@@ -839,7 +838,7 @@ final class MutatingScope implements Scope
 			return new NonAcceptingNeverType();
 		}
 
-		if (!$node instanceof Variable && $this->hasExpressionType($node)->yes()) {
+		if (! $node instanceof Variable && $this->hasExpressionType($node)->yes()) {
 			return $this->expressionTypes[$exprString]->getType();
 		}
 
@@ -866,10 +865,10 @@ final class MutatingScope implements Scope
 		if ($node instanceof Expr\BinaryOp\Equal) {
 			if (
 				$node->left instanceof Variable
-				&& is_string($node->left->name)
-				&& $node->right instanceof Variable
-				&& is_string($node->right->name)
-				&& $node->left->name === $node->right->name
+					&& is_string($node->left->name)
+					&& $node->right instanceof Variable
+					&& is_string($node->right->name)
+					&& $node->left->name === $node->right->name
 			) {
 				return new ConstantBooleanType(true);
 			}
@@ -885,7 +884,8 @@ final class MutatingScope implements Scope
 		}
 
 		if ($node instanceof Expr\Empty_) {
-			$result = $this->issetCheck($node->expr, static function (Type $type): ?bool {
+			$result = $this->issetCheck($node->expr, static function(Type $type): ?bool
+			{
 				$isNull = $type->isNull();
 				$isFalsey = $type->toBoolean()->isFalse();
 				if ($isNull->maybe()) {
@@ -918,12 +918,12 @@ final class MutatingScope implements Scope
 		}
 
 		if ($node instanceof Node\Expr\BitwiseNot) {
-			return $this->initializerExprTypeResolver->getBitwiseNotType($node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getBitwiseNotType($node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if (
 			$node instanceof Node\Expr\BinaryOp\BooleanAnd
-			|| $node instanceof Node\Expr\BinaryOp\LogicalAnd
+				|| $node instanceof Node\Expr\BinaryOp\LogicalAnd
 		) {
 			$leftBooleanType = $this->getType($node->left)->toBoolean();
 			if ($leftBooleanType->isFalse()->yes()) {
@@ -931,7 +931,7 @@ final class MutatingScope implements Scope
 			}
 
 			if ($this->getBooleanExpressionDepth($node->left) <= self::BOOLEAN_EXPRESSION_MAX_PROCESS_DEPTH) {
-				$noopCallback = static function (): void {
+				$noopCallback = static function(): void {
 				};
 				$leftResult = $this->nodeScopeResolver->processExprNode(new Node\Stmt\Expression($node->left), $node->left, $this, $noopCallback, ExpressionContext::createDeep());
 				$rightBooleanType = $leftResult->getTruthyScope()->getType($node->right)->toBoolean();
@@ -945,7 +945,7 @@ final class MutatingScope implements Scope
 
 			if (
 				$leftBooleanType->isTrue()->yes()
-				&& $rightBooleanType->isTrue()->yes()
+					&& $rightBooleanType->isTrue()->yes()
 			) {
 				return new ConstantBooleanType(true);
 			}
@@ -955,7 +955,7 @@ final class MutatingScope implements Scope
 
 		if (
 			$node instanceof Node\Expr\BinaryOp\BooleanOr
-			|| $node instanceof Node\Expr\BinaryOp\LogicalOr
+				|| $node instanceof Node\Expr\BinaryOp\LogicalOr
 		) {
 			$leftBooleanType = $this->getType($node->left)->toBoolean();
 			if ($leftBooleanType->isTrue()->yes()) {
@@ -963,7 +963,7 @@ final class MutatingScope implements Scope
 			}
 
 			if ($this->getBooleanExpressionDepth($node->left) <= self::BOOLEAN_EXPRESSION_MAX_PROCESS_DEPTH) {
-				$noopCallback = static function (): void {
+				$noopCallback = static function(): void {
 				};
 				$leftResult = $this->nodeScopeResolver->processExprNode(new Node\Stmt\Expression($node->left), $node->left, $this, $noopCallback, ExpressionContext::createDeep());
 				$rightBooleanType = $leftResult->getFalseyScope()->getType($node->right)->toBoolean();
@@ -977,7 +977,7 @@ final class MutatingScope implements Scope
 
 			if (
 				$leftBooleanType->isFalse()->yes()
-				&& $rightBooleanType->isFalse()->yes()
+					&& $rightBooleanType->isFalse()->yes()
 			) {
 				return new ConstantBooleanType(false);
 			}
@@ -991,7 +991,7 @@ final class MutatingScope implements Scope
 
 			if (
 				$leftBooleanType instanceof ConstantBooleanType
-				&& $rightBooleanType instanceof ConstantBooleanType
+					&& $rightBooleanType instanceof ConstantBooleanType
 			) {
 				return new ConstantBooleanType(
 					$leftBooleanType->getValue() xor $rightBooleanType->getValue(),
@@ -1013,7 +1013,7 @@ final class MutatingScope implements Scope
 			$expressionType = $this->getType($node->expr);
 			if (
 				$this->isInTrait()
-				&& TypeUtils::findThisType($expressionType) !== null
+					&& TypeUtils::findThisType($expressionType) !== null
 			) {
 				return new BooleanType();
 			}
@@ -1027,7 +1027,7 @@ final class MutatingScope implements Scope
 				$unresolvedClassName = $node->class->toString();
 				if (
 					strtolower($unresolvedClassName) === 'static'
-					&& $this->isInClass()
+						&& $this->isInClass()
 				) {
 					$classType = new StaticType($this->getClassReflection());
 				} else {
@@ -1036,7 +1036,7 @@ final class MutatingScope implements Scope
 				}
 			} else {
 				$classType = $this->getType($node->class);
-				$classType = TypeTraverser::map($classType, static function (Type $type, callable $traverse) use (&$uncertainty): Type {
+				$classType = TypeTraverser::map($classType, static function(Type $type, callable $traverse) use (&$uncertainty): Type {
 					if ($type instanceof UnionType || $type instanceof IntersectionType) {
 						return $traverse($type);
 					}
@@ -1081,107 +1081,107 @@ final class MutatingScope implements Scope
 		}
 
 		if ($node instanceof Node\Expr\UnaryMinus) {
-			return $this->initializerExprTypeResolver->getUnaryMinusType($node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getUnaryMinusType($node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\BinaryOp\Concat) {
-			return $this->initializerExprTypeResolver->getConcatType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getConcatType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\Concat) {
-			return $this->initializerExprTypeResolver->getConcatType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getConcatType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\BitwiseAnd) {
-			return $this->initializerExprTypeResolver->getBitwiseAndType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getBitwiseAndType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\BitwiseAnd) {
-			return $this->initializerExprTypeResolver->getBitwiseAndType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getBitwiseAndType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\BitwiseOr) {
-			return $this->initializerExprTypeResolver->getBitwiseOrType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getBitwiseOrType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\BitwiseOr) {
-			return $this->initializerExprTypeResolver->getBitwiseOrType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getBitwiseOrType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\BitwiseXor) {
-			return $this->initializerExprTypeResolver->getBitwiseXorType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getBitwiseXorType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\BitwiseXor) {
-			return $this->initializerExprTypeResolver->getBitwiseXorType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getBitwiseXorType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\BinaryOp\Spaceship) {
-			return $this->initializerExprTypeResolver->getSpaceshipType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getSpaceshipType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\Div) {
-			return $this->initializerExprTypeResolver->getDivType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getDivType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\Div) {
-			return $this->initializerExprTypeResolver->getDivType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getDivType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\Mod) {
-			return $this->initializerExprTypeResolver->getModType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getModType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\Mod) {
-			return $this->initializerExprTypeResolver->getModType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getModType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\Plus) {
-			return $this->initializerExprTypeResolver->getPlusType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getPlusType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\Plus) {
-			return $this->initializerExprTypeResolver->getPlusType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getPlusType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\Minus) {
-			return $this->initializerExprTypeResolver->getMinusType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getMinusType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\Minus) {
-			return $this->initializerExprTypeResolver->getMinusType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getMinusType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\Mul) {
-			return $this->initializerExprTypeResolver->getMulType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getMulType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\Mul) {
-			return $this->initializerExprTypeResolver->getMulType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getMulType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\Pow) {
-			return $this->initializerExprTypeResolver->getPowType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getPowType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\Pow) {
-			return $this->initializerExprTypeResolver->getPowType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getPowType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\ShiftLeft) {
-			return $this->initializerExprTypeResolver->getShiftLeftType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getShiftLeftType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\ShiftLeft) {
-			return $this->initializerExprTypeResolver->getShiftLeftType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getShiftLeftType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof BinaryOp\ShiftRight) {
-			return $this->initializerExprTypeResolver->getShiftRightType($node->left, $node->right, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getShiftRightType($node->left, $node->right, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\AssignOp\ShiftRight) {
-			return $this->initializerExprTypeResolver->getShiftRightType($node->var, $node->expr, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getShiftRightType($node->var, $node->expr, fn(Expr $expr): Type => $this->getType($expr));
 		}
 
 		if ($node instanceof Expr\Clone_) {
@@ -1237,7 +1237,7 @@ final class MutatingScope implements Scope
 			}
 
 			if ($node instanceof MethodCall) {
-				if (!$node->name instanceof Node\Identifier) {
+				if (! $node->name instanceof Node\Identifier) {
 					return new ObjectType(Closure::class);
 				}
 
@@ -1254,11 +1254,11 @@ final class MutatingScope implements Scope
 			}
 
 			if ($node instanceof Expr\StaticCall) {
-				if (!$node->class instanceof Name) {
+				if (! $node->class instanceof Name) {
 					return new ObjectType(Closure::class);
 				}
 
-				if (!$node->name instanceof Node\Identifier) {
+				if (! $node->name instanceof Node\Identifier) {
 					return new ObjectType(Closure::class);
 				}
 
@@ -1300,7 +1300,7 @@ final class MutatingScope implements Scope
 				if ($param->variadic) {
 					$isVariadic = true;
 				}
-				if (!$param->var instanceof Variable || !is_string($param->var->name)) {
+				if (! $param->var instanceof Variable || !is_string($param->var->name)) {
 					throw new ShouldNotHappenException();
 				}
 				$parameters[] = new NativeParameterReflection(
@@ -1376,7 +1376,7 @@ final class MutatingScope implements Scope
 					new Node\Stmt\Expression($node->expr),
 					$node->expr,
 					$arrowScope,
-					static function (Node $node, Scope $scope) use ($arrowScope, &$arrowFunctionImpurePoints, &$invalidateExpressions): void {
+					static function(Node $node, Scope $scope) use ($arrowScope, &$arrowFunctionImpurePoints, &$invalidateExpressions): void {
 						if ($scope->getAnonymousFunctionReflection() !== $arrowScope->getAnonymousFunctionReflection()) {
 							return;
 						}
@@ -1386,7 +1386,7 @@ final class MutatingScope implements Scope
 							return;
 						}
 
-						if (!$node instanceof PropertyAssignNode) {
+						if (! $node instanceof PropertyAssignNode) {
 							return;
 						}
 
@@ -1441,7 +1441,7 @@ final class MutatingScope implements Scope
 				$invalidateExpressions = [];
 
 				try {
-					$closureStatementResult = $this->nodeScopeResolver->processStmtNodes($node, $node->stmts, $closureScope, static function (Node $node, Scope $scope) use ($closureScope, &$closureReturnStatements, &$closureYieldStatements, &$onlyNeverExecutionEnds, &$closureImpurePoints, &$invalidateExpressions): void {
+					$closureStatementResult = $this->nodeScopeResolver->processStmtNodes($node, $node->stmts, $closureScope, static function(Node $node, Scope $scope) use ($closureScope, &$closureReturnStatements, &$closureYieldStatements, &$onlyNeverExecutionEnds, &$closureImpurePoints, &$invalidateExpressions): void {
 						if ($scope->getAnonymousFunctionReflection() !== $closureScope->getAnonymousFunctionReflection()) {
 							return;
 						}
@@ -1493,7 +1493,7 @@ final class MutatingScope implements Scope
 							$closureReturnStatements[] = [$node, $scope];
 						}
 
-						if (!$node instanceof Expr\Yield_ && !$node instanceof Expr\YieldFrom) {
+						if (! $node instanceof Expr\Yield_ && ! $node instanceof Expr\YieldFrom) {
 							return;
 						}
 
@@ -1610,16 +1610,16 @@ final class MutatingScope implements Scope
 				);
 			}
 
-			$throwPointsForClosureType = array_map(static fn (ThrowPoint $throwPoint) => $throwPoint->isExplicit() ? SimpleThrowPoint::createExplicit($throwPoint->getType(), $throwPoint->canContainAnyThrowable()) : SimpleThrowPoint::createImplicit(), $throwPoints);
-			$impurePointsForClosureType = array_map(static fn (ImpurePoint $impurePoint) => new SimpleImpurePoint($impurePoint->getIdentifier(), $impurePoint->getDescription(), $impurePoint->isCertain()), $impurePoints);
+			$throwPointsForClosureType = array_map(static fn(ThrowPoint $throwPoint) => $throwPoint->isExplicit() ? SimpleThrowPoint::createExplicit($throwPoint->getType(), $throwPoint->canContainAnyThrowable()) : SimpleThrowPoint::createImplicit(), $throwPoints);
+			$impurePointsForClosureType = array_map(static fn(ImpurePoint $impurePoint) => new SimpleImpurePoint($impurePoint->getIdentifier(), $impurePoint->getDescription(), $impurePoint->isCertain()), $impurePoints);
 
 			$cachedTypes = $node->getAttribute('phpstanCachedTypes', []);
 			$cachedTypes[$this->getClosureScopeCacheKey()] = [
-				'returnType' => $returnType,
-				'throwPoints' => $throwPointsForClosureType,
-				'impurePoints' => $impurePointsForClosureType,
+				'returnType'            => $returnType,
+				'throwPoints'           => $throwPointsForClosureType,
+				'impurePoints'          => $impurePointsForClosureType,
 				'invalidateExpressions' => $invalidateExpressions,
-				'usedVariables' => $usedVariables,
+				'usedVariables'         => $usedVariables,
 			];
 			$node->setAttribute('phpstanCachedTypes', $cachedTypes);
 
@@ -1665,9 +1665,8 @@ final class MutatingScope implements Scope
 
 			$exprType = $this->getType($node->class);
 			return $exprType->getObjectTypeOrClassStringObjectType();
-
 		} elseif ($node instanceof Array_) {
-			return $this->initializerExprTypeResolver->getArrayType($node, fn (Expr $expr): Type => $this->getType($expr));
+			return $this->initializerExprTypeResolver->getArrayType($node, fn(Expr $expr): Type => $this->getType($expr));
 		} elseif ($node instanceof Int_) {
 			return $this->getType($node->expr)->toInteger();
 		} elseif ($node instanceof Bool_) {
@@ -1681,7 +1680,7 @@ final class MutatingScope implements Scope
 		} elseif ($node instanceof Node\Scalar\MagicConst) {
 			return $this->initializerExprTypeResolver->getType($node, InitializerExprContext::fromScope($this));
 		} elseif ($node instanceof Object_) {
-			$castToObject = static function (Type $type): Type {
+			$castToObject = static function(Type $type): Type {
 				$constantArrays = $type->getConstantArrays();
 				if (count($constantArrays) > 0) {
 					$objects = [];
@@ -1689,7 +1688,7 @@ final class MutatingScope implements Scope
 						$properties = [];
 						$optionalProperties = [];
 						foreach ($constantArray->getKeyTypes() as $i => $keyType) {
-							if (!$keyType instanceof ConstantStringType) {
+							if (! $keyType instanceof ConstantStringType) {
 								// an object with integer properties is >weird<
 								continue;
 							}
@@ -1817,13 +1816,13 @@ final class MutatingScope implements Scope
 
 						$conditionCases = [];
 						foreach ($arm->conds as $armCond) {
-							if (!$armCond instanceof Expr\ClassConstFetch) {
+							if (! $armCond instanceof Expr\ClassConstFetch) {
 								continue 2;
 							}
-							if (!$armCond->class instanceof Name) {
+							if (! $armCond->class instanceof Name) {
 								continue 2;
 							}
-							if (!$armCond->name instanceof Node\Identifier) {
+							if (! $armCond->name instanceof Node\Identifier) {
 								continue 2;
 							}
 							$fetchedClassName = $this->resolveName($armCond->class);
@@ -1926,7 +1925,8 @@ final class MutatingScope implements Scope
 		if ($node instanceof Expr\Isset_) {
 			$issetResult = true;
 			foreach ($node->vars as $var) {
-				$result = $this->issetCheck($var, static function (Type $type): ?bool {
+				$result = $this->issetCheck($var, static function(Type $type): ?bool
+				{
 					$isNull = $type->isNull();
 					if ($isNull->maybe()) {
 						return null;
@@ -1960,7 +1960,8 @@ final class MutatingScope implements Scope
 			$issetLeftExpr = new Expr\Isset_([$node->left]);
 			$leftType = $this->filterByTruthyValue($issetLeftExpr)->getType($node->left);
 
-			$result = $this->issetCheck($node->left, static function (Type $type): ?bool {
+			$result = $this->issetCheck($node->left, static function(Type $type): ?bool
+			{
 				$isNull = $type->isNull();
 				if ($isNull->maybe()) {
 					return null;
@@ -2029,12 +2030,12 @@ final class MutatingScope implements Scope
 				$node->class,
 				$node->name->name,
 				$this->isInClass() ? $this->getClassReflection() : null,
-				fn (Expr $expr): Type => $this->getType($expr),
+				fn(Expr $expr): Type => $this->getType($expr),
 			);
 		}
 
 		if ($node instanceof Expr\Ternary) {
-			$noopCallback = static function (): void {
+			$noopCallback = static function(): void {
 			};
 			$condResult = $this->nodeScopeResolver->processExprNode(new Node\Stmt\Expression($node->cond), $node->cond, $this, $noopCallback, ExpressionContext::createDeep());
 			if ($node->if === null) {
@@ -2139,7 +2140,7 @@ final class MutatingScope implements Scope
 			$nameType = $this->getType($node->name);
 			if (count($nameType->getConstantStrings()) > 0) {
 				return TypeCombinator::union(
-					...array_map(fn ($constantString) => $constantString->getValue() === '' ? new ErrorType() : $this
+					...array_map(fn($constantString) => $constantString->getValue() === '' ? new ErrorType() : $this
 						->filterByTruthyValue(new BinaryOp\Identical($node->name, new String_($constantString->getValue())))
 						->getType(new MethodCall($node->var, new Identifier($constantString->getValue()), $node->args)), $nameType->getConstantStrings()),
 				);
@@ -2212,7 +2213,7 @@ final class MutatingScope implements Scope
 			$nameType = $this->getType($node->name);
 			if (count($nameType->getConstantStrings()) > 0) {
 				return TypeCombinator::union(
-					...array_map(fn ($constantString) => $constantString->getValue() === '' ? new ErrorType() : $this
+					...array_map(fn($constantString) => $constantString->getValue() === '' ? new ErrorType() : $this
 						->filterByTruthyValue(new BinaryOp\Identical($node->name, new String_($constantString->getValue())))
 						->getType(new Expr\StaticCall($node->class, new Identifier($constantString->getValue()), $node->args)), $nameType->getConstantStrings()),
 				);
@@ -2251,7 +2252,7 @@ final class MutatingScope implements Scope
 			$nameType = $this->getType($node->name);
 			if (count($nameType->getConstantStrings()) > 0) {
 				return TypeCombinator::union(
-					...array_map(fn ($constantString) => $constantString->getValue() === '' ? new ErrorType() : $this
+					...array_map(fn($constantString) => $constantString->getValue() === '' ? new ErrorType() : $this
 						->filterByTruthyValue(new BinaryOp\Identical($node->name, new String_($constantString->getValue())))
 						->getType(
 							new PropertyFetch($node->var, new Identifier($constantString->getValue())),
@@ -2321,7 +2322,7 @@ final class MutatingScope implements Scope
 			$nameType = $this->getType($node->name);
 			if (count($nameType->getConstantStrings()) > 0) {
 				return TypeCombinator::union(
-					...array_map(fn ($constantString) => $constantString->getValue() === '' ? new ErrorType() : $this
+					...array_map(fn($constantString) => $constantString->getValue() === '' ? new ErrorType() : $this
 						->filterByTruthyValue(new BinaryOp\Identical($node->name, new String_($constantString->getValue())))
 						->getType(new Expr\StaticPropertyFetch($node->class, new Node\VarLikeIdentifier($constantString->getValue()))), $nameType->getConstantStrings()),
 				);
@@ -2431,7 +2432,7 @@ final class MutatingScope implements Scope
 			return $type;
 		}
 
-		return TypeTraverser::map($type, static function (Type $type, callable $traverse): Type {
+		return TypeTraverser::map($type, static function(Type $type, callable $traverse): Type {
 			if ($type instanceof UnionType || $type instanceof IntersectionType) {
 				return $traverse($type);
 			}
@@ -2493,9 +2494,7 @@ final class MutatingScope implements Scope
 
 			// Has offset, it is nullable
 			return null;
-
 		} elseif ($expr instanceof Node\Expr\PropertyFetch || $expr instanceof Node\Expr\StaticPropertyFetch) {
-
 			$propertyReflection = $this->propertyReflectionFinder->findPropertyReflectionFromNode($expr, $this);
 
 			if ($propertyReflection === null) {
@@ -2617,7 +2616,7 @@ final class MutatingScope implements Scope
 
 			$templateTags = [];
 			foreach ($variant->getTemplateTypeMap()->getTypes() as $templateType) {
-				if (!$templateType instanceof TemplateType) {
+				if (! $templateType instanceof TemplateType) {
 					continue;
 				}
 				$templateTags[$templateType->getName()] = new TemplateTag(
@@ -2776,22 +2775,22 @@ final class MutatingScope implements Scope
 		$originalClass = (string) $name;
 
 		switch (strtolower($originalClass)) {
-			case 'self':
-				if (!$this->isInClass()) {
-					return null;
-				}
-				return $this->getClassReflection()->getName();
-			case 'parent':
-				if (!$this->isInClass()) {
-					return null;
-				}
-				$currentClassReflection = $this->getClassReflection();
-				if ($currentClassReflection->getParentClass() !== null) {
-					return $currentClassReflection->getParentClass()->getName();
-				}
+		case 'self':
+			if (!$this->isInClass()) {
 				return null;
-			case 'static':
+			}
+			return $this->getClassReflection()->getName();
+		case 'parent':
+			if (!$this->isInClass()) {
 				return null;
+			}
+			$currentClassReflection = $this->getClassReflection();
+			if ($currentClassReflection->getParentClass() !== null) {
+				return $currentClassReflection->getParentClass()->getName();
+			}
+			return null;
+		case 'static':
+			return null;
 		}
 
 		return $originalClass;
@@ -2860,7 +2859,7 @@ final class MutatingScope implements Scope
 
 		if (
 			$classType instanceof StaticType
-			&& !in_array($class->toLowerString(), ['self', 'static', 'parent'], true)
+				&& !in_array($class->toLowerString(), ['self', 'static', 'parent'], true)
 		) {
 			$methodReflectionCandidate = $this->getMethodReflection(
 				$classType,
@@ -2954,7 +2953,7 @@ final class MutatingScope implements Scope
 	public function isInClassExists(string $className): bool
 	{
 		foreach ($this->inFunctionCallsStack as [$inFunctionCall]) {
-			if (!$inFunctionCall instanceof FunctionReflection) {
+			if (! $inFunctionCall instanceof FunctionReflection) {
 				continue;
 			}
 
@@ -2976,8 +2975,8 @@ final class MutatingScope implements Scope
 	public function getFunctionCallStack(): array
 	{
 		return array_values(array_filter(
-			array_map(static fn ($values) => $values[0], $this->inFunctionCallsStack),
-			static fn (FunctionReflection|MethodReflection|null $reflection) => $reflection !== null,
+			array_map(static fn($values) => $values[0], $this->inFunctionCallsStack),
+			static fn(FunctionReflection | MethodReflection | null $reflection) => $reflection !== null,
 		));
 	}
 
@@ -2985,7 +2984,7 @@ final class MutatingScope implements Scope
 	{
 		return array_values(array_filter(
 			$this->inFunctionCallsStack,
-			static fn ($item) => $item[0] !== null,
+			static fn($item) => $item[0] !== null,
 		));
 	}
 
@@ -3050,8 +3049,8 @@ final class MutatingScope implements Scope
 
 	/**
 	 * @api
-	 * @param Type[] $phpDocParameterTypes
-	 * @param Type[] $parameterOutTypes
+	 * @param Type[]              $phpDocParameterTypes
+	 * @param Type[]              $parameterOutTypes
 	 * @param array<string, bool> $immediatelyInvokedCallableParameters
 	 * @param array<string, Type> $phpDocClosureThisTypeParameters
 	 */
@@ -3088,7 +3087,7 @@ final class MutatingScope implements Scope
 				$this->getFile(),
 				$templateTypeMap,
 				$this->getRealParameterTypes($classMethod),
-				array_map(fn (Type $type): Type => $this->transformStaticType(TemplateTypeHelper::toArgument($type)), $phpDocParameterTypes),
+				array_map(fn(Type $type): Type => $this->transformStaticType(TemplateTypeHelper::toArgument($type)), $phpDocParameterTypes),
 				$this->getRealParameterDefaultValues($classMethod),
 				$this->getParameterAttributes($classMethod),
 				$this->transformStaticType($this->getFunctionType($classMethod->returnType, false, false)),
@@ -3103,9 +3102,9 @@ final class MutatingScope implements Scope
 				$asserts ?? Assertions::createEmpty(),
 				$selfOutType,
 				$phpDocComment,
-				array_map(fn (Type $type): Type => $this->transformStaticType(TemplateTypeHelper::toArgument($type)), $parameterOutTypes),
+				array_map(fn(Type $type): Type => $this->transformStaticType(TemplateTypeHelper::toArgument($type)), $parameterOutTypes),
 				$immediatelyInvokedCallableParameters,
-				array_map(fn (Type $type): Type => $this->transformStaticType(TemplateTypeHelper::toArgument($type)), $phpDocClosureThisTypeParameters),
+				array_map(fn(Type $type): Type => $this->transformStaticType(TemplateTypeHelper::toArgument($type)), $phpDocClosureThisTypeParameters),
 				$isConstructor,
 				$this->attributeReflectionFactory->fromAttrGroups($classMethod->attrGroups, InitializerExprContext::fromStubParameter($this->getClassReflection()->getName(), $this->getFile(), $classMethod)),
 			),
@@ -3132,7 +3131,7 @@ final class MutatingScope implements Scope
 			throw new ShouldNotHappenException();
 		}
 
-		$phpDocParameterTypes = array_map(fn (Type $type): Type => $this->transformStaticType(TemplateTypeHelper::toArgument($type)), $phpDocParameterTypes);
+		$phpDocParameterTypes = array_map(fn(Type $type): Type => $this->transformStaticType(TemplateTypeHelper::toArgument($type)), $phpDocParameterTypes);
 
 		$hookName = $hook->name->toLowerString();
 		if ($hookName === 'set') {
@@ -3146,9 +3145,9 @@ final class MutatingScope implements Scope
 			$firstParam = $hook->params[0] ?? null;
 			if (
 				$firstParam !== null
-				&& $phpDocPropertyType !== null
-				&& $firstParam->var instanceof Variable
-				&& is_string($firstParam->var->name)
+					&& $phpDocPropertyType !== null
+					&& $firstParam->var instanceof Variable
+					&& is_string($firstParam->var->name)
 			) {
 				$valueParamPhpDocType = $phpDocParameterTypes[$firstParam->var->name] ?? null;
 				if ($valueParamPhpDocType === null) {
@@ -3202,14 +3201,14 @@ final class MutatingScope implements Scope
 
 	private function transformStaticType(Type $type): Type
 	{
-		return TypeTraverser::map($type, function (Type $type, callable $traverse): Type {
+		return TypeTraverser::map($type, function(Type $type, callable $traverse): Type {
 			if (!$this->isInClass()) {
 				return $type;
 			}
 			if ($type instanceof StaticType) {
 				$classReflection = $this->getClassReflection();
 				$changedType = $type->changeBaseClass($classReflection);
-				if ($classReflection->isFinal() && !$type instanceof ThisType) {
+				if ($classReflection->isFinal() && ! $type instanceof ThisType) {
 					$changedType = $changedType->getStaticObjectType();
 				}
 				return $traverse($changedType);
@@ -3226,7 +3225,7 @@ final class MutatingScope implements Scope
 	{
 		$realParameterTypes = [];
 		foreach ($functionLike->getParams() as $parameter) {
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$realParameterTypes[$parameter->var->name] = $this->getFunctionType(
@@ -3249,7 +3248,7 @@ final class MutatingScope implements Scope
 			if ($parameter->default === null) {
 				continue;
 			}
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$realParameterDefaultValues[$parameter->var->name] = $this->getType($parameter->default);
@@ -3269,7 +3268,7 @@ final class MutatingScope implements Scope
 			$className = $this->getClassReflection()->getName();
 		}
 		foreach ($functionLike->getParams() as $parameter) {
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 
@@ -3281,8 +3280,8 @@ final class MutatingScope implements Scope
 
 	/**
 	 * @api
-	 * @param Type[] $phpDocParameterTypes
-	 * @param Type[] $parameterOutTypes
+	 * @param Type[]              $phpDocParameterTypes
+	 * @param Type[]              $parameterOutTypes
 	 * @param array<string, bool> $immediatelyInvokedCallableParameters
 	 * @param array<string, Type> $phpDocClosureThisTypeParameters
 	 */
@@ -3310,7 +3309,7 @@ final class MutatingScope implements Scope
 				$this->getFile(),
 				$templateTypeMap,
 				$this->getRealParameterTypes($function),
-				array_map(static fn (Type $type): Type => TemplateTypeHelper::toArgument($type), $phpDocParameterTypes),
+				array_map(static fn(Type $type): Type => TemplateTypeHelper::toArgument($type), $phpDocParameterTypes),
 				$this->getRealParameterDefaultValues($function),
 				$this->getParameterAttributes($function),
 				$this->getFunctionType($function->returnType, $function->returnType === null, false),
@@ -3323,7 +3322,7 @@ final class MutatingScope implements Scope
 				$acceptsNamedArguments,
 				$asserts ?? Assertions::createEmpty(),
 				$phpDocComment,
-				array_map(static fn (Type $type): Type => TemplateTypeHelper::toArgument($type), $parameterOutTypes),
+				array_map(static fn(Type $type): Type => TemplateTypeHelper::toArgument($type), $parameterOutTypes),
 				$immediatelyInvokedCallableParameters,
 				$phpDocClosureThisTypeParameters,
 				$this->attributeReflectionFactory->fromAttrGroups($function->attrGroups, InitializerExprContext::fromStubParameter(null, $this->getFile(), $function)),
@@ -3496,7 +3495,7 @@ final class MutatingScope implements Scope
 
 		if ($restoreThisScope->isInClass()) {
 			$nodeFinder = new NodeFinder();
-			$cb = static fn ($expr) => $expr instanceof Variable && $expr->name === 'this';
+			$cb = static fn($expr) => $expr instanceof Variable && $expr->name === 'this';
 			foreach ($restoreThisScope->expressionTypes as $exprString => $expressionTypeHolder) {
 				$expr = $expressionTypeHolder->getExpr();
 				$thisExpr = $nodeFinder->findFirst([$expr], $cb);
@@ -3578,7 +3577,7 @@ final class MutatingScope implements Scope
 	): self
 	{
 		$anonymousFunctionReflection = $this->getType($closure);
-		if (!$anonymousFunctionReflection instanceof ClosureType) {
+		if (! $anonymousFunctionReflection instanceof ClosureType) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -3615,7 +3614,7 @@ final class MutatingScope implements Scope
 		$expressionTypes = [];
 		$nativeTypes = [];
 		foreach ($closure->params as $i => $parameter) {
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$paramExprString = sprintf('$%s', $parameter->var->name);
@@ -3727,7 +3726,7 @@ final class MutatingScope implements Scope
 	}
 
 	/**
-	 * @param array<string, ExpressionTypeHolder> $expressionTypes
+	 * @param  array<string, ExpressionTypeHolder> $expressionTypes
 	 * @return array<string, ExpressionTypeHolder>
 	 */
 	private function invalidateStaticExpressions(array $expressionTypes): array
@@ -3737,7 +3736,7 @@ final class MutatingScope implements Scope
 		foreach ($expressionTypes as $exprString => $expressionType) {
 			$staticExpression = $nodeFinder->findFirst(
 				[$expressionType->getExpr()],
-				static fn ($node) => $node instanceof Expr\StaticCall || $node instanceof Expr\StaticPropertyFetch,
+				static fn($node) => $node instanceof Expr\StaticCall || $node instanceof Expr\StaticPropertyFetch,
 			);
 			if ($staticExpression !== null) {
 				continue;
@@ -3754,7 +3753,7 @@ final class MutatingScope implements Scope
 	public function enterArrowFunction(Expr\ArrowFunction $arrowFunction, ?array $callableParameters): self
 	{
 		$anonymousFunctionReflection = $this->getType($arrowFunction);
-		if (!$anonymousFunctionReflection instanceof ClosureType) {
+		if (! $anonymousFunctionReflection instanceof ClosureType) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -3809,7 +3808,7 @@ final class MutatingScope implements Scope
 				}
 			}
 
-			if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+			if (! $parameter->var instanceof Variable || !is_string($parameter->var->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$arrowFunctionScope = $arrowFunctionScope->assignVariable($parameter->var->name, $parameterType, $parameterType, TrinaryLogic::createYes());
@@ -4200,7 +4199,7 @@ final class MutatingScope implements Scope
 			$dimType = $scope->getType($expr->dim)->toArrayKey();
 			if ($dimType instanceof ConstantIntegerType || $dimType instanceof ConstantStringType) {
 				$exprVarType = $scope->getType($expr->var);
-				if (!$exprVarType instanceof MixedType && !$exprVarType->isArray()->no()) {
+				if (! $exprVarType instanceof MixedType && !$exprVarType->isArray()->no()) {
 					$types = [
 						new ArrayType(new MixedType(), new MixedType()),
 						new ObjectType(ArrayAccess::class),
@@ -4375,19 +4374,19 @@ final class MutatingScope implements Scope
 
 		$nodeFinder = new NodeFinder();
 		$expressionToInvalidateClass = get_class($exprToInvalidate);
-		$found = $nodeFinder->findFirst([$expr], function (Node $node) use ($expressionToInvalidateClass, $exprStringToInvalidate): bool {
+		$found = $nodeFinder->findFirst([$expr], function(Node $node) use ($expressionToInvalidateClass, $exprStringToInvalidate): bool {
 			if (
 				$exprStringToInvalidate === '$this'
-				&& $node instanceof Name
-				&& (
-					in_array($node->toLowerString(), ['self', 'static', 'parent'], true)
-					|| ($this->getClassReflection() !== null && $this->getClassReflection()->is($this->resolveName($node)))
-				)
+					&& $node instanceof Name
+					&& (
+						in_array($node->toLowerString(), ['self', 'static', 'parent'], true)
+							|| ($this->getClassReflection() !== null && $this->getClassReflection()->is($this->resolveName($node)))
+					)
 			) {
 				return true;
 			}
 
-			if (!$node instanceof $expressionToInvalidateClass) {
+			if (! $node instanceof $expressionToInvalidateClass) {
 				return false;
 			}
 
@@ -4422,8 +4421,8 @@ final class MutatingScope implements Scope
 		$nodeFinder = new NodeFinder();
 		foreach ($expressionTypes as $exprString => $exprTypeHolder) {
 			$expr = $exprTypeHolder->getExpr();
-			$found = $nodeFinder->findFirst([$expr], function (Node $node) use ($exprStringToInvalidate): bool {
-				if (!$node instanceof MethodCall) {
+			$found = $nodeFinder->findFirst([$expr], function(Node $node) use ($exprStringToInvalidate): bool {
+				if (! $node instanceof MethodCall) {
 					return false;
 				}
 
@@ -4506,7 +4505,7 @@ final class MutatingScope implements Scope
 		$exprType = $this->getType($expr);
 		if (
 			$exprType instanceof NeverType ||
-			$typeToRemove instanceof NeverType
+				$typeToRemove instanceof NeverType
 		) {
 			return $this;
 		}
@@ -4562,10 +4561,10 @@ final class MutatingScope implements Scope
 				continue;
 			}
 			$typeSpecifications[] = [
-				'sure' => true,
+				'sure'       => true,
 				'exprString' => (string) $exprString,
-				'expr' => $expr,
-				'type' => $type,
+				'expr'       => $expr,
+				'type'       => $type,
 			];
 		}
 		foreach ($specifiedTypes->getSureNotTypes() as $exprString => [$expr, $type]) {
@@ -4573,14 +4572,14 @@ final class MutatingScope implements Scope
 				continue;
 			}
 			$typeSpecifications[] = [
-				'sure' => false,
+				'sure'       => false,
 				'exprString' => (string) $exprString,
-				'expr' => $expr,
-				'type' => $type,
+				'expr'       => $expr,
+				'type'       => $type,
 			];
 		}
 
-		usort($typeSpecifications, static function (array $a, array $b): int {
+		usort($typeSpecifications, static function(array $a, array $b): int {
 			$length = strlen($a['exprString']) - strlen($b['exprString']);
 			if ($length !== 0) {
 				return $length;
@@ -4638,11 +4637,11 @@ final class MutatingScope implements Scope
 		}
 
 		foreach ($conditions as $conditionalExprString => $expressions) {
-			$certainty = TrinaryLogic::lazyExtremeIdentity($expressions, static fn (ConditionalExpressionHolder $holder) => $holder->getTypeHolder()->getCertainty());
+			$certainty = TrinaryLogic::lazyExtremeIdentity($expressions, static fn(ConditionalExpressionHolder $holder) => $holder->getTypeHolder()->getCertainty());
 			if ($certainty->no()) {
 				unset($scope->expressionTypes[$conditionalExprString]);
 			} else {
-				$type = TypeCombinator::intersect(...array_map(static fn (ConditionalExpressionHolder $holder) => $holder->getTypeHolder()->getType(), $expressions));
+				$type = TypeCombinator::intersect(...array_map(static fn(ConditionalExpressionHolder $holder) => $holder->getTypeHolder()->getType(), $expressions));
 
 				$scope->expressionTypes[$conditionalExprString] = array_key_exists($conditionalExprString, $scope->expressionTypes)
 					? new ExpressionTypeHolder(
@@ -4786,7 +4785,7 @@ final class MutatingScope implements Scope
 	}
 
 	/**
-	 * @param array<string, ConditionalExpressionHolder[]> $otherConditionalExpressions
+	 * @param  array<string, ConditionalExpressionHolder[]> $otherConditionalExpressions
 	 * @return array<string, ConditionalExpressionHolder[]>
 	 */
 	private function intersectConditionalExpressions(array $otherConditionalExpressions): array
@@ -4811,10 +4810,10 @@ final class MutatingScope implements Scope
 	}
 
 	/**
-	 * @param array<string, ConditionalExpressionHolder[]> $conditionalExpressions
-	 * @param array<string, ExpressionTypeHolder> $ourExpressionTypes
-	 * @param array<string, ExpressionTypeHolder> $theirExpressionTypes
-	 * @param array<string, ExpressionTypeHolder> $mergedExpressionTypes
+	 * @param  array<string, ConditionalExpressionHolder[]> $conditionalExpressions
+	 * @param  array<string, ExpressionTypeHolder>          $ourExpressionTypes
+	 * @param  array<string, ExpressionTypeHolder>          $theirExpressionTypes
+	 * @param  array<string, ExpressionTypeHolder>          $mergedExpressionTypes
 	 * @return array<string, ConditionalExpressionHolder[]>
 	 */
 	private function createConditionalExpressions(
@@ -4859,7 +4858,7 @@ final class MutatingScope implements Scope
 		foreach ($newVariableTypes as $exprString => $holder) {
 			if (
 				array_key_exists($exprString, $mergedExpressionTypes)
-				&& $mergedExpressionTypes[$exprString]->equals($holder)
+					&& $mergedExpressionTypes[$exprString]->equals($holder)
 			) {
 				continue;
 			}
@@ -4888,14 +4887,14 @@ final class MutatingScope implements Scope
 	}
 
 	/**
-	 * @param array<string, ExpressionTypeHolder> $ourVariableTypeHolders
-	 * @param array<string, ExpressionTypeHolder> $theirVariableTypeHolders
+	 * @param  array<string, ExpressionTypeHolder> $ourVariableTypeHolders
+	 * @param  array<string, ExpressionTypeHolder> $theirVariableTypeHolders
 	 * @return array<string, ExpressionTypeHolder>
 	 */
 	private function mergeVariableHolders(array $ourVariableTypeHolders, array $theirVariableTypeHolders): array
 	{
 		$intersectedVariableTypeHolders = [];
-		$globalVariableCallback = fn (Node $node) => $node instanceof Variable && is_string($node->name) && $this->isGlobalVariable($node->name);
+		$globalVariableCallback = fn(Node $node) => $node instanceof Variable && is_string($node->name) && $this->isGlobalVariable($node->name);
 		$nodeFinder = new NodeFinder();
 		foreach ($ourVariableTypeHolders as $exprString => $variableTypeHolder) {
 			if (isset($theirVariableTypeHolders[$exprString])) {
@@ -4990,9 +4989,9 @@ final class MutatingScope implements Scope
 	}
 
 	/**
-	 * @param array<string, ExpressionTypeHolder> $ourVariableTypeHolders
-	 * @param array<string, ExpressionTypeHolder> $finallyVariableTypeHolders
-	 * @param array<string, ExpressionTypeHolder> $originalVariableTypeHolders
+	 * @param  array<string, ExpressionTypeHolder> $ourVariableTypeHolders
+	 * @param  array<string, ExpressionTypeHolder> $finallyVariableTypeHolders
+	 * @param  array<string, ExpressionTypeHolder> $originalVariableTypeHolders
 	 * @return array<string, ExpressionTypeHolder>
 	 */
 	private function processFinallyScopeVariableTypeHolders(
@@ -5004,7 +5003,7 @@ final class MutatingScope implements Scope
 		foreach ($finallyVariableTypeHolders as $exprString => $variableTypeHolder) {
 			if (
 				isset($originalVariableTypeHolders[$exprString])
-				&& !$originalVariableTypeHolders[$exprString]->getType()->equals($variableTypeHolder->getType())
+					&& !$originalVariableTypeHolders[$exprString]->getType()->equals($variableTypeHolder->getType())
 			) {
 				$ourVariableTypeHolders[$exprString] = $variableTypeHolder;
 				continue;
@@ -5165,8 +5164,8 @@ final class MutatingScope implements Scope
 	}
 
 	/**
-	 * @param array<string, ExpressionTypeHolder> $variableTypeHolders
-	 * @param array<string, ExpressionTypeHolder> $otherVariableTypeHolders
+	 * @param  array<string, ExpressionTypeHolder> $variableTypeHolders
+	 * @param  array<string, ExpressionTypeHolder> $otherVariableTypeHolders
 	 * @return array<string, ExpressionTypeHolder>
 	 */
 	private function generalizeVariableTypeHolders(
@@ -5276,7 +5275,7 @@ final class MutatingScope implements Scope
 				$constantArraysB = TypeCombinator::union(...$constantArrays['b']);
 				if (
 					$constantArraysA->getIterableKeyType()->equals($constantArraysB->getIterableKeyType())
-					&& $constantArraysA->getArraySize()->getGreaterOrEqualType($this->phpVersion)->isSuperTypeOf($constantArraysB->getArraySize())->yes()
+						&& $constantArraysA->getArraySize()->getGreaterOrEqualType($this->phpVersion)->isSuperTypeOf($constantArraysB->getArraySize())->yes()
 				) {
 					$resultArrayBuilder = ConstantArrayTypeBuilder::createEmpty();
 					foreach (TypeUtils::flattenTypes($constantArraysA->getIterableKeyType()) as $keyType) {
@@ -5299,8 +5298,8 @@ final class MutatingScope implements Scope
 					);
 					if (
 						$constantArraysA->isIterableAtLeastOnce()->yes()
-						&& $constantArraysB->isIterableAtLeastOnce()->yes()
-						&& $constantArraysA->getArraySize()->getGreaterOrEqualType($this->phpVersion)->isSuperTypeOf($constantArraysB->getArraySize())->yes()
+							&& $constantArraysB->isIterableAtLeastOnce()->yes()
+							&& $constantArraysA->getArraySize()->getGreaterOrEqualType($this->phpVersion)->isSuperTypeOf($constantArraysB->getArraySize())->yes()
 					) {
 						$resultType = TypeCombinator::intersect($resultType, new NonEmptyArrayType());
 					}
@@ -5325,9 +5324,9 @@ final class MutatingScope implements Scope
 				$bValueType = $generalArraysB->getIterableValueType();
 				if (
 					$aValueType->isArray()->yes()
-					&& $aValueType->isConstantArray()->no()
-					&& $bValueType->isArray()->yes()
-					&& $bValueType->isConstantArray()->no()
+						&& $aValueType->isConstantArray()->no()
+						&& $bValueType->isArray()->yes()
+						&& $bValueType->isConstantArray()->no()
 				) {
 					$aDepth = self::getArrayDepth($aValueType) + $depth;
 					$bDepth = self::getArrayDepth($bValueType) + $depth;
@@ -5491,7 +5490,7 @@ final class MutatingScope implements Scope
 		}
 
 		$accessoryTypes = array_map(
-			static fn (Type $type): Type => $type->generalize(GeneralizePrecision::moreSpecific()),
+			static fn(Type $type): Type => $type->generalize(GeneralizePrecision::moreSpecific()),
 			TypeUtils::getAccessoryTypes($a),
 		);
 
@@ -5559,9 +5558,9 @@ final class MutatingScope implements Scope
 	{
 		while (
 			$expr instanceof BinaryOp\BooleanOr
-			|| $expr instanceof BinaryOp\LogicalOr
-			|| $expr instanceof BinaryOp\BooleanAnd
-			|| $expr instanceof BinaryOp\LogicalAnd
+				|| $expr instanceof BinaryOp\LogicalOr
+				|| $expr instanceof BinaryOp\BooleanAnd
+				|| $expr instanceof BinaryOp\LogicalAnd
 		) {
 			return $this->getBooleanExpressionDepth($expr->left, $depth + 1);
 		}
@@ -5596,7 +5595,7 @@ final class MutatingScope implements Scope
 		}
 
 		$propertyDeclaringClass = $propertyReflection->getDeclaringClass();
-		$canAccessClassMember = static function (ClassReflection $classReflection) use ($propertyReflection, $propertyDeclaringClass) {
+		$canAccessClassMember = static function(ClassReflection $classReflection) use ($propertyReflection, $propertyDeclaringClass) {
 			if ($propertyReflection->isPrivateSet()) {
 				return $classReflection->getName() === $propertyDeclaringClass->getName();
 			}
@@ -5605,7 +5604,7 @@ final class MutatingScope implements Scope
 
 			if (
 				$classReflection->getName() === $propertyDeclaringClass->getName()
-				|| $classReflection->isSubclassOfClass($propertyDeclaringClass)
+					|| $classReflection->isSubclassOfClass($propertyDeclaringClass)
 			) {
 				return true;
 			}
@@ -5653,7 +5652,7 @@ final class MutatingScope implements Scope
 		}
 
 		$classMemberDeclaringClass = $classMemberReflection->getDeclaringClass();
-		$canAccessClassMember = static function (ClassReflection $classReflection) use ($classMemberReflection, $classMemberDeclaringClass) {
+		$canAccessClassMember = static function(ClassReflection $classReflection) use ($classMemberReflection, $classMemberDeclaringClass) {
 			if ($classMemberReflection->isPrivate()) {
 				return $classReflection->getName() === $classMemberDeclaringClass->getName();
 			}
@@ -5662,7 +5661,7 @@ final class MutatingScope implements Scope
 
 			if (
 				$classReflection->getName() === $classMemberDeclaringClass->getName()
-				|| $classReflection->isSubclassOfClass($classMemberDeclaringClass)
+					|| $classReflection->isSubclassOfClass($classMemberDeclaringClass)
 			) {
 				return true;
 			}
@@ -5815,7 +5814,7 @@ final class MutatingScope implements Scope
 			$classTemplateTypes = $classReflection->getTemplateTypeMap()->getTypes();
 			$originalClassTemplateTypes = $classTemplateTypes;
 			foreach ($constructorVariant->getParameters() as $parameter) {
-				TypeTraverser::map($parameter->getType(), static function (Type $type, callable $traverse) use (&$classTemplateTypes): Type {
+				TypeTraverser::map($parameter->getType(), static function(Type $type, callable $traverse) use (&$classTemplateTypes): Type {
 					if ($type instanceof TemplateType && array_key_exists($type->getName(), $classTemplateTypes)) {
 						$classTemplateType = $classTemplateTypes[$type->getName()];
 						if ($classTemplateType instanceof TemplateType && $classTemplateType->getScope()->equals($type->getScope())) {
@@ -5936,7 +5935,7 @@ final class MutatingScope implements Scope
 			$ancestorClassReflection = $ancestorClassReflections[0];
 			$ancestorMapping = [];
 			foreach ($ancestorClassReflection->getActiveTemplateTypeMap()->getTypes() as $typeName => $templateType) {
-				if (!$templateType instanceof TemplateType) {
+				if (! $templateType instanceof TemplateType) {
 					continue;
 				}
 
@@ -6001,7 +6000,7 @@ final class MutatingScope implements Scope
 				[],
 			);
 		}
-		return TypeTraverser::map($newGenericType, static function (Type $type, callable $traverse) use ($resolvedTemplateTypeMap): Type {
+		return TypeTraverser::map($newGenericType, static function(Type $type, callable $traverse) use ($resolvedTemplateTypeMap): Type {
 			if ($type instanceof TemplateType && !$type->isArgument()) {
 				$newType = $resolvedTemplateTypeMap->getType($type->getName());
 				if ($newType === null || $newType instanceof ErrorType) {
@@ -6018,7 +6017,7 @@ final class MutatingScope implements Scope
 	private function filterTypeWithMethod(Type $typeWithMethod, string $methodName): ?Type
 	{
 		if ($typeWithMethod instanceof UnionType) {
-			$typeWithMethod = $typeWithMethod->filterTypes(static fn (Type $innerType) => $innerType->hasMethod($methodName)->yes());
+			$typeWithMethod = $typeWithMethod->filterTypes(static fn(Type $innerType) => $innerType->hasMethod($methodName)->yes());
 		}
 
 		if (!$typeWithMethod->hasMethod($methodName)->yes()) {
@@ -6121,7 +6120,7 @@ final class MutatingScope implements Scope
 	public function getPropertyReflection(Type $typeWithProperty, string $propertyName): ?ExtendedPropertyReflection
 	{
 		if ($typeWithProperty instanceof UnionType) {
-			$typeWithProperty = $typeWithProperty->filterTypes(static fn (Type $innerType) => $innerType->hasProperty($propertyName)->yes());
+			$typeWithProperty = $typeWithProperty->filterTypes(static fn(Type $innerType) => $innerType->hasProperty($propertyName)->yes());
 		}
 		if (!$typeWithProperty->hasProperty($propertyName)->yes()) {
 			return null;
@@ -6150,7 +6149,7 @@ final class MutatingScope implements Scope
 	public function getConstantReflection(Type $typeWithConstant, string $constantName): ?ClassConstantReflection
 	{
 		if ($typeWithConstant instanceof UnionType) {
-			$typeWithConstant = $typeWithConstant->filterTypes(static fn (Type $innerType) => $innerType->hasConstant($constantName)->yes());
+			$typeWithConstant = $typeWithConstant->filterTypes(static fn(Type $innerType) => $innerType->hasConstant($constantName)->yes());
 		}
 		if (!$typeWithConstant->hasConstant($constantName)->yes()) {
 			return null;
@@ -6167,7 +6166,7 @@ final class MutatingScope implements Scope
 		$constantTypes = [];
 		foreach ($this->expressionTypes as $exprString => $typeHolder) {
 			$expr = $typeHolder->getExpr();
-			if (!$expr instanceof ConstFetch) {
+			if (! $expr instanceof ConstFetch) {
 				continue;
 			}
 			$constantTypes[$exprString] = $typeHolder;
@@ -6202,7 +6201,7 @@ final class MutatingScope implements Scope
 		$constantTypes = [];
 		foreach ($this->nativeExpressionTypes as $exprString => $typeHolder) {
 			$expr = $typeHolder->getExpr();
-			if (!$expr instanceof ConstFetch) {
+			if (! $expr instanceof ConstFetch) {
 				continue;
 			}
 			$constantTypes[$exprString] = $typeHolder;
@@ -6213,8 +6212,8 @@ final class MutatingScope implements Scope
 	public function getIterableKeyType(Type $iteratee): Type
 	{
 		if ($iteratee instanceof UnionType) {
-			$filtered = $iteratee->filterTypes(static fn (Type $innerType) => $innerType->isIterable()->yes());
-			if (!$filtered instanceof NeverType) {
+			$filtered = $iteratee->filterTypes(static fn(Type $innerType) => $innerType->isIterable()->yes());
+			if (! $filtered instanceof NeverType) {
 				$iteratee = $filtered;
 			}
 		}
@@ -6225,8 +6224,8 @@ final class MutatingScope implements Scope
 	public function getIterableValueType(Type $iteratee): Type
 	{
 		if ($iteratee instanceof UnionType) {
-			$filtered = $iteratee->filterTypes(static fn (Type $innerType) => $innerType->isIterable()->yes());
-			if (!$filtered instanceof NeverType) {
+			$filtered = $iteratee->filterTypes(static fn(Type $innerType) => $innerType->isIterable()->yes());
+			if (! $filtered instanceof NeverType) {
 				$iteratee = $filtered;
 			}
 		}
@@ -6241,8 +6240,8 @@ final class MutatingScope implements Scope
 		$isOverallPhpVersionRange = false;
 		if (
 			$constType instanceof IntegerRangeType
-			&& $constType->getMin() === ConstantResolver::PHP_MIN_ANALYZABLE_VERSION_ID
-			&& ($constType->getMax() === null || $constType->getMax() === PhpVersionFactory::MAX_PHP_VERSION)
+				&& $constType->getMin() === ConstantResolver::PHP_MIN_ANALYZABLE_VERSION_ID
+				&& ($constType->getMax() === null || $constType->getMax() === PhpVersionFactory::MAX_PHP_VERSION)
 		) {
 			$isOverallPhpVersionRange = true;
 		}
@@ -6256,5 +6255,4 @@ final class MutatingScope implements Scope
 		}
 		return new PhpVersions(new ConstantIntegerType($this->phpVersion->getVersionId()));
 	}
-
 }

@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Regex;
 
 final class RegexNonCapturingGroup
 {
-
 	public function __construct(
 		private readonly ?RegexAlternation $alternation,
 		private readonly bool $inOptionalQuantification,
@@ -51,5 +50,4 @@ final class RegexNonCapturingGroup
 	{
 		return $this->resetGroupCounter;
 	}
-
 }

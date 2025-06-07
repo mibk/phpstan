@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -35,7 +35,6 @@ use PHPStan\Type\VerbosityLevel;
 
 class AccessoryNumericStringType implements CompoundType, AccessoryType
 {
-
 	use NonArrayTypeTrait;
 	use NonCallableTypeTrait;
 	use NonObjectTypeTrait;
@@ -391,5 +390,4 @@ class AccessoryNumericStringType implements CompoundType, AccessoryType
 	{
 		return new IdentifierTypeNode('numeric-string');
 	}
-
 }

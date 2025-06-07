@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection;
 
@@ -11,7 +11,6 @@ use PHPStan\Type\Type;
  */
 class ExtendedFunctionVariant extends FunctionVariant implements ExtendedParametersAcceptor
 {
-
 	/**
 	 * @param list<ExtendedParameterReflection> $parameters
 	 * @api
@@ -57,5 +56,4 @@ class ExtendedFunctionVariant extends FunctionVariant implements ExtendedParamet
 	{
 		return $this->nativeReturnType;
 	}
-
 }

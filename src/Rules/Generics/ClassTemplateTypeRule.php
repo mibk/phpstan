@@ -1,14 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Internal\SprintfHelper;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Generic\TemplateTypeScope;
+use PhpParser\Node;
 use function sprintf;
 
 /**
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class ClassTemplateTypeRule implements Rule
 {
-
 	public function __construct(
 		private TemplateTypeCheck $templateTypeCheck,
 	)
@@ -56,5 +55,4 @@ final class ClassTemplateTypeRule implements Rule
 			sprintf('PHPDoc tag @template %%s for %s does not have a default type but follows an optional @template %%s.', $displayName),
 		);
 	}
-
 }

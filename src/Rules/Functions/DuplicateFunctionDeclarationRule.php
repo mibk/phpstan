@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Reflection\ReflectionFunction;
 use PHPStan\BetterReflection\Reflector\Reflector;
@@ -10,6 +9,7 @@ use PHPStan\File\RelativePathHelper;
 use PHPStan\Node\InFunctionNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function array_map;
 use function count;
 use function implode;
@@ -20,7 +20,6 @@ use function sprintf;
  */
 final class DuplicateFunctionDeclarationRule implements Rule
 {
-
 	public function __construct(private Reflector $reflector, private RelativePathHelper $relativePathHelper)
 	{
 	}
@@ -51,9 +50,8 @@ final class DuplicateFunctionDeclarationRule implements Rule
 			RuleErrorBuilder::message(sprintf(
 				"Function %s declared multiple times:\n%s",
 				$thisFunction->getName(),
-				implode("\n", array_map(fn (ReflectionFunction $function) => sprintf('- %s:%d', $this->relativePathHelper->getRelativePath($function->getFileName() ?? 'unknown'), $function->getStartLine()), $filteredFunctions)),
+				implode("\n", array_map(fn(ReflectionFunction $function) => sprintf('- %s:%d', $this->relativePathHelper->getRelativePath($function->getFileName() ?? 'unknown'), $function->getStartLine()), $filteredFunctions)),
 			))->identifier('function.duplicate')->build(),
 		];
 	}
-
 }

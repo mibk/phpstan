@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\BetterReflection\SourceLocator;
 
@@ -12,7 +12,6 @@ use function class_exists;
 
 final class SkipClassAliasSourceLocator implements SourceLocator
 {
-
 	public function __construct(private SourceLocator $sourceLocator)
 	{
 	}
@@ -43,5 +42,4 @@ final class SkipClassAliasSourceLocator implements SourceLocator
 	{
 		return $this->sourceLocator->locateIdentifiersByType($reflector, $identifierType);
 	}
-
 }

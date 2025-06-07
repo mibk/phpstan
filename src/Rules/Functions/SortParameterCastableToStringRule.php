@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
@@ -15,14 +13,16 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
-use function array_key_exists;
-use function in_array;
+use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use const SORT_FLAG_CASE;
 use const SORT_LOCALE_STRING;
 use const SORT_NATURAL;
 use const SORT_NUMERIC;
 use const SORT_REGULAR;
 use const SORT_STRING;
+use function array_key_exists;
+use function in_array;
 
 /**
  * @implements Rule<Node\Expr\FuncCall>
@@ -30,7 +30,6 @@ use const SORT_STRING;
 #[RegisteredRule(level: 5)]
 final class SortParameterCastableToStringRule implements Rule
 {
-
 	public function __construct(
 		private ReflectionProvider $reflectionProvider,
 		private ParameterCastableToStringCheck $parameterCastableToStringCheck,
@@ -106,10 +105,10 @@ final class SortParameterCastableToStringRule implements Rule
 
 		if ($mustBeCastableToString && !$mustBeCastableToFloat) {
 			$errorMessage = 'Parameter %s of function %s expects an array of values castable to string, %s given.';
-			$castFn = static fn (Type $t) => $t->toString();
+			$castFn = static fn(Type $t) => $t->toString();
 		} elseif ($mustBeCastableToString) {
 			$errorMessage = 'Parameter %s of function %s expects an array of values castable to string and float, %s given.';
-			$castFn = static function (Type $t): Type {
+			$castFn = static function(Type $t): Type {
 				$float = $t->toFloat();
 
 				return $float instanceof ErrorType
@@ -118,7 +117,7 @@ final class SortParameterCastableToStringRule implements Rule
 			};
 		} elseif ($mustBeCastableToFloat) {
 			$errorMessage = 'Parameter %s of function %s expects an array of values castable to float, %s given.';
-			$castFn = static fn (Type $t) => $t->toFloat();
+			$castFn = static fn(Type $t) => $t->toFloat();
 		} else {
 			return [];
 		}
@@ -148,5 +147,4 @@ final class SortParameterCastableToStringRule implements Rule
 
 		return $errors;
 	}
-
 }

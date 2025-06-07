@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
+use PHPStan\Reflection\ParametersAcceptor;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
-use PHPStan\Reflection\ParametersAcceptor;
 use function array_key_exists;
 use function array_pop;
 use function count;
@@ -17,7 +17,6 @@ use function sprintf;
 #[AutowiredService]
 final class VariadicMethodsVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'variadicMethods';
 
 	public const ANONYMOUS_CLASS_PREFIX = 'class@anonymous';
@@ -59,7 +58,7 @@ final class VariadicMethodsVisitor extends NodeVisitorAbstract
 		}
 
 		if ($node instanceof Node\Stmt\ClassLike) {
-			if (!$node->name instanceof Node\Identifier) {
+			if (! $node->name instanceof Node\Identifier) {
 				$className = sprintf('%s:%s:%s', self::ANONYMOUS_CLASS_PREFIX, $node->getStartLine(), $node->getEndLine());
 				$this->classStack[] = $className;
 			} else {
@@ -74,20 +73,19 @@ final class VariadicMethodsVisitor extends NodeVisitorAbstract
 
 		if (
 			$this->inMethod !== null
-			&& $node instanceof Node\Expr\FuncCall
-			&& $node->name instanceof Name
-			&& in_array((string) $node->name, ParametersAcceptor::VARIADIC_FUNCTIONS, true)
+				&& $node instanceof Node\Expr\FuncCall
+				&& $node->name instanceof Name
+				&& in_array((string) $node->name, ParametersAcceptor::VARIADIC_FUNCTIONS, true)
 		) {
 			$lastClass = $this->classStack[count($this->classStack) - 1] ?? null;
 			if ($lastClass !== null) {
 				if (
 					!array_key_exists($lastClass, $this->variadicMethods)
-					|| !array_key_exists($this->inMethod, $this->variadicMethods[$lastClass])
+						|| !array_key_exists($this->inMethod, $this->variadicMethods[$lastClass])
 				) {
 					$this->variadicMethods[$lastClass][$this->inMethod] = true;
 				}
 			}
-
 		}
 
 		return null;
@@ -133,5 +131,4 @@ final class VariadicMethodsVisitor extends NodeVisitorAbstract
 
 		return null;
 	}
-
 }

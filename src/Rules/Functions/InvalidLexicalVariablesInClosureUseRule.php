@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Functions;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function array_filter;
 use function array_map;
 use function in_array;
@@ -19,7 +19,6 @@ use function sprintf;
 #[RegisteredRule(level: 0)]
 final class InvalidLexicalVariablesInClosureUseRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Expr\Closure::class;
@@ -32,8 +31,8 @@ final class InvalidLexicalVariablesInClosureUseRule implements Rule
 	{
 		$errors = [];
 		$params = array_filter(array_map(
-			static function (Node\Param $param) {
-				if (!$param->var instanceof Node\Expr\Variable) {
+			static function(Node\Param $param) {
+				if (! $param->var instanceof Node\Expr\Variable) {
 					return false;
 				}
 
@@ -44,7 +43,7 @@ final class InvalidLexicalVariablesInClosureUseRule implements Rule
 				return $param->var->name;
 			},
 			$node->getParams(),
-		), static fn ($name) => $name !== false);
+		), static fn($name) => $name !== false);
 
 		foreach ($node->uses as $use) {
 			if (!is_string($use->var->name)) {
@@ -84,5 +83,4 @@ final class InvalidLexicalVariablesInClosureUseRule implements Rule
 
 		return $errors;
 	}
-
 }

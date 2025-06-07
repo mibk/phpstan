@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Accessory;
 
@@ -30,7 +30,6 @@ use function strtolower;
 
 class HasMethodType implements AccessoryType, CompoundType
 {
-
 	use ObjectTypeTrait;
 	use NonGenericTypeTrait;
 	use UndecidedComparisonCompoundTypeTrait;
@@ -137,7 +136,7 @@ class HasMethodType implements AccessoryType, CompoundType
 			$method,
 			$method->getDeclaringClass(),
 			false,
-			static fn (Type $type): Type => $type,
+			static fn(Type $type): Type => $type,
 		);
 	}
 
@@ -195,5 +194,4 @@ class HasMethodType implements AccessoryType, CompoundType
 	{
 		return new IdentifierTypeNode(''); // no PHPDoc representation
 	}
-
 }

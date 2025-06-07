@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
@@ -14,7 +14,6 @@ use function in_array;
 #[AutowiredService]
 final class BcMathNumberOperatorTypeSpecifyingExtension implements OperatorTypeSpecifyingExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -30,7 +29,7 @@ final class BcMathNumberOperatorTypeSpecifyingExtension implements OperatorTypeS
 		return in_array($operatorSigil, ['-', '+', '*', '/', '**', '%'], true)
 			&& (
 				$bcMathNumberType->isSuperTypeOf($leftSide)->yes()
-				|| $bcMathNumberType->isSuperTypeOf($rightSide)->yes()
+					|| $bcMathNumberType->isSuperTypeOf($rightSide)->yes()
 			);
 	}
 
@@ -43,13 +42,12 @@ final class BcMathNumberOperatorTypeSpecifyingExtension implements OperatorTypeS
 
 		if (
 			$otherSide->isInteger()->yes()
-			|| $otherSide->isNumericString()->yes()
-			|| $bcMathNumberType->isSuperTypeOf($otherSide)->yes()
+				|| $otherSide->isNumericString()->yes()
+				|| $bcMathNumberType->isSuperTypeOf($otherSide)->yes()
 		) {
 			return $bcMathNumberType;
 		}
 
 		return new ErrorType();
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\DependencyInjection;
 
@@ -15,7 +15,6 @@ use Attribute;
 #[Attribute(flags: Attribute::TARGET_CLASS)]
 final class AutowiredService
 {
-
 	/**
 	 * @param true|list<class-string>|class-string $as
 	 */
@@ -26,5 +25,4 @@ final class AutowiredService
 	)
 	{
 	}
-
 }

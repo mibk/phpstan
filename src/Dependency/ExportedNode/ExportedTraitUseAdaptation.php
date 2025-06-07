@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -8,7 +8,6 @@ use ReturnTypeWillChange;
 
 final class ExportedTraitUseAdaptation implements ExportedNode, JsonSerializable
 {
-
 	/**
 	 * @param string[]|null $insteadOfs
 	 */
@@ -46,7 +45,7 @@ final class ExportedTraitUseAdaptation implements ExportedNode, JsonSerializable
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -94,13 +93,12 @@ final class ExportedTraitUseAdaptation implements ExportedNode, JsonSerializable
 		return [
 			'type' => self::class,
 			'data' => [
-				'traitName' => $this->traitName,
-				'method' => $this->method,
+				'traitName'   => $this->traitName,
+				'method'      => $this->method,
 				'newModifier' => $this->newModifier,
-				'newName' => $this->newName,
-				'insteadOfs' => $this->insteadOfs,
+				'newName'     => $this->newName,
+				'insteadOfs'  => $this->insteadOfs,
 			],
 		];
 	}
-
 }

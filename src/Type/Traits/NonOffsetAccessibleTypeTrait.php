@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Traits;
 
@@ -8,7 +8,6 @@ use PHPStan\Type\Type;
 
 trait NonOffsetAccessibleTypeTrait
 {
-
 	public function isOffsetAccessible(): TrinaryLogic
 	{
 		return TrinaryLogic::createNo();
@@ -38,5 +37,4 @@ trait NonOffsetAccessibleTypeTrait
 	{
 		return new ErrorType();
 	}
-
 }

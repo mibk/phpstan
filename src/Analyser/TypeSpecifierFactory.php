@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
@@ -13,9 +13,8 @@ use function array_merge;
 #[AutowiredService(name: 'typeSpecifierFactory')]
 final class TypeSpecifierFactory
 {
-
-	public const FUNCTION_TYPE_SPECIFYING_EXTENSION_TAG = 'phpstan.typeSpecifier.functionTypeSpecifyingExtension';
-	public const METHOD_TYPE_SPECIFYING_EXTENSION_TAG = 'phpstan.typeSpecifier.methodTypeSpecifyingExtension';
+	public const FUNCTION_TYPE_SPECIFYING_EXTENSION_TAG      = 'phpstan.typeSpecifier.functionTypeSpecifyingExtension';
+	public const METHOD_TYPE_SPECIFYING_EXTENSION_TAG        = 'phpstan.typeSpecifier.methodTypeSpecifyingExtension';
 	public const STATIC_METHOD_TYPE_SPECIFYING_EXTENSION_TAG = 'phpstan.typeSpecifier.staticMethodTypeSpecifyingExtension';
 
 	public function __construct(private Container $container)
@@ -50,5 +49,4 @@ final class TypeSpecifierFactory
 
 		return $typeSpecifier;
 	}
-
 }

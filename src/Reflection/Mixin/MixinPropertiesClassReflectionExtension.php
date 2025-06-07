@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Mixin;
 
@@ -13,7 +13,6 @@ use function count;
 
 final class MixinPropertiesClassReflectionExtension implements PropertiesClassReflectionExtension
 {
-
 	/** @var array<string, array<string, true>> */
 	private array $inProcess = [];
 
@@ -86,5 +85,4 @@ final class MixinPropertiesClassReflectionExtension implements PropertiesClassRe
 
 		return null;
 	}
-
 }

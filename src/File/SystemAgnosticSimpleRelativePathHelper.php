@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\File;
 
@@ -8,7 +8,6 @@ use function substr;
 
 final class SystemAgnosticSimpleRelativePathHelper implements RelativePathHelper
 {
-
 	public function __construct(private FileHelper $fileHelper)
 	{
 	}
@@ -22,5 +21,4 @@ final class SystemAgnosticSimpleRelativePathHelper implements RelativePathHelper
 
 		return $filename;
 	}
-
 }

@@ -1,9 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\FunctionReflection;
@@ -12,12 +10,13 @@ use PHPStan\Type\BitwiseFlagHelper;
 use PHPStan\Type\DynamicFunctionThrowTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
 use function in_array;
 
 #[AutowiredService]
 final class JsonThrowTypeExtension implements DynamicFunctionThrowTypeExtension
 {
-
 	private const ARGUMENTS_POSITIONS = [
 		'json_encode' => 1,
 		'json_decode' => 3,
@@ -62,5 +61,4 @@ final class JsonThrowTypeExtension implements DynamicFunctionThrowTypeExtension
 
 		return null;
 	}
-
 }

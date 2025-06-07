@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Classes;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 
 /**
  * @implements Rule<Node\Stmt\Trait_>
@@ -14,7 +14,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 #[RegisteredRule(level: 0)]
 final class TraitAttributeClassRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return Node\Stmt\Trait_::class;
@@ -37,5 +36,4 @@ final class TraitAttributeClassRule implements Rule
 
 		return [];
 	}
-
 }

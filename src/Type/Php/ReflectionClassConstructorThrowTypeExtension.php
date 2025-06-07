@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -11,13 +10,13 @@ use PHPStan\Type\DynamicStaticMethodThrowTypeExtension;
 use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PhpParser\Node\Expr\StaticCall;
 use ReflectionClass;
 use function count;
 
 #[AutowiredService]
 final class ReflectionClassConstructorThrowTypeExtension implements DynamicStaticMethodThrowTypeExtension
 {
-
 	public function isStaticMethodSupported(MethodReflection $methodReflection): bool
 	{
 		return $methodReflection->getName() === '__construct' && $methodReflection->getDeclaringClass()->getName() === ReflectionClass::class;
@@ -40,5 +39,4 @@ final class ReflectionClassConstructorThrowTypeExtension implements DynamicStati
 
 		return $methodReflection->getThrowType();
 	}
-
 }

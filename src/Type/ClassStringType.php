@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -9,7 +9,6 @@ use PHPStan\TrinaryLogic;
 /** @api */
 class ClassStringType extends StringType
 {
-
 	/** @api */
 	public function __construct()
 	{
@@ -93,5 +92,4 @@ class ClassStringType extends StringType
 	{
 		return new IdentifierTypeNode('class-string');
 	}
-
 }

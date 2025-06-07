@@ -1,11 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
-use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Name;
-use PhpParser\Node\Param;
 use PHPStan\Php\PhpVersions;
 use PHPStan\Reflection\ClassConstantReflection;
 use PHPStan\Reflection\ClassMemberAccessAnswerer;
@@ -21,11 +17,14 @@ use PHPStan\Reflection\Php\PhpFunctionFromParserNodeReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Name;
+use PhpParser\Node\Param;
 
 /** @api */
 interface Scope extends ClassMemberAccessAnswerer, NamespaceAnswerer
 {
-
 	public const SUPERGLOBAL_VARIABLES = [
 		'GLOBALS',
 		'_SERVER',
@@ -142,5 +141,4 @@ interface Scope extends ClassMemberAccessAnswerer, NamespaceAnswerer
 	public function isInFirstLevelStatement(): bool;
 
 	public function getPhpVersion(): PhpVersions;
-
 }

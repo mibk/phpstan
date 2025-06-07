@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Internal;
 
@@ -16,7 +16,6 @@ use function trim;
 
 final class ComposerHelper
 {
-
 	public const UNKNOWN_VERSION = 'Unknown version';
 
 	private static ?string $phpstanVersion = null;
@@ -87,5 +86,4 @@ final class ComposerHelper
 
 		return self::$phpstanVersion = $rootPackage['pretty_version'] . '@' . substr((string) $rootPackage['reference'], 0, 7);
 	}
-
 }

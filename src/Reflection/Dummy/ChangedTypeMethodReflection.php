@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Dummy;
 
@@ -15,9 +15,8 @@ use function is_bool;
 
 final class ChangedTypeMethodReflection implements ExtendedMethodReflection
 {
-
 	/**
-	 * @param list<ExtendedParametersAcceptor> $variants
+	 * @param list<ExtendedParametersAcceptor>      $variants
 	 * @param list<ExtendedParametersAcceptor>|null $namedArgumentsVariants
 	 */
 	public function __construct(
@@ -169,5 +168,4 @@ final class ChangedTypeMethodReflection implements ExtendedMethodReflection
 	{
 		return $this->reflection->getAttributes();
 	}
-
 }

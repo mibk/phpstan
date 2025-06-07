@@ -1,8 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Reflection\MethodReflection;
@@ -14,13 +13,13 @@ use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node\Expr\StaticCall;
 use ReflectionMethod;
 use function count;
 
 #[AutowiredService]
 final class ReflectionMethodConstructorThrowTypeExtension implements DynamicStaticMethodThrowTypeExtension
 {
-
 	public function __construct(private ReflectionProvider $reflectionProvider)
 	{
 	}
@@ -43,7 +42,7 @@ final class ReflectionMethodConstructorThrowTypeExtension implements DynamicStat
 				$classes = $type->getGenericType()->getObjectClassNames();
 			} elseif (
 				$type instanceof ConstantStringType
-				&& $this->reflectionProvider->hasClass($type->getValue())
+					&& $this->reflectionProvider->hasClass($type->getValue())
 			) {
 				$classes = [$type->getValue()];
 			} else {
@@ -62,7 +61,7 @@ final class ReflectionMethodConstructorThrowTypeExtension implements DynamicStat
 			$valueType = TypeCombinator::remove($valueType, $type);
 		}
 
-		if (!$valueType instanceof NeverType) {
+		if (! $valueType instanceof NeverType) {
 			return $methodReflection->getThrowType();
 		}
 
@@ -71,11 +70,10 @@ final class ReflectionMethodConstructorThrowTypeExtension implements DynamicStat
 			$propertyType = TypeCombinator::remove($propertyType, $constantPropertyString);
 		}
 
-		if (!$propertyType instanceof NeverType) {
+		if (! $propertyType instanceof NeverType) {
 			return $methodReflection->getThrowType();
 		}
 
 		return null;
 	}
-
 }

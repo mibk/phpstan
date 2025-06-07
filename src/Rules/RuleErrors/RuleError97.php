@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\RuleErrors;
 
@@ -11,7 +11,6 @@ use PHPStan\Rules\RuleError;
  */
 final class RuleError97 implements RuleError, MetadataRuleError, NonIgnorableRuleError
 {
-
 	public string $message;
 
 	/** @var mixed[] */
@@ -29,5 +28,4 @@ final class RuleError97 implements RuleError, MetadataRuleError, NonIgnorableRul
 	{
 		return $this->metadata;
 	}
-
 }

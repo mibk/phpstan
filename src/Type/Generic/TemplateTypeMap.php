@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Generic;
 
@@ -15,7 +15,6 @@ use function count;
  */
 final class TemplateTypeMap
 {
-
 	private static ?TemplateTypeMap $empty = null;
 
 	private ?TemplateTypeMap $resolvedToBounds = null;
@@ -195,7 +194,7 @@ final class TemplateTypeMap
 		return new self($result, $resultLowerBoundTypes);
 	}
 
-	/** @param callable(string,Type):Type $cb */
+	/** @param callable(string, Type): Type $cb */
 	public function map(callable $cb): self
 	{
 		$types = [];
@@ -211,10 +210,9 @@ final class TemplateTypeMap
 		if ($this->resolvedToBounds !== null) {
 			return $this->resolvedToBounds;
 		}
-		return $this->resolvedToBounds = $this->map(static fn (string $name, Type $type): Type => TypeTraverser::map(
+		return $this->resolvedToBounds = $this->map(static fn(string $name, Type $type): Type => TypeTraverser::map(
 			$type,
-			static fn (Type $type, callable $traverse): Type => $type instanceof TemplateType ? $traverse($type->getDefault() ?? $type->getBound()) : $traverse($type),
+			static fn(Type $type, callable $traverse): Type => $type instanceof TemplateType ? $traverse($type->getDefault() ?? $type->getBound()) : $traverse($type),
 		));
 	}
-
 }

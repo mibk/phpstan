@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Dependency\ExportedNode;
 
@@ -11,10 +11,9 @@ use function count;
 
 final class ExportedPropertiesNode implements JsonSerializable, ExportedNode
 {
-
 	/**
-	 * @param string[] $names
-	 * @param ExportedAttributeNode[] $attributes
+	 * @param string[]                   $names
+	 * @param ExportedAttributeNode[]    $attributes
 	 * @param ExportedPropertyHookNode[] $hooks
 	 */
 	public function __construct(
@@ -39,7 +38,7 @@ final class ExportedPropertiesNode implements JsonSerializable, ExportedNode
 
 	public function equals(ExportedNode $node): bool
 	{
-		if (!$node instanceof self) {
+		if (! $node instanceof self) {
 			return false;
 		}
 
@@ -141,13 +140,13 @@ final class ExportedPropertiesNode implements JsonSerializable, ExportedNode
 			$data['protectedSet'],
 			$data['privateSet'],
 			$data['virtual'],
-			array_map(static function (array $attributeData): ExportedAttributeNode {
+			array_map(static function(array $attributeData): ExportedAttributeNode {
 				if ($attributeData['type'] !== ExportedAttributeNode::class) {
 					throw new ShouldNotHappenException();
 				}
 				return ExportedAttributeNode::decode($attributeData['data']);
 			}, $data['attributes']),
-			array_map(static function (array $attributeData): ExportedPropertyHookNode {
+			array_map(static function(array $attributeData): ExportedPropertyHookNode {
 				if ($attributeData['type'] !== ExportedPropertyHookNode::class) {
 					throw new ShouldNotHappenException();
 				}
@@ -165,23 +164,22 @@ final class ExportedPropertiesNode implements JsonSerializable, ExportedNode
 		return [
 			'type' => self::class,
 			'data' => [
-				'names' => $this->names,
-				'phpDoc' => $this->phpDoc,
-				'type' => $this->type,
-				'public' => $this->public,
-				'private' => $this->private,
-				'static' => $this->static,
-				'readonly' => $this->readonly,
-				'abstract' => $this->abstract,
-				'final' => $this->final,
-				'publicSet' => $this->publicSet,
+				'names'        => $this->names,
+				'phpDoc'       => $this->phpDoc,
+				'type'         => $this->type,
+				'public'       => $this->public,
+				'private'      => $this->private,
+				'static'       => $this->static,
+				'readonly'     => $this->readonly,
+				'abstract'     => $this->abstract,
+				'final'        => $this->final,
+				'publicSet'    => $this->publicSet,
 				'protectedSet' => $this->protectedSet,
-				'privateSet' => $this->privateSet,
-				'virtual' => $this->virtual,
-				'attributes' => $this->attributes,
-				'hooks' => $this->hooks,
+				'privateSet'   => $this->privateSet,
+				'virtual'      => $this->virtual,
+				'attributes'   => $this->attributes,
+				'hooks'        => $this->hooks,
 			],
 		];
 	}
-
 }

@@ -1,13 +1,13 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Rules\Generics;
 
-use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\RegisteredRule;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node;
 use function count;
 use function sprintf;
 
@@ -17,7 +17,6 @@ use function sprintf;
 #[RegisteredRule(level: 2)]
 final class EnumTemplateTypeRule implements Rule
 {
-
 	public function getNodeType(): string
 	{
 		return InClassNode::class;
@@ -43,5 +42,4 @@ final class EnumTemplateTypeRule implements Rule
 				->build(),
 		];
 	}
-
 }

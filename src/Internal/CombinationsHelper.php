@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Internal;
 
@@ -6,9 +6,8 @@ use function array_shift;
 
 final class CombinationsHelper
 {
-
 	/**
-	 * @param array<mixed> $arrays
+	 * @param  array<mixed> $arrays
 	 * @return iterable<mixed>
 	 */
 	public static function combinations(array $arrays): iterable
@@ -31,5 +30,4 @@ final class CombinationsHelper
 			}
 		}
 	}
-
 }

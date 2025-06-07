@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 /** @api */
 class ErrorType extends MixedType
 {
-
 	/** @api */
 	public function __construct()
 	{
@@ -15,9 +14,9 @@ class ErrorType extends MixedType
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			fn (): string => parent::describe($level),
-			fn (): string => parent::describe($level),
-			static fn (): string => '*ERROR*',
+			fn(): string        => parent::describe($level),
+			fn(): string        => parent::describe($level),
+			static fn(): string => '*ERROR*',
 		);
 	}
 
@@ -40,5 +39,4 @@ class ErrorType extends MixedType
 	{
 		return $type instanceof self;
 	}
-
 }

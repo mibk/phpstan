@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -13,7 +13,6 @@ use function sprintf;
 /** @api */
 final class ConditionalType implements CompoundType, LateResolvableType
 {
-
 	use LateResolvableTypeTrait;
 	use NonGeneralizableTypeTrait;
 
@@ -143,9 +142,9 @@ final class ConditionalType implements CompoundType, LateResolvableType
 
 		if (
 			$this->subject === $subject
-			&& $this->target === $target
-			&& $this->getNormalizedIf() === $if
-			&& $this->getNormalizedElse() === $else
+				&& $this->target === $target
+				&& $this->getNormalizedIf() === $if
+				&& $this->getNormalizedElse() === $else
 		) {
 			return $this;
 		}
@@ -155,7 +154,7 @@ final class ConditionalType implements CompoundType, LateResolvableType
 
 	public function traverseSimultaneously(Type $right, callable $cb): Type
 	{
-		if (!$right instanceof self) {
+		if (! $right instanceof self) {
 			return $this;
 		}
 
@@ -166,9 +165,9 @@ final class ConditionalType implements CompoundType, LateResolvableType
 
 		if (
 			$this->subject === $subject
-			&& $this->target === $target
-			&& $this->getNormalizedIf() === $if
-			&& $this->getNormalizedElse() === $else
+				&& $this->target === $target
+				&& $this->getNormalizedIf() === $if
+				&& $this->getNormalizedElse() === $else
 		) {
 			return $this;
 		}
@@ -191,7 +190,7 @@ final class ConditionalType implements CompoundType, LateResolvableType
 	{
 		return $this->normalizedIf ??= TypeTraverser::map(
 			$this->if,
-			fn (Type $type, callable $traverse) => $type === $this->subject
+			fn(Type $type, callable $traverse) => $type === $this->subject
 				? (!$this->negated ? $this->getSubjectWithTargetIntersectedType() : $this->getSubjectWithTargetRemovedType())
 				: $traverse($type),
 		);
@@ -201,7 +200,7 @@ final class ConditionalType implements CompoundType, LateResolvableType
 	{
 		return $this->normalizedElse ??= TypeTraverser::map(
 			$this->else,
-			fn (Type $type, callable $traverse) => $type === $this->subject
+			fn(Type $type, callable $traverse) => $type === $this->subject
 				? (!$this->negated ? $this->getSubjectWithTargetRemovedType() : $this->getSubjectWithTargetIntersectedType())
 				: $traverse($type),
 		);
@@ -216,5 +215,4 @@ final class ConditionalType implements CompoundType, LateResolvableType
 	{
 		return $this->subjectWithTargetRemovedType ??= TypeCombinator::remove($this->subject, $this->target);
 	}
-
 }

@@ -1,18 +1,7 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\ArrowFunction;
-use PhpParser\Node\Expr\Closure;
-use PhpParser\Node\Expr\Error;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
@@ -32,6 +21,17 @@ use PHPStan\Type\StaticTypeFactory;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ArrowFunction;
+use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\Expr\Error;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Return_;
 use function array_map;
 use function count;
 use function in_array;
@@ -42,9 +42,8 @@ use function substr;
 #[AutowiredService]
 final class ArrayFilterFunctionReturnTypeHelper
 {
-
 	private const USE_BOTH = 1;
-	private const USE_KEY = 2;
+	private const USE_KEY  = 2;
 	private const USE_ITEM = 3;
 
 	public function __construct(private ReflectionProvider $reflectionProvider)
@@ -184,7 +183,7 @@ final class ArrayFilterFunctionReturnTypeHelper
 
 	private function filterByTruthyValue(Scope $scope, Error|Variable|null $itemVar, Type $arrayType, Error|Variable|null $keyVar, Expr $expr): Type
 	{
-		if (!$scope instanceof MutatingScope) {
+		if (! $scope instanceof MutatingScope) {
 			throw new ShouldNotHappenException();
 		}
 
@@ -231,7 +230,7 @@ final class ArrayFilterFunctionReturnTypeHelper
 	{
 		$itemVarName = null;
 		if ($itemVar !== null) {
-			if (!$itemVar instanceof Variable || !is_string($itemVar->name)) {
+			if (! $itemVar instanceof Variable || !is_string($itemVar->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$itemVarName = $itemVar->name;
@@ -240,7 +239,7 @@ final class ArrayFilterFunctionReturnTypeHelper
 
 		$keyVarName = null;
 		if ($keyVar !== null) {
-			if (!$keyVar instanceof Variable || !is_string($keyVar->name)) {
+			if (! $keyVar instanceof Variable || !is_string($keyVar->name)) {
 				throw new ShouldNotHappenException();
 			}
 			$keyVarName = $keyVar->name;
@@ -281,7 +280,7 @@ final class ArrayFilterFunctionReturnTypeHelper
 	}
 
 	/**
-	 * @param self::USE_* $mode
+	 * @param  self::USE_* $mode
 	 * @return array{list<Arg>, ?Variable, ?Variable}
 	 */
 	private function createDummyArgs(int $mode): array
@@ -309,7 +308,7 @@ final class ArrayFilterFunctionReturnTypeHelper
 	{
 		$constant = $this->reflectionProvider->getConstant(new Name($constantName), null);
 		$valueType = $constant->getValueType();
-		if (!$valueType instanceof ConstantIntegerType) {
+		if (! $valueType instanceof ConstantIntegerType) {
 			throw new ShouldNotHappenException(sprintf('Constant %s does not have integer type.', $constantName));
 		}
 
@@ -338,5 +337,4 @@ final class ArrayFilterFunctionReturnTypeHelper
 
 		return null;
 	}
-
 }

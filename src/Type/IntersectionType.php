@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -59,7 +59,6 @@ use function usort;
 /** @api */
 class IntersectionType implements CompoundType
 {
-
 	use NonRemoveableTypeTrait;
 	use NonGeneralizableTypeTrait;
 
@@ -75,7 +74,7 @@ class IntersectionType implements CompoundType
 			throw new ShouldNotHappenException(sprintf(
 				'Cannot create %s with: %s',
 				self::class,
-				implode(', ', array_map(static fn (Type $type): string => $type->describe(VerbosityLevel::value()), $types)),
+				implode(', ', array_map(static fn(Type $type): string => $type->describe(VerbosityLevel::value()), $types)),
 			));
 		}
 	}
@@ -233,16 +232,16 @@ class IntersectionType implements CompoundType
 			return IsSuperTypeOfResult::createYes();
 		}
 
-		return IsSuperTypeOfResult::createYes()->and(...array_map(static fn (Type $innerType) => $innerType->isSuperTypeOf($otherType), $this->types));
+		return IsSuperTypeOfResult::createYes()->and(...array_map(static fn(Type $innerType) => $innerType->isSuperTypeOf($otherType), $this->types));
 	}
 
 	public function isSubTypeOf(Type $otherType): IsSuperTypeOfResult
 	{
-		if (($otherType instanceof self || $otherType instanceof UnionType) && !$otherType instanceof TemplateType) {
+		if (($otherType instanceof self || $otherType instanceof UnionType) && ! $otherType instanceof TemplateType) {
 			return $otherType->isSuperTypeOf($this);
 		}
 
-		$result = IsSuperTypeOfResult::maxMin(...array_map(static fn (Type $innerType) => $otherType->isSuperTypeOf($innerType), $this->types));
+		$result = IsSuperTypeOfResult::maxMin(...array_map(static fn(Type $innerType) => $otherType->isSuperTypeOf($innerType), $this->types));
 		if ($this->isOversizedArray()->yes()) {
 			if (!$result->no()) {
 				return IsSuperTypeOfResult::createYes();
@@ -254,7 +253,7 @@ class IntersectionType implements CompoundType
 
 	public function isAcceptedBy(Type $acceptingType, bool $strictTypes): AcceptsResult
 	{
-		$result = AcceptsResult::maxMin(...array_map(static fn (Type $innerType) => $acceptingType->accepts($innerType, $strictTypes), $this->types));
+		$result = AcceptsResult::maxMin(...array_map(static fn(Type $innerType) => $acceptingType->accepts($innerType, $strictTypes), $this->types));
 		if ($this->isOversizedArray()->yes()) {
 			if (!$result->no()) {
 				return AcceptsResult::createYes();
@@ -266,7 +265,7 @@ class IntersectionType implements CompoundType
 
 	public function equals(Type $type): bool
 	{
-		if (!$type instanceof static) {
+		if (! $type instanceof static) {
 			return false;
 		}
 
@@ -298,7 +297,7 @@ class IntersectionType implements CompoundType
 	public function describe(VerbosityLevel $level): string
 	{
 		return $level->handle(
-			function () use ($level): string {
+			function() use ($level): string {
 				$typeNames = [];
 				$isList = $this->isList()->yes();
 				$valueType = null;
@@ -328,7 +327,7 @@ class IntersectionType implements CompoundType
 					$typeNames[] = 'list' . $innerType;
 				}
 
-				usort($typeNames, static function ($a, $b) {
+				usort($typeNames, static function($a, $b) {
 					$cmp = strcasecmp($a, $b);
 					if ($cmp !== 0) {
 						return $cmp;
@@ -339,8 +338,8 @@ class IntersectionType implements CompoundType
 
 				return implode('&', $typeNames);
 			},
-			fn (): string => $this->describeItself($level, true),
-			fn (): string => $this->describeItself($level, false),
+			fn(): string => $this->describeItself($level, true),
+			fn(): string => $this->describeItself($level, false),
 		);
 	}
 
@@ -439,7 +438,7 @@ class IntersectionType implements CompoundType
 				continue;
 			}
 
-			if (!$type instanceof AccessoryType) {
+			if (! $type instanceof AccessoryType) {
 				$baseTypes[$i] = $type;
 				continue;
 			}
@@ -482,27 +481,27 @@ class IntersectionType implements CompoundType
 
 	public function getTemplateType(string $ancestorClassName, string $templateTypeName): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getTemplateType($ancestorClassName, $templateTypeName));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getTemplateType($ancestorClassName, $templateTypeName));
 	}
 
 	public function isObject(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isObject());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isObject());
 	}
 
 	public function isEnum(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isEnum());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isEnum());
 	}
 
 	public function canAccessProperties(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->canAccessProperties());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->canAccessProperties());
 	}
 
 	public function hasProperty(string $propertyName): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->hasProperty($propertyName));
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->hasProperty($propertyName));
 	}
 
 	public function getProperty(string $propertyName, ClassMemberAccessAnswerer $scope): ExtendedPropertyReflection
@@ -535,12 +534,12 @@ class IntersectionType implements CompoundType
 
 	public function canCallMethods(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->canCallMethods());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->canCallMethods());
 	}
 
 	public function hasMethod(string $methodName): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->hasMethod($methodName));
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->hasMethod($methodName));
 	}
 
 	public function getMethod(string $methodName, ClassMemberAccessAnswerer $scope): ExtendedMethodReflection
@@ -573,12 +572,12 @@ class IntersectionType implements CompoundType
 
 	public function canAccessConstants(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->canAccessConstants());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->canAccessConstants());
 	}
 
 	public function hasConstant(string $constantName): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->hasConstant($constantName));
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->hasConstant($constantName));
 	}
 
 	public function getConstant(string $constantName): ClassConstantReflection
@@ -594,77 +593,77 @@ class IntersectionType implements CompoundType
 
 	public function isIterable(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isIterable());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isIterable());
 	}
 
 	public function isIterableAtLeastOnce(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isIterableAtLeastOnce());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isIterableAtLeastOnce());
 	}
 
 	public function getArraySize(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getArraySize());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getArraySize());
 	}
 
 	public function getIterableKeyType(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getIterableKeyType());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getIterableKeyType());
 	}
 
 	public function getFirstIterableKeyType(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getFirstIterableKeyType());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getFirstIterableKeyType());
 	}
 
 	public function getLastIterableKeyType(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getLastIterableKeyType());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getLastIterableKeyType());
 	}
 
 	public function getIterableValueType(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getIterableValueType());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getIterableValueType());
 	}
 
 	public function getFirstIterableValueType(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getFirstIterableValueType());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getFirstIterableValueType());
 	}
 
 	public function getLastIterableValueType(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getLastIterableValueType());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getLastIterableValueType());
 	}
 
 	public function isArray(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isArray());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isArray());
 	}
 
 	public function isConstantArray(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isConstantArray());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isConstantArray());
 	}
 
 	public function isOversizedArray(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isOversizedArray());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isOversizedArray());
 	}
 
 	public function isList(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isList());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isList());
 	}
 
 	public function isString(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isString());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isString());
 	}
 
 	public function isNumericString(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isNumericString());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isNumericString());
 	}
 
 	public function isNonEmptyString(): TrinaryLogic
@@ -672,69 +671,69 @@ class IntersectionType implements CompoundType
 		if ($this->isCallable()->yes() && $this->isString()->yes()) {
 			return TrinaryLogic::createYes();
 		}
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isNonEmptyString());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isNonEmptyString());
 	}
 
 	public function isNonFalsyString(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isNonFalsyString());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isNonFalsyString());
 	}
 
 	public function isLiteralString(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isLiteralString());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isLiteralString());
 	}
 
 	public function isLowercaseString(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isLowercaseString());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isLowercaseString());
 	}
 
 	public function isUppercaseString(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isUppercaseString());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isUppercaseString());
 	}
 
 	public function isClassString(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isClassString());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isClassString());
 	}
 
 	public function getClassStringObjectType(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getClassStringObjectType());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getClassStringObjectType());
 	}
 
 	public function getObjectTypeOrClassStringObjectType(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getObjectTypeOrClassStringObjectType());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getObjectTypeOrClassStringObjectType());
 	}
 
 	public function isVoid(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isVoid());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isVoid());
 	}
 
 	public function isScalar(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isScalar());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isScalar());
 	}
 
 	public function looseCompare(Type $type, PhpVersion $phpVersion): BooleanType
 	{
 		return $this->intersectResults(
-			static fn (Type $innerType): TrinaryLogic => $innerType->looseCompare($type, $phpVersion)->toTrinaryLogic()
+			static fn(Type $innerType): TrinaryLogic => $innerType->looseCompare($type, $phpVersion)->toTrinaryLogic(),
 		)->toBooleanType();
 	}
 
 	public function isOffsetAccessible(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isOffsetAccessible());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isOffsetAccessible());
 	}
 
 	public function isOffsetAccessLegal(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isOffsetAccessLegal());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isOffsetAccessLegal());
 	}
 
 	public function hasOffsetValueType(Type $offsetType): TrinaryLogic
@@ -746,7 +745,7 @@ class IntersectionType implements CompoundType
 			}
 
 			foreach ($this->types as $type) {
-				if (!$type instanceof HasOffsetValueType && !$type instanceof HasOffsetType) {
+				if (! $type instanceof HasOffsetValueType && ! $type instanceof HasOffsetType) {
 					continue;
 				}
 
@@ -761,12 +760,12 @@ class IntersectionType implements CompoundType
 			}
 		}
 
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->hasOffsetValueType($offsetType));
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->hasOffsetValueType($offsetType));
 	}
 
 	public function getOffsetValueType(Type $offsetType): Type
 	{
-		$result = $this->intersectTypes(static fn (Type $type): Type => $type->getOffsetValueType($offsetType));
+		$result = $this->intersectTypes(static fn(Type $type): Type => $type->getOffsetValueType($offsetType));
 		if ($this->isOversizedArray()->yes()) {
 			return TypeUtils::toBenevolentUnion($result);
 		}
@@ -777,13 +776,13 @@ class IntersectionType implements CompoundType
 	public function setOffsetValueType(?Type $offsetType, Type $valueType, bool $unionValues = true): Type
 	{
 		if ($this->isOversizedArray()->yes()) {
-			return $this->intersectTypes(static function (Type $type) use ($offsetType, $valueType, $unionValues): Type {
+			return $this->intersectTypes(static function(Type $type) use ($offsetType, $valueType, $unionValues): Type {
 				// avoid new HasOffsetValueType being intersected with oversized array
-				if (!$type instanceof ArrayType) {
+				if (! $type instanceof ArrayType) {
 					return $type->setOffsetValueType($offsetType, $valueType, $unionValues);
 				}
 
-				if (!$offsetType instanceof ConstantStringType && !$offsetType instanceof ConstantIntegerType) {
+				if (! $offsetType instanceof ConstantStringType && ! $offsetType instanceof ConstantIntegerType) {
 					return $type->setOffsetValueType($offsetType, $valueType, $unionValues);
 				}
 
@@ -801,18 +800,18 @@ class IntersectionType implements CompoundType
 			});
 		}
 
-		$result = $this->intersectTypes(static fn (Type $type): Type => $type->setOffsetValueType($offsetType, $valueType, $unionValues));
+		$result = $this->intersectTypes(static fn(Type $type): Type => $type->setOffsetValueType($offsetType, $valueType, $unionValues));
 
 		if (
 			$offsetType !== null
-			&& $this->isList()->yes()
-			&& !$result->isList()->yes()
+				&& $this->isList()->yes()
+				&& !$result->isList()->yes()
 		) {
 			if ($this->isIterableAtLeastOnce()->yes() && (new ConstantIntegerType(1))->isSuperTypeOf($offsetType)->yes()) {
 				$result = TypeCombinator::intersect($result, new AccessoryArrayListType());
 			} else {
 				foreach ($this->types as $type) {
-					if (!$type instanceof HasOffsetValueType && !$type instanceof HasOffsetType) {
+					if (! $type instanceof HasOffsetValueType && ! $type instanceof HasOffsetType) {
 						continue;
 					}
 
@@ -834,78 +833,78 @@ class IntersectionType implements CompoundType
 
 	public function setExistingOffsetValueType(Type $offsetType, Type $valueType): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->setExistingOffsetValueType($offsetType, $valueType));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->setExistingOffsetValueType($offsetType, $valueType));
 	}
 
 	public function unsetOffset(Type $offsetType): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->unsetOffset($offsetType));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->unsetOffset($offsetType));
 	}
 
 	public function getKeysArray(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getKeysArray());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getKeysArray());
 	}
 
 	public function getValuesArray(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getValuesArray());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getValuesArray());
 	}
 
 	public function chunkArray(Type $lengthType, TrinaryLogic $preserveKeys): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->chunkArray($lengthType, $preserveKeys));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->chunkArray($lengthType, $preserveKeys));
 	}
 
 	public function fillKeysArray(Type $valueType): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->fillKeysArray($valueType));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->fillKeysArray($valueType));
 	}
 
 	public function flipArray(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->flipArray());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->flipArray());
 	}
 
 	public function intersectKeyArray(Type $otherArraysType): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->intersectKeyArray($otherArraysType));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->intersectKeyArray($otherArraysType));
 	}
 
 	public function popArray(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->popArray());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->popArray());
 	}
 
 	public function reverseArray(TrinaryLogic $preserveKeys): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->reverseArray($preserveKeys));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->reverseArray($preserveKeys));
 	}
 
 	public function searchArray(Type $needleType): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->searchArray($needleType));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->searchArray($needleType));
 	}
 
 	public function shiftArray(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->shiftArray());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->shiftArray());
 	}
 
 	public function shuffleArray(): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->shuffleArray());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->shuffleArray());
 	}
 
 	public function sliceArray(Type $offsetType, Type $lengthType, TrinaryLogic $preserveKeys): Type
 	{
-		$result = $this->intersectTypes(static fn (Type $type): Type => $type->sliceArray($offsetType, $lengthType, $preserveKeys));
+		$result = $this->intersectTypes(static fn(Type $type): Type => $type->sliceArray($offsetType, $lengthType, $preserveKeys));
 
 		if (
 			$this->isList()->yes()
-			&& $this->isIterableAtLeastOnce()->yes()
-			&& (new ConstantIntegerType(0))->isSuperTypeOf($offsetType)->yes()
-			&& IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($lengthType)->yes()
+				&& $this->isIterableAtLeastOnce()->yes()
+				&& (new ConstantIntegerType(0))->isSuperTypeOf($offsetType)->yes()
+				&& IntegerRangeType::fromInterval(1, null)->isSuperTypeOf($lengthType)->yes()
 		) {
 			$result = TypeCombinator::intersect($result, new NonEmptyArrayType());
 		}
@@ -929,7 +928,7 @@ class IntersectionType implements CompoundType
 
 	public function isCallable(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isCallable());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isCallable());
 	}
 
 	public function getCallableParametersAcceptors(ClassMemberAccessAnswerer $scope): array
@@ -943,32 +942,32 @@ class IntersectionType implements CompoundType
 
 	public function isCloneable(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isCloneable());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isCloneable());
 	}
 
 	public function isSmallerThan(Type $otherType, PhpVersion $phpVersion): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isSmallerThan($otherType, $phpVersion));
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isSmallerThan($otherType, $phpVersion));
 	}
 
 	public function isSmallerThanOrEqual(Type $otherType, PhpVersion $phpVersion): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isSmallerThanOrEqual($otherType, $phpVersion));
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isSmallerThanOrEqual($otherType, $phpVersion));
 	}
 
 	public function isNull(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isNull());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isNull());
 	}
 
 	public function isConstantValue(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isConstantValue());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isConstantValue());
 	}
 
 	public function isConstantScalarValue(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isConstantScalarValue());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isConstantScalarValue());
 	}
 
 	public function getConstantScalarTypes(): array
@@ -997,64 +996,64 @@ class IntersectionType implements CompoundType
 
 	public function isTrue(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isTrue());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isTrue());
 	}
 
 	public function isFalse(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isFalse());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isFalse());
 	}
 
 	public function isBoolean(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isBoolean());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isBoolean());
 	}
 
 	public function isFloat(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isFloat());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isFloat());
 	}
 
 	public function isInteger(): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $type->isInteger());
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $type->isInteger());
 	}
 
 	public function isGreaterThan(Type $otherType, PhpVersion $phpVersion): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $otherType->isSmallerThan($type, $phpVersion));
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $otherType->isSmallerThan($type, $phpVersion));
 	}
 
 	public function isGreaterThanOrEqual(Type $otherType, PhpVersion $phpVersion): TrinaryLogic
 	{
-		return $this->intersectResults(static fn (Type $type): TrinaryLogic => $otherType->isSmallerThanOrEqual($type, $phpVersion));
+		return $this->intersectResults(static fn(Type $type): TrinaryLogic => $otherType->isSmallerThanOrEqual($type, $phpVersion));
 	}
 
 	public function getSmallerType(PhpVersion $phpVersion): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getSmallerType($phpVersion));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getSmallerType($phpVersion));
 	}
 
 	public function getSmallerOrEqualType(PhpVersion $phpVersion): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getSmallerOrEqualType($phpVersion));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getSmallerOrEqualType($phpVersion));
 	}
 
 	public function getGreaterType(PhpVersion $phpVersion): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getGreaterType($phpVersion));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getGreaterType($phpVersion));
 	}
 
 	public function getGreaterOrEqualType(PhpVersion $phpVersion): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->getGreaterOrEqualType($phpVersion));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->getGreaterOrEqualType($phpVersion));
 	}
 
 	public function toBoolean(): BooleanType
 	{
-		$type = $this->intersectTypes(static fn (Type $type): BooleanType => $type->toBoolean());
+		$type = $this->intersectTypes(static fn(Type $type): BooleanType => $type->toBoolean());
 
-		if (!$type instanceof BooleanType) {
+		if (! $type instanceof BooleanType) {
 			return new BooleanType();
 		}
 
@@ -1063,42 +1062,42 @@ class IntersectionType implements CompoundType
 
 	public function toNumber(): Type
 	{
-		$type = $this->intersectTypes(static fn (Type $type): Type => $type->toNumber());
+		$type = $this->intersectTypes(static fn(Type $type): Type => $type->toNumber());
 
 		return $type;
 	}
 
 	public function toAbsoluteNumber(): Type
 	{
-		$type = $this->intersectTypes(static fn (Type $type): Type => $type->toAbsoluteNumber());
+		$type = $this->intersectTypes(static fn(Type $type): Type => $type->toAbsoluteNumber());
 
 		return $type;
 	}
 
 	public function toString(): Type
 	{
-		$type = $this->intersectTypes(static fn (Type $type): Type => $type->toString());
+		$type = $this->intersectTypes(static fn(Type $type): Type => $type->toString());
 
 		return $type;
 	}
 
 	public function toInteger(): Type
 	{
-		$type = $this->intersectTypes(static fn (Type $type): Type => $type->toInteger());
+		$type = $this->intersectTypes(static fn(Type $type): Type => $type->toInteger());
 
 		return $type;
 	}
 
 	public function toFloat(): Type
 	{
-		$type = $this->intersectTypes(static fn (Type $type): Type => $type->toFloat());
+		$type = $this->intersectTypes(static fn(Type $type): Type => $type->toFloat());
 
 		return $type;
 	}
 
 	public function toArray(): Type
 	{
-		$type = $this->intersectTypes(static fn (Type $type): Type => $type->toArray());
+		$type = $this->intersectTypes(static fn(Type $type): Type => $type->toArray());
 
 		return $type;
 	}
@@ -1116,12 +1115,12 @@ class IntersectionType implements CompoundType
 			return $this;
 		}
 
-		return $this->intersectTypes(static fn (Type $type): Type => $type->toArrayKey());
+		return $this->intersectTypes(static fn(Type $type): Type => $type->toArrayKey());
 	}
 
 	public function toCoercedArgumentType(bool $strictTypes): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->toCoercedArgumentType($strictTypes));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->toCoercedArgumentType($strictTypes));
 	}
 
 	public function inferTemplateTypes(Type $receivedType): TemplateTypeMap
@@ -1173,7 +1172,7 @@ class IntersectionType implements CompoundType
 		$types = [];
 		$changed = false;
 
-		if (!$right instanceof self) {
+		if (! $right instanceof self) {
 			return $this;
 		}
 
@@ -1199,12 +1198,12 @@ class IntersectionType implements CompoundType
 
 	public function tryRemove(Type $typeToRemove): ?Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => TypeCombinator::remove($type, $typeToRemove));
+		return $this->intersectTypes(static fn(Type $type): Type => TypeCombinator::remove($type, $typeToRemove));
 	}
 
 	public function exponentiate(Type $exponent): Type
 	{
-		return $this->intersectTypes(static fn (Type $type): Type => $type->exponentiate($exponent));
+		return $this->intersectTypes(static fn(Type $type): Type => $type->exponentiate($exponent));
 	}
 
 	public function getFiniteTypes(): array
@@ -1350,7 +1349,7 @@ class IntersectionType implements CompoundType
 				}
 			}
 
-			if (!$type instanceof AccessoryType) {
+			if (! $type instanceof AccessoryType) {
 				$baseTypes[$i] = $type;
 				continue;
 			}
@@ -1415,5 +1414,4 @@ class IntersectionType implements CompoundType
 
 		return new IntersectionTypeNode($describedTypes);
 	}
-
 }

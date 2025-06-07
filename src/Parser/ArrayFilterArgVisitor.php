@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Parser;
 
+use PHPStan\DependencyInjection\AutowiredService;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\DependencyInjection\AutowiredService;
 
 #[AutowiredService]
 final class ArrayFilterArgVisitor extends NodeVisitorAbstract
 {
-
 	public const ATTRIBUTE_NAME = 'isArrayFilterArg';
 
 	public function enterNode(Node $node): ?Node
@@ -25,5 +24,4 @@ final class ArrayFilterArgVisitor extends NodeVisitorAbstract
 		}
 		return null;
 	}
-
 }

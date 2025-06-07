@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
 final class DirectTypeAliasResolverProvider implements TypeAliasResolverProvider
 {
-
 	public function __construct(private TypeAliasResolver $typeAliasResolver)
 	{
 	}
@@ -13,5 +12,4 @@ final class DirectTypeAliasResolverProvider implements TypeAliasResolverProvider
 	{
 		return $this->typeAliasResolver;
 	}
-
 }

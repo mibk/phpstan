@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type;
 
@@ -11,7 +11,6 @@ use function sprintf;
 
 final class CallableTypeHelper
 {
-
 	public static function isParametersAcceptorSuperTypeOf(
 		CallableParametersAcceptor $ours,
 		CallableParametersAcceptor $theirs,
@@ -29,8 +28,8 @@ final class CallableTypeHelper
 		$ourParameterCount = count($ourParameters);
 		if (
 			$lastParameter !== null
-			&& $lastParameter->isVariadic()
-			&& $theirParameterCount < $ourParameterCount
+				&& $lastParameter->isVariadic()
+				&& $theirParameterCount < $ourParameterCount
 		) {
 			foreach ($ourParameters as $i => $ourParameter) {
 				if (array_key_exists($i, $theirParameters)) {
@@ -114,5 +113,4 @@ final class CallableTypeHelper
 
 		return $result->and($isReturnTypeSuperType);
 	}
-
 }

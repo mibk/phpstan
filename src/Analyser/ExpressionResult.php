@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Analyser;
 
 final class ExpressionResult
 {
-
 	/** @var (callable(): MutatingScope)|null */
 	private $truthyScopeCallback;
 
@@ -16,8 +15,8 @@ final class ExpressionResult
 	private ?MutatingScope $falseyScope = null;
 
 	/**
-	 * @param ThrowPoint[] $throwPoints
-	 * @param ImpurePoint[] $impurePoints
+	 * @param ThrowPoint[]                     $throwPoints
+	 * @param ImpurePoint[]                    $impurePoints
 	 * @param (callable(): MutatingScope)|null $truthyScopeCallback
 	 * @param (callable(): MutatingScope)|null $falseyScopeCallback
 	 */
@@ -89,5 +88,4 @@ final class ExpressionResult
 		$this->falseyScope = $callback();
 		return $this->falseyScope;
 	}
-
 }

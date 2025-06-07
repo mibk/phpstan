@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Reflection\Callables;
 
@@ -8,7 +8,6 @@ use Throwable;
 
 final class SimpleThrowPoint
 {
-
 	private function __construct(
 		private Type $type,
 		private bool $explicit,
@@ -41,5 +40,4 @@ final class SimpleThrowPoint
 	{
 		return $this->canContainAnyThrowable;
 	}
-
 }

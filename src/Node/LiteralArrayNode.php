@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Node;
 
@@ -10,7 +10,6 @@ use PhpParser\NodeAbstract;
  */
 final class LiteralArrayNode extends NodeAbstract implements VirtualNode
 {
-
 	/**
 	 * @param LiteralArrayItem[] $itemNodes
 	 */
@@ -39,5 +38,4 @@ final class LiteralArrayNode extends NodeAbstract implements VirtualNode
 	{
 		return [];
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Internal;
 
@@ -9,7 +9,6 @@ use function is_string;
 
 final class DeprecatedAttributeHelper
 {
-
 	/**
 	 * @param list<ReflectionAttribute> $attributes
 	 */
@@ -41,5 +40,4 @@ final class DeprecatedAttributeHelper
 
 		return null;
 	}
-
 }

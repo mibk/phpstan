@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace PHPStan\Type\Php;
 
 use DateTime;
 use DateTimeImmutable;
-use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\AutowiredService;
 use PHPStan\Php\PhpVersion;
@@ -14,13 +13,13 @@ use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PhpParser\Node\Expr\StaticCall;
 use function count;
 use function in_array;
 
 #[AutowiredService]
 final class DateTimeConstructorThrowTypeExtension implements DynamicStaticMethodThrowTypeExtension
 {
-
 	public function __construct(private PhpVersion $phpVersion)
 	{
 	}
@@ -49,7 +48,7 @@ final class DateTimeConstructorThrowTypeExtension implements DynamicStaticMethod
 			$valueType = TypeCombinator::remove($valueType, $constantString);
 		}
 
-		if (!$valueType instanceof NeverType) {
+		if (! $valueType instanceof NeverType) {
 			return $this->exceptionType();
 		}
 
@@ -64,5 +63,4 @@ final class DateTimeConstructorThrowTypeExtension implements DynamicStaticMethod
 
 		return new ObjectType('Exception');
 	}
-
 }
