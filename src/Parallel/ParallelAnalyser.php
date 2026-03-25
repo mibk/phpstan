@@ -57,8 +57,8 @@ final class ParallelAnalyser
 	}
 
 	/**
-	 * @param Closure(int ): void|null $postFileCallback
-	 * @param (callable(list<Error>, list<Error>, string[]): void)|null $onFileAnalysisHandler
+	 * @param  Closure(int): void|null                                   $postFileCallback
+	 * @param  (callable(list<Error>, list<Error>, string[]): void)|null $onFileAnalysisHandler
 	 * @return PromiseInterface<AnalyserResult>
 	 */
 	public function analyse(
@@ -236,7 +236,7 @@ final class ParallelAnalyser
 				}
 
 				/**
-				 * @var string $file
+				 * @var string        $file
 				 * @var array<string> $fileDependencies
 				 */
 				foreach ($json['dependencies'] as $file => $fileDependencies) {
@@ -244,7 +244,7 @@ final class ParallelAnalyser
 				}
 
 				/**
-				 * @var string $file
+				 * @var string        $file
 				 * @var array<string> $fileUsedTraitDependencies
 				 */
 				foreach ($json['usedTraitDependencies'] as $file => $fileUsedTraitDependencies) {
@@ -266,7 +266,7 @@ final class ParallelAnalyser
 				}
 
 				/**
-				 * @var string $file
+				 * @var string         $file
 				 * @var array<mixed[]> $fileExportedNodes
 				 */
 				foreach ($json['exportedNodes'] as $file => $fileExportedNodes) {

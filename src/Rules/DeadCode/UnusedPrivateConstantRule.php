@@ -29,7 +29,7 @@ final class UnusedPrivateConstantRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->getClass() instanceof Node\Stmt\Class_ && !$node->getClass() instanceof Node\Stmt\Enum_) {
+		if (! $node->getClass() instanceof Node\Stmt\Class_ && ! $node->getClass() instanceof Node\Stmt\Enum_) {
 			return [];
 		}
 

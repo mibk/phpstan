@@ -245,7 +245,7 @@ final class OverridingMethodRule implements Rule
 					if (
 						$prototypeReturnType instanceof MixedType
 							&& !$prototypeReturnType->isExplicitMixed()
-							&& (!$realPrototypeVariant->getReturnType() instanceof MixedType || $realPrototypeVariant->getReturnType()->isExplicitMixed())
+							&& (! $realPrototypeVariant->getReturnType() instanceof MixedType || $realPrototypeVariant->getReturnType()->isExplicitMixed())
 					) {
 						$reportReturnType = false;
 					}

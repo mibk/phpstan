@@ -115,7 +115,6 @@ final class BcMathStringOrNullReturnTypeExtension implements DynamicFunctionRetu
 	 * bcsqrt
 	 * https://www.php.net/manual/en/function.bcsqrt.php
 	 * > Returns the square root as a string, or NULL if operand is negative.
-	 *
 	 */
 	private function getTypeForBcSqrt(FuncCall $functionCall, Scope $scope): Type
 	{

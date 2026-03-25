@@ -52,7 +52,7 @@ final class InvalidUnaryOperationRule implements Rule
 		if ($node instanceof Node\Expr\BitwiseNot) {
 			$callback = static fn(Type $type): bool => $type->isString()->yes() || $type->isInteger()->yes() || $type->isFloat()->yes();
 		} else {
-			$callback = static fn(Type $type): bool => !$type->toNumber() instanceof ErrorType;
+			$callback = static fn(Type $type): bool => ! $type->toNumber() instanceof ErrorType;
 		}
 
 		$exprType = $this->ruleLevelHelper->findTypeToCheck(
@@ -70,7 +70,7 @@ final class InvalidUnaryOperationRule implements Rule
 		}
 
 		$scope = $scope->assignVariable($varName, $exprType, $exprType, TrinaryLogic::createYes());
-		if (!$scope->getType($newNode) instanceof ErrorType) {
+		if (! $scope->getType($newNode) instanceof ErrorType) {
 			return [];
 		}
 

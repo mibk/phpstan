@@ -37,11 +37,11 @@ final class EchoRule implements Rule
 				$scope,
 				$expr,
 				'',
-				static fn(Type $type): bool => !$type->toString() instanceof ErrorType,
+				static fn(Type $type): bool => ! $type->toString() instanceof ErrorType,
 			);
 
 			if ($typeResult->getType() instanceof ErrorType
-				|| !$typeResult->getType()->toString() instanceof ErrorType
+				|| ! $typeResult->getType()->toString() instanceof ErrorType
 			) {
 				continue;
 			}

@@ -32,10 +32,10 @@ final class Analyser
 	}
 
 	/**
-	 * @param string[] $files
+	 * @param string[]                         $files
 	 * @param Closure(string $file): void|null $preFileCallback
-	 * @param Closure(int ): void|null $postFileCallback
-	 * @param string[]|null $allAnalysedFiles
+	 * @param Closure(int): void|null          $postFileCallback
+	 * @param string[]|null                    $allAnalysedFiles
 	 */
 	public function analyse(
 		array $files,

@@ -75,7 +75,7 @@ final class RegularExpressionQuotingRule implements Rule
 		if (!isset($normalizedArgs[0])) {
 			return [];
 		}
-		if (!$normalizedArgs[0]->value instanceof Concat) {
+		if (! $normalizedArgs[0]->value instanceof Concat) {
 			return [];
 		}
 

@@ -90,7 +90,6 @@ final class CheckstyleErrorFormatter implements ErrorFormatter
 
 	/**
 	 * Escapes values for using in XML
-	 *
 	 */
 	private function escape(string $string): string
 	{

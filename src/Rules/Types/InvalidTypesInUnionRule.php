@@ -70,7 +70,7 @@ final class InvalidTypesInUnionRule implements Rule
 	 */
 	private function processClassPropertyNode(ClassPropertyNode $classPropertyNode): array
 	{
-		if (!$classPropertyNode->getNativeTypeNode() instanceof Node\ComplexType) {
+		if (! $classPropertyNode->getNativeTypeNode() instanceof Node\ComplexType) {
 			return [];
 		}
 

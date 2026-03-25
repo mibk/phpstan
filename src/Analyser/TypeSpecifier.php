@@ -884,7 +884,7 @@ final class TypeSpecifier
 				if (
 					$var instanceof ArrayDimFetch
 						&& $var->dim !== null
-						&& !$scope->getType($var->var) instanceof MixedType
+						&& ! $scope->getType($var->var) instanceof MixedType
 				) {
 					$dimType = $scope->getType($var->dim);
 

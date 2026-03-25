@@ -51,7 +51,7 @@ final class UnusedPrivatePropertyRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->getClass() instanceof Node\Stmt\Class_) {
+		if (! $node->getClass() instanceof Node\Stmt\Class_) {
 			return [];
 		}
 		$classReflection = $node->getClassReflection();

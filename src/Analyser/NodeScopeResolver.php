@@ -244,9 +244,9 @@ final class NodeScopeResolver
 	private array $calledMethodResults = [];
 
 	/**
-	 * @param string[][] $earlyTerminatingMethodCalls className(string) => methods(string[])
+	 * @param string[][]         $earlyTerminatingMethodCalls className(string) => methods(string[])
 	 * @param array<int, string> $earlyTerminatingFunctionCalls
-	 * @param string[] $universalObjectCratesClasses
+	 * @param string[]           $universalObjectCratesClasses
 	 */
 	public function __construct(
 		private readonly ReflectionProvider $reflectionProvider,
@@ -309,7 +309,7 @@ final class NodeScopeResolver
 
 	/**
 	 * @api
-	 * @param Node[] $nodes
+	 * @param Node[]                                   $nodes
 	 * @param callable(Node $node, Scope $scope): void $nodeCallback
 	 */
 	public function processNodes(
@@ -340,7 +340,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param Node\Stmt[] $nextStmts
+	 * @param Node\Stmt[]                              $nextStmts
 	 * @param callable(Node $node, Scope $scope): void $nodeCallback
 	 */
 	private function processUnreachableStatement(array $nextStmts, MutatingScope $scope, callable $nodeCallback): void
@@ -370,7 +370,7 @@ final class NodeScopeResolver
 
 	/**
 	 * @api
-	 * @param Node\Stmt[] $stmts
+	 * @param Node\Stmt[]                              $stmts
 	 * @param callable(Node $node, Scope $scope): void $nodeCallback
 	 */
 	public function processStmtNodes(
@@ -3994,7 +3994,7 @@ final class NodeScopeResolver
 		$callArgs = array_slice($expr->getArgs(), 1);
 
 		/**
-		 * @param Arg[] $callArgs
+		 * @param Arg[]                             $callArgs
 		 * @param callable(?Type, Type, bool): void $setOffsetValueType
 		 */
 		$setOffsetValueTypes = static function(Scope $scope, array $callArgs, callable $setOffsetValueType, ?bool &$nonConstantArrayWasUnpacked = null): void {
@@ -4352,7 +4352,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param 'get'|'set' $hookName
+	 * @param  'get'|'set' $hookName
 	 * @return ThrowPoint[]
 	 */
 	private function getThrowPointsFromPropertyHook(
@@ -4637,7 +4637,7 @@ final class NodeScopeResolver
 
 	/**
 	 * @param InvalidateExprNode[] $invalidatedExpressions
-	 * @param string[] $uses
+	 * @param string[]             $uses
 	 */
 	private function processImmediatelyCalledCallable(MutatingScope $scope, array $invalidatedExpressions, array $uses): MutatingScope
 	{
@@ -4704,7 +4704,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param Node\Arg[] $args
+	 * @param  Node\Arg[] $args
 	 * @return ParameterReflection[]|null
 	 */
 	public function createCallableParameters(Scope $scope, Expr $closureExpr, ?array $args, ?Type $passedToType): ?array
@@ -4812,7 +4812,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param AttributeGroup[] $attrGroups
+	 * @param AttributeGroup[]                         $attrGroups
 	 * @param callable(Node $node, Scope $scope): void $nodeCallback
 	 */
 	private function processAttributeGroups(
@@ -4835,7 +4835,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param Node\PropertyHook[] $hooks
+	 * @param Node\PropertyHook[]                      $hooks
 	 * @param callable(Node $node, Scope $scope): void $nodeCallback
 	 */
 	private function processPropertyHooks(
@@ -5340,7 +5340,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param callable(Node $node, Scope $scope): void $nodeCallback
+	 * @param callable(Node $node, Scope $scope): void        $nodeCallback
 	 * @param Closure(MutatingScope $scope): ExpressionResult $processExprCallback
 	 */
 	private function processAssignVar(
@@ -5886,7 +5886,7 @@ final class NodeScopeResolver
 
 	/**
 	 * @param list<ArrayDimFetch> $dimFetchStack
-	 * @param list<Type|null> $offsetTypes
+	 * @param list<Type|null>     $offsetTypes
 	 */
 	private function produceArrayDimFetchAssignValueToWrite(array $dimFetchStack, array $offsetTypes, Type $offsetValueType, Type $valueToWrite, Scope $scope): Type
 	{
@@ -5962,7 +5962,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param array<string, ConditionalExpressionHolder[]> $conditionalExpressions
+	 * @param  array<string, ConditionalExpressionHolder[]> $conditionalExpressions
 	 * @return array<string, ConditionalExpressionHolder[]>
 	 */
 	private function processSureTypesForConditionalExpressionsAfterAssign(Scope $scope, string $variableName, array $conditionalExpressions, SpecifiedTypes $specifiedTypes, Type $variableType): array
@@ -5996,7 +5996,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param array<string, ConditionalExpressionHolder[]> $conditionalExpressions
+	 * @param  array<string, ConditionalExpressionHolder[]> $conditionalExpressions
 	 * @return array<string, ConditionalExpressionHolder[]>
 	 */
 	private function processSureNotTypesForConditionalExpressionsAfterAssign(Scope $scope, string $variableName, array $conditionalExpressions, SpecifiedTypes $specifiedTypes, Type $variableType): array
@@ -6301,8 +6301,8 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param Node[]|Node|scalar|null $node
-	 * @param Node\Stmt\TraitUseAdaptation[] $adaptations
+	 * @param Node[]|Node|scalar|null                  $node
+	 * @param Node\Stmt\TraitUseAdaptation[]           $adaptations
 	 * @param callable(Node $node, Scope $scope): void $nodeCallback
 	 */
 	private function processNodesForTraitUse($node, ClassReflection $traitReflection, MutatingScope $scope, array $adaptations, callable $nodeCallback): void
@@ -6457,7 +6457,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param Node[]|Node|scalar|null $node
+	 * @param Node[]|Node|scalar|null                  $node
 	 * @param callable(Node $node, Scope $scope): void $nodeCallback
 	 */
 	private function processNodesForCalledMethod($node, string $fileName, MethodReflection $methodReflection, callable $nodeCallback): void
@@ -6706,7 +6706,7 @@ final class NodeScopeResolver
 	}
 
 	/**
-	 * @param array<Node> $nodes
+	 * @param  array<Node> $nodes
 	 * @return list<Node\Stmt>
 	 */
 	private function getNextUnreachableStatements(array $nodes, bool $earlyBinding): array

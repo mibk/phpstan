@@ -237,7 +237,7 @@ final class FileTypeMapper
 	}
 
 	/**
-	 * @param array<string, string> $traitMethodAliases
+	 * @param  array<string, string> $traitMethodAliases
 	 * @return array<string, PhpDocNode>
 	 */
 	private function createPhpDocNodeMap(string $fileName, ?string $lookForTrait, ?string $traitUseClass, array $traitMethodAliases, string $originalClassFileName): array
@@ -431,8 +431,8 @@ final class FileTypeMapper
 	}
 
 	/**
-	 * @param array<string, string> $traitMethodAliases
-	 * @param array<string, PhpDocNode> $phpDocNodeMap
+	 * @param  array<string, string>     $traitMethodAliases
+	 * @param  array<string, PhpDocNode> $phpDocNodeMap
 	 * @return (callable(): NameScope)[]
 	 */
 	private function createNameScopeMap(
@@ -810,8 +810,8 @@ final class FileTypeMapper
 	}
 
 	/**
-	 * @param Node[]|Node|scalar|null $node
-	 * @param Closure(Node $node): mixed $nodeCallback
+	 * @param Node[]|Node|scalar|null                          $node
+	 * @param Closure(Node $node): mixed                       $nodeCallback
 	 * @param Closure(Node $node, mixed $callbackResult): void $endNodeCallback
 	 */
 	private function processNodes($node, Closure $nodeCallback, Closure $endNodeCallback): void

@@ -6,14 +6,14 @@ use PHPStan\Node\VirtualNode;
 use PhpParser\Node;
 
 /**
- * @phpstan-type ImpurePointIdentifier = 'echo'|'die'|'exit'|'propertyAssign'|'propertyAssignByRef'|'propertyUnset'|'methodCall'|'new'|'functionCall'|'include'|'require'|'print'|'eval'|'superglobal'|'yield'|'yieldFrom'|'static'|'global'|'betweenPhpTags'|'staticPropertyAccess'
+ * @phpstan-type ImpurePointIdentifier 'echo'|'die'|'exit'|'propertyAssign'|'propertyAssignByRef'|'propertyUnset'|'methodCall'|'new'|'functionCall'|'include'|'require'|'print'|'eval'|'superglobal'|'yield'|'yieldFrom'|'static'|'global'|'betweenPhpTags'|'staticPropertyAccess'
  * @api
  */
 final class ImpurePoint
 {
 	/**
 	 * @param Node\Expr|Node\Stmt|VirtualNode $node
-	 * @param ImpurePointIdentifier $identifier
+	 * @param ImpurePointIdentifier           $identifier
 	 */
 	public function __construct(
 		private Scope $scope,

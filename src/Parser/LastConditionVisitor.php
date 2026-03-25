@@ -79,7 +79,7 @@ final class LastConditionVisitor extends NodeVisitorAbstract
 				return null;
 			}
 
-			if (!$statements[$statementCount - 2] instanceof Node\Stmt\If_ || $statements[$statementCount - 2]->else !== null) {
+			if (! $statements[$statementCount - 2] instanceof Node\Stmt\If_ || $statements[$statementCount - 2]->else !== null) {
 				return null;
 			}
 

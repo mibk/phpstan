@@ -18,7 +18,7 @@ use function sprintf;
 use function str_starts_with;
 
 /**
- * @phpstan-type ErrorIdentifier = 'empty'|'isset'|'nullCoalesce'
+ * @phpstan-type ErrorIdentifier 'empty'|'isset'|'nullCoalesce'
  */
 #[AutowiredService]
 final class IssetCheck
@@ -35,7 +35,7 @@ final class IssetCheck
 	}
 
 	/**
-	 * @param ErrorIdentifier $identifier
+	 * @param ErrorIdentifier         $identifier
 	 * @param callable(Type): ?string $typeMessageCallback
 	 */
 	public function check(Expr $expr, Scope $scope, string $operatorDescription, string $identifier, callable $typeMessageCallback, ?IdentifierRuleError $error = null): ?IdentifierRuleError
@@ -314,8 +314,8 @@ final class IssetCheck
 	}
 
 	/**
-	 * @param callable(Type): ?string $typeMessageCallback
-	 * @param ErrorIdentifier $identifier
+	 * @param callable(Type): ?string                                     $typeMessageCallback
+	 * @param ErrorIdentifier                                             $identifier
 	 * @param 'variable'|'offset'|'property'|'expr'|'initializedProperty' $identifierSecondPart
 	 */
 	private function generateError(Type $type, string $message, callable $typeMessageCallback, string $identifier, string $identifierSecondPart): ?IdentifierRuleError

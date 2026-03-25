@@ -642,7 +642,7 @@ final class MutatingScope implements Scope
 	{
 		$variables = [];
 		foreach ($this->expressionTypes as $exprString => $holder) {
-			if (!$holder->getExpr() instanceof Variable) {
+			if (! $holder->getExpr() instanceof Variable) {
 				continue;
 			}
 			if (!$holder->getCertainty()->yes()) {
@@ -663,7 +663,7 @@ final class MutatingScope implements Scope
 	{
 		$variables = [];
 		foreach ($this->expressionTypes as $exprString => $holder) {
-			if (!$holder->getExpr() instanceof Variable) {
+			if (! $holder->getExpr() instanceof Variable) {
 				continue;
 			}
 			if (!$holder->getCertainty()->maybe()) {

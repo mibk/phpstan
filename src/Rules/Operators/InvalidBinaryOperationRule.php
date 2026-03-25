@@ -69,11 +69,11 @@ final class InvalidBinaryOperationRule implements Rule
 		}
 
 		if ($node instanceof Node\Expr\AssignOp\Concat || $node instanceof Node\Expr\BinaryOp\Concat) {
-			$callback = static fn(Type $type): bool => !$type->toString() instanceof ErrorType;
+			$callback = static fn(Type $type): bool => ! $type->toString() instanceof ErrorType;
 		} elseif ($node instanceof Node\Expr\AssignOp\Plus || $node instanceof Node\Expr\BinaryOp\Plus) {
-			$callback = static fn(Type $type): bool => !$type->toNumber() instanceof ErrorType || $type->isArray()->yes();
+			$callback = static fn(Type $type): bool => ! $type->toNumber() instanceof ErrorType || $type->isArray()->yes();
 		} else {
-			$callback = static fn(Type $type): bool => !$type->toNumber() instanceof ErrorType;
+			$callback = static fn(Type $type): bool => ! $type->toNumber() instanceof ErrorType;
 		}
 
 		$leftType = $this->ruleLevelHelper->findTypeToCheck(
@@ -104,7 +104,7 @@ final class InvalidBinaryOperationRule implements Rule
 			->assignVariable($leftName, $leftType, $leftType, TrinaryLogic::createYes())
 			->assignVariable($rightName, $rightType, $rightType, TrinaryLogic::createYes());
 
-		if (!$scope->getType($newNode) instanceof ErrorType) {
+		if (! $scope->getType($newNode) instanceof ErrorType) {
 			return [];
 		}
 

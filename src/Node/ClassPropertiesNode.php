@@ -102,7 +102,7 @@ final class ClassPropertiesNode extends NodeAbstract implements VirtualNode
 		array $constructors,
 	): array
 	{
-		if (!$this->getClass() instanceof Class_) {
+		if (! $this->getClass() instanceof Class_) {
 			return [[], [], []];
 		}
 		$classReflection = $this->getClassReflection();

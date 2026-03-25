@@ -6,22 +6,22 @@ use PHPStan\Collectors\CollectedData;
 use PHPStan\Dependency\RootExportedNode;
 
 /**
- * @phpstan-type LinesToIgnore = array<string, array<int, non-empty-list<string>|null>>
+ * @phpstan-type        LinesToIgnore array<string, array<int, non-empty-list<string>|null>>
  * @phpstan-import-type CollectorData from CollectedData
  */
 final class FileAnalyserResult
 {
 	/**
-	 * @param list<Error> $errors
-	 * @param list<Error> $filteredPhpErrors
-	 * @param list<Error> $allPhpErrors
-	 * @param list<Error> $locallyIgnoredErrors
-	 * @param CollectorData $collectedData
-	 * @param list<string> $dependencies
-	 * @param list<string> $usedTraitDependencies
+	 * @param list<Error>            $errors
+	 * @param list<Error>            $filteredPhpErrors
+	 * @param list<Error>            $allPhpErrors
+	 * @param list<Error>            $locallyIgnoredErrors
+	 * @param CollectorData          $collectedData
+	 * @param list<string>           $dependencies
+	 * @param list<string>           $usedTraitDependencies
 	 * @param list<RootExportedNode> $exportedNodes
-	 * @param LinesToIgnore $linesToIgnore
-	 * @param LinesToIgnore $unmatchedLineIgnores
+	 * @param LinesToIgnore          $linesToIgnore
+	 * @param LinesToIgnore          $unmatchedLineIgnores
 	 */
 	public function __construct(
 		private array $errors,

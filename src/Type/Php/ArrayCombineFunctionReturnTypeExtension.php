@@ -120,7 +120,7 @@ final class ArrayCombineFunctionReturnTypeExtension implements DynamicFunctionRe
 		$sanitizedTypes = [];
 
 		foreach ($types as $type) {
-			if ($type->isInteger()->no() && !$type->toString() instanceof ErrorType) {
+			if ($type->isInteger()->no() && ! $type->toString() instanceof ErrorType) {
 				$type = $type->toString();
 			}
 

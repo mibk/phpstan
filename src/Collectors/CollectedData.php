@@ -9,12 +9,12 @@ use ReturnTypeWillChange;
 /**
  * @api
  *
- * @phpstan-type CollectorData = array<string, array<class-string<Collector<Node, mixed>>, list<mixed>>>
+ * @phpstan-type CollectorData array<string, array<class-string<Collector<Node, mixed>>, list<mixed>>>
  */
 final class CollectedData implements JsonSerializable
 {
 	/**
-	 * @param mixed $data
+	 * @param mixed                                $data
 	 * @param class-string<Collector<Node, mixed>> $collectorType
 	 */
 	public function __construct(

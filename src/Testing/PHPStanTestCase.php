@@ -197,7 +197,6 @@ abstract class PHPStanTestCase extends TestCase
 
 	/**
 	 * Provides a DIRECTORY_SEPARATOR agnostic assertion helper, to compare file paths.
-	 *
 	 */
 	protected function assertSamePaths(string $expected, string $actual, string $message = ''): void
 	{

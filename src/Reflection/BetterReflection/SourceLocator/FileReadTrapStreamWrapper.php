@@ -112,7 +112,6 @@ final class FileReadTrapStreamWrapper
 	 * simulate a successful read so autoloaders with require() don't explode.
 	 *
 	 * @param int $count
-	 *
 	 */
 	public function stream_read($count): string
 	{
@@ -127,7 +126,6 @@ final class FileReadTrapStreamWrapper
 	/**
 	 * Since we allowed the open to succeed, we should allow the close to occur
 	 * as well.
-	 *
 	 */
 	public function stream_close(): void
 	{
@@ -204,7 +202,6 @@ final class FileReadTrapStreamWrapper
 
 	/**
 	 * Simulates behavior of reading from an empty file.
-	 *
 	 */
 	public function stream_eof(): bool
 	{

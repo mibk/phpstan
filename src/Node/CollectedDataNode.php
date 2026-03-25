@@ -24,8 +24,8 @@ final class CollectedDataNode extends NodeAbstract implements VirtualNode
 	/**
 	 * @template TCollector of Collector<Node, TValue>
 	 * @template TValue
-	 * @param class-string<TCollector> $collectorType
-	 * @return array<string, list<TValue>>
+	 * @param    class-string<TCollector> $collectorType
+	 * @return   array<string, list<TValue>>
 	 */
 	public function get(string $collectorType): array
 	{

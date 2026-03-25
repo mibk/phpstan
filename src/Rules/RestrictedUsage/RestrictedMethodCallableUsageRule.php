@@ -35,7 +35,7 @@ final class RestrictedMethodCallableUsageRule implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->getName() instanceof Identifier) {
+		if (! $node->getName() instanceof Identifier) {
 			return [];
 		}
 

@@ -76,8 +76,7 @@ final class ValidateIgnoredErrorsExtension extends CompilerExtension
 				new TypeParser($phpDocParserConfig, new ConstExprParser($phpDocParserConfig)),
 				new TypeNodeResolver(
 					new DirectTypeNodeResolverExtensionRegistryProvider(
-						new class implements TypeNodeResolverExtensionRegistry
-						{
+						new class implements TypeNodeResolverExtensionRegistry {
 							public function getExtensions(): array
 							{
 								return [];
@@ -85,8 +84,7 @@ final class ValidateIgnoredErrorsExtension extends CompilerExtension
 						},
 					),
 					$reflectionProviderProvider,
-					new DirectTypeAliasResolverProvider(new class implements TypeAliasResolver
-					{
+					new DirectTypeAliasResolverProvider(new class implements TypeAliasResolver {
 						public function hasTypeAlias(string $aliasName, ?string $classNameScope): bool
 						{
 							return false;
@@ -98,8 +96,7 @@ final class ValidateIgnoredErrorsExtension extends CompilerExtension
 						}
 					}),
 					$constantResolver,
-					new InitializerExprTypeResolver($constantResolver, $reflectionProviderProvider, new PhpVersion(PHP_VERSION_ID), new class implements OperatorTypeSpecifyingExtensionRegistryProvider
-					{
+					new InitializerExprTypeResolver($constantResolver, $reflectionProviderProvider, new PhpVersion(PHP_VERSION_ID), new class implements OperatorTypeSpecifyingExtensionRegistryProvider {
 						public function getRegistry(): OperatorTypeSpecifyingExtensionRegistry
 						{
 							return new OperatorTypeSpecifyingExtensionRegistry([]);

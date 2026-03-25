@@ -523,7 +523,6 @@ class IntegerRangeType extends IntegerType implements CompoundType
 
 	/**
 	 * Return the union with another type, but only if it can be expressed in a simpler way than using UnionType
-	 *
 	 */
 	public function tryUnion(Type $otherType): ?Type
 	{
@@ -556,7 +555,6 @@ class IntegerRangeType extends IntegerType implements CompoundType
 	/**
 	 * Return the intersection with another type, but only if it can be expressed in a simpler way than using
 	 * IntersectionType
-	 *
 	 */
 	public function tryIntersect(Type $otherType): ?Type
 	{
@@ -601,7 +599,6 @@ class IntegerRangeType extends IntegerType implements CompoundType
 
 	/**
 	 * Return the different with another type, or null if it cannot be represented.
-	 *
 	 */
 	public function tryRemove(Type $typeToRemove): ?Type
 	{

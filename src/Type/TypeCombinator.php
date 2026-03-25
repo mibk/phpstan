@@ -201,10 +201,10 @@ final class TypeCombinator
 			if ($types[$i] instanceof FloatType) {
 				$hasGenericScalarTypes[ConstantFloatType::class] = true;
 			}
-			if ($types[$i] instanceof IntegerType && !$types[$i] instanceof IntegerRangeType) {
+			if ($types[$i] instanceof IntegerType && ! $types[$i] instanceof IntegerRangeType) {
 				$hasGenericScalarTypes[ConstantIntegerType::class] = true;
 			}
-			if ($types[$i] instanceof StringType && !$types[$i] instanceof ClassStringType) {
+			if ($types[$i] instanceof StringType && ! $types[$i] instanceof ClassStringType) {
 				$hasGenericScalarTypes[ConstantStringType::class] = true;
 			}
 			$enumCases = $types[$i]->getEnumCases();

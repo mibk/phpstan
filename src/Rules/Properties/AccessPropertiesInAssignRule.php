@@ -25,7 +25,7 @@ final class AccessPropertiesInAssignRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->getPropertyFetch() instanceof Node\Expr\PropertyFetch) {
+		if (! $node->getPropertyFetch() instanceof Node\Expr\PropertyFetch) {
 			return [];
 		}
 

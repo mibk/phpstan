@@ -16,7 +16,6 @@ final class ExportedNodeVisitor extends NodeVisitorAbstract
 
 	/**
 	 * ExportedNodeVisitor constructor.
-	 *
 	 */
 	public function __construct(private ExportedNodeResolver $exportedNodeResolver)
 	{

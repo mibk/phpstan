@@ -25,7 +25,7 @@ final class AccessStaticPropertiesInAssignRule implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!$node->getPropertyFetch() instanceof Node\Expr\StaticPropertyFetch) {
+		if (! $node->getPropertyFetch() instanceof Node\Expr\StaticPropertyFetch) {
 			return [];
 		}
 

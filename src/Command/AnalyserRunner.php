@@ -33,10 +33,10 @@ final class AnalyserRunner
 	}
 
 	/**
-	 * @param string[] $files
-	 * @param string[] $allAnalysedFiles
+	 * @param string[]                         $files
+	 * @param string[]                         $allAnalysedFiles
 	 * @param Closure(string $file): void|null $preFileCallback
-	 * @param Closure(int ): void|null $postFileCallback
+	 * @param Closure(int): void|null          $postFileCallback
 	 */
 	public function runAnalyser(
 		array $files,
@@ -92,7 +92,7 @@ final class AnalyserRunner
 	}
 
 	/**
-	 * @param string[] $analysedFiles
+	 * @param  string[] $analysedFiles
 	 * @return string[]
 	 */
 	private function switchTmpFile(

@@ -10,7 +10,7 @@ use function array_unshift;
 
 /**
  * @api
- * @phpstan-type Trace = list<array{file: string|null, line: int|null}>
+ * @phpstan-type Trace list<array{file: string|null, line: int|null}>
  */
 final class InternalError implements JsonSerializable
 {
